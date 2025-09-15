@@ -764,11 +764,6 @@ const MUSIC_TRACKS: MusicTrack[] = [
     description: 'Balada gélida para corazones de vidrio: ideal para cuando el dolor se vuelve decoración y el hogar es una jaula con eco.',
   },
   {
-    id: 'm164',
-    url: 'https://res.cloudinary.com/dgvkbrgre/video/upload/v1756425541/LOST_Tommee_Profitt_Sam_Tinnesz_x_Billy_Ray_Cyrus_n5kwsa.mp3',
-    description: 'Balada apocalíptica para vagar por el infierno con botas country y sintetizadores épicos: ideal para cuando ni Dios contesta y el río te arrastra igual.',
-  },
-  {
     id: 'm166',
     url: 'https://res.cloudinary.com/dgvkbrgre/video/upload/v1756425540/Los_Fabulosos_Cadillacs_Siguiendo_La_Luna_czwff5.mp3',
     description: 'Balada lunar para llorar con dignidad: ideal para prometer cambios que nunca llegan mientras el cielo te ignora con estilo.',
@@ -1216,17 +1211,17 @@ const VIDEO_URLS: string[] = [
 ];
 
 interface HeaderProps {
-  theme: 'light' | 'dark';
-  toggleTheme: () => void;
+  isPodcastModalOpen: boolean;
 }
 
-const Header = forwardRef<HeaderControls, HeaderProps>(({ theme, toggleTheme }, ref) => {
+const Header = forwardRef<HeaderControls, HeaderProps>(({ isPodcastModalOpen }, ref) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTrack, setCurrentTrack] = useState<MusicTrack | null>(null);
   const [currentVideoUrl, setCurrentVideoUrl] = useState<string>('');
   const [hasGreetingPlayed, setHasGreetingPlayed] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
   const greetingAudioRef = useRef<HTMLAudioElement | null>(null);
+  const jingleAudioRef = useRef<HTMLAudioElement>(null);
   const playAfterTrackChange = useRef(false);
 
   const currentDate = new Date().toLocaleDateString('es-ES', {
@@ -1347,6 +1342,35 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({ theme, toggleTheme }, 
     playMusic();
   };
 
+  useEffect(() => {
+    const jingleInterval = setInterval(() => {
+        const musicAudio = audioRef.current;
+        const jingleAudio = jingleAudioRef.current;
+
+        if (isPlaying && !isPodcastModalOpen && jingleAudio && musicAudio && jingleAudio.paused) {
+            const originalVolume = musicAudio.volume;
+            musicAudio.volume = 0.2;
+
+            jingleAudio.play().catch(e => {
+                console.error("Jingle play failed", e);
+                musicAudio.volume = originalVolume;
+            });
+
+            const handleJingleEnd = () => {
+                musicAudio.volume = originalVolume;
+                jingleAudio.removeEventListener('ended', handleJingleEnd);
+            };
+
+            jingleAudio.addEventListener('ended', handleJingleEnd);
+        }
+
+    }, 30 * 60 * 1000); // 30 minutes
+
+    return () => {
+        clearInterval(jingleInterval);
+    };
+  }, [isPlaying, isPodcastModalOpen]);
+
   useImperativeHandle(ref, () => ({
     playRadio: () => {
       if (!isPlaying) {
@@ -1368,37 +1392,22 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({ theme, toggleTheme }, 
 
   return (
     <header className="text-center relative">
-      <div className="py-6 border-b-4 border-double border-stone-800 dark:border-stone-500">
-         <button
-          onClick={toggleTheme}
-          className="absolute top-4 right-4 p-2 rounded-full text-stone-600 dark:text-stone-300 hover:bg-stone-200 dark:hover:bg-stone-700 transition-colors z-20"
-          aria-label="Cambiar tema"
-        >
-          {theme === 'light' ? (
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-            </svg>
-          ) : (
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-            </svg>
-          )}
-        </button>
+      <div className="py-6 border-b-4 border-double border-stone-800">
         <img
           src="https://res.cloudinary.com/ddmj6zevz/image/upload/v1756714882/logo_el_nexo_digital_assa82.png"
           alt="Logo de El Nexo Digital"
-          className="mx-auto h-20 mb-4 dark:invert"
+          className="mx-auto h-20 mb-4"
         />
-        <h1 className="text-5xl md:text-7xl text-stone-900 dark:text-stone-100 tracking-tight newspaper-title">
+        <h1 className="text-5xl md:text-7xl tracking-tight newspaper-title">
           El Nexo Digital
         </h1>
-        <p className="text-stone-600 dark:text-stone-400 mt-4 text-sm md:text-base">
+        <p className="text-black mt-4 text-sm md:text-base">
           Periódico Digital Independiente // Resumen de <span className="font-bold">Noticias</span>.
         </p>
-        <p className="text-stone-600 dark:text-stone-400 mt-1 text-sm md:text-base capitalize">{currentDate}</p>
+        <p className="text-black mt-1 text-sm md:text-base capitalize">{currentDate}</p>
       </div>
 
-      <div className="my-4 overflow-hidden border-b-4 border-double border-stone-800 dark:border-stone-500 header-video-banner">
+      <div className="my-4 overflow-hidden border-b-4 border-double border-stone-800 header-video-banner">
         <video
           key={currentVideoUrl}
           src={currentVideoUrl}
@@ -1415,6 +1424,11 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({ theme, toggleTheme }, 
             src={currentTrack?.url || ''}
             onEnded={handleTrackEnded}
           />
+          <audio
+            ref={jingleAudioRef}
+            src="https://res.cloudinary.com/ddmj6zevz/video/upload/v1757900327/el_nexo_digital_nicolle_egtjoc.mp3"
+            preload="auto"
+          />
           <button
             onClick={togglePlayPause}
             className="flex-shrink-0 p-2 rounded-full border-2 border-white text-white hover:bg-white/20 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white"
@@ -1426,21 +1440,21 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({ theme, toggleTheme }, 
               </svg>
             ) : (
               <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8.118v3.764a1 1 0 001.555.832l3.197-1.882a1 1 0 000-1.664l-3.197-1.882z" clipRule="evenodd" />
+                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clipRule="evenodd" />
               </svg>
             )}
           </button>
-          <p className="font-bold text-white text-sm md:text-base font-typewriter text-left drop-shadow-md">
-            {isPlaying && currentTrack ? (
-              currentTrack.description
-            ) : (
-              'Escucha nuestra Radio 24/7, El Nexo Digital, tu compañía, siempre'
-            )}
-          </p>
+          <div className="text-white text-sm text-left w-60">
+            <p className="font-bold">El Nexo Digital Radio</p>
+            <p className="truncate opacity-80" title={currentTrack?.description}>
+              {currentTrack?.description || 'Cargando...'}
+            </p>
+          </div>
         </div>
       </div>
     </header>
   );
 });
 
+// Fix: Add default export for Header component
 export default Header;

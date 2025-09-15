@@ -43,34 +43,8 @@ const App: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState<Article[]>([]);
   
-  const [theme, setTheme] = useState<'light' | 'dark'>(() => {
-    if (typeof window !== 'undefined' && window.localStorage) {
-      const savedTheme = window.localStorage.getItem('theme');
-      if (savedTheme === 'light' || savedTheme === 'dark') {
-        return savedTheme;
-      }
-      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      return prefersDark ? 'dark' : 'light';
-    }
-    return 'light';
-  });
-
   const headerRef = useRef<HeaderControls>(null);
   const wasRadioPlaying = useRef(false);
-
-  useEffect(() => {
-    const root = window.document.documentElement;
-    if (theme === 'dark') {
-      root.classList.add('dark');
-    } else {
-      root.classList.remove('dark');
-    }
-    localStorage.setItem('theme', theme);
-  }, [theme]);
-
-  const toggleTheme = () => {
-    setTheme(prevTheme => (prevTheme === 'light' ? 'dark' : 'light'));
-  };
 
   const fetchAllNews = useCallback(async () => {
     setIsLoading(true);
@@ -200,15 +174,15 @@ const App: React.FC = () => {
   return (
     <>
       <div className="container mx-auto p-4 md:p-8 max-w-7xl font-typewriter">
-        <Header ref={headerRef} theme={theme} toggleTheme={toggleTheme} />
+        <Header ref={headerRef} isPodcastModalOpen={isPodcastModalOpen} />
         <SearchBar onSearch={handleSearch} />
         
         <main className="mt-8">
           {isLoading && <LoadingSpinner />}
           
           {error && (
-            <div className="text-center py-10 bg-red-50/50 dark:bg-red-900/20 border border-red-200 dark:border-red-800/50 rounded-lg">
-              <p className="text-red-700 dark:text-red-300 font-semibold">{error}</p>
+            <div className="text-center py-10 bg-red-50/50 border border-red-200 rounded-lg">
+              <p className="text-red-700 font-semibold">{error}</p>
             </div>
           )}
 
@@ -218,12 +192,12 @@ const App: React.FC = () => {
                 // SEARCH RESULTS VIEW
                 <>
                   <div className="flex justify-between items-center">
-                    <h2 className="text-3xl font-bold text-black dark:text-white border-b-2 border-black dark:border-white pb-2 mb-6 capitalize">
+                    <h2 className="text-3xl font-bold border-b-2 border-black pb-2 mb-6 capitalize">
                       Resultados para: "{searchQuery}"
                     </h2>
                     <button 
                       onClick={clearSearch}
-                      className="mb-6 bg-stone-800 text-white hover:bg-black dark:bg-stone-200 dark:text-black dark:hover:bg-white transition-colors py-2 px-4 rounded"
+                      className="mb-6 bg-stone-800 text-white hover:bg-black transition-colors py-2 px-4 rounded"
                     >
                       Volver al inicio
                     </button>
@@ -233,8 +207,8 @@ const App: React.FC = () => {
                       {renderArticlesWithAds(searchResults, 'search')}
                     </div>
                   ) : (
-                    <div className="text-center py-10 bg-gray-50/50 dark:bg-gray-800/20 border border-gray-300 dark:border-gray-700 rounded-lg">
-                      <p className="text-gray-800 dark:text-gray-300 font-semibold">No se encontraron noticias para tu búsqueda.</p>
+                    <div className="text-center py-10 bg-gray-50/50 border border-gray-300 rounded-lg">
+                      <p className="text-black font-semibold">No se encontraron noticias para tu búsqueda.</p>
                     </div>
                   )}
                 </>
@@ -245,7 +219,7 @@ const App: React.FC = () => {
                     if (!section || !section.articles) return null;
                     return (
                       <React.Fragment key={section.topic}>
-                        <h2 className="text-3xl font-bold text-black dark:text-white border-b-2 border-black dark:border-white pb-2 mb-6 capitalize mt-10 first:mt-0">
+                        <h2 className="text-3xl font-bold border-b-2 border-black pb-2 mb-6 capitalize mt-10 first:mt-0">
                           {section.topic}
                         </h2>
                         {section.articles.length > 0 ? (
@@ -253,7 +227,7 @@ const App: React.FC = () => {
                             {renderArticlesWithAds(section.articles, section.topic)}
                           </div>
                         ) : (
-                           <p className="text-gray-600 dark:text-gray-400">No hay noticias recientes para esta sección.</p>
+                           <p className="text-black">No hay noticias recientes para esta sección.</p>
                         )}
                       </React.Fragment>
                     );
@@ -262,8 +236,8 @@ const App: React.FC = () => {
               )}
               
               {!isLoading && sources.length > 0 && (
-                <div className="mt-12 pt-6 border-t border-gray-400 dark:border-gray-600">
-                  <h3 className="text-2xl font-bold text-black dark:text-white border-b border-black dark:border-white pb-2 mb-4">
+                <div className="mt-12 pt-6 border-t border-gray-400">
+                  <h3 className="text-2xl font-bold border-b border-black pb-2 mb-4">
                     Fuentes de Información
                   </h3>
                   <ul className="list-disc list-inside space-y-2">
@@ -273,7 +247,7 @@ const App: React.FC = () => {
                           href={source.web.uri} 
                           target="_blank" 
                           rel="noopener noreferrer" 
-                          className="text-stone-800 dark:text-stone-300 hover:underline hover:text-black dark:hover:text-white"
+                          className="text-black hover:underline"
                         >
                           {source.web.title || source.web.uri}
                         </a>
@@ -286,8 +260,8 @@ const App: React.FC = () => {
           )}
         </main>
 
-        <footer className="text-center mt-12 py-4 border-t border-gray-400 dark:border-gray-600">
-          <p className="text-gray-600 dark:text-gray-400 text-sm">El Nexo Digital &copy; {new Date().getFullYear()}. Potenciado por Gemini.</p>
+        <footer className="text-center mt-12 py-4 border-t border-gray-400">
+          <p className="text-black text-sm">El Nexo Digital &copy; {new Date().getFullYear()}. Potenciado por Gemini.</p>
         </footer>
       </div>
 
