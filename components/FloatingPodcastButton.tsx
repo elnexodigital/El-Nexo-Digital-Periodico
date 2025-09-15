@@ -13,11 +13,11 @@ const FloatingPodcastButton: React.FC<FloatingPodcastButtonProps> = ({ onClick }
     >
       <div className="relative w-full h-full flex items-center justify-center">
         {/* Spinning Text */}
-        <svg viewBox="0 0 100 100" className="absolute top-0 left-0 w-full h-full animate-spin-very-slow">
+        <svg viewBox="0 0 100 100" className="absolute top-0 left-0 w-full h-full animate-spin-very-slow text-black dark:text-white">
           <defs>
             <path id="circle" d=" M 50, 50 m -39, 0 a 39,39 0 1,1 78,0 a 39,39 0 1,1 -78,0 "/>
           </defs>
-          <text fill="#000" style={{fontSize: '14px', fontWeight: 'bold', letterSpacing: '0.5px'}} className="uppercase">
+          <text fill="currentColor" style={{fontSize: '14px', fontWeight: 'bold', letterSpacing: '0.5px'}} className="uppercase">
             <textPath xlinkHref="#circle" startOffset="25%" textAnchor="middle">
               NUEVO PODCAST
             </textPath>
@@ -25,7 +25,7 @@ const FloatingPodcastButton: React.FC<FloatingPodcastButtonProps> = ({ onClick }
         </svg>
 
         {/* Inner Image with Pulse Animation */}
-        <div className="w-[70%] h-[70%] rounded-full animate-pulse-slow">
+        <div className="w-[70%] h-[70%] rounded-full animate-pulse-slow bg-white dark:bg-gray-800">
             <img
                 src="https://res.cloudinary.com/ddmj6zevz/image/upload/v1756851098/Generated_Image_September_02__2025_-_1_54PM-removebg-preview_fpoafd.png"
                 alt="Abrir podcast del día"

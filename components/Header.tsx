@@ -1215,8 +1215,12 @@ const VIDEO_URLS: string[] = [
   'https://res.cloudinary.com/ddmj6zevz/video/upload/v1757877508/tu_compa%C3%B1%C3%ADa_11_el38c4.mp4',
 ];
 
+interface HeaderProps {
+  theme: 'light' | 'dark';
+  toggleTheme: () => void;
+}
 
-const Header = forwardRef<HeaderControls, {}>((props, ref) => {
+const Header = forwardRef<HeaderControls, HeaderProps>(({ theme, toggleTheme }, ref) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTrack, setCurrentTrack] = useState<MusicTrack | null>(null);
   const [currentVideoUrl, setCurrentVideoUrl] = useState<string>('');
@@ -1363,23 +1367,38 @@ const Header = forwardRef<HeaderControls, {}>((props, ref) => {
   };
 
   return (
-    <header className="text-center">
-      <div className="py-6 border-b-4 border-double border-stone-800">
+    <header className="text-center relative">
+      <div className="py-6 border-b-4 border-double border-stone-800 dark:border-stone-500">
+         <button
+          onClick={toggleTheme}
+          className="absolute top-4 right-4 p-2 rounded-full text-stone-600 dark:text-stone-300 hover:bg-stone-200 dark:hover:bg-stone-700 transition-colors z-20"
+          aria-label="Cambiar tema"
+        >
+          {theme === 'light' ? (
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+            </svg>
+          ) : (
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+            </svg>
+          )}
+        </button>
         <img
           src="https://res.cloudinary.com/ddmj6zevz/image/upload/v1756714882/logo_el_nexo_digital_assa82.png"
           alt="Logo de El Nexo Digital"
-          className="mx-auto h-20 mb-4"
+          className="mx-auto h-20 mb-4 dark:invert"
         />
-        <h1 className="text-5xl md:text-7xl text-stone-900 tracking-tight newspaper-title">
+        <h1 className="text-5xl md:text-7xl text-stone-900 dark:text-stone-100 tracking-tight newspaper-title">
           El Nexo Digital
         </h1>
-        <p className="text-stone-600 mt-4 text-sm md:text-base">
+        <p className="text-stone-600 dark:text-stone-400 mt-4 text-sm md:text-base">
           Periódico Digital Independiente // Resumen de <span className="font-bold">Noticias</span>.
         </p>
-        <p className="text-stone-600 mt-1 text-sm md:text-base capitalize">{currentDate}</p>
+        <p className="text-stone-600 dark:text-stone-400 mt-1 text-sm md:text-base capitalize">{currentDate}</p>
       </div>
 
-      <div className="my-4 overflow-hidden border-b-4 border-double border-stone-800 header-video-banner">
+      <div className="my-4 overflow-hidden border-b-4 border-double border-stone-800 dark:border-stone-500 header-video-banner">
         <video
           key={currentVideoUrl}
           src={currentVideoUrl}

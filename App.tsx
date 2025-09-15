@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-import type { NewsSection, GroundingSource, VideoPodcast, HeaderControls } from './types';
-import { fetchNews } from './services/geminiService';
+import type { NewsSection, GroundingSource, VideoPodcast, HeaderControls, Article } from './types';
+import { fetchNews, searchNews } from './services/geminiService';
 import { VIDEO_PODCASTS } from './data/podcasts';
 import Header from './components/Header';
 import ArticleCard from './components/ArticleCard';
@@ -9,6 +9,7 @@ import LoadingSpinner from './components/LoadingSpinner';
 import Advertisement from './components/Advertisement';
 import FloatingPodcastButton from './components/FloatingPodcastButton';
 import PodcastModal from './components/PodcastModal';
+import SearchBar from './components/SearchBar';
 
 
 const topics = [
@@ -38,12 +39,43 @@ const App: React.FC = () => {
   const [dailyPodcast, setDailyPodcast] = useState<VideoPodcast | null>(null);
   const [isPodcastModalOpen, setIsPodcastModalOpen] = useState(false);
   
+  const [isSearchActive, setIsSearchActive] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchResults, setSearchResults] = useState<Article[]>([]);
+  
+  const [theme, setTheme] = useState<'light' | 'dark'>(() => {
+    if (typeof window !== 'undefined' && window.localStorage) {
+      const savedTheme = window.localStorage.getItem('theme');
+      if (savedTheme === 'light' || savedTheme === 'dark') {
+        return savedTheme;
+      }
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      return prefersDark ? 'dark' : 'light';
+    }
+    return 'light';
+  });
+
   const headerRef = useRef<HeaderControls>(null);
   const wasRadioPlaying = useRef(false);
+
+  useEffect(() => {
+    const root = window.document.documentElement;
+    if (theme === 'dark') {
+      root.classList.add('dark');
+    } else {
+      root.classList.remove('dark');
+    }
+    localStorage.setItem('theme', theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme(prevTheme => (prevTheme === 'light' ? 'dark' : 'light'));
+  };
 
   const fetchAllNews = useCallback(async () => {
     setIsLoading(true);
     setError(null);
+    setIsSearchActive(false);
     try {
       const { sections: fetchedSections, sources: fetchedSources } = await fetchNews(topics);
       setSections(fetchedSections);
@@ -118,89 +150,144 @@ const App: React.FC = () => {
       headerRef.current.playRadio();
     }
   };
+  
+  const handleSearch = async (query: string) => {
+    if (!query.trim()) return;
+    setIsLoading(true);
+    setError(null);
+    setSearchQuery(query);
+    setIsSearchActive(true);
 
+    try {
+      const { articles, sources: searchSources } = await searchNews(query);
+      setSearchResults(articles);
+      setSources(searchSources);
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'Ocurrió un error desconocido.';
+      setError(`No se pudieron encontrar noticias para "${query}": ${errorMessage}`);
+      setSearchResults([]);
+      console.error(err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const clearSearch = () => {
+    setIsSearchActive(false);
+    setSearchQuery('');
+    setSearchResults([]);
+    fetchAllNews();
+  };
 
   let adIndex = 0;
+  
+  const renderArticlesWithAds = (articles: Article[], topicPrefix: string) => {
+    const content: React.ReactNode[] = [];
+    articles.forEach((article, articleIndex) => {
+      content.push(<ArticleCard key={`article-${topicPrefix}-${articleIndex}`} article={article} />);
+      if ((articleIndex + 1) % 2 === 0) {
+        content.push(
+          <Advertisement 
+            key={`ad-${topicPrefix}-${articleIndex}`} 
+            src={adUrls[(adIndex++) % adUrls.length]} 
+          />
+        );
+      }
+    });
+    return content;
+  };
 
   return (
     <>
       <div className="container mx-auto p-4 md:p-8 max-w-7xl font-typewriter">
-        <Header ref={headerRef} />
+        <Header ref={headerRef} theme={theme} toggleTheme={toggleTheme} />
+        <SearchBar onSearch={handleSearch} />
         
         <main className="mt-8">
           {isLoading && <LoadingSpinner />}
           
           {error && (
-            <div className="text-center py-10 bg-red-50/50 border border-red-200">
-              <p className="text-red-700 font-semibold">{error}</p>
+            <div className="text-center py-10 bg-red-50/50 dark:bg-red-900/20 border border-red-200 dark:border-red-800/50 rounded-lg">
+              <p className="text-red-700 dark:text-red-300 font-semibold">{error}</p>
             </div>
           )}
 
-          {!isLoading && !error && sections.length === 0 && (
-              <div className="text-center py-10 bg-gray-50/50 border border-gray-300">
-                <p className="text-gray-800 font-semibold">No se encontraron noticias.</p>
-              </div>
-          )}
-          
-          {!isLoading && sections.length > 0 && (
+          {!isLoading && !error && (
             <>
-              {sections.map((section) => {
-                if (!section || !section.articles) return null;
-
-                const contentWithAds: React.ReactNode[] = [];
-                section.articles.forEach((article, articleIndex) => {
-                  contentWithAds.push(<ArticleCard key={`article-${section.topic}-${articleIndex}`} article={article} />);
-                  if ((articleIndex + 1) % 2 === 0) {
-                    contentWithAds.push(
-                      <Advertisement 
-                        key={`ad-${section.topic}-${articleIndex}`} 
-                        src={adUrls[(adIndex++) % adUrls.length]} 
-                      />
-                    );
-                  }
-                });
-
-                return (
-                  <React.Fragment key={section.topic}>
-                    <h2 className="text-3xl font-bold text-black border-b-2 border-black pb-2 mb-6 capitalize mt-10 first:mt-0">
-                      {section.topic}
+              {isSearchActive ? (
+                // SEARCH RESULTS VIEW
+                <>
+                  <div className="flex justify-between items-center">
+                    <h2 className="text-3xl font-bold text-black dark:text-white border-b-2 border-black dark:border-white pb-2 mb-6 capitalize">
+                      Resultados para: "{searchQuery}"
                     </h2>
-                    {section.articles.length > 0 ? (
-                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-10">
-                        {contentWithAds}
-                      </div>
-                    ) : (
-                       <p className="text-gray-600">No hay noticias recientes para esta sección.</p>
-                    )}
-                  </React.Fragment>
-                );
-              })}
-
-              <div className="mt-12 pt-6 border-t border-gray-400">
-                <h3 className="text-2xl font-bold text-black border-b border-black pb-2 mb-4">
-                  Fuentes de Información
-                </h3>
-                <ul className="list-disc list-inside space-y-2">
-                  {sources.filter(source => source && source.web).map((source, index) => (
-                    <li key={index}>
-                      <a 
-                        href={source.web.uri} 
-                        target="_blank" 
-                        rel="noopener noreferrer" 
-                        className="text-stone-800 hover:underline hover:text-black"
-                      >
-                        {source.web.title || source.web.uri}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+                    <button 
+                      onClick={clearSearch}
+                      className="mb-6 bg-stone-800 text-white hover:bg-black dark:bg-stone-200 dark:text-black dark:hover:bg-white transition-colors py-2 px-4 rounded"
+                    >
+                      Volver al inicio
+                    </button>
+                  </div>
+                  {searchResults.length > 0 ? (
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-10">
+                      {renderArticlesWithAds(searchResults, 'search')}
+                    </div>
+                  ) : (
+                    <div className="text-center py-10 bg-gray-50/50 dark:bg-gray-800/20 border border-gray-300 dark:border-gray-700 rounded-lg">
+                      <p className="text-gray-800 dark:text-gray-300 font-semibold">No se encontraron noticias para tu búsqueda.</p>
+                    </div>
+                  )}
+                </>
+              ) : (
+                // DEFAULT SECTIONS VIEW
+                <>
+                  {sections.map((section) => {
+                    if (!section || !section.articles) return null;
+                    return (
+                      <React.Fragment key={section.topic}>
+                        <h2 className="text-3xl font-bold text-black dark:text-white border-b-2 border-black dark:border-white pb-2 mb-6 capitalize mt-10 first:mt-0">
+                          {section.topic}
+                        </h2>
+                        {section.articles.length > 0 ? (
+                          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-10">
+                            {renderArticlesWithAds(section.articles, section.topic)}
+                          </div>
+                        ) : (
+                           <p className="text-gray-600 dark:text-gray-400">No hay noticias recientes para esta sección.</p>
+                        )}
+                      </React.Fragment>
+                    );
+                  })}
+                </>
+              )}
+              
+              {!isLoading && sources.length > 0 && (
+                <div className="mt-12 pt-6 border-t border-gray-400 dark:border-gray-600">
+                  <h3 className="text-2xl font-bold text-black dark:text-white border-b border-black dark:border-white pb-2 mb-4">
+                    Fuentes de Información
+                  </h3>
+                  <ul className="list-disc list-inside space-y-2">
+                    {sources.filter(source => source && source.web).map((source, index) => (
+                      <li key={index}>
+                        <a 
+                          href={source.web.uri} 
+                          target="_blank" 
+                          rel="noopener noreferrer" 
+                          className="text-stone-800 dark:text-stone-300 hover:underline hover:text-black dark:hover:text-white"
+                        >
+                          {source.web.title || source.web.uri}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
             </>
           )}
         </main>
 
-        <footer className="text-center mt-12 py-4 border-t border-gray-400">
-          <p className="text-gray-600 text-sm">El Nexo Digital &copy; {new Date().getFullYear()}. Potenciado por Gemini.</p>
+        <footer className="text-center mt-12 py-4 border-t border-gray-400 dark:border-gray-600">
+          <p className="text-gray-600 dark:text-gray-400 text-sm">El Nexo Digital &copy; {new Date().getFullYear()}. Potenciado por Gemini.</p>
         </footer>
       </div>
 

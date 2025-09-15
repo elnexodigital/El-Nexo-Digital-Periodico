@@ -45,13 +45,13 @@ const PodcastModal: React.FC<PodcastModalProps> = ({ isOpen, onClose, podcast })
 
   return (
     <div
-      className="fixed inset-0 z-[100] bg-black/80 flex items-center justify-center p-4"
+      className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4"
       aria-modal="true"
       role="dialog"
       onClick={onClose}
     >
       <div
-        className="relative bg-stone-100 w-full max-w-sm h-full max-h-[90vh] rounded-lg shadow-2xl flex flex-col overflow-hidden font-typewriter"
+        className="relative bg-stone-100 dark:bg-gray-900 w-full max-w-sm h-full max-h-[90vh] rounded-lg shadow-2xl flex flex-col overflow-hidden font-typewriter"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="w-full aspect-square bg-black">
@@ -71,17 +71,17 @@ const PodcastModal: React.FC<PodcastModalProps> = ({ isOpen, onClose, podcast })
         </div>
         
         <div className="flex-1 p-6 overflow-y-auto">
-          <h2 className="text-2xl font-bold text-black mb-3">
+          <h2 className="text-2xl font-bold text-black dark:text-white mb-3">
             {podcast.title}
           </h2>
-          <p className="text-gray-800 text-sm leading-relaxed whitespace-pre-wrap">
+          <p className="text-gray-800 dark:text-gray-300 text-sm leading-relaxed whitespace-pre-wrap">
             {podcast.transcript}
           </p>
         </div>
         
         <button
           onClick={onClose}
-          className="absolute top-3 right-3 z-10 p-2 rounded-full bg-black/40 text-white hover:bg-black/70 transition-colors"
+          className="absolute top-3 right-3 z-10 p-2 rounded-full bg-black/40 text-white hover:bg-black/70 dark:bg-white/20 dark:hover:bg-white/40 transition-colors"
           aria-label="Cerrar podcast"
         >
           <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
