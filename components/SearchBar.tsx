@@ -21,12 +21,12 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Buscar noticias..."
-          className="w-full px-4 py-2 border-2 border-stone-400 dark:border-stone-600 focus:border-black dark:focus:border-white focus:ring-0 transition-colors bg-white/50 dark:bg-stone-800"
+          className="w-full px-4 py-2 border-2 border-stone-400 focus:border-black focus:ring-0 transition-colors bg-white/50"
           aria-label="Campo de búsqueda de noticias"
         />
         <button
           type="submit"
-          className="px-4 py-2 bg-stone-800 text-white hover:bg-black dark:bg-stone-200 dark:text-black dark:hover:bg-white transition-colors flex items-center"
+          className="px-4 py-2 bg-stone-800 text-white hover:bg-black transition-colors flex items-center"
           aria-label="Buscar"
         >
           <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">

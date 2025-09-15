@@ -5,6 +5,8 @@ import type { Article, NewsSection, GroundingSource } from '../types';
 // This is a Vercel serverless function, which runs in a Node.js environment.
 // It can safely access environment variables.
 
+const GEMINI_TIMEOUT = 9000; // 9 seconds, just under Vercel's 10s Hobby plan limit
+
 const cleanJsonString = (jsonText: string): string => {
   let cleaned = jsonText.trim();
   if (cleaned.startsWith('```json')) {
@@ -65,19 +67,31 @@ const fetchNewsFromGemini = async (ai: GoogleGenAI, topics: string[]) => {
       ]
     `;
 
-    const response = await ai.models.generateContent({
+    const timeoutPromise = new Promise((_, reject) =>
+      setTimeout(() => reject(new Error("La solicitud a Gemini tardó demasiado y fue cancelada.")), GEMINI_TIMEOUT)
+    );
+
+    const geminiPromise = ai.models.generateContent({
       model: "gemini-2.5-flash",
       contents: prompt,
       config: {
         tools: [{googleSearch: {}}],
       },
     });
+    
+    // Race the gemini call against our timeout
+    const response = await Promise.race([geminiPromise, timeoutPromise as any]);
 
     const sources = response.candidates?.[0]?.groundingMetadata?.groundingChunks || [];
     const jsonText = cleanJsonString(response.text);
-    const sections: NewsSection[] = JSON.parse(jsonText);
     
-    return { sections, sources: sources as GroundingSource[] };
+    try {
+        const sections: NewsSection[] = JSON.parse(jsonText);
+        return { sections, sources: sources as GroundingSource[] };
+    } catch (parseError) {
+        console.error("Failed to parse JSON from Gemini:", jsonText);
+        throw new Error("La respuesta de Gemini no era un JSON válido. No se pudieron obtener las noticias.");
+    }
 };
 
 const searchNewsFromGemini = async (ai: GoogleGenAI, query: string) => {
@@ -106,7 +120,11 @@ const searchNewsFromGemini = async (ai: GoogleGenAI, query: string) => {
       ]
     `;
 
-    const response = await ai.models.generateContent({
+    const timeoutPromise = new Promise((_, reject) =>
+      setTimeout(() => reject(new Error("La solicitud a Gemini tardó demasiado y fue cancelada.")), GEMINI_TIMEOUT)
+    );
+
+    const geminiPromise = ai.models.generateContent({
       model: "gemini-2.5-flash",
       contents: prompt,
       config: {
@@ -114,11 +132,18 @@ const searchNewsFromGemini = async (ai: GoogleGenAI, query: string) => {
       },
     });
 
+    const response = await Promise.race([geminiPromise, timeoutPromise as any]);
+
     const sources = response.candidates?.[0]?.groundingMetadata?.groundingChunks || [];
     const jsonText = cleanJsonString(response.text);
-    const articles: Article[] = JSON.parse(jsonText);
-    
-    return { articles, sources: sources as GroundingSource[] };
+
+    try {
+        const articles: Article[] = JSON.parse(jsonText);
+        return { articles, sources: sources as GroundingSource[] };
+    } catch (parseError) {
+        console.error("Failed to parse JSON from Gemini for search:", jsonText);
+        throw new Error(`La respuesta de Gemini para la búsqueda "${query}" no era un JSON válido.`);
+    }
 };
 
 
@@ -130,7 +155,7 @@ export default async function handler(req: Request): Promise<Response> {
   const apiKey = process.env.API_KEY;
   if (!apiKey) {
     console.error("API_KEY environment variable not set on server");
-    return generateErrorResponse("API key not configured on the server.", 500);
+    return generateErrorResponse("La clave API no está configurada en el servidor.", 500);
   }
 
   try {
@@ -145,7 +170,7 @@ export default async function handler(req: Request): Promise<Response> {
     } else if (query && typeof query === 'string') {
         data = await searchNewsFromGemini(ai, query);
     } else {
-        return generateErrorResponse('Invalid request body. Provide either "topics" or "query".', 400);
+        return generateErrorResponse('Cuerpo de solicitud inválido. Proporcione "topics" o "query".', 400);
     }
 
     return new Response(JSON.stringify(data), {
@@ -155,7 +180,8 @@ export default async function handler(req: Request): Promise<Response> {
 
   } catch (error) {
     console.error("Error in serverless function:", error);
-    const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred.';
-    return generateErrorResponse(`Server-side error: ${errorMessage}`, 500);
+    const errorMessage = error instanceof Error ? error.message : 'Ocurrió un error desconocido.';
+    // This will catch errors from the Gemini API (e.g., quota, invalid key), parsing errors, and our custom timeout.
+    return generateErrorResponse(errorMessage, 500);
   }
 }
