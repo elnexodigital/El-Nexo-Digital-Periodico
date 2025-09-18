@@ -1,23 +1,3 @@
-
-export interface GroundingSource {
-  web: {
-    uri: string;
-    title: string;
-  }
-}
-
-export interface Article {
-  headline: string;
-  summary: string;
-  category: string;
-  publishedDate: string;
-}
-
-export interface NewsSection {
-  topic: string;
-  articles: Article[];
-}
-
 export interface MusicTrack {
   id: string;
   url: string;
@@ -35,4 +15,27 @@ export interface HeaderControls {
   playRadio: () => void;
   pauseRadio: () => void;
   getIsPlayingState: () => boolean;
+}
+
+export interface NewsBroadcast {
+  id: string;
+  url: string;
+  description: string;
+  bannerUrl: string;
+}
+
+export interface PodcastMP3 {
+  id: string;
+  title: string;
+  artist: string;
+  videoId: string;
+  coverUrl: string;
+}
+
+// FIX: Add missing Article interface for ArticleCard component
+export interface Article {
+  headline: string;
+  summary?: string;
+  imageUrl?: string;
+  category?: string;
 }
