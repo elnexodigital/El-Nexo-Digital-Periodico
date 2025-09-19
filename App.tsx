@@ -27,14 +27,28 @@ const App: React.FC = () => {
       return `${firstDay.getFullYear()}-${firstDay.getMonth()}-${firstDay.getDate()}`;
     };
 
-    const fetchContent = async () => {
+    // Load local data like the daily podcast immediately. This is fast and shouldn't fail.
+    const loadLocalData = async () => {
+      try {
+        const { VIDEO_PODCASTS } = await import('./data/podcasts');
+        if (VIDEO_PODCASTS.length > 0) {
+            const dayOfYear = Math.floor((new Date().getTime() - new Date(new Date().getFullYear(), 0, 0).getTime()) / (1000 * 60 * 60 * 24));
+            const podcastIndex = dayOfYear % VIDEO_PODCASTS.length;
+            setDailyPodcast(VIDEO_PODCASTS[podcastIndex]);
+        }
+      } catch(e) {
+        console.error("Error loading daily podcast:", e);
+      }
+    };
+
+    // Fetch remote magazine content. This can be slow or fail.
+    const fetchMagazineContent = async () => {
       setIsLoading(true);
       setError(null);
       const weekKey = getWeekKey();
       const cacheKey = `weeklyArticles_${weekKey}`;
       
       try {
-        // Fetch weekly magazine articles
         const cachedData = localStorage.getItem(cacheKey);
         if (cachedData) {
           setWeeklyContent(JSON.parse(cachedData));
@@ -44,25 +58,16 @@ const App: React.FC = () => {
           setWeeklyContent(content);
           localStorage.setItem(cacheKey, JSON.stringify(content));
         }
-
-        // Fetch and set daily podcast
-        const { VIDEO_PODCASTS } = await import('./data/podcasts');
-        if (VIDEO_PODCASTS.length > 0) {
-            const dayOfYear = Math.floor((new Date().getTime() - new Date(new Date().getFullYear(), 0, 0).getTime()) / (1000 * 60 * 60 * 24));
-            const podcastIndex = dayOfYear % VIDEO_PODCASTS.length;
-            setDailyPodcast(VIDEO_PODCASTS[podcastIndex]);
-        }
-
       } catch (err) {
-        const errorMessage = err instanceof Error ? err.message : 'Ocurrió un error al cargar el contenido.';
-        setError(errorMessage);
+        setError('No se pudo cargar el contenido de la revista. Por favor, inténtalo de nuevo más tarde.');
         console.error(err);
       } finally {
         setIsLoading(false);
       }
     };
 
-    fetchContent();
+    loadLocalData();
+    fetchMagazineContent();
   }, []);
 
   const openPodcastModal = () => {
@@ -90,7 +95,9 @@ const App: React.FC = () => {
       />
 
       <main className="container mx-auto px-4 py-8">
-        {error && (
+        {isLoading && !weeklyContent && <LoadingSpinner />}
+        
+        {error && !weeklyContent && (
           <div className="text-center text-red-600 bg-red-100 p-4 rounded-md border border-red-300">
             <h2 className="font-bold text-lg">Error al cargar contenido</h2>
             <p>{error}</p>
@@ -98,7 +105,6 @@ const App: React.FC = () => {
         )}
         
         <Suspense fallback={<LoadingSpinner />}>
-            {isLoading && !weeklyContent && <LoadingSpinner />}
             {weeklyContent && <Magazine articles={weeklyContent.articles} cover={weeklyContent.cover} />}
         </Suspense>
       </main>
