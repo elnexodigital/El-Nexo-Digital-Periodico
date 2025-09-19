@@ -18,6 +18,32 @@ interface VercelResponse {
   send: (body: string) => void;
 }
 
+// A curated library of high-quality, artistic images to be used for articles.
+// This provides a reliable and fast alternative to on-the-fly image generation.
+const IMAGE_LIBRARY: { url: string; orientation: 'portrait' | 'landscape' }[] = [
+  // Portraits & People (artistic)
+  { url: 'https://res.cloudinary.com/ddmj6zevz/image/upload/f_auto,q_auto:good/v1719942434/stock/portrait_moody_1.jpg', orientation: 'portrait' },
+  { url: 'https://res.cloudinary.com/ddmj6zevz/image/upload/f_auto,q_auto:good/v1719942435/stock/person_typing_desk.jpg', orientation: 'landscape' },
+  { url: 'https://res.cloudinary.com/ddmj6zevz/image/upload/f_auto,q_auto:good/v1719942436/stock/shadow_profile.jpg', orientation: 'portrait' },
+  { url: 'https://res.cloudinary.com/ddmj6zevz/image/upload/f_auto,q_auto:good/v1719942437/stock/man_looking_away.jpg', orientation: 'portrait' },
+  // Abstract & Textures
+  { url: 'https://res.cloudinary.com/ddmj6zevz/image/upload/f_auto,q_auto:good/v1719942438/stock/abstract_paint_splash.jpg', orientation: 'landscape' },
+  { url: 'https://res.cloudinary.com/ddmj6zevz/image/upload/f_auto,q_auto:good/v1719942439/stock/forest_canopy_look_up.jpg', orientation: 'landscape' },
+  { url: 'https://res.cloudinary.com/ddmj6zevz/image/upload/f_auto,q_auto:good/v1719942440/stock/fabric_texture_close_up.jpg', orientation: 'landscape' },
+  { url: 'https://res.cloudinary.com/ddmj6zevz/image/upload/f_auto,q_auto:good/v1719942441/stock/architectural_lines.jpg', orientation: 'portrait' },
+  // Nature & Landscapes
+  { url: 'https://res.cloudinary.com/ddmj6zevz/image/upload/f_auto,q_auto:good/v1719942442/stock/misty_forest_road.jpg', orientation: 'landscape' },
+  { url: 'https://res.cloudinary.com/ddmj6zevz/image/upload/f_auto,q_auto:good/v1719942443/stock/minimalist_desert.jpg', orientation: 'landscape' },
+  { url: 'https://res.cloudinary.com/ddmj6zevz/image/upload/f_auto,q_auto:good/v1719942444/stock/mountain_reflection.jpg', orientation: 'landscape' },
+  { url: 'https://res.cloudinary.com/ddmj6zevz/image/upload/f_auto,q_auto:good/v1719942445/stock/ocean_wave_close_up.jpg', orientation: 'landscape' },
+  // Technology & Urban
+  { url: 'https://res.cloudinary.com/ddmj6zevz/image/upload/f_auto,q_auto:good/v1719942446/stock/city_street_blur.jpg', orientation: 'landscape' },
+  { url: 'https://res.cloudinary.com/ddmj6zevz/image/upload/f_auto,q_auto:good/v1719942447/stock/library_bookshelves.jpg', orientation: 'landscape' },
+  { url: 'https://res.cloudinary.com/ddmj6zevz/image/upload/f_auto,q_auto:good/v1719942448/stock/subway_tunnel.jpg', orientation: 'portrait' },
+  { url: 'https://res.cloudinary.com/ddmj6zevz/image/upload/f_auto,q_auto:good/v1719942449/stock/laptop_coffee_minimal.jpg', orientation: 'landscape' },
+];
+
+
 // Ensure the API key is available in the server environment
 if (!process.env.API_KEY) {
   throw new Error("API_KEY environment variable is not set.");
@@ -32,9 +58,8 @@ const responseSchema = {
       properties: {
         headline: { type: Type.STRING, description: 'Titular de portada principal, corto y muy llamativo (máx 10 palabras).' },
         subtitle: { type: Type.STRING, description: 'Subtítulo que complemente el titular y genere intriga (máx 20 palabras).' },
-        imageKeywords: { type: Type.STRING, description: '2-3 palabras clave MUY simples en inglés (ej: woman, profile, shadow), para una foto de portada artística con composición asimétrica y espacio negativo.' },
       },
-      required: ['headline', 'subtitle', 'imageKeywords'],
+      required: ['headline', 'subtitle'],
     },
     articles: {
       type: Type.ARRAY,
@@ -45,55 +70,28 @@ const responseSchema = {
           headline: { type: Type.STRING, description: 'Titular del artículo (máx 15 palabras).' },
           category: { type: Type.STRING, description: 'Categoría del artículo (ej: Ciencia, Salud, Cultura).' },
           content: { type: Type.STRING, description: 'Contenido del artículo, alrededor de 150-200 palabras.' },
-          imageKeywords: { type: Type.STRING, description: '2-3 palabras clave simples y comunes en inglés (ej: science, lab), para una foto que ilustre el artículo.' },
         },
-        required: ['id', 'headline', 'category', 'content', 'imageKeywords'],
+        required: ['id', 'headline', 'category', 'content'],
       },
     },
   },
   required: ['cover', 'articles'],
 };
 
-// Function to generate a single image using Imagen
-async function generateImage(prompt: string, aspectRatio: '3:4' | '4:3'): Promise<string> {
-    try {
-        const response = await ai.models.generateImages({
-            model: 'imagen-4.0-generate-001',
-            prompt: prompt,
-            config: {
-                numberOfImages: 1,
-                outputMimeType: 'image/jpeg',
-                aspectRatio: aspectRatio,
-            },
-        });
-
-        if (response.generatedImages && response.generatedImages.length > 0) {
-            const base64ImageBytes: string = response.generatedImages[0].image.imageBytes;
-            return `data:image/jpeg;base64,${base64ImageBytes}`;
-        }
-        throw new Error("No image was generated.");
-    } catch (error) {
-        console.error(`Error generating image for prompt "${prompt}":`, error);
-        // Return a placeholder or re-throw to be handled by the caller
-        return ''; // Return empty string on failure
-    }
-}
-
 
 async function generateContentForTopic(topic: string): Promise<WeeklyContent> {
   const prompt = `
-    Actúa como un equipo de periodistas y directores de arte para la revista de vanguardia "El Nexo Digital".
+    Actúa como un equipo de periodistas para la revista de vanguardia "El Nexo Digital".
     El tema editorial de esta semana es: "${topic}".
     Necesito que generes un paquete de contenido completo.
 
     Para la PORTADA:
     - Genera un titular corto y llamativo.
     - Un subtítulo intrigante.
-    - Palabras clave en inglés para una imagen de portada. IMPORTANTE: Las palabras clave deben describir una imagen con una composición artística y asimétrica, con un fuerte espacio negativo a la izquierda o en la parte superior. Piensa como un director de arte. Ejemplo: "minimalist,woman,profile,shadow".
 
     Para los ARTÍculos:
     - Genera exactamente 3 artículos relacionados con el tema.
-    - Cada artículo necesita un titular, categoría, contenido de 150-200 palabras y palabras clave de imagen en inglés (muy simples, idealmente una o dos palabras como "food, plate" o "technology, abstract").
+    - Cada artículo necesita un titular, categoría y contenido de 150-200 palabras.
 
     La respuesta DEBE estar en formato JSON y adherirse estrictamente al esquema. Todo el texto debe estar en español.
   `;
@@ -110,27 +108,25 @@ async function generateContentForTopic(topic: string): Promise<WeeklyContent> {
   const jsonString = response.text.trim();
   const parsedData = JSON.parse(jsonString);
 
-  // --- Generate Images using Gemini Imagen with improved prompts ---
-
-  const coverImagePrompt = `Fine art magazine cover photograph. Subject: "${parsedData.cover.headline}". Style: Utilize the keywords "${parsedData.cover.imageKeywords}" to create a visually striking, artistic image with a strong sense of asymmetrical composition and negative space. The mood should be cinematic and evocative.`;
+  // --- Assign images ---
+  // The cover image is provided by the user weekly for brand consistency.
+  const COVER_IMAGE_URL = 'https://res.cloudinary.com/ddmj6zevz/image/upload/v1758322558/portada_1_tp5imd.png';
   
-  const articleImagePrompts = parsedData.articles.map((article: any) => 
-    `Photojournalism style image for a magazine article titled "${article.headline}". The image should visually represent the core theme of the article, using these keywords for guidance: "${article.imageKeywords}". The photo must be professional, high-quality, and compelling.`
-  );
-
-  // Generate all images concurrently
-  const [coverImageUrl, ...articleImageUrls] = await Promise.all([
-      generateImage(coverImagePrompt, '3:4'),
-      ...articleImagePrompts.map(prompt => generateImage(prompt, '4:3'))
-  ]);
+  // Shuffle the library to get random images for the articles.
+  const shuffledImages = [...IMAGE_LIBRARY].sort(() => 0.5 - Math.random());
   
-  const articlesWithUrls: Article[] = parsedData.articles.map((article: any, index: number) => ({
+  // Prioritize landscape images for articles, as they fit the layout better.
+  const landscapeImages = shuffledImages.filter(img => img.orientation === 'landscape');
+  const otherImages = shuffledImages.filter(img => img.orientation !== 'landscape');
+
+  const articlesWithUrls: Article[] = parsedData.articles.map((article: any) => ({
     ...article,
-    imageUrl: articleImageUrls[index] || undefined, // Use generated URL or undefined if failed
+    // Take a landscape image first, then fall back to any other available image.
+    imageUrl: (landscapeImages.shift() || otherImages.shift())?.url,
   }));
 
   return {
-    cover: { ...parsedData.cover, imageUrl: coverImageUrl || undefined },
+    cover: { ...parsedData.cover, imageUrl: COVER_IMAGE_URL },
     articles: articlesWithUrls,
   };
 }
