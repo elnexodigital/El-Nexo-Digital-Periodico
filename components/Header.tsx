@@ -1,48 +1,58 @@
 
 import React, { useState, useRef, useEffect, useCallback, forwardRef, useImperativeHandle } from 'react';
 import type { MusicTrack, HeaderControls, NewsBroadcast, PodcastMP3 } from '../types';
-import { GREETING_AUDIOS } from '../greetings';
-import { NEWS_BROADCASTS } from '../data/broadcasts';
-import { SEPARATOR_AUDIOS } from '../data/separators';
-import { MUSIC_TRACKS } from '../data/music';
-import { PODCASTS_MP3 } from '../data/podcastsMP3';
-import { COMMERCIAL_JINGLES } from '../data/jingles';
+import FloatingPodcastButton from './FloatingPodcastButton';
 
 const VIDEO_URLS: string[] = [
-  'https://res.cloudinary.com/ddmj6zevz/video/upload/v1755907719/animaci%C3%B3n_APP_pvxjop.mp4',
-  'https://res.cloudinary.com/demo/video/upload/elephants.mp4',
-  'https://res.cloudinary.com/ddmj6zevz/video/upload/v1756345297/14_okcuk0.mp4',
-  'https://res.cloudinary.com/ddmj6zevz/video/upload/v1756345296/13_debkpb.mp4',
-  'https://res.cloudinary.com/ddmj6zevz/video/upload/v1756345293/11_gud5kv.mp4',
-  'https://res.cloudinary.com/ddmj6zevz/video/upload/v1756345294/12_ringmi.mp4',
-  'https://res.cloudinary.com/ddmj6zevz/video/upload/v1756345294/9_ulzdcy.mp4',
-  'https://res.cloudinary.com/ddmj6zevz/video/upload/v1756345293/10_io3g8k.mp4',
-  'https://res.cloudinary.com/ddmj6zevz/video/upload/v1756345059/8_vng8sz.mp4',
-  'https://res.cloudinary.com/ddmj6zevz/video/upload/v1756345005/4_hczosi.mp4',
-  'https://res.cloudinary.com/ddmj6zevz/video/upload/v1756345005/6_jdroij.mp4',
-  'https://res.cloudinary.com/ddmj6zevz/video/upload/v1756345004/5_ivvibp.mp4',
-  'https://res.cloudinary.com/ddmj6zevz/video/upload/v1756345004/7_aw3cxt.mp4',
-  'https://res.cloudinary.com/ddmj6zevz/video/upload/v1756345003/3_thswfg.mp4',
-  'https://res.cloudinary.com/ddmj6zevz/video/upload/v1756345002/2_gthspn.mp4',
-  'https://res.cloudinary.com/ddmj6zevz/video/upload/v1756345001/1_ndgmbp.mp4',
-  'https://res.cloudinary.com/ddmj6zevz/video/upload/v1757874034/tu_compa%C3%B1%C3%ADa_247_srq9ah.mp4',
-  'https://res.cloudinary.com/ddmj6zevz/video/upload/v1757877430/tu_compa%C3%B1%C3%ADa3_aoreex.mp4',
-  'https://res.cloudinary.com/ddmj6zevz/video/upload/v1757877463/tu_compa%C3%B1%C3%ADa_4_jk7aeq.mp4',
-  'https://res.cloudinary.com/ddmj6zevz/video/upload/v1757877465/tu_compa%C3%B1%C3%ADa_5_x13zf0.mp4',
-  'https://res.cloudinary.com/ddmj6zevz/video/upload/v1757877467/tu_compa%C3%B1%C3%ADa_7_okxvw2.mp4',
-  'https://res.cloudinary.com/ddmj6zevz/video/upload/v1757877467/tu_compa%C3%B1%C3%ADa_6_kkiqlc.mp4',
-  'https://res.cloudinary.com/ddmj6zevz/video/upload/v1757877700/tu_compa%C3%B1%C3%ADa2_nalqjp.mp4',
-  'https://res.cloudinary.com/ddmj6zevz/video/upload/v1757877469/tu_compa%C3%B1%C3%ADa_8_bnqoa2.mp4',
-  'https://res.cloudinary.com/ddmj6zevz/video/upload/v1757877470/tu_compa%C3%B1%C3%ADa_9_iomwyb.mp4',
-  'https://res.cloudinary.com/ddmj6zevz/video/upload/v1757877473/tu_compa%C3%B1%C3%ADa_10_t5gpkm.mp4',
-  'https://res.cloudinary.com/ddmj6zevz/video/upload/v1757877508/tu_compa%C3%B1%C3%ADa_11_el38c4.mp4',
+  'https://res.cloudinary.com/ddmj6zevz/video/upload/w_1280,q_auto:good/v1755907719/animaci%C3%B3n_APP_pvxjop.mp4',
+  'https://res.cloudinary.com/demo/video/upload/w_1280,q_auto:good/elephants.mp4',
+  'https://res.cloudinary.com/ddmj6zevz/video/upload/w_1280,q_auto:good/v1756345297/14_okcuk0.mp4',
+  'https://res.cloudinary.com/ddmj6zevz/video/upload/w_1280,q_auto:good/v1756345296/13_debkpb.mp4',
+  'https://res.cloudinary.com/ddmj6zevz/video/upload/w_1280,q_auto:good/v1756345293/11_gud5kv.mp4',
+  'https://res.cloudinary.com/ddmj6zevz/video/upload/w_1280,q_auto:good/v1756345294/12_ringmi.mp4',
+  'https://res.cloudinary.com/ddmj6zevz/video/upload/w_1280,q_auto:good/v1756345294/9_ulzdcy.mp4',
+  'https://res.cloudinary.com/ddmj6zevz/video/upload/w_1280,q_auto:good/v1756345293/10_io3g8k.mp4',
+  'https://res.cloudinary.com/ddmj6zevz/video/upload/w_1280,q_auto:good/v1756345059/8_vng8sz.mp4',
+  'https://res.cloudinary.com/ddmj6zevz/video/upload/w_1280,q_auto:good/v1756345005/4_hczosi.mp4',
+  'https://res.cloudinary.com/ddmj6zevz/video/upload/w_1280,q_auto:good/v1756345005/6_jdroij.mp4',
+  'https://res.cloudinary.com/ddmj6zevz/video/upload/w_1280,q_auto:good/v1756345004/5_ivvibp.mp4',
+  'https://res.cloudinary.com/ddmj6zevz/video/upload/w_1280,q_auto:good/v1756345004/7_aw3cxt.mp4',
+  'https://res.cloudinary.com/ddmj6zevz/video/upload/w_1280,q_auto:good/v1756345003/3_thswfg.mp4',
+  'https://res.cloudinary.com/ddmj6zevz/video/upload/w_1280,q_auto:good/v1756345002/2_gthspn.mp4',
+  'https://res.cloudinary.com/ddmj6zevz/video/upload/w_1280,q_auto:good/v1756345001/1_ndgmbp.mp4',
+  'https://res.cloudinary.com/ddmj6zevz/video/upload/w_1280,q_auto:good/v1757874034/tu_compa%C3%B1%C3%ADa_247_srq9ah.mp4',
+  'https://res.cloudinary.com/ddmj6zevz/video/upload/w_1280,q_auto:good/v1757877430/tu_compa%C3%B1%C3%ADa3_aoreex.mp4',
+  'https://res.cloudinary.com/ddmj6zevz/video/upload/w_1280,q_auto:good/v1757877463/tu_compa%C3%B1%C3%ADa_4_jk7aeq.mp4',
+  'https://res.cloudinary.com/ddmj6zevz/video/upload/w_1280,q_auto:good/v1757877465/tu_compa%C3%B1%C3%ADa_5_x13zf0.mp4',
+  'https://res.cloudinary.com/ddmj6zevz/video/upload/w_1280,q_auto:good/v1757877467/tu_compa%C3%B1%C3%ADa_7_okxvw2.mp4',
+  'https://res.cloudinary.com/ddmj6zevz/video/upload/w_1280,q_auto:good/v1757877467/tu_compa%C3%B1%C3%ADa_6_kkiqlc.mp4',
+  'https://res.cloudinary.com/ddmj6zevz/video/upload/w_1280,q_auto:good/v1757877700/tu_compa%C3%B1%C3%ADa2_nalqjp.mp4',
+  'https://res.cloudinary.com/ddmj6zevz/video/upload/w_1280,q_auto:good/v1757877469/tu_compa%C3%B1%C3%ADa_8_bnqoa2.mp4',
+  'https://res.cloudinary.com/ddmj6zevz/video/upload/w_1280,q_auto:good/v1757877470/tu_compa%C3%B1%C3%ADa_9_iomwyb.mp4',
+  'https://res.cloudinary.com/ddmj6zevz/video/upload/w_1280,q_auto:good/v1757877473/tu_compa%C3%B1%C3%ADa_10_t5gpkm.mp4',
+  'https://res.cloudinary.com/ddmj6zevz/video/upload/w_1280,q_auto:good/v1757877508/tu_compa%C3%B1%C3%ADa_11_el38c4.mp4',
 ];
 
 interface HeaderProps {
   isPodcastModalOpen: boolean;
+  onPodcastButtonClick: () => void;
+  showPodcastButton: boolean;
 }
 
-const Header = forwardRef<HeaderControls, HeaderProps>(({ isPodcastModalOpen }, ref) => {
+interface RadioData {
+  GREETING_AUDIOS: {
+    morning: string[];
+    afternoon: string[];
+    night: string[];
+  };
+  NEWS_BROADCASTS: Record<number, NewsBroadcast>;
+  SEPARATOR_AUDIOS: string[];
+  MUSIC_TRACKS: MusicTrack[];
+  PODCASTS_MP3: PodcastMP3[];
+  COMMERCIAL_JINGLES: string[];
+}
+
+const Header = forwardRef<HeaderControls, HeaderProps>(({ isPodcastModalOpen, onPodcastButtonClick, showPodcastButton }, ref) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTrack, setCurrentTrack] = useState<MusicTrack | null>(null);
   const [currentVideoUrl, setCurrentVideoUrl] = useState<string>('');
@@ -52,6 +62,8 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({ isPodcastModalOpen }, 
   const [activePodcastMP3, setActivePodcastMP3] = useState<PodcastMP3 | null>(null);
   const [tracksSinceLastSeparator, setTracksSinceLastSeparator] = useState(0);
   const [separatorTrackCountTarget, setSeparatorTrackCountTarget] = useState(() => Math.floor(Math.random() * 5) + 2); // Random 2 to 6
+  const [radioData, setRadioData] = useState<RadioData | null>(null);
+  const [isRadioLoading, setIsRadioLoading] = useState(true);
   
   const audioRef = useRef<HTMLAudioElement>(null);
   const greetingAudioRef = useRef<HTMLAudioElement | null>(null);
@@ -70,13 +82,52 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({ isPodcastModalOpen }, 
     day: 'numeric',
   });
 
+  useEffect(() => {
+    const loadRadioData = async () => {
+      setIsRadioLoading(true);
+      try {
+        const [
+          greetingsModule,
+          broadcastsModule,
+          separatorsModule,
+          musicModule,
+          podcastsMp3Module,
+          jinglesModule,
+        ] = await Promise.all([
+          import('../greetings'),
+          import('../data/broadcasts'),
+          import('../data/separators'),
+          import('../data/music'),
+          import('../data/podcastsMP3'),
+          import('../data/jingles'),
+        ]);
+        
+        setRadioData({
+          GREETING_AUDIOS: greetingsModule.GREETING_AUDIOS,
+          NEWS_BROADCASTS: broadcastsModule.NEWS_BROADCASTS,
+          SEPARATOR_AUDIOS: separatorsModule.SEPARATOR_AUDIOS,
+          MUSIC_TRACKS: musicModule.MUSIC_TRACKS,
+          PODCASTS_MP3: podcastsMp3Module.PODCASTS_MP3,
+          COMMERCIAL_JINGLES: jinglesModule.COMMERCIAL_JINGLES,
+        });
+      } catch (error) {
+        console.error("Failed to load radio data:", error);
+      } finally {
+        setIsRadioLoading(false);
+      }
+    };
+    loadRadioData();
+  }, []);
+
   const selectAndSetNextTrack = useCallback(() => {
+    if (!radioData) return;
     setCurrentTrack(prevTrack => {
-      const availableTracks = MUSIC_TRACKS.filter(t => t.id !== prevTrack?.id);
+      const availableTracks = radioData.MUSIC_TRACKS.filter(t => t.id !== prevTrack?.id);
+      if (availableTracks.length === 0) return radioData.MUSIC_TRACKS[0];
       const randomIndex = Math.floor(Math.random() * availableTracks.length);
       return availableTracks[randomIndex];
     });
-  }, []);
+  }, [radioData]);
 
   const selectNextVideo = useCallback(() => {
     setCurrentVideoUrl(prevUrl => {
@@ -88,9 +139,11 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({ isPodcastModalOpen }, 
   }, []);
 
   useEffect(() => {
-    selectAndSetNextTrack();
+    if (radioData) {
+      selectAndSetNextTrack();
+    }
     selectNextVideo();
-  }, [selectAndSetNextTrack, selectNextVideo]);
+  }, [radioData, selectAndSetNextTrack, selectNextVideo]);
 
   useEffect(() => {
     const audio = audioRef.current;
@@ -104,12 +157,11 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({ isPodcastModalOpen }, 
     const musicAudio = audioRef.current;
     const wasMusicPlaying = isPlaying;
     
-    // Stop any active MP3 podcast
     if (podcastMP3AudioRef.current) {
       podcastMP3AudioRef.current.pause();
       podcastMP3AudioRef.current = null;
       setActivePodcastMP3(null);
-      if (musicAudio) musicAudio.volume = musicVolumeRef.current; // Restore volume
+      if (musicAudio) musicAudio.volume = musicVolumeRef.current;
     }
 
     setActiveBroadcast(broadcast);
@@ -150,6 +202,7 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({ isPodcastModalOpen }, 
 
   useEffect(() => {
     const checkTime = () => {
+      if (!radioData) return;
       const now = new Date();
       const hour = now.getHours();
       const minutes = now.getMinutes();
@@ -161,7 +214,7 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({ isPodcastModalOpen }, 
         return;
       }
   
-      const broadcast = NEWS_BROADCASTS[hour];
+      const broadcast = radioData.NEWS_BROADCASTS[hour];
       if (broadcast && minutes === 0 && !playedBroadcasts[hour]) {
         playBroadcast(broadcast, hour);
       }
@@ -174,17 +227,18 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({ isPodcastModalOpen }, 
       clearTimeout(mountTimeout);
       clearInterval(intervalId);
     };
-  }, [playedBroadcasts, playBroadcast]);
+  }, [playedBroadcasts, playBroadcast, radioData]);
 
   useEffect(() => {
     const playRandomPodcast = () => {
+        if (!radioData) return;
         if (isPlaying && !isPodcastModalOpen && !activeBroadcast && !activePodcastMP3) {
-            const podcastToPlay = PODCASTS_MP3[Math.floor(Math.random() * PODCASTS_MP3.length)];
+            const podcastToPlay = radioData.PODCASTS_MP3[Math.floor(Math.random() * radioData.PODCASTS_MP3.length)];
             const musicAudio = audioRef.current;
             if (!musicAudio) return;
 
             musicVolumeRef.current = musicAudio.volume;
-            musicAudio.volume = 0.2; // Lower music volume
+            musicAudio.volume = 0.2;
 
             setActivePodcastMP3(podcastToPlay);
             const podcastPlayer = new Audio(podcastToPlay.videoId);
@@ -224,7 +278,7 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({ isPodcastModalOpen }, 
             podcastMP3AudioRef.current = null;
         }
     };
-  }, [isPlaying, isPodcastModalOpen, activeBroadcast, activePodcastMP3]);
+  }, [isPlaying, isPodcastModalOpen, activeBroadcast, activePodcastMP3, radioData]);
 
   const getGreetingTimeOfDay = (): 'morning' | 'afternoon' | 'night' | null => {
     const now = new Date();
@@ -244,19 +298,20 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({ isPodcastModalOpen }, 
   };
 
   const selectRandomGreeting = (): string | null => {
+    if (!radioData) return null;
     const timeOfDay = getGreetingTimeOfDay();
     if (!timeOfDay) return null;
-    const greetings = GREETING_AUDIOS[timeOfDay];
+    const greetings = radioData.GREETING_AUDIOS[timeOfDay];
     if (!greetings || greetings.length === 0) return null;
     const randomIndex = Math.floor(Math.random() * greetings.length);
     return greetings[randomIndex];
   };
 
   const togglePlayPause = () => {
+    if (isRadioLoading) return;
     const musicAudio = audioRef.current;
     if (!musicAudio) return;
 
-    // --- PAUSE LOGIC ---
     if (isPlaying) {
       if (greetingAudioRef.current && !greetingAudioRef.current.paused) greetingAudioRef.current.pause();
       if (separatorAudioRef.current && !separatorAudioRef.current.paused) separatorAudioRef.current.pause();
@@ -268,10 +323,8 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({ isPodcastModalOpen }, 
       return;
     }
 
-    // --- PLAY LOGIC ---
     setIsPlaying(true);
     
-    // Resume whatever was paused
     if (newsAudioRef.current?.paused) {
       newsAudioRef.current.play().catch(e => console.error("Error resuming news", e));
       return;
@@ -294,7 +347,6 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({ isPodcastModalOpen }, 
       return;
     }
     
-    // Standard play flow
     const playMusic = () => {
       if (musicAudio) {
         musicAudio.play().catch(error => {
@@ -341,14 +393,14 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({ isPodcastModalOpen }, 
             });
 
             const handleJingleEnd = () => {
-                musicAudio.volume = musicVolumeRef.current;
+                if (musicAudio) musicAudio.volume = musicVolumeRef.current;
                 jingleAudio.removeEventListener('ended', handleJingleEnd);
             };
 
             jingleAudio.addEventListener('ended', handleJingleEnd);
         }
 
-    }, 30 * 60 * 1000); // 30 minutes
+    }, 30 * 60 * 1000);
 
     return () => {
         clearInterval(jingleInterval);
@@ -357,11 +409,12 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({ isPodcastModalOpen }, 
 
   useEffect(() => {
     const playRandomJingle = () => {
+        if (!radioData) return;
         const musicAudio = audioRef.current;
         const nicolleJingle = jingleAudioRef.current;
 
         if (isPlaying && !isPodcastModalOpen && musicAudio && !activeBroadcast && !activePodcastMP3 && !separatorAudioRef.current && (!nicolleJingle || nicolleJingle.paused) && !commercialJingleAudioRef.current) {
-            const jingleUrl = COMMERCIAL_JINGLES[Math.floor(Math.random() * COMMERCIAL_JINGLES.length)];
+            const jingleUrl = radioData.COMMERCIAL_JINGLES[Math.floor(Math.random() * radioData.COMMERCIAL_JINGLES.length)];
             
             const wasMusicPlaying = !musicAudio.paused;
             if (wasMusicPlaying) {
@@ -395,7 +448,7 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({ isPodcastModalOpen }, 
         }
     };
 
-    const commercialJingleInterval = setInterval(playRandomJingle, 10 * 60 * 1000); // 10 minutes
+    const commercialJingleInterval = setInterval(playRandomJingle, 10 * 60 * 1000);
 
     return () => {
         clearInterval(commercialJingleInterval);
@@ -404,7 +457,7 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({ isPodcastModalOpen }, 
             commercialJingleAudioRef.current = null;
         }
     };
-  }, [isPlaying, isPodcastModalOpen, activeBroadcast, activePodcastMP3]);
+  }, [isPlaying, isPodcastModalOpen, activeBroadcast, activePodcastMP3, radioData]);
 
   useImperativeHandle(ref, () => ({
     playRadio: () => {
@@ -421,10 +474,11 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({ isPodcastModalOpen }, 
   }));
   
   const handleTrackEnded = () => {
+    if (!radioData) return;
     const newCount = tracksSinceLastSeparator + 1;
   
     if (newCount >= separatorTrackCountTarget) {
-      const separatorUrl = SEPARATOR_AUDIOS[Math.floor(Math.random() * SEPARATOR_AUDIOS.length)];
+      const separatorUrl = radioData.SEPARATOR_AUDIOS[Math.floor(Math.random() * radioData.SEPARATOR_AUDIOS.length)];
       const separatorPlayer = new Audio(separatorUrl);
       separatorAudioRef.current = separatorPlayer;
   
@@ -450,7 +504,7 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({ isPodcastModalOpen }, 
       });
   
       setTracksSinceLastSeparator(0);
-      setSeparatorTrackCountTarget(Math.floor(Math.random() * 5) + 2); // Random target between 2 and 6
+      setSeparatorTrackCountTarget(Math.floor(Math.random() * 5) + 2);
     } else {
       setTracksSinceLastSeparator(newCount);
       playAfterTrackChange.current = true;
@@ -460,14 +514,14 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({ isPodcastModalOpen }, 
   
   const bannerSrc = activeBroadcast?.bannerUrl || currentVideoUrl;
 
-  const currentTitle = activeBroadcast?.description || activePodcastMP3?.title || currentTrack?.description || 'Cargando...';
-  const currentArtist = activePodcastMP3?.artist || 'El Nexo Digital Radio';
+  const currentTitle = activeBroadcast?.description || activePodcastMP3?.title || currentTrack?.description || 'El Nexo Digital';
+  const currentArtist = activePodcastMP3?.artist || (isRadioLoading ? 'Cargando radio...' : 'El Nexo Digital Radio');
 
   return (
     <header className="text-center relative">
       <div className="py-6 border-b-4 border-double border-stone-800">
         <img
-          src="https://res.cloudinary.com/ddmj6zevz/image/upload/v1756714882/logo_el_nexo_digital_assa82.png"
+          src="https://res.cloudinary.com/ddmj6zevz/image/upload/f_auto,q_auto:good/v1756714882/logo_el_nexo_digital_assa82.png"
           alt="Logo de El Nexo Digital"
           className="mx-auto h-20 mb-4"
         />
@@ -500,15 +554,21 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({ isPodcastModalOpen }, 
           />
           <audio
             ref={jingleAudioRef}
-            src="https://res.cloudinary.com/ddmj6zevz/video/upload/v1757900327/el_nexo_digital_nicolle_egtjoc.mp3"
+            src="https://res.cloudinary.com/ddmj6zevz/video/upload/q_auto:good/v1757900327/el_nexo_digital_nicolle_egtjoc.mp3"
             preload="auto"
           />
           <button
             onClick={togglePlayPause}
-            className="flex-shrink-0 p-3 rounded-full border-2 border-white text-white hover:bg-white/20 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white"
-            aria-label={isPlaying ? "Pausar radio" : "Reproducir radio"}
+            disabled={isRadioLoading}
+            className="flex-shrink-0 p-3 rounded-full border-2 border-white text-white hover:bg-white/20 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white disabled:opacity-50 disabled:cursor-wait"
+            aria-label={isRadioLoading ? "Cargando radio" : (isPlaying ? "Pausar radio" : "Reproducir radio")}
           >
-            {isPlaying ? (
+            {isRadioLoading ? (
+              <svg className="h-8 w-8 animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+            ) : isPlaying ? (
               <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" viewBox="0 0 20 20" fill="currentColor">
                 <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zM7 8a1 1 0 012 0v4a1 1 0 11-2 0V8zm4 0a1 1 0 012 0v4a1 1 0 11-2 0V8z" clipRule="evenodd" />
               </svg>
@@ -526,9 +586,14 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({ isPodcastModalOpen }, 
           </div>
         </div>
       </div>
+      
+      {showPodcastButton && (
+        <div className="py-4 flex justify-center bg-[#fdfaf4]">
+          <FloatingPodcastButton onClick={onPodcastButtonClick} />
+        </div>
+      )}
     </header>
   );
 });
 
-// Fix: Add default export for Header component
 export default Header;

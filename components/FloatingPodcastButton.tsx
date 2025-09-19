@@ -9,7 +9,7 @@ const FloatingPodcastButton: React.FC<FloatingPodcastButtonProps> = ({ onClick }
   return (
     <button
       onClick={onClick}
-      className="fixed bottom-6 right-6 z-50 w-28 h-28 md:w-36 md:h-36 rounded-full shadow-2xl transition-transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-black/50"
+      className="relative w-28 h-28 md:w-36 md:h-36 rounded-full shadow-2xl transition-transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-black/50"
       aria-label="Mirá el podcast del día"
     >
       <div className="relative w-full h-full flex items-center justify-center">
@@ -28,7 +28,7 @@ const FloatingPodcastButton: React.FC<FloatingPodcastButtonProps> = ({ onClick }
         {/* Inner Image with Pulse Animation */}
         <div className="w-[70%] h-[70%] rounded-full animate-pulse-slow bg-white">
             <img
-                src="https://res.cloudinary.com/ddmj6zevz/image/upload/v1756851098/Generated_Image_September_02__2025_-_1_54PM-removebg-preview_fpoafd.png"
+                src="https://res.cloudinary.com/ddmj6zevz/image/upload/f_auto,q_auto:good/v1756851098/Generated_Image_September_02__2025_-_1_54PM-removebg-preview_fpoafd.png"
                 alt="Abrir podcast del día"
                 className="w-full h-full object-cover rounded-full"
             />

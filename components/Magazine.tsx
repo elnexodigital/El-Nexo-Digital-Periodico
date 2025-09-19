@@ -41,7 +41,7 @@ const CoverPage: React.FC<CoverPageProps> = ({ coverStory }) => (
     <div className="relative z-20 flex flex-col justify-between h-full w-full">
       <div className="text-left [text-shadow:0_2px_5px_rgba(0,0,0,0.6)]">
         <img
-          src="https://res.cloudinary.com/ddmj6zevz/image/upload/v1756714882/logo_el_nexo_digital_assa82.png"
+          src="https://res.cloudinary.com/ddmj6zevz/image/upload/f_auto,q_auto:good/v1756714882/logo_el_nexo_digital_assa82.png"
           alt="Logo de El Nexo Digital"
           className="h-12 md:h-16 mb-2"
         />
@@ -65,7 +65,7 @@ const CoverPage: React.FC<CoverPageProps> = ({ coverStory }) => (
 const BackCoverPage: React.FC = () => (
     <div className="w-full h-full bg-stone-800 flex items-center justify-center">
         <img
-            src="https://res.cloudinary.com/ddmj6zevz/image/upload/v1756714882/logo_el_nexo_digital_assa82.png"
+            src="https://res.cloudinary.com/ddmj6zevz/image/upload/f_auto,q_auto:good/v1756714882/logo_el_nexo_digital_assa82.png"
             alt="Logo de El Nexo Digital"
             className="h-28 opacity-50"
         />
