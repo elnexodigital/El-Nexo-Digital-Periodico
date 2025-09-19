@@ -529,7 +529,10 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({ isPodcastModalOpen, on
           El Nexo Digital
         </h1>
         <p className="text-black mt-4 text-sm md:text-base">
-          Periódico Digital Independiente // Resumen de <span className="font-bold">Noticias</span>.
+          Periódico digital independiente
+        </p>
+        <p className="text-black mt-1 text-sm md:text-base uppercase">
+          Aplicación en desarrollo
         </p>
         <p className="text-black mt-1 text-sm md:text-base capitalize">{currentDate}</p>
       </div>

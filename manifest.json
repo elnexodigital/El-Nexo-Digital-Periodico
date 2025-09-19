@@ -2,11 +2,18 @@
   "name": "El Nexo Digital periódico",
   "short_name": "Nexo Digital",
   "description": "Una aplicación de noticias de estilo periódico que utiliza la API de Gemini para buscar y mostrar las últimas noticias nacionales e internacionales.",
-  "start_url": ".",
+  "start_url": "/index.html",
+  "scope": "/",
   "display": "standalone",
   "background_color": "#fdfaf4",
   "theme_color": "#fdfaf4",
   "icons": [
+    {
+      "src": "https://res.cloudinary.com/ddmj6zevz/image/upload/w_48,h_48,c_fit,f_auto,q_auto/v1756714882/logo_el_nexo_digital_assa82.png",
+      "sizes": "48x48",
+      "type": "image/png",
+      "purpose": "any"
+    },
     {
       "src": "https://res.cloudinary.com/ddmj6zevz/image/upload/w_72,h_72,c_fit,f_auto,q_auto/v1756714882/logo_el_nexo_digital_assa82.png",
       "sizes": "72x72",

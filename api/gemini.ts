@@ -54,6 +54,32 @@ const responseSchema = {
   required: ['cover', 'articles'],
 };
 
+// Function to generate a single image using Imagen
+async function generateImage(prompt: string, aspectRatio: '3:4' | '4:3'): Promise<string> {
+    try {
+        const response = await ai.models.generateImages({
+            model: 'imagen-4.0-generate-001',
+            prompt: prompt,
+            config: {
+                numberOfImages: 1,
+                outputMimeType: 'image/jpeg',
+                aspectRatio: aspectRatio,
+            },
+        });
+
+        if (response.generatedImages && response.generatedImages.length > 0) {
+            const base64ImageBytes: string = response.generatedImages[0].image.imageBytes;
+            return `data:image/jpeg;base64,${base64ImageBytes}`;
+        }
+        throw new Error("No image was generated.");
+    } catch (error) {
+        console.error(`Error generating image for prompt "${prompt}":`, error);
+        // Return a placeholder or re-throw to be handled by the caller
+        return ''; // Return empty string on failure
+    }
+}
+
+
 async function generateContentForTopic(topic: string): Promise<WeeklyContent> {
   const prompt = `
     Actúa como un equipo de periodistas y directores de arte para la revista de vanguardia "El Nexo Digital".
@@ -84,24 +110,27 @@ async function generateContentForTopic(topic: string): Promise<WeeklyContent> {
   const jsonString = response.text.trim();
   const parsedData = JSON.parse(jsonString);
 
-  // Use the 'featured' endpoint from Unsplash for more reliable, high-quality images.
-  const unsplashBaseUrl = 'https://source.unsplash.com/featured';
-  
-  const cleanKeywords = (keywords: string): string => {
-      if (!keywords) return '';
-      // Cleans keywords: " word1, word2 " -> "word1,word2"
-      return keywords.split(',').map(k => k.trim()).filter(Boolean).join(',');
-  }
+  // --- Generate Images using Gemini Imagen with improved prompts ---
 
-  const coverImageUrl = `${unsplashBaseUrl}/800x1200/?${encodeURIComponent(cleanKeywords(parsedData.cover.imageKeywords))}`;
+  const coverImagePrompt = `Fine art magazine cover photograph. Subject: "${parsedData.cover.headline}". Style: Utilize the keywords "${parsedData.cover.imageKeywords}" to create a visually striking, artistic image with a strong sense of asymmetrical composition and negative space. The mood should be cinematic and evocative.`;
   
-  const articlesWithUrls: Article[] = parsedData.articles.map((article: any) => ({
+  const articleImagePrompts = parsedData.articles.map((article: any) => 
+    `Photojournalism style image for a magazine article titled "${article.headline}". The image should visually represent the core theme of the article, using these keywords for guidance: "${article.imageKeywords}". The photo must be professional, high-quality, and compelling.`
+  );
+
+  // Generate all images concurrently
+  const [coverImageUrl, ...articleImageUrls] = await Promise.all([
+      generateImage(coverImagePrompt, '3:4'),
+      ...articleImagePrompts.map(prompt => generateImage(prompt, '4:3'))
+  ]);
+  
+  const articlesWithUrls: Article[] = parsedData.articles.map((article: any, index: number) => ({
     ...article,
-    imageUrl: `${unsplashBaseUrl}/800x600/?${encodeURIComponent(cleanKeywords(article.imageKeywords))}`,
+    imageUrl: articleImageUrls[index] || undefined, // Use generated URL or undefined if failed
   }));
 
   return {
-    cover: { ...parsedData.cover, imageUrl: coverImageUrl },
+    cover: { ...parsedData.cover, imageUrl: coverImageUrl || undefined },
     articles: articlesWithUrls,
   };
 }
