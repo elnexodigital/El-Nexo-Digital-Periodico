@@ -20,27 +20,23 @@ interface VercelResponse {
 
 // A curated library of high-quality, artistic images to be used for articles.
 // This provides a reliable and fast alternative to on-the-fly image generation.
-const IMAGE_LIBRARY: { url: string; orientation: 'portrait' | 'landscape' }[] = [
-  // Portraits & People (artistic)
-  { url: 'https://res.cloudinary.com/ddmj6zevz/image/upload/f_auto,q_auto:good/v1719942434/stock/portrait_moody_1.jpg', orientation: 'portrait' },
-  { url: 'https://res.cloudinary.com/ddmj6zevz/image/upload/f_auto,q_auto:good/v1719942435/stock/person_typing_desk.jpg', orientation: 'landscape' },
-  { url: 'https://res.cloudinary.com/ddmj6zevz/image/upload/f_auto,q_auto:good/v1719942436/stock/shadow_profile.jpg', orientation: 'portrait' },
-  { url: 'https://res.cloudinary.com/ddmj6zevz/image/upload/f_auto,q_auto:good/v1719942437/stock/man_looking_away.jpg', orientation: 'portrait' },
-  // Abstract & Textures
-  { url: 'https://res.cloudinary.com/ddmj6zevz/image/upload/f_auto,q_auto:good/v1719942438/stock/abstract_paint_splash.jpg', orientation: 'landscape' },
-  { url: 'https://res.cloudinary.com/ddmj6zevz/image/upload/f_auto,q_auto:good/v1719942439/stock/forest_canopy_look_up.jpg', orientation: 'landscape' },
-  { url: 'https://res.cloudinary.com/ddmj6zevz/image/upload/f_auto,q_auto:good/v1719942440/stock/fabric_texture_close_up.jpg', orientation: 'landscape' },
-  { url: 'https://res.cloudinary.com/ddmj6zevz/image/upload/f_auto,q_auto:good/v1719942441/stock/architectural_lines.jpg', orientation: 'portrait' },
-  // Nature & Landscapes
-  { url: 'https://res.cloudinary.com/ddmj6zevz/image/upload/f_auto,q_auto:good/v1719942442/stock/misty_forest_road.jpg', orientation: 'landscape' },
-  { url: 'https://res.cloudinary.com/ddmj6zevz/image/upload/f_auto,q_auto:good/v1719942443/stock/minimalist_desert.jpg', orientation: 'landscape' },
-  { url: 'https://res.cloudinary.com/ddmj6zevz/image/upload/f_auto,q_auto:good/v1719942444/stock/mountain_reflection.jpg', orientation: 'landscape' },
-  { url: 'https://res.cloudinary.com/ddmj6zevz/image/upload/f_auto,q_auto:good/v1719942445/stock/ocean_wave_close_up.jpg', orientation: 'landscape' },
-  // Technology & Urban
-  { url: 'https://res.cloudinary.com/ddmj6zevz/image/upload/f_auto,q_auto:good/v1719942446/stock/city_street_blur.jpg', orientation: 'landscape' },
-  { url: 'https://res.cloudinary.com/ddmj6zevz/image/upload/f_auto,q_auto:good/v1719942447/stock/library_bookshelves.jpg', orientation: 'landscape' },
-  { url: 'https://res.cloudinary.com/ddmj6zevz/image/upload/f_auto,q_auto:good/v1719942448/stock/subway_tunnel.jpg', orientation: 'portrait' },
-  { url: 'https://res.cloudinary.com/ddmj6zevz/image/upload/f_auto,q_auto:good/v1719942449/stock/laptop_coffee_minimal.jpg', orientation: 'landscape' },
+const IMAGE_LIBRARY: string[] = [
+  'https://res.cloudinary.com/ddmj6zevz/image/upload/f_auto,q_auto:good/v1719942435/stock/person_typing_desk.jpg',
+  'https://res.cloudinary.com/ddmj6zevz/image/upload/f_auto,q_auto:good/v1719942438/stock/abstract_paint_splash.jpg',
+  'https://res.cloudinary.com/ddmj6zevz/image/upload/f_auto,q_auto:good/v1719942439/stock/forest_canopy_look_up.jpg',
+  'https://res.cloudinary.com/ddmj6zevz/image/upload/f_auto,q_auto:good/v1719942442/stock/misty_forest_road.jpg',
+  'https://res.cloudinary.com/ddmj6zevz/image/upload/f_auto,q_auto:good/v1719942443/stock/minimalist_desert.jpg',
+  'https://res.cloudinary.com/ddmj6zevz/image/upload/f_auto,q_auto:good/v1719942444/stock/mountain_reflection.jpg',
+  'https://res.cloudinary.com/ddmj6zevz/image/upload/f_auto,q_auto:good/v1719942445/stock/ocean_wave_close_up.jpg',
+  'https://res.cloudinary.com/ddmj6zevz/image/upload/f_auto,q_auto:good/v1719942446/stock/city_street_blur.jpg',
+  'https://res.cloudinary.com/ddmj6zevz/image/upload/f_auto,q_auto:good/v1719942447/stock/library_bookshelves.jpg',
+  'https://res.cloudinary.com/ddmj6zevz/image/upload/f_auto,q_auto:good/v1719942449/stock/laptop_coffee_minimal.jpg',
+  'https://res.cloudinary.com/ddmj6zevz/image/upload/f_auto,q_auto:good/v1719942434/stock/portrait_moody_1.jpg',
+  'https://res.cloudinary.com/ddmj6zevz/image/upload/f_auto,q_auto:good/v1719942436/stock/shadow_profile.jpg',
+  'https://res.cloudinary.com/ddmj6zevz/image/upload/f_auto,q_auto:good/v1719942437/stock/man_looking_away.jpg',
+  'https://res.cloudinary.com/ddmj6zevz/image/upload/f_auto,q_auto:good/v1719942440/stock/fabric_texture_close_up.jpg',
+  'https://res.cloudinary.com/ddmj6zevz/image/upload/f_auto,q_auto:good/v1719942441/stock/architectural_lines.jpg',
+  'https://res.cloudinary.com/ddmj6zevz/image/upload/f_auto,q_auto:good/v1719942448/stock/subway_tunnel.jpg',
 ];
 
 
@@ -106,29 +102,36 @@ async function generateContentForTopic(topic: string): Promise<WeeklyContent> {
   });
 
   const jsonString = response.text.trim();
-  const parsedData = JSON.parse(jsonString);
-
-  // --- Assign images ---
-  // The cover image is provided by the user weekly for brand consistency.
-  const COVER_IMAGE_URL = 'https://res.cloudinary.com/ddmj6zevz/image/upload/v1758322558/portada_1_tp5imd.png';
   
-  // Shuffle the library to get random images for the articles.
+  let parsedData;
+  try {
+    parsedData = JSON.parse(jsonString);
+    if (!parsedData.cover || !Array.isArray(parsedData.articles)) {
+        throw new Error("Gemini response is missing 'cover' or 'articles' properties.");
+    }
+  } catch (e) {
+    console.error("Failed to parse Gemini response:", jsonString);
+    throw new Error("La respuesta de la IA no tenía el formato esperado.");
+  }
+
+  // --- Assign images robustly ---
+  
+  // 1. Assign the static cover image provided by the user.
+  const COVER_IMAGE_URL = 'https://res.cloudinary.com/ddmj6zevz/image/upload/v1758322558/portada_1_tp5imd.png';
+  parsedData.cover.imageUrl = COVER_IMAGE_URL;
+  
+  // 2. Assign unique, random images to each article.
+  // Shuffle a copy of the library to ensure random assignment.
   const shuffledImages = [...IMAGE_LIBRARY].sort(() => 0.5 - Math.random());
   
-  // Prioritize landscape images for articles, as they fit the layout better.
-  const landscapeImages = shuffledImages.filter(img => img.orientation === 'landscape');
-  const otherImages = shuffledImages.filter(img => img.orientation !== 'landscape');
+  // Assign an image to each article, ensuring no duplicates.
+  parsedData.articles.forEach((article: Article, index: number) => {
+    // Use modulo to prevent out-of-bounds errors if more articles than images are returned.
+    article.imageUrl = shuffledImages[index % shuffledImages.length];
+  });
 
-  const articlesWithUrls: Article[] = parsedData.articles.map((article: any) => ({
-    ...article,
-    // Take a landscape image first, then fall back to any other available image.
-    imageUrl: (landscapeImages.shift() || otherImages.shift())?.url,
-  }));
-
-  return {
-    cover: { ...parsedData.cover, imageUrl: COVER_IMAGE_URL },
-    articles: articlesWithUrls,
-  };
+  // Type assertion to ensure the final object matches the WeeklyContent interface.
+  return parsedData as WeeklyContent;
 }
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
