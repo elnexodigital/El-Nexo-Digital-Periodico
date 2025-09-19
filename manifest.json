@@ -8,16 +8,22 @@
   "theme_color": "#fdfaf4",
   "icons": [
     {
-      "src": "https://res.cloudinary.com/ddmj6zevz/image/upload/f_auto,q_auto:good/v1756714882/logo_el_nexo_digital_assa82.png",
+      "src": "https://res.cloudinary.com/ddmj6zevz/image/upload/w_192,h_192,c_fit,f_auto,q_auto/v1756714882/logo_el_nexo_digital_assa82.png",
       "sizes": "192x192",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
     },
     {
-      "src": "https://res.cloudinary.com/ddmj6zevz/image/upload/f_auto,q_auto:good/v1756714882/logo_el_nexo_digital_assa82.png",
+      "src": "https://res.cloudinary.com/ddmj6zevz/image/upload/w_512,h_512,c_fit,f_auto,q_auto/v1756714882/logo_el_nexo_digital_assa82.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
+    },
+    {
+      "src": "https://res.cloudinary.com/ddmj6zevz/image/upload/w_512,h_512,c_fit,f_auto,q_auto/v1756714882/logo_el_nexo_digital_assa82.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ]
 }

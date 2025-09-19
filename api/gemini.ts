@@ -84,8 +84,8 @@ async function generateContentForTopic(topic: string): Promise<WeeklyContent> {
   const jsonString = response.text.trim();
   const parsedData = JSON.parse(jsonString);
 
-  // Transform keywords into direct Unsplash URLs
-  const unsplashBaseUrl = 'https://source.unsplash.com';
+  // Transform keywords into direct Unsplash URLs using the more reliable "featured" endpoint
+  const unsplashBaseUrl = 'https://source.unsplash.com/featured';
 
   const coverImageUrl = `${unsplashBaseUrl}/800x1200/?${encodeURIComponent(parsedData.cover.imageKeywords)}`;
   
