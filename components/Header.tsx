@@ -1,3 +1,4 @@
+
 import React, { useState, useRef, useEffect, useCallback, forwardRef, useImperativeHandle } from 'react';
 import type { MusicTrack, HeaderControls, NewsBroadcast, PodcastMP3 } from '../types';
 import { GREETING_AUDIOS } from '../greetings';
@@ -5,6 +6,7 @@ import { NEWS_BROADCASTS } from '../data/broadcasts';
 import { SEPARATOR_AUDIOS } from '../data/separators';
 import { MUSIC_TRACKS } from '../data/music';
 import { PODCASTS_MP3 } from '../data/podcastsMP3';
+import { COMMERCIAL_JINGLES } from '../data/jingles';
 
 const VIDEO_URLS: string[] = [
   'https://res.cloudinary.com/ddmj6zevz/video/upload/v1755907719/animaci%C3%B3n_APP_pvxjop.mp4',
@@ -57,6 +59,7 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({ isPodcastModalOpen }, 
   const newsAudioRef = useRef<HTMLAudioElement | null>(null);
   const separatorAudioRef = useRef<HTMLAudioElement | null>(null);
   const podcastMP3AudioRef = useRef<HTMLAudioElement | null>(null);
+  const commercialJingleAudioRef = useRef<HTMLAudioElement | null>(null);
   const playAfterTrackChange = useRef(false);
   const musicVolumeRef = useRef(1.0);
 
@@ -259,6 +262,7 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({ isPodcastModalOpen }, 
       if (separatorAudioRef.current && !separatorAudioRef.current.paused) separatorAudioRef.current.pause();
       if (podcastMP3AudioRef.current && !podcastMP3AudioRef.current.paused) podcastMP3AudioRef.current.pause();
       if (newsAudioRef.current && !newsAudioRef.current.paused) newsAudioRef.current.pause();
+      if (commercialJingleAudioRef.current && !commercialJingleAudioRef.current.paused) commercialJingleAudioRef.current.pause();
       musicAudio.pause();
       setIsPlaying(false);
       return;
@@ -275,6 +279,10 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({ isPodcastModalOpen }, 
     if (podcastMP3AudioRef.current?.paused) {
       podcastMP3AudioRef.current.play().catch(e => console.error("Error resuming podcast mp3", e));
       musicAudio.play().catch(e => console.error("Error resuming music bed", e));
+      return;
+    }
+    if (commercialJingleAudioRef.current?.paused) {
+      commercialJingleAudioRef.current.play().catch(e => console.error("Error resuming commercial jingle", e));
       return;
     }
     if (separatorAudioRef.current?.paused) {
@@ -323,7 +331,7 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({ isPodcastModalOpen }, 
         const musicAudio = audioRef.current;
         const jingleAudio = jingleAudioRef.current;
 
-        if (isPlaying && !isPodcastModalOpen && jingleAudio && musicAudio && jingleAudio.paused) {
+        if (isPlaying && !isPodcastModalOpen && jingleAudio && musicAudio && jingleAudio.paused && !commercialJingleAudioRef.current) {
             musicVolumeRef.current = musicAudio.volume;
             musicAudio.volume = 0.2;
 
@@ -346,6 +354,57 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({ isPodcastModalOpen }, 
         clearInterval(jingleInterval);
     };
   }, [isPlaying, isPodcastModalOpen]);
+
+  useEffect(() => {
+    const playRandomJingle = () => {
+        const musicAudio = audioRef.current;
+        const nicolleJingle = jingleAudioRef.current;
+
+        if (isPlaying && !isPodcastModalOpen && musicAudio && !activeBroadcast && !activePodcastMP3 && !separatorAudioRef.current && (!nicolleJingle || nicolleJingle.paused) && !commercialJingleAudioRef.current) {
+            const jingleUrl = COMMERCIAL_JINGLES[Math.floor(Math.random() * COMMERCIAL_JINGLES.length)];
+            
+            const wasMusicPlaying = !musicAudio.paused;
+            if (wasMusicPlaying) {
+                musicAudio.pause();
+            }
+
+            const jinglePlayer = new Audio(jingleUrl);
+            commercialJingleAudioRef.current = jinglePlayer;
+
+            const handleJingleEnd = () => {
+                if (audioRef.current && wasMusicPlaying && isPlaying) {
+                    audioRef.current.play().catch(e => console.error("Failed to resume music after jingle", e));
+                }
+                if (commercialJingleAudioRef.current) {
+                    commercialJingleAudioRef.current.removeEventListener('ended', handleJingleEnd);
+                    commercialJingleAudioRef.current.removeEventListener('error', handleJingleEnd);
+                    commercialJingleAudioRef.current = null;
+                }
+            };
+
+            jinglePlayer.addEventListener('ended', handleJingleEnd);
+            jinglePlayer.addEventListener('error', (e) => {
+                console.error("Commercial jingle play failed", e);
+                handleJingleEnd();
+            });
+
+            jinglePlayer.play().catch(e => {
+                console.error("Commercial jingle play promise rejected", e);
+                handleJingleEnd();
+            });
+        }
+    };
+
+    const commercialJingleInterval = setInterval(playRandomJingle, 10 * 60 * 1000); // 10 minutes
+
+    return () => {
+        clearInterval(commercialJingleInterval);
+        if (commercialJingleAudioRef.current) {
+            commercialJingleAudioRef.current.pause();
+            commercialJingleAudioRef.current = null;
+        }
+    };
+  }, [isPlaying, isPodcastModalOpen, activeBroadcast, activePodcastMP3]);
 
   useImperativeHandle(ref, () => ({
     playRadio: () => {
