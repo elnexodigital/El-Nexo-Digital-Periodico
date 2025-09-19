@@ -1,4 +1,3 @@
-
 import React from 'react';
 import type { Article } from '../types';
 
@@ -27,9 +26,11 @@ const ArticleCard: React.FC<ArticleCardProps> = ({ article }) => {
         <h3 className="text-xl font-bold leading-tight">
           {article.headline}
         </h3>
-        {article.summary && (
+        {/* Fix: Property 'summary' does not exist on type 'Article'. Use 'content' instead. */}
+        {article.content && (
           <p className="text-black text-sm leading-relaxed mt-2 flex-grow">
-            {article.summary}
+            {/* Fix: Property 'summary' does not exist on type 'Article'. Use 'content' instead. */}
+            {article.content}
           </p>
         )}
       </div>

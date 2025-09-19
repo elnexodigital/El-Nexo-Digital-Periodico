@@ -1,3 +1,4 @@
+
 export interface MusicTrack {
   id: string;
   url: string;
@@ -25,17 +26,28 @@ export interface NewsBroadcast {
 }
 
 export interface PodcastMP3 {
-  id: string;
+  id:string;
   title: string;
   artist: string;
   videoId: string;
   coverUrl: string;
 }
 
-// FIX: Add missing Article interface for ArticleCard component
 export interface Article {
+  id: string;
   headline: string;
-  summary?: string;
+  category: string;
   imageUrl?: string;
-  category?: string;
+  content: string;
+}
+
+export interface CoverStory {
+    headline: string;
+    subtitle: string;
+    imageUrl?: string;
+}
+
+export interface WeeklyContent {
+    cover: CoverStory;
+    articles: Article[];
 }

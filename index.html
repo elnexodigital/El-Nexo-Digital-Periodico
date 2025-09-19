@@ -4,6 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>El Nexo Digital</title>
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#fdfaf4" />
+  <link rel="apple-touch-icon" href="https://res.cloudinary.com/ddmj6zevz/image/upload/v1756714882/logo_el_nexo_digital_assa82.png" />
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=Playfair+Display:wght@700&display=swap');
@@ -63,6 +66,56 @@
     }
     .animate-spin-very-slow {
       animation: spin-very-slow 25s linear infinite;
+    }
+
+    /* --- Common Page Turn Styles --- */
+    .book {
+      transform-style: preserve-3d;
+    }
+    .page-container {
+      transform-origin: left center;
+      transition: transform 0.8s cubic-bezier(0.645, 0.045, 0.355, 1);
+      transform-style: preserve-3d;
+    }
+    .page-container.flipped {
+      transform: rotateY(-180deg);
+    }
+    .page-front,
+    .page-back {
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+    }
+    .page-back {
+      transform: rotateY(180deg);
+    }
+    .page-container.turning, .mobile-page.turning {
+        transition: none; /* Disable transition during drag for smooth following */
+    }
+
+    /* --- Mobile 3D Page Turn Styles --- */
+    .mobile-book {
+        position: relative;
+        perspective: 1500px;
+    }
+    .mobile-page {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        transform-origin: left center;
+        transition: transform 0.6s cubic-bezier(0.6, 0.04, 0.98, 0.335);
+        backface-visibility: hidden;
+        -webkit-backface-visibility: hidden;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        border-radius: 4px;
+        overflow: hidden;
+    }
+    .mobile-page.flipped {
+        transform: rotateY(-180deg);
     }
   </style>
 <script type="importmap">
