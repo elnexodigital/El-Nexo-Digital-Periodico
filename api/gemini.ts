@@ -32,7 +32,7 @@ const responseSchema = {
       properties: {
         headline: { type: Type.STRING, description: 'Titular de portada principal, corto y muy llamativo (máx 10 palabras).' },
         subtitle: { type: Type.STRING, description: 'Subtítulo que complemente el titular y genere intriga (máx 20 palabras).' },
-        imageKeywords: { type: Type.STRING, description: '3-5 palabras clave en inglés, separadas por comas SIN ESPACIOS (ej: woman,minimalism,profile), para una foto de portada artística con composición asimétrica y espacio negativo.' },
+        imageKeywords: { type: Type.STRING, description: '2-3 palabras clave MUY simples en inglés (ej: woman, profile, shadow), para una foto de portada artística con composición asimétrica y espacio negativo.' },
       },
       required: ['headline', 'subtitle', 'imageKeywords'],
     },
@@ -45,7 +45,7 @@ const responseSchema = {
           headline: { type: Type.STRING, description: 'Titular del artículo (máx 15 palabras).' },
           category: { type: Type.STRING, description: 'Categoría del artículo (ej: Ciencia, Salud, Cultura).' },
           content: { type: Type.STRING, description: 'Contenido del artículo, alrededor de 150-200 palabras.' },
-          imageKeywords: { type: Type.STRING, description: '3-5 palabras clave en inglés, separadas por comas y SIN ESPACIOS (ej: science,lab,discovery), para una foto que ilustre el artículo.' },
+          imageKeywords: { type: Type.STRING, description: '2-3 palabras clave simples y comunes en inglés (ej: science, lab), para una foto que ilustre el artículo.' },
         },
         required: ['id', 'headline', 'category', 'content', 'imageKeywords'],
       },
@@ -63,11 +63,11 @@ async function generateContentForTopic(topic: string): Promise<WeeklyContent> {
     Para la PORTADA:
     - Genera un titular corto y llamativo.
     - Un subtítulo intrigante.
-    - Palabras clave en inglés para una imagen de portada. IMPORTANTE: Las palabras clave deben describir una imagen con una composición artística y asimétrica, con un fuerte espacio negativo a la izquierda o en la parte superior, ideal para superponer texto. El sujeto principal debería estar idealmente en el tercio derecho. Piensa como un director de arte de Vogue. Ejemplo: "woman,minimalism,sideprofile".
+    - Palabras clave en inglés para una imagen de portada. IMPORTANTE: Las palabras clave deben describir una imagen con una composición artística y asimétrica, con un fuerte espacio negativo a la izquierda o en la parte superior. Piensa como un director de arte. Ejemplo: "minimalist,woman,profile,shadow".
 
     Para los ARTÍculos:
-    - Genera exactamente 4 artículos relacionados con el tema.
-    - Cada artículo necesita un titular, categoría, contenido de 150-200 palabras y palabras clave de imagen en inglés.
+    - Genera exactamente 3 artículos relacionados con el tema.
+    - Cada artículo necesita un titular, categoría, contenido de 150-200 palabras y palabras clave de imagen en inglés (muy simples, idealmente una o dos palabras como "food, plate" o "technology, abstract").
 
     La respuesta DEBE estar en formato JSON y adherirse estrictamente al esquema. Todo el texto debe estar en español.
   `;
@@ -84,12 +84,13 @@ async function generateContentForTopic(topic: string): Promise<WeeklyContent> {
   const jsonString = response.text.trim();
   const parsedData = JSON.parse(jsonString);
 
-  const unsplashBaseUrl = 'https://source.unsplash.com';
+  // Use the 'featured' endpoint from Unsplash for more reliable, high-quality images.
+  const unsplashBaseUrl = 'https://source.unsplash.com/featured';
   
   const cleanKeywords = (keywords: string): string => {
       if (!keywords) return '';
       // Cleans keywords: " word1, word2 " -> "word1,word2"
-      return keywords.split(',').map(k => k.trim()).join(',');
+      return keywords.split(',').map(k => k.trim()).filter(Boolean).join(',');
   }
 
   const coverImageUrl = `${unsplashBaseUrl}/800x1200/?${encodeURIComponent(cleanKeywords(parsedData.cover.imageKeywords))}`;
