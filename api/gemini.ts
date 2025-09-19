@@ -1,4 +1,3 @@
-
 // Vercel Serverless Function
 // This code runs on the server and is never exposed to the client.
 
@@ -85,15 +84,14 @@ async function generateContentForTopic(topic: string): Promise<WeeklyContent> {
   const jsonString = response.text.trim();
   const parsedData = JSON.parse(jsonString);
 
-  // Transform keywords into smart Cloudinary URLs fetching from Unsplash
+  // Transform keywords into direct Unsplash URLs
   const unsplashBaseUrl = 'https://source.unsplash.com';
-  const cloudinaryFetchBase = 'https://res.cloudinary.com/ddmj6zevz/image/fetch';
 
-  const coverImageUrl = `${cloudinaryFetchBase}/w_800,h_1200,c_fill,g_auto,f_auto,q_auto/${unsplashBaseUrl}/800x1200/?${encodeURIComponent(parsedData.cover.imageKeywords)}`;
+  const coverImageUrl = `${unsplashBaseUrl}/800x1200/?${encodeURIComponent(parsedData.cover.imageKeywords)}`;
   
   const articlesWithUrls: Article[] = parsedData.articles.map((article: any) => ({
     ...article,
-    imageUrl: `${cloudinaryFetchBase}/w_800,h_600,c_fill,g_auto,f_auto,q_auto/${unsplashBaseUrl}/800x600/?${encodeURIComponent(article.imageKeywords)}`,
+    imageUrl: `${unsplashBaseUrl}/800x600/?${encodeURIComponent(article.imageKeywords)}`,
   }));
 
   return {
