@@ -49,33 +49,39 @@ const App: React.FC = () => {
       setIsLoading(true);
       setError(null);
       const weekKey = getWeekKey();
-      const cacheKey = `weeklyArticles_${weekKey}`;
+      // A new cache key that only stores the text content. This invalidates
+      // old caches and makes the image logic more robust for future changes.
+      const textCacheKey = `weeklyContent_text_${weekKey}`;
       
       try {
-        const cachedData = localStorage.getItem(cacheKey);
-        if (cachedData) {
-          setWeeklyContent(JSON.parse(cachedData));
+        let textContent: WeeklyContent;
+        const cachedText = localStorage.getItem(textCacheKey);
+
+        if (cachedText) {
+          textContent = JSON.parse(cachedText);
         } else {
           const { generateWeeklyArticles } = await import('./services/geminiService');
-          // 1. Fetch text-only content from the server
-          const textContent = await generateWeeklyArticles(WEEKLY_THEME);
-          
-          // 2. Enrich the content with images locally for reliability
-          const enrichedContent: WeeklyContent = {
-            cover: {
-              ...textContent.cover,
-              imageUrl: COVER_IMAGE_URL,
-            },
-            articles: textContent.articles.map((article, index) => ({
-              ...article,
-              imageUrl: IMAGE_LIBRARY[index % IMAGE_LIBRARY.length],
-            })),
-          };
-
-          setWeeklyContent(enrichedContent);
-          localStorage.setItem(cacheKey, JSON.stringify(enrichedContent));
+          textContent = await generateWeeklyArticles(WEEKLY_THEME);
+          localStorage.setItem(textCacheKey, JSON.stringify(textContent));
         }
-      } catch (err) {
+        
+        // The text content (from cache or new fetch) is now always enriched with the
+        // latest images from the local data files.
+        const enrichedContent: WeeklyContent = {
+          cover: {
+            ...textContent.cover,
+            imageUrl: COVER_IMAGE_URL,
+          },
+          articles: textContent.articles.map((article, index) => ({
+            ...article,
+            imageUrl: IMAGE_LIBRARY[index % IMAGE_LIBRARY.length],
+          })),
+        };
+
+        setWeeklyContent(enrichedContent);
+
+      } catch (err)
+       {
         setError('No se pudo cargar el contenido de la revista. Por favor, inténtalo de nuevo más tarde.');
         console.error(err);
       } finally {
