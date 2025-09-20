@@ -1,4 +1,3 @@
-
 // Vercel Serverless Function
 // This code runs on the server and is never exposed to the client.
 
@@ -29,51 +28,48 @@ const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
 const responseSchema = {
   type: Type.OBJECT,
   properties: {
-    cover: {
-      type: Type.OBJECT,
-      properties: {
-        headline: { type: Type.STRING, description: 'Titular de portada principal, corto y muy llamativo (máx 10 palabras).' },
-        subtitle: { type: Type.STRING, description: 'Subtítulo que complemente el titular y genere intriga (máx 20 palabras).' },
-      },
-      required: ['headline', 'subtitle'],
-    },
-    articles: {
+    coverHeadline: { type: Type.STRING, description: 'Titular de portada principal, corto y muy llamativo (máx 10 palabras).' },
+    coverSubtitle: { type: Type.STRING, description: 'Subtítulo que complemente el titular y genere intriga (máx 20 palabras).' },
+    articleHeadlines: {
       type: Type.ARRAY,
-      items: {
-        type: Type.OBJECT,
-        properties: {
-          id: { type: Type.STRING, description: 'Un identificador único para el artículo, ej: "art1".' },
-          headline: { type: Type.STRING, description: 'Titular del artículo (máx 15 palabras).' },
-          category: { type: Type.STRING, description: 'Categoría del artículo (ej: Ciencia, Salud, Cultura).' },
-          content: { type: Type.STRING, description: 'Contenido del artículo, alrededor de 150-200 palabras.' },
-        },
-        required: ['id', 'headline', 'category', 'content'],
-      },
+      items: { type: Type.STRING },
+      description: 'Una lista de exactamente 3 titulares para los artículos (máx 15 palabras cada uno).'
     },
+    articleCategories: {
+      type: Type.ARRAY,
+      items: { type: Type.STRING },
+      description: 'Una lista de exactamente 3 categorías (ej: Ciencia, Salud, Cultura).'
+    },
+    articleContents: {
+      type: Type.ARRAY,
+      items: { type: Type.STRING },
+      description: 'Una lista de exactamente 3 párrafos de contenido para los artículos (150-200 palabras cada uno).'
+    }
   },
-  required: ['cover', 'articles'],
+  required: ['coverHeadline', 'coverSubtitle', 'articleHeadlines', 'articleCategories', 'articleContents'],
 };
 
 
-async function generateTextContent(topic: string): Promise<Omit<WeeklyContent, 'cover.imageUrl' | 'articles.imageUrl'>> {
+async function generateTextContent(topic: string): Promise<WeeklyContent> {
   const prompt = `
     Actúa como un equipo de periodistas para la revista de vanguardia "El Nexo Digital".
     El tema editorial de esta semana es: "${topic}".
-    Necesito que generes un paquete de contenido de texto completo.
+    Necesito que generes el texto para una portada y exactamente 3 artículos.
 
-    Para la PORTADA:
-    - Genera un titular corto y llamativo.
-    - Un subtítulo intrigante.
+    Para la PORTADA, genera:
+    - Un titular principal.
+    - Un subtítulo.
 
-    Para los ARTÍculos:
-    - Genera exactamente 3 artículos relacionados con el tema.
-    - Cada artículo necesita un titular, categoría y contenido de 150-200 palabras.
+    Para los 3 ARTÍCULOS, genera:
+    - Una lista de 3 titulares.
+    - Una lista de 3 categorías.
+    - Una lista de 3 párrafos de contenido.
 
+    Cada lista debe tener exactamente 3 elementos.
     La respuesta DEBE estar en formato JSON y adherirse estrictamente al esquema. Todo el texto debe estar en español.
     No incluyas NINGUNA URL de imagen en tu respuesta.
   `;
 
-  // 1. Get text content from Gemini
   const response = await ai.models.generateContent({
     model: "gemini-2.5-flash",
     contents: prompt,
@@ -85,16 +81,53 @@ async function generateTextContent(topic: string): Promise<Omit<WeeklyContent, '
 
   const jsonString = response.text.trim();
   
-  // 2. Parse and validate the core text data
   try {
-    const parsedData = JSON.parse(jsonString);
-    if (!parsedData.cover?.headline || !parsedData.cover?.subtitle || !Array.isArray(parsedData.articles) || parsedData.articles.length === 0) {
-        throw new Error("Invalid or incomplete structure from Gemini response.");
+    const parsedParts = JSON.parse(jsonString);
+    
+    // Robust validation: Ensure the AI provided exactly 3 of everything.
+    if (
+        !parsedParts.coverHeadline ||
+        !parsedParts.coverSubtitle ||
+        !Array.isArray(parsedParts.articleHeadlines) || parsedParts.articleHeadlines.length !== 3 ||
+        !Array.isArray(parsedParts.articleCategories) || parsedParts.articleCategories.length !== 3 ||
+        !Array.isArray(parsedParts.articleContents) || parsedParts.articleContents.length !== 3
+    ) {
+        throw new Error('La respuesta de la IA no generó los 3 artículos completos requeridos.');
     }
-    return parsedData;
+
+    // Reconstruct the final object with guaranteed structure in our code, not relying on the LLM.
+    const finalContent: WeeklyContent = {
+        cover: {
+            headline: parsedParts.coverHeadline,
+            subtitle: parsedParts.coverSubtitle,
+        },
+        articles: [
+            {
+                id: 'art1',
+                headline: parsedParts.articleHeadlines[0],
+                category: parsedParts.articleCategories[0],
+                content: parsedParts.articleContents[0],
+            },
+            {
+                id: 'art2',
+                headline: parsedParts.articleHeadlines[1],
+                category: parsedParts.articleCategories[1],
+                content: parsedParts.articleContents[1],
+            },
+            {
+                id: 'art3',
+                headline: parsedParts.articleHeadlines[2],
+                category: parsedParts.articleCategories[2],
+                content: parsedParts.articleContents[2],
+            },
+        ],
+    };
+
+    return finalContent;
   } catch (e) {
     console.error("Failed to parse or validate Gemini response:", jsonString, e);
-    throw new Error("La respuesta de la IA no tenía el formato esperado o estaba incompleta.");
+    const errorMessage = e instanceof Error ? e.message : "La respuesta de la IA no tenía el formato esperado.";
+    throw new Error(errorMessage);
   }
 }
 

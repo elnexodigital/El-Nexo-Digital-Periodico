@@ -67,6 +67,8 @@ const App: React.FC = () => {
         
         // The text content (from cache or new fetch) is now always enriched with the
         // latest images from the local data files.
+        // Ensure unique images are used to prevent repetition from data entry errors.
+        const uniqueImages = [...new Set(IMAGE_LIBRARY)];
         const enrichedContent: WeeklyContent = {
           cover: {
             ...textContent.cover,
@@ -74,7 +76,7 @@ const App: React.FC = () => {
           },
           articles: textContent.articles.map((article, index) => ({
             ...article,
-            imageUrl: IMAGE_LIBRARY[index % IMAGE_LIBRARY.length],
+            imageUrl: uniqueImages[index % uniqueImages.length],
           })),
         };
 
@@ -82,7 +84,8 @@ const App: React.FC = () => {
 
       } catch (err)
        {
-        setError('No se pudo cargar el contenido de la revista. Por favor, inténtalo de nuevo más tarde.');
+        const errorMessage = err instanceof Error ? err.message : 'No se pudo cargar el contenido de la revista.';
+        setError(`${errorMessage} Por favor, inténtalo de nuevo más tarde.`);
         console.error(err);
       } finally {
         setIsLoading(false);
