@@ -52,10 +52,15 @@ interface RadioData {
   COMMERCIAL_JINGLES: string[];
 }
 
+const shuffleArray = <T,>(array: T[]): T[] => {
+  return [...array].sort(() => Math.random() - 0.5);
+};
+
+
 const Header = forwardRef<HeaderControls, HeaderProps>(({ isPodcastModalOpen, onPodcastButtonClick, showPodcastButton }, ref) => {
   const [isPlaying, setIsPlaying] = useState(false);
-  const [currentTrack, setCurrentTrack] = useState<MusicTrack | null>(null);
-  const [currentVideoUrl, setCurrentVideoUrl] = useState<string>('');
+  const [videoQueue, setVideoQueue] = useState(() => shuffleArray(VIDEO_URLS));
+  const [musicQueue, setMusicQueue] = useState<MusicTrack[]>([]);
   const [hasGreetingPlayed, setHasGreetingPlayed] = useState(false);
   const [playedBroadcasts, setPlayedBroadcasts] = useState<Record<number, boolean>>({});
   const [activeBroadcast, setActiveBroadcast] = useState<NewsBroadcast | null>(null);
@@ -72,7 +77,6 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({ isPodcastModalOpen, on
   const separatorAudioRef = useRef<HTMLAudioElement | null>(null);
   const podcastMP3AudioRef = useRef<HTMLAudioElement | null>(null);
   const commercialJingleAudioRef = useRef<HTMLAudioElement | null>(null);
-  const playAfterTrackChange = useRef(false);
   const musicVolumeRef = useRef(1.0);
 
   const currentDate = new Date().toLocaleDateString('es-ES', {
@@ -102,14 +106,17 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({ isPodcastModalOpen, on
           import('../data/jingles'),
         ]);
         
-        setRadioData({
+        const loadedRadioData = {
           GREETING_AUDIOS: greetingsModule.GREETING_AUDIOS,
           NEWS_BROADCASTS: broadcastsModule.NEWS_BROADCASTS,
           SEPARATOR_AUDIOS: separatorsModule.SEPARATOR_AUDIOS,
           MUSIC_TRACKS: musicModule.MUSIC_TRACKS,
           PODCASTS_MP3: podcastsMp3Module.PODCASTS_MP3,
           COMMERCIAL_JINGLES: jinglesModule.COMMERCIAL_JINGLES,
-        });
+        };
+        setRadioData(loadedRadioData);
+        setMusicQueue(shuffleArray(loadedRadioData.MUSIC_TRACKS));
+
       } catch (error) {
         console.error("Failed to load radio data:", error);
       } finally {
@@ -119,39 +126,42 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({ isPodcastModalOpen, on
     loadRadioData();
   }, []);
 
-  const selectAndSetNextTrack = useCallback(() => {
-    if (!radioData) return;
-    setCurrentTrack(prevTrack => {
-      const availableTracks = radioData.MUSIC_TRACKS.filter(t => t.id !== prevTrack?.id);
-      if (availableTracks.length === 0) return radioData.MUSIC_TRACKS[0];
-      const randomIndex = Math.floor(Math.random() * availableTracks.length);
-      return availableTracks[randomIndex];
-    });
-  }, [radioData]);
 
   const selectNextVideo = useCallback(() => {
-    setCurrentVideoUrl(prevUrl => {
-      const availableVideos = VIDEO_URLS.filter(v => v !== prevUrl);
-      if (availableVideos.length === 0) return VIDEO_URLS[0];
-      const randomIndex = Math.floor(Math.random() * availableVideos.length);
-      return availableVideos[randomIndex];
+    setVideoQueue(prevQueue => {
+      const [first, ...rest] = prevQueue;
+      // When the queue is empty, reshuffle and start over
+      if (rest.length === 0) {
+        return shuffleArray(VIDEO_URLS);
+      }
+      return [...rest, first];
     });
   }, []);
 
-  useEffect(() => {
-    if (radioData) {
-      selectAndSetNextTrack();
+  const playNextMusicTrack = useCallback(() => {
+    setMusicQueue(prevQueue => {
+        const [first, ...rest] = prevQueue;
+        // Reshuffle when the playlist is exhausted
+        if (rest.length === 0) {
+            return radioData ? shuffleArray(radioData.MUSIC_TRACKS) : [];
+        }
+        return [...rest, first];
+    });
+    const audio = audioRef.current;
+    if (audio) {
+      // The useEffect watching the musicQueue will handle playing
+      setTimeout(() => audio.play().catch(e => console.error("Autoplay failed:", e)), 50);
     }
-    selectNextVideo();
-  }, [radioData, selectAndSetNextTrack, selectNextVideo]);
+  }, [radioData]);
 
   useEffect(() => {
     const audio = audioRef.current;
-    if (audio && playAfterTrackChange.current) {
-      playAfterTrackChange.current = false;
-      audio.play().catch(e => console.error("Autoplay failed:", e));
+    if (audio && isPlaying && musicQueue.length > 0) {
+        audio.src = musicQueue[0].url;
+        audio.play().catch(e => console.error("Autoplay failed on track change:", e));
     }
-  }, [currentTrack]);
+  }, [musicQueue, isPlaying]);
+
 
   const playBroadcast = useCallback((broadcast: NewsBroadcast, hour: number) => {
     const musicAudio = audioRef.current;
@@ -307,48 +317,55 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({ isPodcastModalOpen, on
     return greetings[randomIndex];
   };
 
+  const pauseAllAudio = () => {
+    if (audioRef.current) audioRef.current.pause();
+    if (greetingAudioRef.current) greetingAudioRef.current.pause();
+    if (separatorAudioRef.current) separatorAudioRef.current.pause();
+    if (podcastMP3AudioRef.current) podcastMP3AudioRef.current.pause();
+    if (newsAudioRef.current) newsAudioRef.current.pause();
+    if (commercialJingleAudioRef.current) commercialJingleAudioRef.current.pause();
+  };
+  
   const togglePlayPause = () => {
     if (isRadioLoading) return;
     const musicAudio = audioRef.current;
     if (!musicAudio) return;
 
     if (isPlaying) {
-      if (greetingAudioRef.current && !greetingAudioRef.current.paused) greetingAudioRef.current.pause();
-      if (separatorAudioRef.current && !separatorAudioRef.current.paused) separatorAudioRef.current.pause();
-      if (podcastMP3AudioRef.current && !podcastMP3AudioRef.current.paused) podcastMP3AudioRef.current.pause();
-      if (newsAudioRef.current && !newsAudioRef.current.paused) newsAudioRef.current.pause();
-      if (commercialJingleAudioRef.current && !commercialJingleAudioRef.current.paused) commercialJingleAudioRef.current.pause();
-      musicAudio.pause();
+      pauseAllAudio();
       setIsPlaying(false);
       return;
     }
 
     setIsPlaying(true);
     
-    if (newsAudioRef.current?.paused) {
+    if (newsAudioRef.current?.paused && !newsAudioRef.current.ended) {
       newsAudioRef.current.play().catch(e => console.error("Error resuming news", e));
       return;
     }
-    if (podcastMP3AudioRef.current?.paused) {
+    if (podcastMP3AudioRef.current?.paused && !podcastMP3AudioRef.current.ended) {
       podcastMP3AudioRef.current.play().catch(e => console.error("Error resuming podcast mp3", e));
       musicAudio.play().catch(e => console.error("Error resuming music bed", e));
       return;
     }
-    if (commercialJingleAudioRef.current?.paused) {
+    if (commercialJingleAudioRef.current?.paused && !commercialJingleAudioRef.current.ended) {
       commercialJingleAudioRef.current.play().catch(e => console.error("Error resuming commercial jingle", e));
       return;
     }
-    if (separatorAudioRef.current?.paused) {
+    if (separatorAudioRef.current?.paused && !separatorAudioRef.current.ended) {
       separatorAudioRef.current.play().catch(e => console.error("Error resuming separator", e));
       return;
     }
-    if (greetingAudioRef.current?.paused) {
+    if (greetingAudioRef.current?.paused && !greetingAudioRef.current.ended) {
       greetingAudioRef.current.play().catch(e => console.error("Error resuming greeting", e));
       return;
     }
     
     const playMusic = () => {
-      if (musicAudio) {
+      if (musicAudio && musicQueue.length > 0) {
+        if (musicAudio.src !== musicQueue[0].url) {
+            musicAudio.src = musicQueue[0].url;
+        }
         musicAudio.play().catch(error => {
           console.error("Error attempting to play music:", error);
           setIsPlaying(false);
@@ -474,7 +491,8 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({ isPodcastModalOpen, on
   }));
   
   const handleTrackEnded = () => {
-    if (!radioData) return;
+    if (!radioData || !isPlaying) return;
+    
     const newCount = tracksSinceLastSeparator + 1;
   
     if (newCount >= separatorTrackCountTarget) {
@@ -482,38 +500,38 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({ isPodcastModalOpen, on
       const separatorPlayer = new Audio(separatorUrl);
       separatorAudioRef.current = separatorPlayer;
   
-      const playNextMusicTrack = () => {
-        playAfterTrackChange.current = true;
-        selectAndSetNextTrack();
+      const handleSeparatorEnd = () => {
+        playNextMusicTrack();
         if (separatorAudioRef.current) {
-          separatorAudioRef.current.removeEventListener('ended', playNextMusicTrack);
-          separatorAudioRef.current.removeEventListener('error', playNextMusicTrack);
+          separatorAudioRef.current.removeEventListener('ended', handleSeparatorEnd);
+          separatorAudioRef.current.removeEventListener('error', handleSeparatorEnd);
           separatorAudioRef.current = null;
         }
       };
   
-      separatorPlayer.addEventListener('ended', playNextMusicTrack);
+      separatorPlayer.addEventListener('ended', handleSeparatorEnd);
       separatorPlayer.addEventListener('error', (e) => {
         console.error("Separator play failed, playing next track.", e);
-        playNextMusicTrack();
+        handleSeparatorEnd();
       });
   
       separatorPlayer.play().catch(e => {
         console.error("Separator play promise rejected", e);
-        playNextMusicTrack();
+        handleSeparatorEnd();
       });
   
       setTracksSinceLastSeparator(0);
       setSeparatorTrackCountTarget(Math.floor(Math.random() * 5) + 2);
     } else {
       setTracksSinceLastSeparator(newCount);
-      playAfterTrackChange.current = true;
-      selectAndSetNextTrack();
+      playNextMusicTrack();
     }
   };
   
+  const currentVideoUrl = videoQueue[0] || '';
   const bannerSrc = activeBroadcast?.bannerUrl || currentVideoUrl;
 
+  const currentTrack = musicQueue[0] || null;
   const currentTitle = activeBroadcast?.description || activePodcastMP3?.title || currentTrack?.description || 'El Nexo Digital';
   const currentArtist = activePodcastMP3?.artist || (isRadioLoading ? 'Cargando radio...' : 'El Nexo Digital Radio');
 
@@ -552,7 +570,6 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({ isPodcastModalOpen, on
         <div className="z-10 flex justify-start items-center gap-6 bg-black/30 px-6">
           <audio
             ref={audioRef}
-            src={currentTrack?.url || ''}
             onEnded={handleTrackEnded}
           />
           <audio

@@ -1,8 +1,9 @@
+
 // Vercel Serverless Function
 // This code runs on the server and is never exposed to the client.
 
 import { GoogleGenAI, Type } from "@google/genai";
-import type { WeeklyContent, Article } from '../types';
+import type { WeeklyContent } from '../types';
 
 // Define minimal types for Vercel's request and response objects
 // to avoid needing to install '@vercel/node' types.
@@ -17,27 +18,6 @@ interface VercelResponse {
   json: (body: any) => void;
   send: (body: string) => void;
 }
-
-// A curated library of high-quality, artistic images to be used for articles.
-// This provides a reliable and fast alternative to on-the-fly image generation.
-const IMAGE_LIBRARY: string[] = [
-  'https://res.cloudinary.com/ddmj6zevz/image/upload/f_auto,q_auto:good/v1719942435/stock/person_typing_desk.jpg',
-  'https://res.cloudinary.com/ddmj6zevz/image/upload/f_auto,q_auto:good/v1719942438/stock/abstract_paint_splash.jpg',
-  'https://res.cloudinary.com/ddmj6zevz/image/upload/f_auto,q_auto:good/v1719942439/stock/forest_canopy_look_up.jpg',
-  'https://res.cloudinary.com/ddmj6zevz/image/upload/f_auto,q_auto:good/v1719942442/stock/misty_forest_road.jpg',
-  'https://res.cloudinary.com/ddmj6zevz/image/upload/f_auto,q_auto:good/v1719942443/stock/minimalist_desert.jpg',
-  'https://res.cloudinary.com/ddmj6zevz/image/upload/f_auto,q_auto:good/v1719942444/stock/mountain_reflection.jpg',
-  'https://res.cloudinary.com/ddmj6zevz/image/upload/f_auto,q_auto:good/v1719942445/stock/ocean_wave_close_up.jpg',
-  'https://res.cloudinary.com/ddmj6zevz/image/upload/f_auto,q_auto:good/v1719942446/stock/city_street_blur.jpg',
-  'https://res.cloudinary.com/ddmj6zevz/image/upload/f_auto,q_auto:good/v1719942447/stock/library_bookshelves.jpg',
-  'https://res.cloudinary.com/ddmj6zevz/image/upload/f_auto,q_auto:good/v1719942449/stock/laptop_coffee_minimal.jpg',
-  'https://res.cloudinary.com/ddmj6zevz/image/upload/f_auto,q_auto:good/v1719942434/stock/portrait_moody_1.jpg',
-  'https://res.cloudinary.com/ddmj6zevz/image/upload/f_auto,q_auto:good/v1719942436/stock/shadow_profile.jpg',
-  'https://res.cloudinary.com/ddmj6zevz/image/upload/f_auto,q_auto:good/v1719942437/stock/man_looking_away.jpg',
-  'https://res.cloudinary.com/ddmj6zevz/image/upload/f_auto,q_auto:good/v1719942440/stock/fabric_texture_close_up.jpg',
-  'https://res.cloudinary.com/ddmj6zevz/image/upload/f_auto,q_auto:good/v1719942441/stock/architectural_lines.jpg',
-  'https://res.cloudinary.com/ddmj6zevz/image/upload/f_auto,q_auto:good/v1719942448/stock/subway_tunnel.jpg',
-];
 
 
 // Ensure the API key is available in the server environment
@@ -75,11 +55,11 @@ const responseSchema = {
 };
 
 
-async function generateContentForTopic(topic: string): Promise<WeeklyContent> {
+async function generateTextContent(topic: string): Promise<Omit<WeeklyContent, 'cover.imageUrl' | 'articles.imageUrl'>> {
   const prompt = `
     Actúa como un equipo de periodistas para la revista de vanguardia "El Nexo Digital".
     El tema editorial de esta semana es: "${topic}".
-    Necesito que generes un paquete de contenido completo.
+    Necesito que generes un paquete de contenido de texto completo.
 
     Para la PORTADA:
     - Genera un titular corto y llamativo.
@@ -90,8 +70,10 @@ async function generateContentForTopic(topic: string): Promise<WeeklyContent> {
     - Cada artículo necesita un titular, categoría y contenido de 150-200 palabras.
 
     La respuesta DEBE estar en formato JSON y adherirse estrictamente al esquema. Todo el texto debe estar en español.
+    No incluyas NINGUNA URL de imagen en tu respuesta.
   `;
 
+  // 1. Get text content from Gemini
   const response = await ai.models.generateContent({
     model: "gemini-2.5-flash",
     contents: prompt,
@@ -103,35 +85,17 @@ async function generateContentForTopic(topic: string): Promise<WeeklyContent> {
 
   const jsonString = response.text.trim();
   
-  let parsedData;
+  // 2. Parse and validate the core text data
   try {
-    parsedData = JSON.parse(jsonString);
-    if (!parsedData.cover || !Array.isArray(parsedData.articles)) {
-        throw new Error("Gemini response is missing 'cover' or 'articles' properties.");
+    const parsedData = JSON.parse(jsonString);
+    if (!parsedData.cover?.headline || !parsedData.cover?.subtitle || !Array.isArray(parsedData.articles) || parsedData.articles.length === 0) {
+        throw new Error("Invalid or incomplete structure from Gemini response.");
     }
+    return parsedData;
   } catch (e) {
-    console.error("Failed to parse Gemini response:", jsonString);
-    throw new Error("La respuesta de la IA no tenía el formato esperado.");
+    console.error("Failed to parse or validate Gemini response:", jsonString, e);
+    throw new Error("La respuesta de la IA no tenía el formato esperado o estaba incompleta.");
   }
-
-  // --- Assign images robustly ---
-  
-  // 1. Assign the static cover image provided by the user.
-  const COVER_IMAGE_URL = 'https://res.cloudinary.com/ddmj6zevz/image/upload/v1758322558/portada_1_tp5imd.png';
-  parsedData.cover.imageUrl = COVER_IMAGE_URL;
-  
-  // 2. Assign unique, random images to each article.
-  // Shuffle a copy of the library to ensure random assignment.
-  const shuffledImages = [...IMAGE_LIBRARY].sort(() => 0.5 - Math.random());
-  
-  // Assign an image to each article, ensuring no duplicates.
-  parsedData.articles.forEach((article: Article, index: number) => {
-    // Use modulo to prevent out-of-bounds errors if more articles than images are returned.
-    article.imageUrl = shuffledImages[index % shuffledImages.length];
-  });
-
-  // Type assertion to ensure the final object matches the WeeklyContent interface.
-  return parsedData as WeeklyContent;
 }
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
@@ -145,7 +109,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return res.status(400).json({ error: 'El tema (topic) es requerido.' });
     }
 
-    const content = await generateContentForTopic(topic);
+    const content = await generateTextContent(topic);
     res.status(200).json(content);
 
   } catch (error) {

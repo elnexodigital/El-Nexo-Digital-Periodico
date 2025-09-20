@@ -3,6 +3,9 @@ import React, { useState, useEffect, useRef, lazy, Suspense } from 'react';
 import type { VideoPodcast, HeaderControls, WeeklyContent } from './types';
 import Header from './components/Header';
 import LoadingSpinner from './components/LoadingSpinner';
+import { COVER_IMAGE_URL } from './data/cover';
+import { IMAGE_LIBRARY } from './data/images';
+
 
 const PodcastModal = lazy(() => import('./components/PodcastModal'));
 const Magazine = lazy(() => import('./components/Magazine'));
@@ -54,9 +57,23 @@ const App: React.FC = () => {
           setWeeklyContent(JSON.parse(cachedData));
         } else {
           const { generateWeeklyArticles } = await import('./services/geminiService');
-          const content = await generateWeeklyArticles(WEEKLY_THEME);
-          setWeeklyContent(content);
-          localStorage.setItem(cacheKey, JSON.stringify(content));
+          // 1. Fetch text-only content from the server
+          const textContent = await generateWeeklyArticles(WEEKLY_THEME);
+          
+          // 2. Enrich the content with images locally for reliability
+          const enrichedContent: WeeklyContent = {
+            cover: {
+              ...textContent.cover,
+              imageUrl: COVER_IMAGE_URL,
+            },
+            articles: textContent.articles.map((article, index) => ({
+              ...article,
+              imageUrl: IMAGE_LIBRARY[index % IMAGE_LIBRARY.length],
+            })),
+          };
+
+          setWeeklyContent(enrichedContent);
+          localStorage.setItem(cacheKey, JSON.stringify(enrichedContent));
         }
       } catch (err) {
         setError('No se pudo cargar el contenido de la revista. Por favor, inténtalo de nuevo más tarde.');
