@@ -105,6 +105,11 @@
     .mobile-book {
         position: relative;
         perspective: 1500px;
+        width: auto; /* Let height dictate width */
+        height: 85vh; /* Take up 85% of the viewport height */
+        max-height: 800px; /* Cap it for very large devices */
+        aspect-ratio: 9 / 16;
+        margin: 0 auto; /* Center it horizontally */
     }
     .mobile-page {
         position: absolute;
@@ -117,7 +122,7 @@
         backface-visibility: hidden;
         -webkit-backface-visibility: hidden;
         box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-        border-radius: 4px;
+        border-radius: 12px;
         overflow: hidden;
     }
     .mobile-page.flipped {

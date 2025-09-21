@@ -33,12 +33,18 @@ export interface PodcastMP3 {
   coverUrl: string;
 }
 
+export type ArticleLayout = 'columna-izquierda' | 'columna-derecha' | 'columna-centro' | 'media-hoja' | 'hoja-completa' | 'banner-inferior';
+
 export interface Article {
   id: string;
   headline: string;
+  subtitle?: string;
   category: string;
   imageUrl?: string;
-  content: string;
+  imageCaption?: string;
+  content?: string;
+  sources?: string[];
+  layout?: ArticleLayout;
 }
 
 export interface CoverStory {
