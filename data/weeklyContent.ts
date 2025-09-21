@@ -144,7 +144,7 @@ Lo que parece seguro es que la humanidad seguirá buscando contacto real, aunque
       headline: "Hasta la próxima",
       category: "Cierre / Inspiración",
       imageUrl: 'https://res.cloudinary.com/ddmj6zevz/image/upload/v1758419894/articulo_6_xadquy.jpg',
-      layout: 'columna-derecha',
+      layout: 'columna-izquierda',
       content: `La soledad con wifi es un síntoma, no un destino.
 Lo humano sigue estando en lo presencial: un mate compartido, una risa sin emoji, un silencio que no incomoda.
 
