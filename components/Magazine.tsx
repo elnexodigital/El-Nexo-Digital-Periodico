@@ -8,19 +8,21 @@ interface ArticlePageProps {
 const ArticlePage: FC<ArticlePageProps> = ({ article }) => {
   const layout = article.layout || 'hoja-completa';
 
-  // Special case for banner layout: it's just a static image
+  // Special case for banner layout
   if (layout === 'banner-inferior') {
     return (
-      <div className="w-full h-full relative bg-gray-200 flex items-center justify-center p-4">
-        {article.imageUrl ? (
-          <img
-            src={article.imageUrl}
-            alt={article.headline} // Use headline for alt text
-            className="max-w-full max-h-full object-contain"
-          />
-        ) : (
-          <div className="text-center text-stone-500">Banner no disponible</div>
-        )}
+      <div className="w-full h-full relative bg-[#fdfaf4] flex items-center justify-center">
+        <div className="w-[calc(864/1080*100%)] h-[calc(1700/1920*100%)] flex items-end justify-center">
+          {article.imageUrl ? (
+            <img
+              src={article.imageUrl}
+              alt={article.headline}
+              className="max-w-full max-h-full object-contain"
+            />
+          ) : (
+            <div className="text-center text-stone-500">Banner no disponible</div>
+          )}
+        </div>
       </div>
     );
   }
@@ -216,12 +218,14 @@ const Magazine: React.FC<MagazineProps> = ({ articles, cover }) => {
       <div className="hidden md:block w-full max-w-6xl aspect-[18/16] relative book perspective-[2500px]">
         {Array.from({ length: numPapers }).map((_, index) => {
           const isFlipped = currentDesktopPage > index;
-          const zIndex = (numPapers - index);
+          // Correct z-index logic: Flipped pages get an ascending z-index to stack correctly on the left.
+          // Unflipped pages get a descending z-index (in a non-overlapping range) to stack correctly on the right.
+          const zIndex = isFlipped ? index : (numPapers * 2) - index;
           return (
             <div
               key={index}
               className={`page-container absolute w-1/2 h-full top-0 right-0 ${isFlipped ? 'flipped' : ''}`}
-              style={{ zIndex, perspective: '2500px' }}
+              style={{ zIndex }}
               onClick={() => goToDesktopPage(isFlipped ? index : index + 1)}
               role="button"
               aria-label={`Pasar a la página ${isFlipped ? index * 2 : index * 2 + 3}`}
