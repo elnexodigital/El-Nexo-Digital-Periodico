@@ -248,49 +248,79 @@ const Magazine: React.FC<MagazineProps> = ({ pages, cover }) => {
       </div>
 
       {/* Mobile Navigation */}
-      <div className="md:hidden flex justify-center mt-6 gap-4 items-center w-full">
-        <button
-          onClick={() => setCurrentMobilePage(p => Math.max(0, p - 1))}
-          disabled={currentMobilePage === 0}
-          className="px-4 py-2 bg-stone-800 text-white hover:bg-black transition-colors disabled:bg-stone-400 disabled:cursor-not-allowed rounded-md"
-          aria-label="Página anterior"
-        >
-          Anterior
-        </button>
-        <span className="text-sm text-stone-600 font-semibold">
-          {currentMobilePage + 1} de {allPages.length}
-        </span>
-        <button
-          onClick={() => setCurrentMobilePage(p => Math.min(allPages.length - 1, p + 1))}
-          disabled={currentMobilePage === allPages.length - 1}
-          className="px-4 py-2 bg-stone-800 text-white hover:bg-black transition-colors disabled:bg-stone-400 disabled:cursor-not-allowed rounded-md"
-          aria-label="Página siguiente"
-        >
-          Siguiente
-        </button>
+      <div className="md:hidden flex flex-col justify-center mt-6 gap-4 items-center w-full px-4">
+        <div className="flex justify-center gap-4 items-center w-full">
+          <button
+            onClick={() => setCurrentMobilePage(p => Math.max(0, p - 1))}
+            disabled={currentMobilePage === 0}
+            className="px-4 py-2 bg-stone-800 text-white hover:bg-black transition-colors disabled:bg-stone-400 disabled:cursor-not-allowed rounded-md"
+            aria-label="Página anterior"
+          >
+            Anterior
+          </button>
+          <span className="text-sm text-stone-600 font-semibold">
+            {currentMobilePage + 1} de {allPages.length}
+          </span>
+          <button
+            onClick={() => setCurrentMobilePage(p => Math.min(allPages.length - 1, p + 1))}
+            disabled={currentMobilePage === allPages.length - 1}
+            className="px-4 py-2 bg-stone-800 text-white hover:bg-black transition-colors disabled:bg-stone-400 disabled:cursor-not-allowed rounded-md"
+            aria-label="Página siguiente"
+          >
+            Siguiente
+          </button>
+        </div>
+        <div className="w-full max-w-xs pt-2">
+          <label htmlFor="mobile-page-slider" className="sr-only">Navegador rápido de páginas</label>
+          <input
+            id="mobile-page-slider"
+            type="range"
+            min="0"
+            max={allPages.length - 1}
+            value={currentMobilePage}
+            onChange={(e) => setCurrentMobilePage(parseInt(e.target.value, 10))}
+            className="w-full"
+            aria-label="Navegador rápido de páginas"
+          />
+        </div>
       </div>
       
       {/* Desktop Navigation */}
-      <div className="hidden md:flex justify-center mt-8 gap-4 items-center">
-        <button
-          onClick={() => goToDesktopPage(currentDesktopPage - 1)}
-          disabled={currentDesktopPage === 0}
-          className="px-5 py-2 bg-stone-800 text-white hover:bg-black transition-colors disabled:bg-stone-400 disabled:cursor-not-allowed rounded-md"
-          aria-label="Página anterior"
-        >
-          Anterior
-        </button>
-        <span className="text-base text-stone-600 font-semibold">
-          Página {currentDesktopPage} de {numPapers}
-        </span>
-        <button
-          onClick={() => goToDesktopPage(currentDesktopPage + 1)}
-          disabled={currentDesktopPage === numPapers}
-          className="px-5 py-2 bg-stone-800 text-white hover:bg-black transition-colors disabled:bg-stone-400 disabled:cursor-not-allowed rounded-md"
-          aria-label="Página siguiente"
-        >
-          Siguiente
-        </button>
+      <div className="hidden md:flex flex-col justify-center mt-8 gap-4 items-center">
+        <div className="flex justify-center gap-4 items-center">
+          <button
+            onClick={() => goToDesktopPage(currentDesktopPage - 1)}
+            disabled={currentDesktopPage === 0}
+            className="px-5 py-2 bg-stone-800 text-white hover:bg-black transition-colors disabled:bg-stone-400 disabled:cursor-not-allowed rounded-md"
+            aria-label="Página anterior"
+          >
+            Anterior
+          </button>
+          <span className="text-base text-stone-600 font-semibold">
+            Página {currentDesktopPage} de {numPapers}
+          </span>
+          <button
+            onClick={() => goToDesktopPage(currentDesktopPage + 1)}
+            disabled={currentDesktopPage === numPapers}
+            className="px-5 py-2 bg-stone-800 text-white hover:bg-black transition-colors disabled:bg-stone-400 disabled:cursor-not-allowed rounded-md"
+            aria-label="Página siguiente"
+          >
+            Siguiente
+          </button>
+        </div>
+        <div className="w-full max-w-md pt-2">
+            <label htmlFor="desktop-page-slider" className="sr-only">Navegador rápido de páginas</label>
+            <input 
+                id="desktop-page-slider"
+                type="range"
+                min="0"
+                max={numPapers}
+                value={currentDesktopPage}
+                onChange={(e) => goToDesktopPage(parseInt(e.target.value, 10))}
+                className="w-full"
+                aria-label="Navegador rápido de páginas"
+            />
+        </div>
       </div>
     </div>
   );
