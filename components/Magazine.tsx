@@ -1,39 +1,17 @@
 import React, { useRef, FC, useState } from 'react';
-import type { Article, CoverStory } from '../types';
+import type { Page, OddPage, EvenPage, CoverStory } from '../types';
 
-interface ArticlePageProps {
-  article: Article;
-}
+// --- NUEVO: Componente para Páginas Impares (con texto) ---
+const OddPageLayout: FC<{ page: OddPage }> = ({ page }) => {
+  const layout = page.layout || 'hoja-completa';
 
-const ArticlePage: FC<ArticlePageProps> = ({ article }) => {
-  const layout = article.layout || 'hoja-completa';
-
-  // Special case for banner layout
-  if (layout === 'banner-inferior') {
-    return (
-      <div className="w-full h-full relative bg-[#fdfaf4] flex items-center justify-center">
-        <div className="w-[calc(864/1080*100%)] h-[calc(1700/1920*100%)] flex items-end justify-center">
-          {article.imageUrl ? (
-            <img
-              src={article.imageUrl}
-              alt={article.headline}
-              className="max-w-full max-h-full object-contain"
-            />
-          ) : (
-            <div className="text-center text-stone-500">Banner no disponible</div>
-          )}
-        </div>
-      </div>
-    );
-  }
-  
-  // Styles for text-based layouts
   const layoutStyles = {
-    'columna-izquierda': 'w-[calc(500/1080*100%)] h-[calc(1700/1920*100%)] top-1/2 -translate-y-1/2 left-[calc(90/1080*100%)]',
-    'columna-derecha': 'w-[calc(500/1080*100%)] h-[calc(1700/1920*100%)] top-1/2 -translate-y-1/2 right-[calc(90/1080*100%)]',
-    'columna-centro': 'w-[calc(500/1080*100%)] h-[calc(1700/1920*100%)] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2',
-    'media-hoja': 'w-[calc(850/1080*100%)] h-[calc(850/1920*100%)] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2',
+    'columna-izquierda': 'w-[calc(500/1080*100%)] h-full top-1/2 -translate-y-1/2 left-[calc(90/1080*100%)]',
+    'columna-derecha': 'w-[calc(500/1080*100%)] h-full top-1/2 -translate-y-1/2 right-[calc(90/1080*100%)]',
+    'columna-centro': 'w-[calc(500/1080*100%)] h-full top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2',
+    'media-hoja': 'w-[calc(850/1080*100%)] h-1/2 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2',
     'hoja-completa': 'w-[calc(864/1080*100%)] h-[calc(1700/1920*100%)] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2',
+    'columna-izquierda-centrada': 'w-[calc(500/1080*100%)] h-full top-1/2 left-1/4 -translate-x-1/2 -translate-y-1/2',
   };
   
   const contentWrapperClass = `absolute ${layoutStyles[layout] || layoutStyles['hoja-completa']} bg-[rgba(255,255,255,0.7)] backdrop-blur-sm rounded-md shadow-lg flex flex-col`;
@@ -41,48 +19,72 @@ const ArticlePage: FC<ArticlePageProps> = ({ article }) => {
   return (
     <div className="w-full h-full relative bg-stone-900">
       {/* Background Image */}
-      {article.imageUrl && (
-        <img 
-          src={article.imageUrl} 
-          alt="" 
-          aria-hidden="true" 
-          className="w-full h-full object-cover" 
-        />
-      )}
+      <img 
+        src={page.backgroundUrl} 
+        alt="" 
+        aria-hidden="true" 
+        className="w-full h-full object-cover" 
+      />
 
       {/* Text Content Overlay */}
       <div className={contentWrapperClass}>
-        <div className="p-4 md:p-6 overflow-y-auto h-full">
-          <span className="font-bold uppercase text-xs text-black/60 mb-2">{article.category}</span>
-          <h3 className="text-xl md:text-2xl font-bold leading-tight">{article.headline}</h3>
-          {article.subtitle && (
-            <p className="text-md md:text-lg text-black/70 font-serif italic mb-4 -mt-1">{article.subtitle}</p>
+        <div className="flex-grow p-4 md:p-6 overflow-y-auto">
+          <span className="font-bold uppercase text-xs text-black/60 mb-2">{page.category}</span>
+          <h3 className="text-xl md:text-2xl font-bold leading-tight">{page.headline}</h3>
+          {page.subtitle && (
+            <p className="text-md md:text-lg text-black/70 font-serif italic mb-4 -mt-1">{page.subtitle}</p>
           )}
-          {article.imageCaption && (
-              <p className="text-xs text-stone-600 italic text-center my-2">{article.imageCaption}</p>
-          )}
-          {article.content && (
+          {page.content && (
             <div className="text-black text-sm leading-relaxed mb-4 whitespace-pre-wrap">
-              {article.content}
+              {page.content}
             </div>
           )}
-          {article.sources && article.sources.length > 0 && (
+          {page.sources && page.sources.length > 0 && (
               <div className="pt-2 border-t border-stone-400/50">
                   <h4 className="font-bold text-xs uppercase text-black/60 mb-1">Fuentes</h4>
                   <ul className="list-disc list-inside text-xs text-stone-700">
-                      {article.sources.map((source, index) => (
+                      {page.sources.map((source, index) => (
                           <li key={index}>{source}</li>
                       ))}
                   </ul>
               </div>
           )}
         </div>
+        {/* Banner */}
+        {page.bannerUrl && (
+          <div className="flex-shrink-0 h-[15%] max-h-24 p-2 flex items-center justify-center bg-stone-200/50 border-t border-stone-400/30">
+              <img src={page.bannerUrl} alt="Publicidad" className="max-w-full max-h-full object-contain"/>
+          </div>
+        )}
       </div>
     </div>
   );
 };
 
 
+// --- NUEVO: Componente para Páginas Pares (imagen completa) ---
+const EvenPageLayout: FC<{ page: EvenPage }> = ({ page }) => {
+  return (
+    <div className="w-full h-full relative bg-stone-900">
+      <img 
+        src={page.imageUrl} 
+        alt="Imagen de página" 
+        className="w-full h-full object-cover" 
+      />
+      {page.bannerUrl && (
+        <div className="absolute bottom-0 left-0 w-full h-[15%] max-h-24 p-2 flex items-center justify-center bg-black/20 backdrop-blur-sm">
+          <img 
+            src={page.bannerUrl} 
+            alt="Publicidad" 
+            className="max-w-full max-h-full object-contain"
+          />
+        </div>
+      )}
+    </div>
+  );
+};
+
+// --- Componentes de Portada y Contraportada (sin cambios) ---
 interface CoverPageProps {
   coverStory: CoverStory;
 }
@@ -115,11 +117,11 @@ const BackCoverPage: React.FC = () => (
 
 
 interface MagazineProps {
-  articles: Article[];
+  pages: Page[];
   cover: CoverStory;
 }
 
-const Magazine: React.FC<MagazineProps> = ({ articles, cover }) => {
+const Magazine: React.FC<MagazineProps> = ({ pages, cover }) => {
   const [currentDesktopPage, setCurrentDesktopPage] = useState(0);
   const [currentMobilePage, setCurrentMobilePage] = useState(0);
 
@@ -129,13 +131,19 @@ const Magazine: React.FC<MagazineProps> = ({ articles, cover }) => {
   const turningPageRef = useRef<HTMLDivElement | null>(null);
   const animationFrameRef = useRef(0);
 
-  const pages: React.ReactNode[] = [
+  const allPages: React.ReactNode[] = [
     <CoverPage key="cover" coverStory={cover} />,
-    ...articles.map(article => <ArticlePage key={article.id} article={article} />),
+    ...pages.map((page, index) => {
+      if (page.type === 'odd') {
+        return <OddPageLayout key={page.id} page={page} />;
+      } else {
+        return <EvenPageLayout key={`even-${index}`} page={page} />;
+      }
+    }),
     <BackCoverPage key="back" />
   ];
 
-  const desktopPages = [...pages];
+  const desktopPages = [...allPages];
   if (desktopPages.length % 2 !== 0) {
     desktopPages.push(<div key="blank" className="w-full h-full bg-[#fdfaf4]" />);
   }
@@ -146,7 +154,7 @@ const Magazine: React.FC<MagazineProps> = ({ articles, cover }) => {
     if (index !== currentMobilePage) return;
     isDragging.current = true;
     dragStartPos.current = e.touches[0].clientX;
-    currentDragPos.current = e.touches[0].clientX; // Initialize drag position
+    currentDragPos.current = e.touches[0].clientX;
     turningPageRef.current = e.currentTarget as HTMLDivElement;
     turningPageRef.current.classList.add('turning');
     cancelAnimationFrame(animationFrameRef.current);
@@ -162,11 +170,11 @@ const Magazine: React.FC<MagazineProps> = ({ articles, cover }) => {
     if (!isDragging.current || !turningPageRef.current) return;
     isDragging.current = false;
     
-    const turningPageElement = turningPageRef.current; // Capture ref
+    const turningPageElement = turningPageRef.current;
     turningPageElement.classList.remove('turning');
     const dragDistance = dragStartPos.current - currentDragPos.current;
     
-    if (dragDistance > turningPageElement.clientWidth / 3 && currentMobilePage < pages.length -1) {
+    if (dragDistance > turningPageElement.clientWidth / 3 && currentMobilePage < allPages.length - 1) {
       setCurrentMobilePage(p => p + 1);
     } else if (dragDistance < -turningPageElement.clientWidth / 3 && currentMobilePage > 0) {
       setCurrentMobilePage(p => p - 1);
@@ -194,9 +202,9 @@ const Magazine: React.FC<MagazineProps> = ({ articles, cover }) => {
       {/* Mobile 3D Flip View */}
       <div className="w-full max-w-md md:hidden px-2">
         <div className="mobile-book">
-            {pages.map((page, index) => {
+            {allPages.map((page, index) => {
                 const isFlipped = currentMobilePage > index;
-                const zIndex = pages.length - index;
+                const zIndex = allPages.length - index;
                 return (
                     <div 
                         key={index} 
@@ -218,8 +226,6 @@ const Magazine: React.FC<MagazineProps> = ({ articles, cover }) => {
       <div className="hidden md:block w-full max-w-6xl aspect-[18/16] relative book perspective-[2500px]">
         {Array.from({ length: numPapers }).map((_, index) => {
           const isFlipped = currentDesktopPage > index;
-          // Correct z-index logic: Flipped pages get an ascending z-index to stack correctly on the left.
-          // Unflipped pages get a descending z-index (in a non-overlapping range) to stack correctly on the right.
           const zIndex = isFlipped ? index : (numPapers * 2) - index;
           return (
             <div
@@ -252,11 +258,11 @@ const Magazine: React.FC<MagazineProps> = ({ articles, cover }) => {
           Anterior
         </button>
         <span className="text-sm text-stone-600 font-semibold">
-          {currentMobilePage + 1} de {pages.length}
+          {currentMobilePage + 1} de {allPages.length}
         </span>
         <button
-          onClick={() => setCurrentMobilePage(p => Math.min(pages.length - 1, p + 1))}
-          disabled={currentMobilePage === pages.length - 1}
+          onClick={() => setCurrentMobilePage(p => Math.min(allPages.length - 1, p + 1))}
+          disabled={currentMobilePage === allPages.length - 1}
           className="px-4 py-2 bg-stone-800 text-white hover:bg-black transition-colors disabled:bg-stone-400 disabled:cursor-not-allowed rounded-md"
           aria-label="Página siguiente"
         >

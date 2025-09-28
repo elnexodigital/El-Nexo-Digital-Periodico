@@ -33,19 +33,7 @@ export interface PodcastMP3 {
   coverUrl: string;
 }
 
-export type ArticleLayout = 'columna-izquierda' | 'columna-derecha' | 'columna-centro' | 'media-hoja' | 'hoja-completa' | 'banner-inferior';
-
-export interface Article {
-  id: string;
-  headline: string;
-  subtitle?: string;
-  category: string;
-  imageUrl?: string;
-  imageCaption?: string;
-  content?: string;
-  sources?: string[];
-  layout?: ArticleLayout;
-}
+export type ArticleLayout = 'columna-izquierda' | 'columna-derecha' | 'columna-centro' | 'media-hoja' | 'hoja-completa' | 'columna-izquierda-centrada';
 
 export interface CoverStory {
     headline: string;
@@ -53,7 +41,29 @@ export interface CoverStory {
     imageUrl?: string;
 }
 
+// --- NEW PAGE STRUCTURE ---
+export interface OddPage {
+    type: 'odd';
+    id: string;
+    headline: string;
+    subtitle?: string;
+    category: string;
+    backgroundUrl: string;
+    layout: ArticleLayout;
+    content: string;
+    sources?: string[];
+    bannerUrl: string;
+}
+
+export interface EvenPage {
+    type: 'even';
+    imageUrl: string;
+    bannerUrl: string;
+}
+
+export type Page = OddPage | EvenPage;
+
 export interface WeeklyContent {
     cover: CoverStory;
-    articles: Article[];
+    pages: Page[];
 }

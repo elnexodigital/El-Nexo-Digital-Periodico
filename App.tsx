@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect, useRef, lazy, Suspense } from 'react';
-import type { VideoPodcast, HeaderControls, WeeklyContent } from './types';
+import type { VideoPodcast, HeaderControls } from './types';
 import Header from './components/Header';
 import LoadingSpinner from './components/LoadingSpinner';
 import { WEEKLY_EDITION_CONTENT } from './data/weeklyContent';
@@ -59,7 +59,7 @@ const App: React.FC = () => {
 
       <main className="container mx-auto px-4 py-8">
         <Suspense fallback={<LoadingSpinner />}>
-            <Magazine articles={WEEKLY_EDITION_CONTENT.articles} cover={WEEKLY_EDITION_CONTENT.cover} />
+            <Magazine pages={WEEKLY_EDITION_CONTENT.pages} cover={WEEKLY_EDITION_CONTENT.cover} />
         </Suspense>
       </main>
 

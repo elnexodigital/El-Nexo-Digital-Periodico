@@ -5,7 +5,6 @@ import FloatingPodcastButton from './FloatingPodcastButton';
 
 const VIDEO_URLS: string[] = [
   'https://res.cloudinary.com/ddmj6zevz/video/upload/w_1280,q_auto:good/v1755907719/animaci%C3%B3n_APP_pvxjop.mp4',
-  'https://res.cloudinary.com/demo/video/upload/w_1280,q_auto:good/elephants.mp4',
   'https://res.cloudinary.com/ddmj6zevz/video/upload/w_1280,q_auto:good/v1756345297/14_okcuk0.mp4',
   'https://res.cloudinary.com/ddmj6zevz/video/upload/w_1280,q_auto:good/v1756345296/13_debkpb.mp4',
   'https://res.cloudinary.com/ddmj6zevz/video/upload/w_1280,q_auto:good/v1756345293/11_gud5kv.mp4',
@@ -65,8 +64,6 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({ isPodcastModalOpen, on
   const [playedBroadcasts, setPlayedBroadcasts] = useState<Record<number, boolean>>({});
   const [activeBroadcast, setActiveBroadcast] = useState<NewsBroadcast | null>(null);
   const [activePodcastMP3, setActivePodcastMP3] = useState<PodcastMP3 | null>(null);
-  const [tracksSinceLastSeparator, setTracksSinceLastSeparator] = useState(0);
-  const [separatorTrackCountTarget, setSeparatorTrackCountTarget] = useState(() => Math.floor(Math.random() * 5) + 2); // Random 2 to 6
   const [radioData, setRadioData] = useState<RadioData | null>(null);
   const [isRadioLoading, setIsRadioLoading] = useState(true);
   
@@ -78,6 +75,9 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({ isPodcastModalOpen, on
   const podcastMP3AudioRef = useRef<HTMLAudioElement | null>(null);
   const commercialJingleAudioRef = useRef<HTMLAudioElement | null>(null);
   const musicVolumeRef = useRef(1.0);
+
+  const separatorTimerRef = useRef<number | null>(null);
+  const commercialJingleTimerRef = useRef<number | null>(null);
 
   const currentDate = new Date().toLocaleDateString('es-ES', {
     weekday: 'long',
@@ -424,57 +424,143 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({ isPodcastModalOpen, on
     };
   }, [isPlaying, isPodcastModalOpen]);
 
+  // Commercial jingles interval
   useEffect(() => {
     const playRandomJingle = () => {
-        if (!radioData) return;
-        const musicAudio = audioRef.current;
-        const nicolleJingle = jingleAudioRef.current;
+      if (!radioData || !isPlaying || isPodcastModalOpen || activeBroadcast || activePodcastMP3 || (separatorAudioRef.current && !separatorAudioRef.current.paused) || (commercialJingleAudioRef.current && !commercialJingleAudioRef.current.paused)) {
+        scheduleNextJingle();
+        return;
+      }
 
-        if (isPlaying && !isPodcastModalOpen && musicAudio && !activeBroadcast && !activePodcastMP3 && !separatorAudioRef.current && (!nicolleJingle || nicolleJingle.paused) && !commercialJingleAudioRef.current) {
-            const jingleUrl = radioData.COMMERCIAL_JINGLES[Math.floor(Math.random() * radioData.COMMERCIAL_JINGLES.length)];
-            
-            const wasMusicPlaying = !musicAudio.paused;
-            if (wasMusicPlaying) {
-                musicAudio.pause();
-            }
+      const musicAudio = audioRef.current;
+      const nicolleJingle = jingleAudioRef.current;
+      if (!musicAudio || (nicolleJingle && !nicolleJingle.paused)) {
+        scheduleNextJingle();
+        return;
+      }
+      
+      const jingleUrl = radioData.COMMERCIAL_JINGLES[Math.floor(Math.random() * radioData.COMMERCIAL_JINGLES.length)];
+      
+      const wasMusicPlaying = !musicAudio.paused;
+      if (wasMusicPlaying) {
+          musicAudio.pause();
+      }
 
-            const jinglePlayer = new Audio(jingleUrl);
-            commercialJingleAudioRef.current = jinglePlayer;
+      const jinglePlayer = new Audio(jingleUrl);
+      commercialJingleAudioRef.current = jinglePlayer;
 
-            const handleJingleEnd = () => {
-                if (audioRef.current && wasMusicPlaying && isPlaying) {
-                    audioRef.current.play().catch(e => console.error("Failed to resume music after jingle", e));
-                }
-                if (commercialJingleAudioRef.current) {
-                    commercialJingleAudioRef.current.removeEventListener('ended', handleJingleEnd);
-                    commercialJingleAudioRef.current.removeEventListener('error', handleJingleEnd);
-                    commercialJingleAudioRef.current = null;
-                }
-            };
+      const handleJingleEnd = () => {
+          if (audioRef.current && wasMusicPlaying && isPlaying) {
+              audioRef.current.play().catch(e => console.error("Failed to resume music after jingle", e));
+          }
+          if (commercialJingleAudioRef.current) {
+              commercialJingleAudioRef.current.removeEventListener('ended', handleJingleEnd);
+              commercialJingleAudioRef.current.removeEventListener('error', handleJingleEnd);
+              commercialJingleAudioRef.current = null;
+          }
+          scheduleNextJingle();
+      };
 
-            jinglePlayer.addEventListener('ended', handleJingleEnd);
-            jinglePlayer.addEventListener('error', (e) => {
-                console.error("Commercial jingle play failed", e);
-                handleJingleEnd();
-            });
+      jinglePlayer.addEventListener('ended', handleJingleEnd);
+      jinglePlayer.addEventListener('error', (e) => {
+          console.error("Commercial jingle play failed", e);
+          handleJingleEnd();
+      });
 
-            jinglePlayer.play().catch(e => {
-                console.error("Commercial jingle play promise rejected", e);
-                handleJingleEnd();
-            });
-        }
+      jinglePlayer.play().catch(e => {
+          console.error("Commercial jingle play promise rejected", e);
+          handleJingleEnd();
+      });
+    };
+    
+    const scheduleNextJingle = () => {
+      if (commercialJingleTimerRef.current) {
+        clearTimeout(commercialJingleTimerRef.current);
+      }
+      // Random interval of no more than 15 minutes (e.g., 5 to 15 mins).
+      const timeout = (Math.random() * 10 + 5) * 60 * 1000;
+      commercialJingleTimerRef.current = window.setTimeout(playRandomJingle, timeout);
     };
 
-    const commercialJingleInterval = setInterval(playRandomJingle, 10 * 60 * 1000);
+    if (isPlaying && radioData) {
+      scheduleNextJingle();
+    }
 
     return () => {
-        clearInterval(commercialJingleInterval);
-        if (commercialJingleAudioRef.current) {
-            commercialJingleAudioRef.current.pause();
-            commercialJingleAudioRef.current = null;
-        }
+      if (commercialJingleTimerRef.current) {
+        clearTimeout(commercialJingleTimerRef.current);
+      }
+      if (commercialJingleAudioRef.current) {
+          commercialJingleAudioRef.current.pause();
+          commercialJingleAudioRef.current = null;
+      }
     };
   }, [isPlaying, isPodcastModalOpen, activeBroadcast, activePodcastMP3, radioData]);
+  
+  // Separators interval
+  useEffect(() => {
+    const playRandomSeparator = () => {
+      if (!radioData || !isPlaying || isPodcastModalOpen || activeBroadcast || activePodcastMP3 || (separatorAudioRef.current && !separatorAudioRef.current.paused) || (commercialJingleAudioRef.current && !commercialJingleAudioRef.current.paused)) {
+        scheduleNextSeparator();
+        return;
+      }
+
+      const musicAudio = audioRef.current;
+      if (!musicAudio || musicAudio.paused) {
+        scheduleNextSeparator();
+        return;
+      }
+      
+      musicAudio.pause();
+      
+      const separatorUrl = radioData.SEPARATOR_AUDIOS[Math.floor(Math.random() * radioData.SEPARATOR_AUDIOS.length)];
+      const separatorPlayer = new Audio(separatorUrl);
+      separatorAudioRef.current = separatorPlayer;
+
+      const handleSeparatorEnd = () => {
+        if (audioRef.current && isPlaying) {
+          audioRef.current.play().catch(e => console.error("Failed to resume music after separator", e));
+        }
+        if (separatorAudioRef.current) {
+          separatorAudioRef.current.removeEventListener('ended', handleSeparatorEnd);
+          separatorAudioRef.current.removeEventListener('error', handleSeparatorEnd);
+          separatorAudioRef.current = null;
+        }
+        scheduleNextSeparator();
+      };
+
+      separatorPlayer.addEventListener('ended', handleSeparatorEnd);
+      separatorPlayer.addEventListener('error', (e) => {
+        console.error("Separator play failed.", e);
+        handleSeparatorEnd();
+      });
+
+      separatorPlayer.play().catch(e => {
+        console.error("Separator play promise rejected", e);
+        handleSeparatorEnd();
+      });
+    };
+
+    const scheduleNextSeparator = () => {
+      if (separatorTimerRef.current) {
+        clearTimeout(separatorTimerRef.current);
+      }
+      // Random interval of no more than 10 minutes (e.g., 2 to 10 mins).
+      const timeout = (Math.random() * 8 + 2) * 60 * 1000;
+      separatorTimerRef.current = window.setTimeout(playRandomSeparator, timeout);
+    };
+
+    if (isPlaying && radioData) {
+      scheduleNextSeparator();
+    }
+
+    return () => {
+      if (separatorTimerRef.current) {
+        clearTimeout(separatorTimerRef.current);
+      }
+    };
+  }, [isPlaying, radioData, isPodcastModalOpen, activeBroadcast, activePodcastMP3]);
+
 
   useImperativeHandle(ref, () => ({
     playRadio: () => {
@@ -492,40 +578,7 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({ isPodcastModalOpen, on
   
   const handleTrackEnded = () => {
     if (!radioData || !isPlaying) return;
-    
-    const newCount = tracksSinceLastSeparator + 1;
-  
-    if (newCount >= separatorTrackCountTarget) {
-      const separatorUrl = radioData.SEPARATOR_AUDIOS[Math.floor(Math.random() * radioData.SEPARATOR_AUDIOS.length)];
-      const separatorPlayer = new Audio(separatorUrl);
-      separatorAudioRef.current = separatorPlayer;
-  
-      const handleSeparatorEnd = () => {
-        playNextMusicTrack();
-        if (separatorAudioRef.current) {
-          separatorAudioRef.current.removeEventListener('ended', handleSeparatorEnd);
-          separatorAudioRef.current.removeEventListener('error', handleSeparatorEnd);
-          separatorAudioRef.current = null;
-        }
-      };
-  
-      separatorPlayer.addEventListener('ended', handleSeparatorEnd);
-      separatorPlayer.addEventListener('error', (e) => {
-        console.error("Separator play failed, playing next track.", e);
-        handleSeparatorEnd();
-      });
-  
-      separatorPlayer.play().catch(e => {
-        console.error("Separator play promise rejected", e);
-        handleSeparatorEnd();
-      });
-  
-      setTracksSinceLastSeparator(0);
-      setSeparatorTrackCountTarget(Math.floor(Math.random() * 5) + 2);
-    } else {
-      setTracksSinceLastSeparator(newCount);
-      playNextMusicTrack();
-    }
+    playNextMusicTrack();
   };
   
   const currentVideoUrl = videoQueue[0] || '';
