@@ -1,4 +1,5 @@
-import type { MusicTrack } from '../types';
+
+import type { MusicTrack } from '../types.ts';
 
 export const MUSIC_TRACKS: MusicTrack[] = [
     {

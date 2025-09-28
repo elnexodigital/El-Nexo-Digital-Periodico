@@ -1,4 +1,5 @@
-import type { WeeklyContent } from '../types';
+
+import type { WeeklyContent } from '../types.ts';
 
 // ====================================================================================
 // PLANTILLA DE CONTENIDO SEMANAL - ¡EDITA ESTE ARCHIVO PARA ACTUALIZAR LA REVISTA!
@@ -26,7 +27,7 @@ export const WEEKLY_EDITION_CONTENT: WeeklyContent = {
   cover: {
     headline: "Un viaje al corazón del estuario",
     subtitle: "El legado oculto de Juan Lacaze",
-    imageUrl: 'https://res.cloudinary.com/ddmj6zevz/image/upload/v1758409834/tapa_magazine1_xh06na.png',
+    imageUrl: 'https://res.cloudinary.com/ddmj6zevz/image/upload/v1759028708/tapa%20arroyo%20del%20sauce.png',
   },
 
   // --- PÁGINAS DE LA REVISTA ---

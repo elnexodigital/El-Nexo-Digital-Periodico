@@ -1,4 +1,5 @@
-import type { PodcastMP3 } from '../types';
+
+import type { PodcastMP3 } from '../types.ts';
 
 export const PODCASTS_MP3: PodcastMP3[] = [
   {

@@ -1,5 +1,5 @@
 
-import type { VideoPodcast } from '../types';
+import type { VideoPodcast } from '../types.ts';
 
 export const VIDEO_PODCASTS: VideoPodcast[] = [
   {

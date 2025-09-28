@@ -1,7 +1,7 @@
 
 import React, { useState, useRef, useEffect, useCallback, forwardRef, useImperativeHandle } from 'react';
-import type { MusicTrack, HeaderControls, NewsBroadcast, PodcastMP3 } from '../types';
-import FloatingPodcastButton from './FloatingPodcastButton';
+import type { MusicTrack, HeaderControls, NewsBroadcast, PodcastMP3 } from '../types.ts';
+import FloatingPodcastButton from './FloatingPodcastButton.tsx';
 
 const VIDEO_URLS: string[] = [
   'https://res.cloudinary.com/ddmj6zevz/video/upload/w_1280,q_auto:good/v1755907719/animaci%C3%B3n_APP_pvxjop.mp4',
@@ -98,12 +98,12 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({ isPodcastModalOpen, on
           podcastsMp3Module,
           jinglesModule,
         ] = await Promise.all([
-          import('../greetings'),
-          import('../data/broadcasts'),
-          import('../data/separators'),
-          import('../data/music'),
-          import('../data/podcastsMP3'),
-          import('../data/jingles'),
+          import('../greetings.ts'),
+          import('../data/broadcasts.ts'),
+          import('../data/separators.ts'),
+          import('../data/music.ts'),
+          import('../data/podcastsMP3.ts'),
+          import('../data/jingles.ts'),
         ]);
         
         const loadedRadioData = {

@@ -1,5 +1,6 @@
+
 import React, { useRef, FC, useState } from 'react';
-import type { Page, OddPage, EvenPage, CoverStory } from '../types';
+import type { Page, OddPage, EvenPage, CoverStory } from '../types.ts';
 
 // --- NUEVO: Componente para Páginas Impares (con texto) ---
 const OddPageLayout: FC<{ page: OddPage }> = ({ page }) => {

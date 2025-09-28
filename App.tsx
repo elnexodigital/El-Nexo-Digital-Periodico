@@ -1,13 +1,13 @@
 
 import React, { useState, useEffect, useRef, lazy, Suspense } from 'react';
-import type { VideoPodcast, HeaderControls } from './types';
-import Header from './components/Header';
-import LoadingSpinner from './components/LoadingSpinner';
-import { WEEKLY_EDITION_CONTENT } from './data/weeklyContent';
+import type { VideoPodcast, HeaderControls } from './types.ts';
+import Header from './components/Header.tsx';
+import LoadingSpinner from './components/LoadingSpinner.tsx';
+import { WEEKLY_EDITION_CONTENT } from './data/weeklyContent.ts';
 
 
-const PodcastModal = lazy(() => import('./components/PodcastModal'));
-const Magazine = lazy(() => import('./components/Magazine'));
+const PodcastModal = lazy(() => import('./components/PodcastModal.tsx'));
+const Magazine = lazy(() => import('./components/Magazine.tsx'));
 
 const App: React.FC = () => {
   const [dailyPodcast, setDailyPodcast] = useState<VideoPodcast | null>(null);
@@ -19,7 +19,7 @@ const App: React.FC = () => {
   useEffect(() => {
     const loadLocalData = async () => {
       try {
-        const { VIDEO_PODCASTS } = await import('./data/podcasts');
+        const { VIDEO_PODCASTS } = await import('./data/podcasts.ts');
         if (VIDEO_PODCASTS.length > 0) {
             const dayOfYear = Math.floor((new Date().getTime() - new Date(new Date().getFullYear(), 0, 0).getTime()) / (1000 * 60 * 60 * 24));
             const podcastIndex = dayOfYear % VIDEO_PODCASTS.length;
