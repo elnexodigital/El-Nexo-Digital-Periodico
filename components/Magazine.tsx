@@ -20,12 +20,14 @@ const OddPageLayout: FC<{ page: OddPage }> = ({ page }) => {
   return (
     <div className="w-full h-full relative bg-stone-900">
       {/* Background Image */}
-      <img 
-        src={page.backgroundUrl} 
-        alt="" 
-        aria-hidden="true" 
-        className="w-full h-full object-cover" 
-      />
+      {page.backgroundUrl && (
+        <img 
+          src={page.backgroundUrl} 
+          alt="" 
+          aria-hidden="true" 
+          className="w-full h-full object-cover" 
+        />
+      )}
       
       {/* Container for text content, which shrinks if a banner is present */}
       <div className={`absolute top-0 left-0 w-full ${page.bannerUrl ? 'h-[85%]' : 'h-full'}`}>

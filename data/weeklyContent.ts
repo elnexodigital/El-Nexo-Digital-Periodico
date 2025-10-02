@@ -27,7 +27,7 @@ export const WEEKLY_EDITION_CONTENT: WeeklyContent = {
   cover: {
     headline: "la coartada de Casandra",
     subtitle: "O cómo Occidente se Puso el Velo Feminista para Vender su Guerra Sagrada contra el Islam",
-    imageUrl: 'https://res.cloudinary.com/ddmj6zevz/image/upload/v1759028708/tapa%20arroyo%20del%20sauce.png',
+    imageUrl: 'https://res.cloudinary.com/ddmj6zevz/image/upload/v1759416770/tapa%20arroyo%20del%20sauce.png',
   },
 
   // --- PÁGINAS DE LA REVISTA ---
@@ -39,7 +39,7 @@ export const WEEKLY_EDITION_CONTENT: WeeklyContent = {
       headline: "📢 Capítulo I: Feminismo de Exportación y la Mujer como Excusa",
       subtitle: "El combate como lenguaje. ",
       category: "intro",
-      backgroundUrl: 'https://res.cloudinary.com/ddmj6zevz/image/upload/v1759063853/rio_fondo_w5x9ah.png',
+      backgroundUrl: '',
       layout: 'hoja-completa',
       content:  `¿Querés saber cómo se arma una guerra con perfume de sororidad? Fácil: se agarra a la mujer musulmana, se la convierte en símbolo de opresión, y se la usa como excusa para bombardear países enteros. Todo en nombre de la libertad, claro. Porque nada dice “emancipación” como un dron sobre tu casa.
 Occidente se especializa en empaquetar moralidad. Exporta feminismo como si fuera shampoo anticaspa: con promesas de limpieza, pero sin entender el cuero cabelludo. La mujer musulmana no es sujeto político, es objeto de compasión. No importa si militan, escriben, protestan o gobiernan—si usan velo, ya están en la lista de “salvables”.
@@ -52,7 +52,7 @@ Este feminismo de misiles no busca liberar, busca dominar. Y lo hace con una son
     // --- Página 2 (Par) ---
     {
       type: 'even',
-      imageUrl: 'https://res.cloudinary.com/ddmj6zevz/image/upload/v1758419894/articulo2_qfa8sv.png',
+      imageUrl: 'https://res.cloudinary.com/ddmj6zevz/image/upload/v1759434279/pexels-hamidoffstudio-19298248_z8ed9y.jpg',
       bannerUrl: BANNER_PUBLICITARIO_2,
     },
 
@@ -62,7 +62,7 @@ Este feminismo de misiles no busca liberar, busca dominar. Y lo hace con una son
       id: 'page3',
       headline: "🧨 Capítulo II: La Mujer como Campo de Batalla",
       category: "Realidad",
-      backgroundUrl: 'https://res.cloudinary.com/ddmj6zevz/image/upload/v1759063852/vasijas_fondo_x8a6uo.png',
+      backgroundUrl: '',
       layout: 'hoja-completa',
       content: `¿Querés saber dónde se libran las guerras modernas? En el cuerpo de las mujeres. Pero no en el sentido poético: literal. La mujer musulmana se convirtió en el campo de batalla simbólico donde se cruzan misiles, discursos y moralidades prefabricadas.
 Occidente la mira como quien observa una vitrina rota: con lástima, con superioridad, con ganas de “arreglarla”. Pero no le pregunta nada. Porque si hablara, complicaría la narrativa. Si dijera “el velo es mi elección”, se cae la campaña. Si dijera “no quiero que me liberen con bombas”, se arruina el guion.
@@ -88,7 +88,7 @@ Pero ¿qué pasa cuando esas mujeres escriben, militan, gobiernan, se organizan?
       headline: "🕵️ Capítulo III: Orientalismo 2.0 — El Otro como Espectáculo",
       subtitle: "Miro las muertes mientras como Oreo",
       category: "Espejo",
-      backgroundUrl: 'https://res.cloudinary.com/ddmj6zevz/image/upload/v1759057558/surfero_de_antes_j6mwov.png',
+      backgroundUrl: '',
       layout: 'media-hoja',
       content: `Edward Said lo explicó hace décadas: el Orientalismo es una lente distorsionada con la que Occidente mira al mundo árabe. Pero hoy esa lente tiene filtros de Instagram, titulares clickbait y música de fondo dramática. El “otro” ya no es solo exótico, ahora es peligroso, retrógrado, y convenientemente útil para justificar cualquier intervención.
 Los medios no informan: escenifican. Cada nota sobre el Islam parece escrita por un guionista de Hollywood con trauma post-11S. El árabe es el villano, la mujer musulmana es la víctima, y el soldado occidental es el héroe. ¿La realidad? No importa. Lo que importa es el relato.
@@ -113,7 +113,7 @@ Este Orientalismo 2.0 no necesita libros, necesita memes. Se viraliza, se compar
       headline: "🎙️ Capítulo IV: Las Voces que No Caben en el Guion",
       subtitle: "Cuando no vende no es real",
       category: "Incómodo",
-      backgroundUrl: 'https://res.cloudinary.com/ddmj6zevz/image/upload/v1759063853/rio_fondo_w5x9ah.png',
+      backgroundUrl: '',
       layout: 'hoja-completa',
       content:`¿Y si la mujer musulmana no necesita que la salven? ¿Y si ya se está salvando sola, con redes, con palabras, con lucha? ¿Y si el problema no es el Islam, sino el micrófono que nunca le prestan?
 Las mujeres musulmanas no son figurantes. Son guionistas, directoras, protagonistas. Pero claro, eso no vende. Porque si hablan, se cae el relato. Si escriben, incomodan. Si militan, desarman el estereotipo. Y entonces, los medios hacen lo que mejor saben hacer: ignorarlas.
@@ -140,7 +140,7 @@ Estas voces no piden permiso. No esperan que Occidente las libere. Ya están hab
       headline: "🔥 Conclusión: ¿Quién Tiene el Micrófono?",
       subtitle: "Como si importara",
       category: "Opinión",
-      backgroundUrl: 'https://res.cloudinary.com/ddmj6zevz/image/upload/v1759063852/vasijas_fondo_x8a6uo.png',
+      backgroundUrl: '',
       layout: 'hoja-completa',
       content:`La guerra ya no se libra solo con balas. Se libra con narrativas. Y en esa guerra, la mujer musulmana es usada como excusa, como símbolo, como pantalla. Pero no como voz.
 Occidente se arroga el derecho de definir qué es libertad, qué es opresión, qué es feminismo. Y lo hace desde redacciones que nunca pisaron un zoco, desde parlamentos que legislan sobre cuerpos ajenos, desde ONGs que reparten moralidad como si fuera pan bendito.
@@ -165,7 +165,7 @@ La respuesta es incómoda. Pero necesaria. Porque si queremos hablar de género,
       headline: "🎯 Ideología de Género: ¿Herramienta de Liberación o Coartada Imperial?",
       subtitle: "",
       category: "Manipulación",
-      backgroundUrl: 'https://res.cloudinary.com/ddmj6zevz/image/upload/v1759063853/rio_fondo_w5x9ah.png',
+      backgroundUrl: '',
       layout: 'hoja-completa',
       content:`Cuando el feminismo se convierte en excusa para invadir, algo huele a pólvora. La ideología de género, en manos de ciertos gobiernos y medios, deja de ser herramienta de emancipación y se transforma en bisturí geopolítico. Se usa para cortar culturas ajenas, para abrir grietas en sociedades que no responden al molde occidental, y para justificar guerras con perfume de sororidad.
 ¿Querés apoyo popular para bombardear un país? Mostrá una mujer con burka, decí que está oprimida, y prometé liberarla. No importa si ella no pidió ayuda. No importa si ya está luchando desde adentro. Lo importante es que el relato funcione. Que el feminismo se convierta en marketing bélico. Que la ideología de género se use como narrativa emocional para generar consenso.
@@ -190,7 +190,7 @@ El documento que analizamos lo dice sin rodeos: los discursos de género no son 
       headline: "🧠 Lo que completa el informe: Datos, autores y casos que lo hacen irrefutable",
       subtitle: "",
       category: "Informarce",
-      backgroundUrl: 'https://res.cloudinary.com/ddmj6zevz/image/upload/v1759060767/pexels-fatima-acunman-759286837-30482053_t2ywhc.jpg',
+      backgroundUrl: '',
       layout: 'columna-izquierda-centrada',
       content:`🧨 1. Feminismo como coartada imperial
 Afganistán (2001): La invasión se vendió como “liberación de las mujeres”. Laura Bush lo dijo en cadena nacional. ¿Resultado? 20 años de ocupación, retrocesos en derechos, y mujeres afganas usadas como excusa.
@@ -225,7 +225,7 @@ Amina Wadud: Teóloga que lideró una oración mixta en una mezquita. ¿Revoluci
       headline: "La Marea Transformadora:",
       subtitle: "Balance de Resultados y Desafíos Estructurales de los Movimientos Feministas y de Género en América Latina (2015-2024)",
       category: "información",
-      backgroundUrl: 'https://res.cloudinary.com/ddmj6zevz/image/upload/v1759063852/vasijas_fondo_x8a6uo.png',
+      backgroundUrl: '',
       layout: 'hoja-completa',
       content:`Definición de la "Cuarta Ola" y el Contexto Regional
 El activismo feminista y de género en América Latina ha experimentado una transformación radical en la última década, marcada por la masificación, la transnacionalización y la irrupción de nuevas agendas. La historiografía regional reconoce tradicionalmente una Primera Ola, centrada en el sufragio, y una Segunda Ola, identificada con el "renacer" del feminismo en los años setenta. La etapa actual (a menudo denominada Cuarta Ola) se caracteriza por un repertorio de acción que combina estratégicamente la movilización masiva en las calles con la incidencia digital y la litigación constitucional. El periodo posterior a 2015, impulsado por movimientos como #NiUnaMenos y la Marea Verde, ha establecido un nuevo estándar para la protesta social.   
@@ -250,7 +250,7 @@ En contraste con las prioridades iniciales de los feminismos del Norte global, l
       headline: "De lo Digital a lo Físico: El Impacto de #MeToo en la Región",
       subtitle: "La Adaptación Regional del #MeToo",
       category: "datos",
-      backgroundUrl: 'https://res.cloudinary.com/ddmj6zevz/image/upload/v1759063853/rio_fondo_w5x9ah.png',
+      backgroundUrl: '',
       layout: 'hoja-completa',
       content:`La campaña global de #MeToo, originada en la industria de Hollywood en 2017, se extendió y diversificó en América Latina, adaptando sus repertorios de acción colectiva. Esta movilización se caracterizó por ser un activismo híbrido, utilizando Twitter y otras plataformas digitales para detonar denuncias, las cuales posteriormente se tradujeron en acciones en el espacio físico. Un ejemplo notable es México, donde el activismo    
 
