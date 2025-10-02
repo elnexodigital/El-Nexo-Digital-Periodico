@@ -27,7 +27,7 @@ export const WEEKLY_EDITION_CONTENT: WeeklyContent = {
   cover: {
     headline: "la coartada de Casandra",
     subtitle: "O cómo Occidente se Puso el Velo Feminista para Vender su Guerra Sagrada contra el Islam",
-    imageUrl: 'https://res.cloudinary.com/ddmj6zevz/image/upload/v1759416770/tapa%20arroyo%20del%20sauce.png',
+    imageUrl: 'https://res.cloudinary.com/ddmj6zevz/image/upload/v1759416770/tapa%20arroyo%20del%20sauce.png?v=240905',
   },
 
   // --- PÁGINAS DE LA REVISTA ---
@@ -52,7 +52,7 @@ Este feminismo de misiles no busca liberar, busca dominar. Y lo hace con una son
     // --- Página 2 (Par) ---
     {
       type: 'even',
-      imageUrl: 'https://res.cloudinary.com/ddmj6zevz/image/upload/v1759434279/pexels-hamidoffstudio-19298248_z8ed9y.jpg',
+      imageUrl: 'https://res.cloudinary.com/ddmj6zevz/image/upload/v1759434279/pexels-hamidoffstudio-19298248_z8ed9y.jpg?v=240905',
       bannerUrl: BANNER_PUBLICITARIO_2,
     },
 
@@ -77,7 +77,7 @@ Pero ¿qué pasa cuando esas mujeres escriben, militan, gobiernan, se organizan?
     // --- Página 4 (Par) ---
     {
       type: 'even',
-      imageUrl: 'https://res.cloudinary.com/ddmj6zevz/image/upload/v1759062729/gracias_carla_hh4wbs.png',
+      imageUrl: 'https://res.cloudinary.com/ddmj6zevz/image/upload/v1759062729/gracias_carla_hh4wbs.png?v=240905',
       bannerUrl: '', 
     },
     
@@ -102,7 +102,7 @@ Este Orientalismo 2.0 no necesita libros, necesita memes. Se viraliza, se compar
     // --- Página 6 (Par) ---
     {
       type: 'even',
-      imageUrl: 'https://res.cloudinary.com/ddmj6zevz/image/upload/v1759057561/sabalo_o_domilgo_f5ln5l.png',
+      imageUrl: 'https://res.cloudinary.com/ddmj6zevz/image/upload/v1759057561/sabalo_o_domilgo_f5ln5l.png?v=240905',
       bannerUrl: BANNER_PUBLICITARIO_6,
     },
 
@@ -129,7 +129,7 @@ Estas voces no piden permiso. No esperan que Occidente las libere. Ya están hab
     {
       type: 'even', 
       headline: "Mona Eltahawy",
-      imageUrl: 'https://res.cloudinary.com/ddmj6zevz/image/upload/v1759057553/azteca_dyltma.png',
+      imageUrl: 'https://res.cloudinary.com/ddmj6zevz/image/upload/v1759057553/azteca_dyltma.png?v=240905',
       bannerUrl: BANNER_PUBLICITARIO_8,
     },
 
@@ -154,7 +154,7 @@ La respuesta es incómoda. Pero necesaria. Porque si queremos hablar de género,
     // --- Página 10 (Par) ---
     {
       type: 'even',
-      imageUrl: 'https://res.cloudinary.com/ddmj6zevz/image/upload/v1759060658/pexels-annie-bailey-368305123-14456003_jrbvgs.jpg',
+      imageUrl: 'https://res.cloudinary.com/ddmj6zevz/image/upload/v1759060658/pexels-annie-bailey-368305123-14456003_jrbvgs.jpg?v=240905',
       bannerUrl: BANNER_PUBLICITARIO_10,
     },
 
@@ -179,7 +179,7 @@ El documento que analizamos lo dice sin rodeos: los discursos de género no son 
     // --- Página 12 (Par) ---
     {
       type: 'even',
-      imageUrl: 'https://res.cloudinary.com/ddmj6zevz/image/upload/v1759057554/pipio_p6ihdb.png',
+      imageUrl: 'https://res.cloudinary.com/ddmj6zevz/image/upload/v1759057554/pipio_p6ihdb.png?v=240905',
       bannerUrl: BANNER_PUBLICITARIO_3,
     },
     
@@ -214,7 +214,7 @@ Amina Wadud: Teóloga que lideró una oración mixta en una mezquita. ¿Revoluci
     // --- Página 14 (Par) ---
     {
       type: 'even',
-      imageUrl: 'https://res.cloudinary.com/ddmj6zevz/image/upload/v1759434389/Cynthia_Enloe_ia8pmo.jpg',
+      imageUrl: 'https://res.cloudinary.com/ddmj6zevz/image/upload/v1759434389/Cynthia_Enloe_ia8pmo.jpg?v=240905',
       bannerUrl: BANNER_PUBLICITARIO_4,
     },
 
@@ -239,7 +239,7 @@ En contraste con las prioridades iniciales de los feminismos del Norte global, l
     // --- Página 16 (Par) ---
     {
       type: 'even',
-      imageUrl: 'https://res.cloudinary.com/ddmj6zevz/image/upload/v1759060187/pexels-cristian-rojas-8066084_c3dyyp.jpg',
+      imageUrl: 'https://res.cloudinary.com/ddmj6zevz/image/upload/v1759060187/pexels-cristian-rojas-8066084_c3dyyp.jpg?v=240905',
       bannerUrl: BANNER_PUBLICITARIO_4,
     },
 
@@ -273,7 +273,7 @@ online generaron una intensa "disputa de sentido" en la prensa iberoamericana, d
     // --- Página 18 (Par) ---
     {
       type: 'even',
-      imageUrl: "https://res.cloudinary.com/ddmj6zevz/image/upload/v1759419747/me_too_mbt7g8.jpg",
+      imageUrl: "https://res.cloudinary.com/ddmj6zevz/image/upload/v1759419747/me_too_mbt7g8.jpg?v=240905",
       bannerUrl: BANNER_PUBLICITARIO_5,
       objectPosition: 'left center',
     }
