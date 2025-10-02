@@ -59,6 +59,8 @@ export interface EvenPage {
     type: 'even';
     imageUrl: string;
     bannerUrl: string;
+    headline?: string;
+    objectPosition?: string;
 }
 
 export type Page = OddPage | EvenPage;
@@ -66,4 +68,18 @@ export type Page = OddPage | EvenPage;
 export interface WeeklyContent {
     cover: CoverStory;
     pages: Page[];
+}
+
+export interface ProtectedContent {
+  id: string;
+  title: string;
+  description: string;
+  url: string;
+  type: 'audio' | 'video';
+}
+
+export interface Patron {
+  id: string;
+  name: string;
+  content: ProtectedContent[];
 }

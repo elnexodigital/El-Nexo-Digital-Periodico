@@ -26,38 +26,44 @@ const OddPageLayout: FC<{ page: OddPage }> = ({ page }) => {
         aria-hidden="true" 
         className="w-full h-full object-cover" 
       />
-
-      {/* Text Content Overlay */}
-      <div className={contentWrapperClass}>
-        <div className="flex-grow p-4 md:p-6 overflow-y-auto">
-          <span className="font-bold uppercase text-xs text-black/60 mb-2">{page.category}</span>
-          <h3 className="text-xl md:text-2xl font-bold leading-tight">{page.headline}</h3>
-          {page.subtitle && (
-            <p className="text-md md:text-lg text-black/70 font-serif italic mb-4 -mt-1">{page.subtitle}</p>
-          )}
-          {page.content && (
-            <div className="text-black text-sm leading-relaxed mb-4 whitespace-pre-wrap">
-              {page.content}
+      
+      {/* Container for text content, which shrinks if a banner is present */}
+      <div className={`absolute top-0 left-0 w-full ${page.bannerUrl ? 'h-[85%]' : 'h-full'}`}>
+        <div className="relative w-full h-full"> {/* New positioning context for the text box */}
+          {/* Text Content Overlay */}
+          <div className={contentWrapperClass}>
+            <div className="flex-grow p-4 md:p-6 overflow-y-auto min-h-0">
+              <span className="font-bold uppercase text-xs text-black/60 mb-2">{page.category}</span>
+              <h3 className="text-xl md:text-2xl font-bold leading-tight">{page.headline}</h3>
+              {page.subtitle && (
+                <p className="text-md md:text-lg text-black/70 font-serif italic mb-4 -mt-1">{page.subtitle}</p>
+              )}
+              {page.content && (
+                <div className="text-black text-sm leading-relaxed mb-4 whitespace-pre-wrap">
+                  {page.content}
+                </div>
+              )}
+              {page.sources && page.sources.length > 0 && (
+                  <div className="pt-2 border-t border-stone-400/50">
+                      <h4 className="font-bold text-xs uppercase text-black/60 mb-1">Fuentes</h4>
+                      <ul className="list-disc list-inside text-xs text-stone-700">
+                          {page.sources.map((source, index) => (
+                              <li key={index}>{source}</li>
+                          ))}
+                      </ul>
+                  </div>
+              )}
             </div>
-          )}
-          {page.sources && page.sources.length > 0 && (
-              <div className="pt-2 border-t border-stone-400/50">
-                  <h4 className="font-bold text-xs uppercase text-black/60 mb-1">Fuentes</h4>
-                  <ul className="list-disc list-inside text-xs text-stone-700">
-                      {page.sources.map((source, index) => (
-                          <li key={index}>{source}</li>
-                      ))}
-                  </ul>
-              </div>
-          )}
-        </div>
-        {/* Banner */}
-        {page.bannerUrl && (
-          <div className="flex-shrink-0 h-[15%] max-h-24 p-2 flex items-center justify-center bg-stone-200/50 border-t border-stone-400/30">
-              <img src={page.bannerUrl} alt="Publicidad" className="max-w-full max-h-full object-contain"/>
           </div>
-        )}
+        </div>
       </div>
+      
+      {/* Banner, now independent and positioned at the bottom, matching EvenPage style */}
+      {page.bannerUrl && (
+        <div className="absolute bottom-0 left-0 w-full h-[15%] max-h-24 p-2 flex items-center justify-center bg-black/20 backdrop-blur-sm">
+            <img src={page.bannerUrl} alt="Publicidad" className="max-w-full max-h-full object-contain"/>
+        </div>
+      )}
     </div>
   );
 };
@@ -67,11 +73,19 @@ const OddPageLayout: FC<{ page: OddPage }> = ({ page }) => {
 const EvenPageLayout: FC<{ page: EvenPage }> = ({ page }) => {
   return (
     <div className="w-full h-full relative bg-stone-900">
-      <img 
-        src={page.imageUrl} 
-        alt="Imagen de página" 
-        className="w-full h-full object-cover" 
+      <img
+        src={page.imageUrl}
+        alt={page.headline || "Imagen de página"}
+        className="w-full h-full object-cover"
+        style={{ objectPosition: page.objectPosition || 'center' }}
       />
+      {page.headline && (
+        <div className="absolute top-0 left-0 w-full p-6 bg-gradient-to-b from-black/70 to-transparent">
+          <h2 className="text-3xl md:text-4xl font-bold text-white text-left shadow-lg" style={{ fontFamily: "'Playfair Display', serif" }}>
+            {page.headline}
+          </h2>
+        </div>
+      )}
       {page.bannerUrl && (
         <div className="absolute bottom-0 left-0 w-full h-[15%] max-h-24 p-2 flex items-center justify-center bg-black/20 backdrop-blur-sm">
           <img 

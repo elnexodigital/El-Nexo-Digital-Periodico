@@ -25,8 +25,8 @@ const BANNER_PUBLICITARIO_10 = 'https://res.cloudinary.com/ddmj6zevz/image/uploa
 export const WEEKLY_EDITION_CONTENT: WeeklyContent = {
   // --- PORTADA DE LA REVISTA ---
   cover: {
-    headline: "Un viaje al corazón del estuario",
-    subtitle: "El legado oculto de Juan Lacaze",
+    headline: "la coartada de Casandra",
+    subtitle: "O cómo Occidente se Puso el Velo Feminista para Vender su Guerra Sagrada contra el Islam",
     imageUrl: 'https://res.cloudinary.com/ddmj6zevz/image/upload/v1759028708/tapa%20arroyo%20del%20sauce.png',
   },
 
@@ -36,28 +36,16 @@ export const WEEKLY_EDITION_CONTENT: WeeklyContent = {
     {
       type: 'odd',
       id: 'page1',
-      headline: "La cuna de una cultura ribereña",
-      subtitle: "un paisaje que habla",
-      category: "Arqueología",
+      headline: "📢 Capítulo I: Feminismo de Exportación y la Mujer como Excusa",
+      subtitle: "El combate como lenguaje. ",
+      category: "intro",
       backgroundUrl: 'https://res.cloudinary.com/ddmj6zevz/image/upload/v1759063853/rio_fondo_w5x9ah.png',
       layout: 'hoja-completa',
-      content:  `Si uno mira el Arroyo del Sauce, al oeste de Juan Lacaze, puede pensar que es solo otro rincón sereno del litoral uruguayo. Pero bajo esa calma hay un secreto: un paisaje arqueológico que se estira como una alfombra bajo nuestros pies, cargado de historias que no entran en los manuales escolares.
-
-No hablamos de un hallazgo aislado, de esos que terminan en vitrina con cartelito: “herramienta de piedra, siglo tal”. Lo que se encontró acá es algo mucho más potente: un territorio entero habitado por sociedades precolombinas, un mural de tiempo extendido desde la punta rocosa de Juan Lacaze hasta Punta Artilleros.
-
-El cambio de enfoque es clave. No es un “sitio” arqueológico, es un escenario vivo, una constelación de huellas que nos muestra que estas comunidades no solo pasaban por acá, sino que se quedaban, pescaban, cazaban, recolectaban y, sobre todo, aprendían a dialogar con un estuario que podía ser generoso… o cruel.
-
-👉 Se calcula que hace 1.500 años ya había grupos humanos instalados en la zona, dejando señales que, sorprendentemente, sobrevivieron casi intactas a la colonización europea. Eso, en sí mismo, es un pequeño milagro de resistencia cultural.
-
-El equipo del MEC y el Centro de Investigación del Patrimonio Costero de la Udelar están usando de todo: desde prospecciones en tierra hasta mapas batimétricos (sí, se meten al agua con tecnología que parece sacada de un videojuego) para entender cómo esos antiguos pobladores moldearon su vida en torno al paisaje.
-
-Y acá viene lo más interesante: cada fragmento hallado, cada conchilla, cada rastro, no es solo un “objeto”. Es la pista de un relato más grande: cómo se formaron los asentamientos, cómo se movían las personas, cómo interactuaban con un mundo que todavía no tenía fronteras ni nombres en los mapas.
-
-⚡En un tiempo donde todo se mide en likes y métricas, detenerse en estas huellas nos recuerda algo esencial: la historia no siempre está escrita en libros; a veces late bajo la tierra, esperando que alguien la escuche.`,
-      sources: [
-       "Ministerio de Educación y Cultura",
-       "Centro de Investigación del Patrimonio Costero (Udelar)"
-      ],
+      content:  `¿Querés saber cómo se arma una guerra con perfume de sororidad? Fácil: se agarra a la mujer musulmana, se la convierte en símbolo de opresión, y se la usa como excusa para bombardear países enteros. Todo en nombre de la libertad, claro. Porque nada dice “emancipación” como un dron sobre tu casa.
+Occidente se especializa en empaquetar moralidad. Exporta feminismo como si fuera shampoo anticaspa: con promesas de limpieza, pero sin entender el cuero cabelludo. La mujer musulmana no es sujeto político, es objeto de compasión. No importa si militan, escriben, protestan o gobiernan—si usan velo, ya están en la lista de “salvables”.
+Y los medios, cómplices de esta narrativa, repiten el guion como loros bien entrenados. Cada burka es una amenaza, cada mezquita un semillero de radicales, cada comunidad musulmana un barrio a vigilar. ¿La estrategia? La sinécdoque: un terrorista representa a mil millones. Así se justifica la guerra cultural antes que la militar.
+Este feminismo de misiles no busca liberar, busca dominar. Y lo hace con una sonrisa, una campaña de marketing y una columnista blanca que nunca pisó Kabul pero opina como si viviera ahí.`,
+      sources: [],
       bannerUrl: BANNER_PUBLICITARIO_1,
     },
 
@@ -72,24 +60,17 @@ Y acá viene lo más interesante: cada fragmento hallado, cada conchilla, cada r
     {
       type: 'odd',
       id: 'page3',
-      headline: "🗿 Guardianes de barro y piedra: un catálogo que late",
-      category: "Patrimonio",
+      headline: "🧨 Capítulo II: La Mujer como Campo de Batalla",
+      category: "Realidad",
       backgroundUrl: 'https://res.cloudinary.com/ddmj6zevz/image/upload/v1759063852/vasijas_fondo_x8a6uo.png',
       layout: 'hoja-completa',
-      content: `Imaginate esto: entre los juncos del Arroyo del Sauce y las playas de Punta Artilleros, no solo hay agua y arena. Hay un archivo secreto de la vida cotidiana y espiritual de los primeros ribereños. Herramientas, cerámicas, esculturas… objetos que, más que cosas, son mensajes embotellados que viajaron 1.500 años para llegar hasta nuestras manos.
-
-Primero, la piedra. Entre los hallazgos abundan los instrumentos de molienda y corte, esas piezas pulidas que servían para transformar granos, raíces y carne. Nada de importaciones: las materias primas eran locales, elegidas con precisión quirúrgica. ¿Practicidad? Sí. ¿Creatividad? También. Muchos de estos artefactos eran multitasking prehistóricos, lo más parecido a un “cuchillo suizo” del estuario.
-
-Pero la estrella de la película es la alfarería. Fragmentos de vasijas cocidas en fuegos abiertos —de tonos rojizos o negros— que revelan una mano paciente y un ojo artístico. Las técnicas incluían modelado en bola o en rollos sucesivos, como si fueran una artesanía zen antes del zen.
-
-👉 Y atención: no todas eran ollas para cocinar. Algunas piezas grandes, decoradas por dentro y sin marcas de fuego, fueron usadas en contextos festivos o rituales. O sea, estos grupos no solo sobrevivían… también celebraban, honraban y creaban símbolos.
-
-Entre esos símbolos brillan las campanas zoomorfas: esculturas huecas en forma de aves, felinos y anfibios. Uruguay nunca había visto tanta concentración de estas piezas como en este sitio. Eran objetos cargados de intención ritual, casi como tótems portátiles. Y lo que cuentan es fascinante: que había tiempo, estabilidad y excedente para dedicarse al arte y al espíritu.
-
-El gran ícono de esta tradición es El Ñacurutú —una lechuza inmortalizada en barro hace unos 2.000 años. Descubierta en los 40 y hoy resguardada en el Museo Nacional de Antropología, se convirtió en emblema de una cultura que no se conformaba con sobrevivir: quería dejar huella en el mundo invisible, en lo simbólico.
-
-⚡En otras palabras: lo que se desentierra acá no son simples objetos, sino la prueba de que la vida humana, incluso en condiciones duras, siempre busca ir más allá de lo práctico. Siempre quiere dejar belleza, misterio y sentido.`,
-      sources: ["Museo Nacional de Antropología"],
+      content: `¿Querés saber dónde se libran las guerras modernas? En el cuerpo de las mujeres. Pero no en el sentido poético: literal. La mujer musulmana se convirtió en el campo de batalla simbólico donde se cruzan misiles, discursos y moralidades prefabricadas.
+Occidente la mira como quien observa una vitrina rota: con lástima, con superioridad, con ganas de “arreglarla”. Pero no le pregunta nada. Porque si hablara, complicaría la narrativa. Si dijera “el velo es mi elección”, se cae la campaña. Si dijera “no quiero que me liberen con bombas”, se arruina el guion.
+Y los medios, como siempre, hacen de megáfono. Titulares que gritan “opresión”, imágenes que seleccionan la burka más oscura, la mirada más triste, el contexto más desolador. ¿La estrategia? El encuadre selectivo. Mostrar una parte como si fuera el todo. Como si todas las mujeres musulmanas fueran prisioneras esperando a ser rescatadas por soldados con bandera de la OTAN.
+Pero ¿qué pasa cuando esas mujeres escriben, militan, gobiernan, se organizan? Silencio. Porque no encajan en el relato. Porque no son útiles para justificar la intervención. Porque no son víctimas, son protagonistas. Y eso incomoda.
+📌 Dato que suma: En 2022, la ONU publicó un informe sobre mujeres afganas que, pese al régimen talibán, siguen organizándose en redes clandestinas de educación, salud y resistencia. ¿Lo viste en los medios? No. Porque no vende. Porque no justifica la ocupación.
+📌 Dato que arde: En Francia, el Estado prohíbe el uso del hiyab en escuelas públicas en nombre de la “laicidad”. ¿Libertad? ¿O imposición disfrazada de neutralidad? ¿Quién decide qué es emancipador y qué es opresivo?`,
+      sources: [],
       bannerUrl: BANNER_PUBLICITARIO_3,
     },
     
@@ -104,22 +85,16 @@ El gran ícono de esta tradición es El Ñacurutú —una lechuza inmortalizada 
     {
       type: 'odd',
       id: 'page5',
-      headline: "⏳ 1500 años de ocupación continua",
-      subtitle: "spoiler, no se fueron nunca",
-      category: "Historia",
+      headline: "🕵️ Capítulo III: Orientalismo 2.0 — El Otro como Espectáculo",
+      subtitle: "Miro las muertes mientras como Oreo",
+      category: "Espejo",
       backgroundUrl: 'https://res.cloudinary.com/ddmj6zevz/image/upload/v1759057558/surfero_de_antes_j6mwov.png',
       layout: 'media-hoja',
-      content: `En el Arroyo del Sauce los arqueólogos se toparon con algo que rompe el mito de “pasaron por acá y chau”: resulta que hubo gente viviendo ahí durante al menos 1500 años seguidos. Sí, mientras medio planeta todavía discutía cómo prender fuego sin chamuscarse las cejas, estos ribereños ya estaban instalados con casa, cocina y hasta decoración.
-
-La cronología de las piezas halladas va de 300 a 2000 años atrás. Y acá entra la polémica académica: ¿eran influencias amazónicas? ¿o un desarrollo local bien uruguayo, versión proto-nacional? El debate es casi como la grieta política de hoy, solo que con menos Twitter y más fragmentos de cerámica.
-
-Lo que sí está claro es que estos grupos —los famosos “Ribereños plásticos” o “Goya-Malabrigo”— no eran improvisados. Eran cazadores, recolectores, horticultores, básicamente multitaskers avant la lettre. Su vida ribereña estaba tan sincronizada con el entorno que parecían haber firmado un contrato de permanencia con el estuario.
-
-👉 Y ojo a este detalle: en Boca del Cufré W, otro sitio cercano, apareció evidencia de ocupación hasta hace unos 400 años. ¿Te suena la fecha? Exacto, justo cuando los europeos andaban desembarcando con cruces, mosquetes y promesas dudosas. Traducción: estos pueblos estaban vivitos y coleando al momento del “contacto”.
-
-Eso revienta el cliché de que los indígenas de la región “ya no estaban” cuando llegaron los colonos. Spoiler: sí estaban. Y no solo estaban, sino que sobrevivieron milenios de cambios climáticos, ecológicos y sociales antes de enfrentarse al terremoto colonial.
-
-⚡Así que la próxima vez que alguien te diga que esta parte del Río de la Plata era un “territorio vacío”, mostrále el dato: 1500 años de ocupación continua. Vacío, lo que se dice vacío… estaba el discurso de quienes escribieron la historia oficial.`,
+      content: `Edward Said lo explicó hace décadas: el Orientalismo es una lente distorsionada con la que Occidente mira al mundo árabe. Pero hoy esa lente tiene filtros de Instagram, titulares clickbait y música de fondo dramática. El “otro” ya no es solo exótico, ahora es peligroso, retrógrado, y convenientemente útil para justificar cualquier intervención.
+Los medios no informan: escenifican. Cada nota sobre el Islam parece escrita por un guionista de Hollywood con trauma post-11S. El árabe es el villano, la mujer musulmana es la víctima, y el soldado occidental es el héroe. ¿La realidad? No importa. Lo que importa es el relato.
+📺 Ejemplo que arde: En 2021, Fox News tituló “Sharia Law invades American towns” sin evidencia, sin contexto, sin vergüenza. ¿Qué vendía? Miedo. ¿Qué justificaba? Vigilancia, racismo, islamofobia.
+📚 Dato que suma: En estudios de medios británicos, se encontró que el 60% de las noticias sobre musulmanes están asociadas a violencia o conflicto. ¿Y las historias de cultura, arte, ciencia, activismo? Silencio. Porque no encajan en el molde.
+Este Orientalismo 2.0 no necesita libros, necesita memes. Se viraliza, se comparte, se instala. Y así, el Islam se convierte en una caricatura útil para justificar guerras, leyes represivas, y discursos de odio disfrazados de preocupación.`,
       sources: [],
       bannerUrl: BANNER_PUBLICITARIO_5,
     },
@@ -135,33 +110,25 @@ Eso revienta el cliché de que los indígenas de la región “ya no estaban” 
     {
       type: 'odd',
       id: 'page7',
-      headline: "🏺 Arqueología al servicio del futuro",
-      subtitle: "cuando el barro paga las cuentas",
-      category: "Comunidad",
+      headline: "🎙️ Capítulo IV: Las Voces que No Caben en el Guion",
+      subtitle: "Cuando no vende no es real",
+      category: "Incómodo",
       backgroundUrl: 'https://res.cloudinary.com/ddmj6zevz/image/upload/v1759063853/rio_fondo_w5x9ah.png',
       layout: 'hoja-completa',
-      content:`El Arroyo del Sauce ya no es solo un sitio arqueológico: es un modelo de desarrollo comunitario. O, dicho en criollo, ahora la prehistoria también entra en el rubro “industrias creativas”.
-
-El proyecto se llama “Industrias milenarias en Juan Lacaze” y lo banca la ANII. La idea es doble:
-
-Hacer ciencia: investigar cómo vivían los pueblos prehispánicos.
-
-Hacer futuro: transformar esos hallazgos en motor turístico, educativo y —por qué no— económico.
-
-En serio: de repente los cazadores-recolectores-horticultores del Sauce se convierten en influencers de la identidad local. Y ojo, que no es chiste: se habla de arqueología experimental, o sea, reproducir las campanas zoomorfas con barro y técnicas originales, para después venderlas como productos culturales premium. En otras palabras: los artesanos de hace 1500 años ahora son proveedores oficiales de la Juan Lacaze S.A. versión siglo XXI.
-
-👉 Y lo lindo es la retórica: se habla de “democratización del conocimiento” y de “poner en valor el patrimonio”. Traducido: que la arqueología salga del paper académico y aterrice en la feria de artesanías, en la escuela local o en la próxima ruta turística.
-
-¿Suena raro? Sí. ¿Es brillante? También. Porque por fin la historia no queda como pieza de museo polvoriento, sino que se usa como palanca de resiliencia y como fuente de identidad viva.
-
-⚡Eso sí, pensemos lo siguiente: ¿qué dirían los antiguos ribereños si supieran que sus campanas zoomorfas terminaron reversionadas como souvenirs con QR para pagar con MercadoPago? Tal vez se reirían. Tal vez nos entenderían mejor de lo que creemos: ellos también supieron hacer del barro una herramienta para sobrevivir.`,
-      sources: ["ANII (Agencia Nacional de Investigación e Innovación)"],
+      content:`¿Y si la mujer musulmana no necesita que la salven? ¿Y si ya se está salvando sola, con redes, con palabras, con lucha? ¿Y si el problema no es el Islam, sino el micrófono que nunca le prestan?
+Las mujeres musulmanas no son figurantes. Son guionistas, directoras, protagonistas. Pero claro, eso no vende. Porque si hablan, se cae el relato. Si escriben, incomodan. Si militan, desarman el estereotipo. Y entonces, los medios hacen lo que mejor saben hacer: ignorarlas.
+🎤 Ejemplo que incomoda: Mona Eltahawy, periodista egipcia, escribió “Headscarves and Hymens”, un libro que denuncia tanto el patriarcado islámico como el occidental. ¿La invitan a los paneles de CNN? No. Porque no encaja en el molde de víctima silenciosa ni en el de feminista blanca.
+🎬 Ejemplo que rompe moldes: Haifaa al-Mansour, primera cineasta saudí, filmó “Wadjda”, una historia sobre una niña que quiere andar en bicicleta. ¿Revolución? Sí. ¿Con bombas? No. Con arte, con sutileza, con resistencia desde adentro.
+📚 Ejemplo que arde: Leila Ahmed, académica egipcia, escribió “Women and Gender in Islam”, desmontando siglos de prejuicios. ¿Está en los titulares? No. Porque el conocimiento no genera clics, la caricatura sí.
+Estas voces no piden permiso. No esperan que Occidente las libere. Ya están hablando, escribiendo, filmando, organizando. Pero para escucharlas hay que apagar el ruido de los drones, los titulares sensacionalistas y los discursos con perfume de superioridad moral.`,
+      sources: [],
       bannerUrl: BANNER_PUBLICITARIO_7,
     },
 
     // --- Página 8 (Par) ---
     {
-      type: 'even',
+      type: 'even', 
+      headline: "Mona Eltahawy",
       imageUrl: 'https://res.cloudinary.com/ddmj6zevz/image/upload/v1759057553/azteca_dyltma.png',
       bannerUrl: BANNER_PUBLICITARIO_8,
     },
@@ -170,21 +137,17 @@ En serio: de repente los cazadores-recolectores-horticultores del Sauce se convi
     {
       type: 'odd',
       id: 'page9',
-      headline: "🏛️ El legado de una colección",
-      subtitle: "cuando el barro encuentra su casa en Juan Lacaze",
-      category: "Cultura Local",
+      headline: "🔥 Conclusión: ¿Quién Tiene el Micrófono?",
+      subtitle: "Como si importara",
+      category: "Opinión",
       backgroundUrl: 'https://res.cloudinary.com/ddmj6zevz/image/upload/v1759063852/vasijas_fondo_x8a6uo.png',
       layout: 'hoja-completa',
-      content:`Atenti: Juan Lacaze ya tiene su propio Museo Arqueológico Mora. Sí, entre la fábrica cerrada, el fútbol de los domingos y la rambla al río, ahora se suma un templo del pasado que promete convertirse en el nuevo punto de encuentro. Eso sí: abrimos sábados, porque los lunes a viernes la arqueología también necesita descansar.
-
-El corazón del museo es la colección de René Mora, un investigador autodidacta que sin becas ni papers logró juntar más de 27.000 piezas. O sea, mientras otros coleccionaban figuritas del Mundial, él se dedicó a rescatar campanas zoomorfas, vasijas y piedras pulidas. Resultado: la mayor concentración de “animales de barro” conocida en Uruguay. 🦉🐸🐆
-
-Las vitrinas exhiben desde vasijas culinarias hasta esculturas rituales, todo catalogado por el PIAAD (sí, suena a aparato del Pentágono, pero es un programa académico en serio). Lo interesante es que este patrimonio no terminó escondido en un sótano de Montevideo: se quedó en su lugar de origen. Empoderamiento cultural versión Sauce City.
-
-👉 El gesto importa: no es un museo para turistas con guía en inglés y gift shop de 20 dólares. Es un espacio local, para que la comunidad vea su historia sin intermediarios, sin filtro capitalino. El barro que salió del Sauce ahora brilla en vitrinas… pero sigue siendo de la gente.
-
-⚡Y entre nosotros: si las piezas resistieron 1500 años bajo tierra, seguramente aguanten el polvo de vitrina y la mirada curiosa de los gurises en excursión. Lo importante es que ahora, en un rincón de Colonia, el pasado no está enterrado: abre los sábados de tarde.`,
-      sources: ["Museo Arqueológico Mora"],
+      content:`La guerra ya no se libra solo con balas. Se libra con narrativas. Y en esa guerra, la mujer musulmana es usada como excusa, como símbolo, como pantalla. Pero no como voz.
+Occidente se arroga el derecho de definir qué es libertad, qué es opresión, qué es feminismo. Y lo hace desde redacciones que nunca pisaron un zoco, desde parlamentos que legislan sobre cuerpos ajenos, desde ONGs que reparten moralidad como si fuera pan bendito.
+Pero las mujeres musulmanas no están esperando que las salven. Están escribiendo, filmando, marchando, resistiendo. Están construyendo feminismos propios, desde sus contextos, desde sus lenguas, desde sus luchas. Y eso incomoda. Porque no encajan en el molde de víctima ni en el de heroína occidentalizada.
+Entonces, ¿quién tiene el micrófono? ¿Quién decide qué se muestra y qué se oculta? ¿Quién arma el relato y quién lo padece?
+La respuesta es incómoda. Pero necesaria. Porque si queremos hablar de género, cultura y medios, tenemos que empezar por escuchar. No traducir. No interpretar. Escuchar. Y después, pasar el micrófono. Aunque eso signifique perder el control del guion.`,
+      sources: [],
       bannerUrl: BANNER_PUBLICITARIO_9,
     },
 
@@ -199,26 +162,16 @@ Las vitrinas exhiben desde vasijas culinarias hasta esculturas rituales, todo ca
     {
       type: 'odd',
       id: 'page11',
-      headline: "🦣 Aclarando confusione",
-      subtitle: "ni todos los arroyos son iguales, ni todos los huesos cuentan la misma historia",
-      category: "Cultura Local",
+      headline: "🎯 Ideología de Género: ¿Herramienta de Liberación o Coartada Imperial?",
+      subtitle: "",
+      category: "Manipulación",
       backgroundUrl: 'https://res.cloudinary.com/ddmj6zevz/image/upload/v1759063853/rio_fondo_w5x9ah.png',
       layout: 'hoja-completa',
-      content:`En Uruguay tenemos dos estrellas prehistóricas con nombres parecidos pero guiones muy distintos: Arroyo del Sauce (Colonia) y Arroyo del Vizcaíno (Canelones). Y aunque suenen a spin-offs de la misma serie, en realidad son dos temporadas separadas por decenas de miles de años.
-
-👉 El Vizcaíno es Jurassic Park versión criolla: restos de perezosos gigantes, gliptodontes y tigres dientes de sable de hace 30.000 años. Bestias del Pleistoceno que, según algunas hipótesis polémicas, podrían haber tenido sus roces con los primeros humanos. ¿Marcas de corte en huesos? ¿O simples arañazos de un gliptodonte con mal humor? El debate sigue abierto, como siempre en ciencia.
-
-En cambio, el Sauce juega otra liga: nada de bichos XXL, sino alfarería fina, campanas zoomorfas, herramientas de piedra y sociedades ribereñas que vivieron entre hace 1.500 y 300 años. Menos rugidos prehistóricos y más vida comunitaria, con rituales, ollas y símbolos.
-
-⚡La diferencia es clara:
-
-Vizcaíno = el capítulo épico de “humanos vs megafauna”.
-
-Sauce = la saga intimista de comunidades que aprendieron a domesticar el paisaje ribereño.
-
-¿Y qué nos deja todo esto? Que Uruguay, más allá de su tamaño, guarda un registro prehistórico variado como serie de Netflix: desde el “Mundo de gigantes” hasta la “Cultura del barro”.
-
-Lo importante es no confundir peras con manzanas (o gliptodontes con campanas). Cada sitio cuenta su propia historia. Y, de paso, confirma algo: este país, que a veces parece vivir en el margen del mapa, tiene capas de tiempo tan profundas como cualquier imperio olvidado.`,
+      content:`Cuando el feminismo se convierte en excusa para invadir, algo huele a pólvora. La ideología de género, en manos de ciertos gobiernos y medios, deja de ser herramienta de emancipación y se transforma en bisturí geopolítico. Se usa para cortar culturas ajenas, para abrir grietas en sociedades que no responden al molde occidental, y para justificar guerras con perfume de sororidad.
+¿Querés apoyo popular para bombardear un país? Mostrá una mujer con burka, decí que está oprimida, y prometé liberarla. No importa si ella no pidió ayuda. No importa si ya está luchando desde adentro. Lo importante es que el relato funcione. Que el feminismo se convierta en marketing bélico. Que la ideología de género se use como narrativa emocional para generar consenso.
+📌 Ejemplo que incomoda: En la invasión a Afganistán, se usó el argumento de “liberar a las mujeres” como parte del discurso oficial. ¿Resultado? Bombas, ocupación, y una estructura patriarcal aún más radicalizada.
+📌 Ejemplo que arde: En campañas mediáticas europeas, se asocia el uso del velo con sumisión, ignorando que muchas mujeres lo eligen como acto político, espiritual o identitario. ¿Quién decide qué es opresión y qué es elección?
+El documento que analizamos lo dice sin rodeos: los discursos de género no son neutros. Pueden ser emancipadores, sí. Pero también pueden ser manipulados, instrumentalizados, convertidos en armas narrativas. Y cuando eso pasa, el feminismo deja de liberar y empieza a colonizar.`,
       sources: [],
       bannerUrl: BANNER_PUBLICITARIO_1,
     },
@@ -234,16 +187,26 @@ Lo importante es no confundir peras con manzanas (o gliptodontes con campanas). 
     {
       type: 'odd',
       id: 'page13',
-      headline: "Descubriendo las Capas del Pasado de Juan Lacaze",
-      subtitle: "Más allá de la fábrica",
-      category: "Reflexión",
+      headline: "🧠 Lo que completa el informe: Datos, autores y casos que lo hacen irrefutable",
+      subtitle: "",
+      category: "Informarce",
       backgroundUrl: 'https://res.cloudinary.com/ddmj6zevz/image/upload/v1759060767/pexels-fatima-acunman-759286837-30482053_t2ywhc.jpg',
       layout: 'columna-izquierda-centrada',
-      content:`Cuando pensamos en Juan Lacaze, lo primero que nos viene a la cabeza es la ciudad obrera: los molinos, la textil Campomar, los barcos entrando y saliendo, el ruido de las fábricas, la mística del trabajo en comunidad. Esa historia industrial está tatuada en la identidad del pueblo: el sacrificio, el sudor, la organización y la resistencia.
-
-Pero ojo, porque debajo de ese relato moderno late otra historia, muchísimo más antigua, que no se escucha en el silbato de las fábricas sino en la arena de las playas y en la toponimia que, sin quererlo, nos guiña el ojo: Playa Charrúa, nombres propuestos para calles como Guyunusa o Vaimaca Pirú. Esos rastros silenciosos cuentan que la memoria indígena no estaba dormida, solo esperaba ser reconocida.
-
-Y ahí está el corazón de este informe: mostrar cómo Juan Lacaze no es solo un capítulo industrial en la historia del Uruguay, sino un territorio que guarda capas y capas de tiempo. Capas que van desde los pueblos originarios, con sus rituales y herramientas, hasta las luchas de los obreros modernos. El pasado, en este lugar, no es una foto fija: es una trama viva que conecta la ciudad con un legado que trasciende generaciones.`,
+      content:`🧨 1. Feminismo como coartada imperial
+Afganistán (2001): La invasión se vendió como “liberación de las mujeres”. Laura Bush lo dijo en cadena nacional. ¿Resultado? 20 años de ocupación, retrocesos en derechos, y mujeres afganas usadas como excusa.
+Irak (2003): Se usó el argumento de “derechos humanos” para justificar la guerra. Pero los derechos de las mujeres fueron ignorados en la reconstrucción. El feminismo fue decorado, no aplicado.
+Siria: En medios occidentales, se mostraban mujeres kurdas armadas como íconos feministas, mientras se ignoraban las voces que denunciaban la instrumentalización de su lucha.
+📚 2. Autores que lo explican sin anestesia
+Cynthia Enloe: En Bananas, Beaches and Bases, muestra cómo las mujeres son usadas como símbolos en política internacional. No como sujetos, sino como decorado.
+Edward Said: En Orientalismo, explica cómo Occidente construye al “otro” como exótico, atrasado y oprimido, para justificar su intervención. El feminismo occidental entra en esa lógica5.
+Leila Ahmed: En Women and Gender in Islam, desmonta la idea de que el Islam es intrínsecamente opresivo. Muestra cómo el discurso feminista occidental ignora las voces musulmanas.
+🧬 3. Ideología de género como narrativa emocional
+Resolución 1325 de la ONU: Introduce el enfoque de género en conflictos armados. Pero también se ha usado para legitimar intervenciones militares con retórica feminista.
+Narrativas mediáticas: Se repite el patrón: mujer con velo = víctima. Mujer sin velo = liberada. Pero ¿quién decide eso? ¿La mujer o el editor del diario?
+🧕 4. Mujeres musulmanas que rompen el molde
+Tawakkol Karman (Yemen): Nobel de la Paz, activista por derechos humanos. No encaja en el molde de víctima, por eso los medios la ignoran.
+Haifaa al-Mansour (Arabia Saudita): Cineasta que filmó Wadjda, desafiando normas desde adentro.
+Amina Wadud: Teóloga que lideró una oración mixta en una mezquita. ¿Revolución? Sí. ¿Con drones? No. Con fe y coraje.`,
       sources: [],
       bannerUrl: BANNER_PUBLICITARIO_2,
     },
@@ -259,33 +222,16 @@ Y ahí está el corazón de este informe: mostrar cómo Juan Lacaze no es solo u
     {
       type: 'odd',
       id: 'page15',
-      headline: "Un Legado de Artesanía Ancestral y Espíritu Comunitario",
-      subtitle: "Más allá de la fábrica 2",
-      category: "Cultura",
+      headline: "La Marea Transformadora:",
+      subtitle: "Balance de Resultados y Desafíos Estructurales de los Movimientos Feministas y de Género en América Latina (2015-2024)",
+      category: "información",
       backgroundUrl: 'https://res.cloudinary.com/ddmj6zevz/image/upload/v1759063852/vasijas_fondo_x8a6uo.png',
       layout: 'hoja-completa',
-      content:`El Arroyo Sauce y Punta Artilleros no son solo paisajes ribereños: son territorios que guardan memorias. Ahí, entre agua y arena, quedaron las huellas de quienes habitaron la zona mucho antes de que un barco europeo avistara estas costas.
+      content:`Definición de la "Cuarta Ola" y el Contexto Regional
+El activismo feminista y de género en América Latina ha experimentado una transformación radical en la última década, marcada por la masificación, la transnacionalización y la irrupción de nuevas agendas. La historiografía regional reconoce tradicionalmente una Primera Ola, centrada en el sufragio, y una Segunda Ola, identificada con el "renacer" del feminismo en los años setenta. La etapa actual (a menudo denominada Cuarta Ola) se caracteriza por un repertorio de acción que combina estratégicamente la movilización masiva en las calles con la incidencia digital y la litigación constitucional. El periodo posterior a 2015, impulsado por movimientos como #NiUnaMenos y la Marea Verde, ha establecido un nuevo estándar para la protesta social.   
+En contraste con las prioridades iniciales de los feminismos del Norte global, las reivindicaciones en América Latina han estado inherentemente ligadas a las problemáticas estructurales de la región: la defensa de las tierras, la lucha contra el racismo institucional, la desigualdad socioeconómica, y la alarmante escalada de la violencia de género y los feminicidios. Por lo tanto, movimientos como #NiUnaMenos o #VivasNosQueremos nacieron de una América Latina exhausta por las violencias, las desigualdades y la opresión sistémica.   
 
-De su vida cotidiana nos quedan piezas de piedra pulida, herramientas de talla, fragmentos de cerámica cocida. Pero no se trata de simples objetos: son relatos mudos de manos que sabían transformar la materia.
-
-La alfarería, por ejemplo, revela un pulso creativo sorprendente. Ollas, cuencos, platos: algunos ennegrecidos por el fuego de la cocina, otros intactos, pintados y ceremoniales. Entre los más singulares están las “campanas zoomorfas”: esculturas ahuecadas con forma de aves o felinos. No eran adornos casuales, sino símbolos de un vínculo íntimo con la naturaleza. El artista de aquel entonces no copiaba: interpretaba, comprendía, se conectaba.
-
-Cuando los arqueólogos actuales hablan de “procesos tecnológicos”, lo que realmente desentrañan es un lenguaje ancestral: cómo trabajaban, cómo pensaban y cómo celebraban la vida estos pueblos del litoral. Cada fragmento es una página de un libro que todavía estamos aprendiendo a leer.
-
-El Espíritu Pionero de René Mora: El Corazón de la Relación
-Pero esta historia no la descubrimos gracias a un hallazgo fortuito. La semilla la sembró un vecino, René Mora, que supo mirar donde otros pasaban de largo. Autodidacta, obsesivo, paciente, coleccionó durante décadas más de 27 mil piezas. Dibujó, clasificó, cuidó. Su trabajo fue un puente entre las comunidades ancestrales y el presente.
-
-René no fue un académico en un laboratorio: fue un lacazino con la sensibilidad de escuchar al suelo. Gracias a él, lo que pudo quedar disperso en la tierra hoy es relato, memoria y ciencia. Su legado demuestra que el patrimonio no siempre lo rescatan las instituciones; a veces lo rescata la terquedad apasionada de un solo individuo.
-
-El Museo Arqueológico Mora: De Colección Privada a Patrimonio Público
-
-Hoy, esa terquedad tiene casa: el Museo Arqueológico Mora, instalado en la Biblioteca José Enrique Rodó. Nació de la donación de la colección de René y del esfuerzo conjunto de instituciones nacionales y locales.
-
-Pero más que un museo, es un punto de encuentro. Un espacio donde los objetos no son reliquias muertas, sino disparadores de preguntas. Donde los escolares descubren que en su ciudad hubo ceramistas milenarios, y donde investigadores continúan trabajando en laboratorio para dar nuevas respuestas.
-
-El paso de colección privada a patrimonio público no es un trámite burocrático: es un gesto simbólico. Significa que esas piezas ya no pertenecen a un hombre, sino a todos. Que el legado se apropia socialmente, se comparte y se proyecta hacia el futuro.
-
-En cada visita guiada, en cada niño que observa una campana zoomorfa, en cada investigador que revisa un dibujo de René, se confirma lo esencial: el pasado de Juan Lacaze no está encerrado en vitrinas, está latiendo en la memoria colectiva.`,
+`,
       sources: [],
       bannerUrl: BANNER_PUBLICITARIO_2,
     },
@@ -301,26 +247,25 @@ En cada visita guiada, en cada niño que observa una campana zoomorfa, en cada i
     {
       type: 'odd',
       id: 'page17',
-      headline: "El Patrimonio en Perspectiva: ¿Qué Hacemos con el Barro?",
-      subtitle: "Una reflexión final",
-      category: "Opinión",
+      headline: "De lo Digital a lo Físico: El Impacto de #MeToo en la Región",
+      subtitle: "La Adaptación Regional del #MeToo",
+      category: "datos",
       backgroundUrl: 'https://res.cloudinary.com/ddmj6zevz/image/upload/v1759063853/rio_fondo_w5x9ah.png',
       layout: 'hoja-completa',
-      content:`Cuando miramos alrededor, el espejo es incómodo.
-En México, la cultura maya y azteca no solo se estudia: se convirtió en marca país. No hay turista que no se saque una foto en Chichén Itzá o que no regrese con un calendario mexica de recuerdo. En Perú, Machu Picchu es la postal obligada, pero también un motor económico y educativo: el orgullo inca atraviesa la música, la escuela y hasta la gastronomía. En Chile y Argentina, los pueblos originarios han tenido sus procesos de revalorización —a veces con tensiones políticas, otras con celebraciones oficiales— pero el tema está en la agenda nacional.
+      content:`La campaña global de #MeToo, originada en la industria de Hollywood en 2017, se extendió y diversificó en América Latina, adaptando sus repertorios de acción colectiva. Esta movilización se caracterizó por ser un activismo híbrido, utilizando Twitter y otras plataformas digitales para detonar denuncias, las cuales posteriormente se tradujeron en acciones en el espacio físico. Un ejemplo notable es México, donde el activismo    
 
-Y nosotros… nosotros tenemos las campanas zoomorfas y la colección de René Mora, que son patrimonio genuino, poderoso, único… y al mismo tiempo invisibles para la mayoría. Nos desvivimos por colectivos identitarios de moda, banderas de colores y discursos de ocasión (todos valiosos, ojo), pero seguimos sin preguntarnos qué significa que, bajo nuestros pies, hubo comunidades que modelaban el barro con una sensibilidad que ni soñamos enseñar en la escuela.
+online se materializó en los "tendederos de denuncias" en centros educativos y, en algunos casos, en la ocupación física de escuelas y universidades.   
 
-Porque ahí está la otra pregunta: ¿qué hacemos con esto en la educación local? ¿Los gurises de Juan Lacaze estudian a fondo la alfarería del Sauce, o apenas son llevados “a los tirones” a una visita guiada que se olvida al lunes siguiente? ¿La maestra puede contar que, antes de Campomar y el Río de la Plata industrial, acá había ceramistas que representaban felinos en piezas rituales? ¿O seguimos mirando el pasado como si fuera un decorado folclórico, simpático, pero irrelevante?
+Este activismo digital se distinguió por la distribución horizontal de las voces testimoniales y la ausencia de liderazgos centralizados, utilizando el hashtag de forma táctica para generar impacto en los medios e instituciones. La intensidad del uso de redes sociales en la región, donde los usuarios dedican en promedio 44 horas al mes a las plataformas, proporcionó el terreno fértil para esta amplificación.   
 
-La ironía es brutal: celebramos identidades globalizadas y causas importadas mientras ignoramos el barro propio, ese que cuenta de dónde venimos y que podría ayudarnos a imaginar adónde vamos.
+III.B. Resultados y Límites del Escrache y la Denuncia
+El efecto inmediato del #MeToo se reflejó en cambios institucionales, principalmente en la implementación de protocolos contra el acoso y la violencia sexual en universidades y lugares de trabajo. Este fenómeno demuestra que la movilización generacional puede impulsar cambios endógenos dentro de los movimientos sociales, independientemente de los factores económicos externos.   
 
-El Museo Mora es un faro, sí. Pero un faro no ilumina nada si la gente no levanta la vista.
+Sin embargo, el alcance del #MeToo enfrentó barreras significativas en el contexto latinoamericano. El movimiento tuvo dificultades para ganar impulso en sectores vulnerables de la población. Muchas mujeres, especialmente en ciertas áreas de América Latina, siguen sintiendo temor a denunciar a sus abusadores debido a las cuestiones culturales y la persistencia de la desigualdad. La vulnerabilidad económica y el miedo a represalias son factores que impiden la universalización del derecho a la denuncia. Además, el escrache y la denuncia    
 
-Quizás el verdadero desafío de Juan Lacaze no sea solo conservar las piezas, sino aprender a habitar el barro. Reconocer que nuestra herencia no es solo industrial ni obrera, sino también ancestral, artesanal y simbólica. Y que en esa mezcla —obreros textiles, ceramistas milenarios, investigadores autodidactas— se juega la posibilidad de construir una identidad más completa y menos olvidadiza.
+online generaron una intensa "disputa de sentido" en la prensa iberoamericana, donde los discursos en competencia definieron la legitimidad de estos posicionamientos a partir de binarios de clase, raza y posición moral. Esto muestra que la digitalización de la denuncia es solo el primer paso en la confrontación directa ante la injusticia, mas no garantiza la justicia estructural.   
 
-Porque, al final, de eso se trata el patrimonio: de no olvidar que lo que somos hoy también está hecho con arcilla de hace mil años.
-Y si no lo entendemos, seguiremos confundiendo moda con memoria, y pasado con souvenir.`,
+`,
       sources: [],
       bannerUrl: BANNER_PUBLICITARIO_2,
     },
@@ -328,8 +273,9 @@ Y si no lo entendemos, seguiremos confundiendo moda con memoria, y pasado con so
     // --- Página 18 (Par) ---
     {
       type: 'even',
-      imageUrl: "https://res.cloudinary.com/ddmj6zevz/image/upload/v1759060059/pexels-franklin-santillan-a-551795305-17029372_faqgsq.jpg",
+      imageUrl: "https://res.cloudinary.com/ddmj6zevz/image/upload/v1759419747/me_too_mbt7g8.jpg",
       bannerUrl: BANNER_PUBLICITARIO_5,
+      objectPosition: 'left center',
     }
   ]
 };

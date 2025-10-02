@@ -7,11 +7,13 @@ import { WEEKLY_EDITION_CONTENT } from './data/weeklyContent.ts';
 
 
 const PodcastModal = lazy(() => import('./components/PodcastModal.tsx'));
+const ProtectedContentModal = lazy(() => import('./components/ProtectedContentModal.tsx'));
 const Magazine = lazy(() => import('./components/Magazine.tsx'));
 
 const App: React.FC = () => {
   const [dailyPodcast, setDailyPodcast] = useState<VideoPodcast | null>(null);
   const [isPodcastModalOpen, setIsPodcastModalOpen] = useState(false);
+  const [isProtectedModalOpen, setIsProtectedModalOpen] = useState(false);
   
   const headerRef = useRef<HeaderControls>(null);
   const wasRadioPlaying = useRef(false);
@@ -21,9 +23,8 @@ const App: React.FC = () => {
       try {
         const { VIDEO_PODCASTS } = await import('./data/podcasts.ts');
         if (VIDEO_PODCASTS.length > 0) {
-            const dayOfYear = Math.floor((new Date().getTime() - new Date(new Date().getFullYear(), 0, 0).getTime()) / (1000 * 60 * 60 * 24));
-            const podcastIndex = dayOfYear % VIDEO_PODCASTS.length;
-            setDailyPodcast(VIDEO_PODCASTS[podcastIndex]);
+            const randomIndex = Math.floor(Math.random() * VIDEO_PODCASTS.length);
+            setDailyPodcast(VIDEO_PODCASTS[randomIndex]);
         }
       } catch(e) {
         console.error("Error loading daily podcast:", e);
@@ -48,6 +49,21 @@ const App: React.FC = () => {
     }
   };
 
+  const openProtectedModal = () => {
+    if (headerRef.current) {
+      wasRadioPlaying.current = headerRef.current.getIsPlayingState();
+      headerRef.current.pauseRadio();
+    }
+    setIsProtectedModalOpen(true);
+  };
+
+  const closeProtectedModal = () => {
+    setIsProtectedModalOpen(false);
+    if (headerRef.current && wasRadioPlaying.current) {
+      headerRef.current.playRadio();
+    }
+  };
+
   return (
     <div className="bg-[#fdfaf4] min-h-screen">
       <Header 
@@ -55,6 +71,7 @@ const App: React.FC = () => {
         isPodcastModalOpen={isPodcastModalOpen}
         onPodcastButtonClick={openPodcastModal}
         showPodcastButton={!!dailyPodcast}
+        onProtectedButtonClick={openProtectedModal}
       />
 
       <main className="container mx-auto px-4 py-8">
@@ -72,6 +89,13 @@ const App: React.FC = () => {
           />
         </Suspense>
       )}
+
+      <Suspense fallback={null}>
+        <ProtectedContentModal
+          isOpen={isProtectedModalOpen}
+          onClose={closeProtectedModal}
+        />
+      </Suspense>
     </div>
   );
 };

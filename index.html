@@ -128,6 +128,65 @@
     .mobile-page.flipped {
         transform: rotateY(-180deg);
     }
+
+    /* --- New Listener Counter Styles --- */
+    .listener-counter {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        z-index: 20;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 8px;
+        border-radius: 8px;
+        background: rgba(255,255,255,0.4);
+        backdrop-filter: blur(4px);
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .counter-title {
+        font-size: 10px;
+        font-weight: 700;
+        color: #000;
+        margin-bottom: 4px;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+    }
+    .digits-container {
+        display: flex;
+        gap: 4px;
+    }
+    .digit-box {
+        position: relative;
+        width: 28px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #e5e0d7;
+        border: 1px solid #d1cbbc;
+        border-radius: 4px;
+        box-shadow: inset 0 2px 3px rgba(0,0,0,0.1);
+        overflow: hidden;
+    }
+    .digit-char {
+        font-family: 'Courier Prime', monospace;
+        font-size: 30px;
+        font-weight: 700;
+        color: #1a1a1a;
+        line-height: 1;
+        animation: fadeIn 0.4s ease-out;
+    }
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
   </style>
 <script type="importmap">
 {

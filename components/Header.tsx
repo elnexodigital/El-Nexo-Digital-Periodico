@@ -1,7 +1,7 @@
-
 import React, { useState, useRef, useEffect, useCallback, forwardRef, useImperativeHandle } from 'react';
 import type { MusicTrack, HeaderControls, NewsBroadcast, PodcastMP3 } from '../types.ts';
 import FloatingPodcastButton from './FloatingPodcastButton.tsx';
+import ListenerCounter from './ListenerCounter.tsx';
 
 const VIDEO_URLS: string[] = [
   'https://res.cloudinary.com/ddmj6zevz/video/upload/w_1280,q_auto:good/v1755907719/animaci%C3%B3n_APP_pvxjop.mp4',
@@ -36,6 +36,7 @@ interface HeaderProps {
   isPodcastModalOpen: boolean;
   onPodcastButtonClick: () => void;
   showPodcastButton: boolean;
+  onProtectedButtonClick: () => void;
 }
 
 interface RadioData {
@@ -52,12 +53,19 @@ interface RadioData {
 }
 
 const shuffleArray = <T,>(array: T[]): T[] => {
-  return [...array].sort(() => Math.random() - 0.5);
+  // Fisher-Yates shuffle for a more uniform randomness
+  const shuffled = [...array];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled;
 };
 
 
-const Header = forwardRef<HeaderControls, HeaderProps>(({ isPodcastModalOpen, onPodcastButtonClick, showPodcastButton }, ref) => {
+const Header = forwardRef<HeaderControls, HeaderProps>(({ isPodcastModalOpen, onPodcastButtonClick, showPodcastButton, onProtectedButtonClick }, ref) => {
   const [isPlaying, setIsPlaying] = useState(false);
+  const [isGreetingPlaying, setIsGreetingPlaying] = useState(false);
   const [videoQueue, setVideoQueue] = useState(() => shuffleArray(VIDEO_URLS));
   const [musicQueue, setMusicQueue] = useState<MusicTrack[]>([]);
   const [hasGreetingPlayed, setHasGreetingPlayed] = useState(false);
@@ -126,11 +134,9 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({ isPodcastModalOpen, on
     loadRadioData();
   }, []);
 
-
   const selectNextVideo = useCallback(() => {
     setVideoQueue(prevQueue => {
       const [first, ...rest] = prevQueue;
-      // When the queue is empty, reshuffle and start over
       if (rest.length === 0) {
         return shuffleArray(VIDEO_URLS);
       }
@@ -141,27 +147,39 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({ isPodcastModalOpen, on
   const playNextMusicTrack = useCallback(() => {
     setMusicQueue(prevQueue => {
         const [first, ...rest] = prevQueue;
-        // Reshuffle when the playlist is exhausted
         if (rest.length === 0) {
             return radioData ? shuffleArray(radioData.MUSIC_TRACKS) : [];
         }
         return [...rest, first];
     });
-    const audio = audioRef.current;
-    if (audio) {
-      // The useEffect watching the musicQueue will handle playing
-      setTimeout(() => audio.play().catch(e => console.error("Autoplay failed:", e)), 50);
-    }
   }, [radioData]);
 
   useEffect(() => {
     const audio = audioRef.current;
-    if (audio && isPlaying && musicQueue.length > 0) {
-        audio.src = musicQueue[0].url;
-        audio.play().catch(e => console.error("Autoplay failed on track change:", e));
-    }
-  }, [musicQueue, isPlaying]);
+    if (!audio) return;
 
+    const shouldPlayMusic = isPlaying && !isGreetingPlaying && musicQueue.length > 0 && !activeBroadcast && !activePodcastMP3;
+
+    if (shouldPlayMusic) {
+      const newSrc = musicQueue[0].url;
+      if (audio.src !== newSrc || audio.paused) {
+        if (audio.src !== newSrc) {
+          audio.src = newSrc;
+        }
+        const playPromise = audio.play();
+        if (playPromise !== undefined) {
+          playPromise.catch(error => {
+            if (error.name !== 'AbortError') {
+              console.error("Error playing music:", error);
+              setIsPlaying(false);
+            }
+          });
+        }
+      }
+    } else if (!isPlaying) {
+      audio.pause();
+    }
+  }, [musicQueue, isPlaying, isGreetingPlaying, activeBroadcast, activePodcastMP3]);
 
   const playBroadcast = useCallback((broadcast: NewsBroadcast, hour: number) => {
     const musicAudio = audioRef.current;
@@ -186,7 +204,7 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({ isPodcastModalOpen, on
     const resumeMusic = () => {
       setActiveBroadcast(null);
       if (wasMusicPlaying && musicAudio) {
-        musicAudio.play().catch(e => console.error("Failed to resume music", e));
+        // The main useEffect will handle resuming the music
       }
       if (newsAudioRef.current) {
           newsAudioRef.current.removeEventListener('ended', resumeMusic);
@@ -279,7 +297,7 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({ isPodcastModalOpen, on
         }
     };
 
-    const podcastInterval = setInterval(playRandomPodcast, 40 * 60 * 1000);
+    const podcastInterval = setInterval(playRandomPodcast, 30 * 60 * 1000);
 
     return () => {
         clearInterval(podcastInterval);
@@ -361,39 +379,65 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({ isPodcastModalOpen, on
       return;
     }
     
-    const playMusic = () => {
-      if (musicAudio && musicQueue.length > 0) {
-        if (musicAudio.src !== musicQueue[0].url) {
-            musicAudio.src = musicQueue[0].url;
-        }
-        musicAudio.play().catch(error => {
-          console.error("Error attempting to play music:", error);
-          setIsPlaying(false);
-        });
-      }
-    };
-    
     if (!hasGreetingPlayed) {
       const greetingUrl = selectRandomGreeting();
       setHasGreetingPlayed(true);
 
       if (greetingUrl) {
+        setIsGreetingPlaying(true);
         greetingAudioRef.current = new Audio(greetingUrl);
-        greetingAudioRef.current.onended = () => {
-          if (audioRef.current) {
-             playMusic();
-          }
+        
+        const onGreetingEnd = () => {
+            setIsGreetingPlaying(false);
+            if (greetingAudioRef.current) {
+                greetingAudioRef.current.removeEventListener('ended', onGreetingEnd);
+                greetingAudioRef.current.removeEventListener('error', onGreetingEnd);
+            }
         };
+
+        greetingAudioRef.current.addEventListener('ended', onGreetingEnd);
+        greetingAudioRef.current.addEventListener('error', (error) => {
+            console.error("Error playing greeting audio:", error);
+            onGreetingEnd();
+        });
+
         greetingAudioRef.current.play().catch(error => {
-          console.error("Error playing greeting audio, starting music directly:", error);
-          playMusic();
+          console.error("Greeting play() promise rejected:", error);
+          onGreetingEnd();
         });
         return;
       }
     }
-    
-    playMusic();
   };
+
+  const handleChangeVibe = () => {
+    if (isRadioLoading) return;
+    
+    if (activeBroadcast) {
+      newsAudioRef.current?.pause();
+      setActiveBroadcast(null);
+    }
+    if (activePodcastMP3) {
+      podcastMP3AudioRef.current?.pause();
+      setActivePodcastMP3(null);
+      if (audioRef.current) audioRef.current.volume = musicVolumeRef.current;
+    }
+     if (commercialJingleAudioRef.current) {
+        commercialJingleAudioRef.current.pause();
+        commercialJingleAudioRef.current = null;
+      }
+    if (separatorAudioRef.current) {
+        separatorAudioRef.current.pause();
+        separatorAudioRef.current = null;
+    }
+
+    playNextMusicTrack();
+    
+    if (!isPlaying) {
+      setIsPlaying(true);
+    }
+  };
+
 
   useEffect(() => {
     const jingleInterval = setInterval(() => {
@@ -424,7 +468,6 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({ isPodcastModalOpen, on
     };
   }, [isPlaying, isPodcastModalOpen]);
 
-  // Commercial jingles interval
   useEffect(() => {
     const playRandomJingle = () => {
       if (!radioData || !isPlaying || isPodcastModalOpen || activeBroadcast || activePodcastMP3 || (separatorAudioRef.current && !separatorAudioRef.current.paused) || (commercialJingleAudioRef.current && !commercialJingleAudioRef.current.paused)) {
@@ -477,7 +520,6 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({ isPodcastModalOpen, on
       if (commercialJingleTimerRef.current) {
         clearTimeout(commercialJingleTimerRef.current);
       }
-      // Random interval of no more than 15 minutes (e.g., 5 to 15 mins).
       const timeout = (Math.random() * 10 + 5) * 60 * 1000;
       commercialJingleTimerRef.current = window.setTimeout(playRandomJingle, timeout);
     };
@@ -497,7 +539,6 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({ isPodcastModalOpen, on
     };
   }, [isPlaying, isPodcastModalOpen, activeBroadcast, activePodcastMP3, radioData]);
   
-  // Separators interval
   useEffect(() => {
     const playRandomSeparator = () => {
       if (!radioData || !isPlaying || isPodcastModalOpen || activeBroadcast || activePodcastMP3 || (separatorAudioRef.current && !separatorAudioRef.current.paused) || (commercialJingleAudioRef.current && !commercialJingleAudioRef.current.paused)) {
@@ -545,7 +586,6 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({ isPodcastModalOpen, on
       if (separatorTimerRef.current) {
         clearTimeout(separatorTimerRef.current);
       }
-      // Random interval of no more than 10 minutes (e.g., 2 to 10 mins).
       const timeout = (Math.random() * 8 + 2) * 60 * 1000;
       separatorTimerRef.current = window.setTimeout(playRandomSeparator, timeout);
     };
@@ -590,6 +630,7 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({ isPodcastModalOpen, on
 
   return (
     <header className="text-center relative">
+      <ListenerCounter />
       <div className="py-6 border-b-4 border-double border-stone-800">
         <img
           src="https://res.cloudinary.com/ddmj6zevz/image/upload/f_auto,q_auto:good/v1756714882/logo_el_nexo_digital_assa82.png"
@@ -620,7 +661,7 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({ isPodcastModalOpen, on
           className="object-cover z-0"
           aria-hidden="true"
         />
-        <div className="z-10 flex justify-start items-center gap-6 bg-black/30 px-6">
+        <div className="z-10 flex justify-start items-center gap-4 bg-black/30 px-4">
           <audio
             ref={audioRef}
             onEnded={handleTrackEnded}
@@ -630,27 +671,37 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({ isPodcastModalOpen, on
             src="https://res.cloudinary.com/ddmj6zevz/video/upload/q_auto:good/v1757900327/el_nexo_digital_nicolle_egtjoc.mp3"
             preload="auto"
           />
-          <button
-            onClick={togglePlayPause}
-            disabled={isRadioLoading}
-            className="flex-shrink-0 p-3 rounded-full border-2 border-white text-white hover:bg-white/20 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white disabled:opacity-50 disabled:cursor-wait"
-            aria-label={isRadioLoading ? "Cargando radio" : (isPlaying ? "Pausar radio" : "Reproducir radio")}
-          >
-            {isRadioLoading ? (
-              <svg className="h-8 w-8 animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-              </svg>
-            ) : isPlaying ? (
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" viewBox="0 0 20 20" fill="currentColor">
-                <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zM7 8a1 1 0 012 0v4a1 1 0 11-2 0V8zm4 0a1 1 0 012 0v4a1 1 0 11-2 0V8z" clipRule="evenodd" />
-              </svg>
-            ) : (
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" viewBox="0 0 20 20" fill="currentColor">
-                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clipRule="evenodd" />
-              </svg>
-            )}
-          </button>
+          <div className="flex flex-col items-center flex-shrink-0 py-2">
+            <button
+              onClick={togglePlayPause}
+              disabled={isRadioLoading}
+              className="p-3 rounded-full border-2 border-white text-white hover:bg-white/20 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white disabled:opacity-50 disabled:cursor-wait"
+              aria-label={isRadioLoading ? "Cargando radio" : (isPlaying ? "Pausar radio" : "Reproducir radio")}
+            >
+              {isRadioLoading ? (
+                <svg className="h-10 w-10 animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+              ) : isPlaying ? (
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10" viewBox="0 0 20 20" fill="currentColor">
+                  <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zM7 8a1 1 0 012 0v4a1 1 0 11-2 0V8zm4 0a1 1 0 012 0v4a1 1 0 11-2 0V8z" clipRule="evenodd" />
+                </svg>
+              ) : (
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10" viewBox="0 0 20 20" fill="currentColor">
+                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clipRule="evenodd" />
+                </svg>
+              )}
+            </button>
+            <button
+                onClick={handleChangeVibe}
+                disabled={isRadioLoading}
+                className="mt-2 px-3 py-1 text-xs border border-white text-white rounded-full hover:bg-white/20 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white disabled:opacity-50 disabled:cursor-wait"
+                aria-label="Cambiar la onda musical"
+              >
+                cambiar la onda
+            </button>
+          </div>
           <div className="flex-1 text-white text-base text-left min-w-0">
             <p className="font-bold text-lg truncate">{currentArtist}</p>
             <p className="opacity-80 text-xs truncate" title={currentTitle}>
@@ -660,11 +711,40 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({ isPodcastModalOpen, on
         </div>
       </div>
       
-      {showPodcastButton && (
-        <div className="py-4 flex justify-center bg-[#fdfaf4]">
+      <div className="py-4 flex justify-center items-center gap-4 md:gap-8 bg-[#fdfaf4]">
+        {showPodcastButton && (
           <FloatingPodcastButton onClick={onPodcastButtonClick} />
-        </div>
-      )}
+        )}
+        <button
+          onClick={onProtectedButtonClick}
+          className="relative w-28 h-28 md:w-36 md:h-36 rounded-full shadow-2xl transition-transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-black/50"
+          aria-label="Acceder a contenido para Mecenas"
+        >
+          <div className="relative w-full h-full flex items-center justify-center">
+            {/* Spinning Text */}
+            <svg viewBox="0 0 100 100" className="absolute top-0 left-0 w-full h-full animate-spin-very-slow text-black">
+              <defs>
+                <path id="circleMecenas" d=" M 50, 50 m -39, 0 a 39,39 0 1,1 78,0 a 39,39 0 1,1 -78,0 "/>
+              </defs>
+              <text fill="currentColor" style={{fontSize: '14px', fontWeight: 'bold', letterSpacing: '0.5px'}} className="uppercase">
+                <textPath xlinkHref="#circleMecenas" startOffset="25%" textAnchor="middle">
+                  MECENAS
+                </textPath>
+              </text>
+            </svg>
+
+            {/* Inner Image with Pulse Animation */}
+            <div className="w-[70%] h-[70%] rounded-full animate-pulse-slow bg-white shadow-inner flex items-center justify-center">
+              <img
+                  src="https://res.cloudinary.com/dus9zcgen/image/upload/v1759387606/Gemini_Generated_Image_komhuokomhuokomh-removebg-preview_erl5zc.png"
+                  alt="Acceder a contenido exclusivo"
+                  className="w-full h-full object-contain"
+              />
+            </div>
+          </div>
+        </button>
+      </div>
+
     </header>
   );
 });
