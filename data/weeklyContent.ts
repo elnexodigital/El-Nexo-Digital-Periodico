@@ -214,7 +214,7 @@ Amina Wadud: Teóloga que lideró una oración mixta en una mezquita. ¿Revoluci
     // --- Página 14 (Par) ---
     {
       type: 'even',
-      imageUrl: 'https://res.cloudinary.com/ddmj6zevz/image/upload/v1758419894/articulo_6_xadquy.jpg',
+      imageUrl: 'https://res.cloudinary.com/ddmj6zevz/image/upload/v1759434389/Cynthia_Enloe_ia8pmo.jpg',
       bannerUrl: BANNER_PUBLICITARIO_4,
     },
 
