@@ -9,10 +9,12 @@ function getAiClient(): GoogleGenAI | null {
     return ai;
   }
   
-  // La clave de la API DEBE ser proporcionada a través de process.env.API_KEY
+  // FIX: Per coding guidelines, API key must be obtained from process.env.API_KEY. This resolves the TypeScript error for 'import.meta.env'.
   const apiKey = process.env.API_KEY;
   
   if (!apiKey) {
+    // Este error se mostrará en la consola del desarrollador.
+    // El usuario verá un mensaje más amigable en la UI.
     console.error("API_KEY de Gemini no está configurada en las variables de entorno.");
     return null;
   }
