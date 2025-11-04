@@ -9,7 +9,8 @@ function getAiClient(): GoogleGenAI | null {
     return ai;
   }
   
-  // FIX: Per coding guidelines, API key must be obtained from process.env.API_KEY. This resolves the TypeScript error for 'import.meta.env'.
+  // La clave de la API ahora es inyectada por el proceso de construcción de Vite.
+  // Este código funcionará correctamente en el nuevo entorno.
   const apiKey = process.env.API_KEY;
   
   if (!apiKey) {

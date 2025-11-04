@@ -1,23 +1,32 @@
-import path from 'path';
 import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react';
 
+// https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
-    const env = loadEnv(mode, '.', '');
-    return {
-      server: {
-        port: 3000,
-        host: '0.0.0.0',
+  // Carga las variables de entorno del directorio raíz
+  const env = loadEnv(mode, process.cwd(), '');
+
+  return {
+    plugins: [react()],
+    define: {
+      // Expone la variable de entorno API_KEY de Vercel al código del cliente
+      // como process.env.API_KEY durante el proceso de construcción.
+      'process.env.API_KEY': JSON.stringify(env.API_KEY),
+    },
+    // Mueve los archivos de TypeScript/JavaScript a la carpeta src
+    root: '.',
+    build: {
+      outDir: 'dist',
+      rollupOptions: {
+        input: {
+          main: './index.html',
+        },
       },
-      plugins: [react()],
-      define: {
-        'process.env.API_KEY': JSON.stringify(env.GEMINI_API_KEY),
-        'process.env.GEMINI_API_KEY': JSON.stringify(env.GEMINI_API_KEY)
+    },
+    resolve: {
+      alias: {
+        '~/': `${__dirname}/src/`,
       },
-      resolve: {
-        alias: {
-          '@': path.resolve(__dirname, '.'),
-        }
-      }
-    };
+    },
+  };
 });
