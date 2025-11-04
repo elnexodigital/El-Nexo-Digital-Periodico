@@ -1,8 +1,38 @@
 import { GoogleGenAI } from "@google/genai";
 
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+let ai: GoogleGenAI | null = null;
+
+// Inicializa el cliente de la API de forma diferida para evitar que la aplicación
+// se bloquee al cargar si la clave de la API no está presente en el entorno.
+function getAiClient(): GoogleGenAI | null {
+  if (ai) {
+    return ai;
+  }
+  
+  // La clave de la API DEBE ser proporcionada a través de process.env.API_KEY
+  const apiKey = process.env.API_KEY;
+  
+  if (!apiKey) {
+    console.error("API_KEY de Gemini no está configurada en las variables de entorno.");
+    return null;
+  }
+  
+  try {
+    ai = new GoogleGenAI({ apiKey });
+    return ai;
+  } catch (error) {
+    console.error("Error al inicializar el cliente de Gemini:", error);
+    return null;
+  }
+}
 
 export async function getRecommendation(category: string, query: string): Promise<string> {
+  const aiClient = getAiClient();
+
+  if (!aiClient) {
+    return "Error: La clave API de Gemini no está configurada correctamente. Por favor, contacta al administrador del sitio.";
+  }
+
   try {
     const prompt = `
       Actúa como un curador de contenido cultural y crítico experto para una revista digital llamada "El Nexo Digital". Tu tono es apasionado, intelectual pero accesible, y siempre buscas la joya oculta o una perspectiva fresca sobre los clásicos. Un usuario está buscando una recomendación.
@@ -18,7 +48,7 @@ export async function getRecommendation(category: string, query: string): Promis
       RESEÑA: [Tu análisis de 2-3 párrafos. Explica por qué la recomiendas, qué la hace especial, y conecta con la posible intención del usuario. No te limites a una sinopsis; ofrece una perspectiva crítica y personal.]
     `;
 
-    const response = await ai.models.generateContent({
+    const response = await aiClient.models.generateContent({
       model: 'gemini-2.5-flash',
       contents: prompt,
     });
@@ -28,6 +58,9 @@ export async function getRecommendation(category: string, query: string): Promis
   } catch (error) {
     console.error("Error al contactar la API de Gemini:", error);
     if (error instanceof Error) {
+        if (error.message.includes('API key not valid')) {
+             return "Error: La clave API de Gemini proporcionada no es válida. Por favor, verifica la configuración.";
+        }
         return `Error: No se pudo obtener la recomendación. ${error.message}`;
     }
     return "Error: No se pudo obtener la recomendación. Ocurrió un error desconocido.";
