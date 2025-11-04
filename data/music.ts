@@ -13,11 +13,6 @@ export const MUSIC_TRACKS: MusicTrack[] = [
     description: 'K-Pop: brillo eléctrico, coreo milimétrica y adrenalina juvenil.',
   },
   {
-    id: 'm10',
-    url: 'https://res.cloudinary.com/dgvkbrgre/video/upload/q_auto:good/v1756154360/utomp3.com_-_Experience_David_Guettas_Epic_Performance_Of_The_Monolith_at_AlUla_k6sjqi.mp3',
-    description: 'David Guetta – The Monolith: beats monumentales en un desierto de luces eternas.',
-  },
-  {
     id: 'm11',
     url: 'https://res.cloudinary.com/dgvkbrgre/video/upload/q_auto:good/v1756154359/Whiskey_Blues_Best_of_Slow_BluesRock_1_nvnw0f.mp3',
     description: 'Whiskey Blues: guitarras lentas, humo denso y la noche que nunca cierra..',
@@ -31,11 +26,6 @@ export const MUSIC_TRACKS: MusicTrack[] = [
     id: 'm14',
     url:'https://res.cloudinary.com/dgvkbrgre/video/upload/q_auto:good/v1756154332/DUNE_PART_TWO_SOUNDTRACK_CUT_Hans_Zimmer_xxf2ve.mp3',
     description: 'Dune 2: arena mágica, entre amores prohibidos.',
-  },
-  {
-    id: 'm15',
-    url:'https://res.cloudinary.com/dgvkbrgre/video/upload/q_auto:good/v1756154307/SnapSave.io_-_Insomnia_Monster_Mix_320_kbps_hk1mgp.mp3',
-    description: 'Insomnia Monster: sombras eléctricas, mente despierta y un rugido en la oscuridad..',
   },
   {
     id: 'm16',
@@ -68,11 +58,6 @@ export const MUSIC_TRACKS: MusicTrack[] = [
     description: 'Frío-poco-heart: melancolía helada con un susurro de vulnerabilidad.',
   },
   {
-    id: 'm22',
-    url:'https://res.cloudinary.com/dgvkbrgre/video/upload/q_auto:good/v1756154270/Y2DL_Wednesday_Playing_Cello_-_Paint_It_Black__Epic_Version_citspz.mp3',
-    description: 'Wednesday – Paint It Black (Epic Cello): oscuridad intensa, arco que llora y energía que golpea el alma.',
-  },
-  {
     id: 'm23',
     url:'https://res.cloudinary.com/dgvkbrgre/video/upload/q_auto:good/v1756154269/Who_Will_Save_Us_feat_Fleurie_Tommee_Profitt_qeirn4.mp3',
     description: 'Who Will Save Us (feat. Fleurie) – Tommee Profitt: voz etérea entre ruinas, esperanza frágil que lucha por brillar.',
@@ -98,11 +83,6 @@ export const MUSIC_TRACKS: MusicTrack[] = [
     description: 'The Beatles – Let It Be: calma melancólica que susurra consuelo en medio del caos.',
   },
   {
-    id: 'm28',
-    url:'https://res.cloudinary.com/dgvkbrgre/video/upload/q_auto:good/v1756154256/the_la_planta_x_luana_mil_preguntas_cover_rmjs5y.mp3',
-    description: 'The La Planta x Luana – Mil Preguntas: curiosidad y emociones que se entrelazan en cada nota.',
-  },
-  {
     id: 'm29',
     url:'https://res.cloudinary.com/dgvkbrgre/video/upload/q_auto:good/v1756154253/Roger_Waters_Comfortably_Numb_lc2qff.mp3',
     description: 'Roger Waters – Comfortably Numb: guitarra que duele, voz que flota y un viaje entre anestesia y emoción.',
@@ -111,11 +91,6 @@ export const MUSIC_TRACKS: MusicTrack[] = [
     id: 'm30',
     url:'https://res.cloudinary.com/dgvkbrgre/video/upload/q_auto:good/v1756154249/Runaway_kz7wdo.mp3',
     description: 'Runaway: energía desenfrenada, adrenalina que corre y libertad que quema.',
-  },
-  {
-    id: 'm31',
-    url:'https://res.cloudinary.com/dgvkbrgre/video/upload/q_auto:good/v1756154249/Rone_-_Bye_Bye_Macadam_Official_Video_-_onlinevideoconverter.com_fdp7ok.mp3',
-    description: 'Rone – Bye Bye Macadam: sintetizadores suaves que flotan, nostalgia urbana y pasos que se alejan.',
   },
   {
     id: 'm32',

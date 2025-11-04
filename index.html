@@ -15,17 +15,41 @@
   
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=Playfair+Display:wght@700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=Playfair+Display:wght@700&family=Caveat:wght@400;700&display=swap');
     @font-face {
       font-family: 'Britani';
       src: url('https://res.cloudinary.com/ddmj6zevz/raw/upload/v1756916641/brittany_ifg3wl.ttf') format('truetype');
       font-display: swap;
     }
+    :root {
+      --bg-color-light: #fdfaf4;
+      --text-color-light: #000000;
+      --paper-bg-light: #fdfaf4;
+      --modal-bg-light: #fdfaf4;
+      --protected-modal-bg-light: #f5f5f4; /* stone-100 */
+      --header-border-light: #292524; /* stone-800 */
+
+      --bg-color-dark: #1f2023;
+      --text-color-dark: #e8e6e3;
+      --paper-bg-dark: #2a2a2e;
+      --modal-bg-dark: #313236;
+      --note-bg-dark: #3a3a40;
+      --border-color-dark: #4d4d53;
+      --header-border-dark: #a8a29e; /* stone-400 */
+      --protected-modal-bg-dark: #313236;
+      --library-card-bg-dark: #2a2a2e;
+    }
     body {
       font-family: 'Courier Prime', monospace;
-      background-color: #fdfaf4;
+      background-color: var(--bg-color-light);
       background-image: url('https://www.transparenttextures.com/patterns/paper.png');
       transition: background-color 0.3s, color 0.3s;
+      color: var(--text-color-light);
+    }
+    body.dark {
+      background-color: var(--bg-color-dark);
+      background-image: url('https://www.transparenttextures.com/patterns/dark-paper.png');
+      color: var(--text-color-dark);
     }
     body.modal-open {
       overflow: hidden;
@@ -34,13 +58,22 @@
       font-family: 'Playfair Display', serif;
       color: #000000;
     }
+    body.dark h1, body.dark h2, body.dark h3, body.dark h4, body.dark h5, body.dark h6 {
+      color: var(--text-color-dark);
+    }
     .font-typewriter {
         font-family: 'Courier Prime', monospace;
+    }
+    .font-handwriting {
+      font-family: 'Caveat', cursive;
     }
     .newspaper-title {
       font-family: 'Britani', serif;
       font-weight: normal; 
       letter-spacing: normal;
+    }
+    body.dark .newspaper-title {
+      color: var(--text-color-dark);
     }
     .header-video-banner {
       position: relative;
@@ -74,7 +107,14 @@
       animation: spin-very-slow 25s linear infinite;
     }
 
-    /* --- Common Page Turn Styles --- */
+    @keyframes fadeInImage {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    .fade-in-image {
+      animation: fadeInImage 0.8s ease-in-out;
+    }
+
     .book {
       transform-style: preserve-3d;
     }
@@ -98,18 +138,17 @@
       transform: rotateY(180deg);
     }
     .page-container.turning, .mobile-page.turning {
-        transition: none; /* Disable transition during drag for smooth following */
+        transition: none;
     }
 
-    /* --- Mobile 3D Page Turn Styles --- */
     .mobile-book {
         position: relative;
         perspective: 1500px;
-        width: auto; /* Let height dictate width */
-        height: 85vh; /* Take up 85% of the viewport height */
-        max-height: 800px; /* Cap it for very large devices */
+        width: auto;
+        height: 85vh;
+        max-height: 800px;
         aspect-ratio: 9 / 16;
-        margin: 0 auto; /* Center it horizontally */
+        margin: 0 auto;
     }
     .mobile-page {
         position: absolute;
@@ -129,7 +168,6 @@
         transform: rotateY(-180deg);
     }
 
-    /* --- New Listener Counter Styles --- */
     .listener-counter {
         position: absolute;
         top: 8px;
@@ -143,6 +181,16 @@
         background: rgba(255,255,255,0.4);
         backdrop-filter: blur(4px);
         box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    body.dark .listener-counter {
+        background: rgba(0,0,0,0.4);
+    }
+    body.dark .counter-title, body.dark .digit-char {
+        color: var(--text-color-dark);
+    }
+    body.dark .digit-box {
+        background: #3a3a40;
+        border-color: #4d4d53;
     }
     .counter-title {
         font-size: 10px;
@@ -187,6 +235,251 @@
         transform: translateY(0);
       }
     }
+
+    .admin-notes-icon {
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      z-index: 21;
+      width: 60px;
+      cursor: pointer;
+      transition: transform 0.2s ease-in-out;
+      filter: drop-shadow(0 4px 6px rgba(0,0,0,0.2));
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+    .admin-notes-icon:hover {
+      transform: scale(1.1);
+    }
+    .admin-notes-icon .relative {
+      width: 100%;
+    }
+    .admin-notes-badge {
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      background-color: #dc2626;
+      color: white;
+      border-radius: 50%;
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: bold;
+      border: 2px solid white;
+      font-family: 'Courier Prime', monospace;
+    }
+
+    /* Modals */
+    .admin-notes-modal-backdrop, .admin-auth-modal-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      background-color: rgba(0,0,0,0.7);
+      backdrop-filter: blur(5px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+    .admin-auth-modal-backdrop { z-index: 101; }
+    .admin-notes-modal-content, .admin-auth-modal-content {
+      position: relative;
+      background-color: var(--modal-bg-light);
+      width: 100%;
+      max-height: 90vh;
+      border-radius: 8px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .admin-notes-modal-content { max-width: 500px; }
+    .admin-auth-modal-content { max-width: 400px; padding: 2rem; }
+    body.dark .admin-notes-modal-content, body.dark .admin-auth-modal-content {
+      background-color: var(--modal-bg-dark);
+      border: 1px solid var(--border-color-dark);
+    }
+    
+    .admin-notes-modal-header {
+      padding: 1rem 1.5rem;
+      border-bottom: 2px solid #e5e0d7;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    body.dark .admin-notes-modal-header { border-bottom-color: var(--border-color-dark); }
+    .admin-notes-modal-header h2 {
+      font-size: 1.5rem;
+      font-family: 'Playfair Display', serif;
+    }
+    .admin-notes-modal-close-btn {
+      background: none;
+      border: none;
+      font-size: 2rem;
+      cursor: pointer;
+      color: #57534e;
+    }
+    body.dark .admin-notes-modal-close-btn { color: var(--text-color-dark); }
+    .admin-notes-modal-body {
+      padding: 1.5rem;
+      overflow-y: auto;
+      flex-grow: 1;
+    }
+    .note-list-item {
+      background-color: #fff;
+      margin-bottom: 1rem;
+      border-left: 5px solid;
+      padding: 1rem;
+      border-radius: 4px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+    body.dark .note-list-item { background-color: var(--note-bg-dark); }
+    .note-list-item .note-text {
+      font-family: 'Caveat', cursive;
+      font-size: 1.5rem;
+      line-height: 1.3;
+      color: #333;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+    .note-list-item .note-author {
+      margin-top: 0.5rem;
+      font-weight: bold;
+      text-align: right;
+      color: #555;
+      font-size: 0.9rem;
+    }
+    body.dark .note-list-item .note-text, body.dark .note-list-item .note-author { color: var(--text-color-dark); }
+    .note-delete-btn {
+      background-color: #fecaca;
+      color: #b91c1c;
+      border: none;
+      border-radius: 50%;
+      width: 32px;
+      height: 32px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.2s;
+      flex-shrink: 0;
+    }
+    .note-delete-btn:hover {
+      background-color: #ef4444;
+      color: white;
+    }
+
+    /* --- New Library Styles --- */
+    .typewriter-cursor {
+      display: inline-block;
+      width: 8px;
+      height: 1.2em;
+      background-color: currentColor;
+      margin-left: 4px;
+      animation: blink 1s step-end infinite;
+    }
+    @keyframes blink {
+      50% { opacity: 0; }
+    }
+    .recommendation-loader {
+      animation: spin 1s linear infinite;
+    }
+    .recommendation-modal-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      background-color: rgba(0,0,0,0.8);
+      backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+    .recommendation-modal-content {
+      background-color: var(--modal-bg-light);
+      border-radius: 8px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      max-width: 600px;
+      max-height: 90vh;
+    }
+    body.dark .recommendation-modal-content { background-color: var(--modal-bg-dark); border: 1px solid var(--border-color-dark); }
+    
+    /* --- Dark Mode Overrides --- */
+    body.dark .border-stone-800 { border-color: var(--header-border-dark); }
+    body.dark .bg-\[\#fdfaf4\], body.dark .page-front, body.dark .page-back, body.dark .mobile-page {
+      background-color: var(--paper-bg-dark) !important;
+    }
+    body.dark .bg-stone-100 { background-color: var(--protected-modal-bg-dark) !important; }
+    body.dark .text-black, body.dark .text-gray-800, body.dark .text-stone-800, body.dark .text-stone-700, body.dark .text-stone-500 {
+        color: var(--text-color-dark) !important;
+    }
+    body.dark .text-stone-600 { color: #a8a29e !important; }
+    body.dark .bg-stone-800 { background-color: #1c1917 !important; }
+    body.dark input[type="password"], body.dark input[type="text"], body.dark textarea {
+        background-color: var(--paper-bg-dark);
+        border-color: var(--border-color-dark);
+        color: var(--text-color-dark);
+    }
+    body.dark .bg-\[rgba\(255,255,255,0\.7\)\] {
+        background-color: rgba(31, 32, 35, 0.85);
+    }
+    body.dark .text-black\/60, body.dark .text-black\/70 {
+        color: rgba(232, 230, 227, 0.7);
+    }
+    body.dark .hover\:bg-stone-200\/50:hover {
+        background-color: rgba(77, 77, 83, 0.5);
+    }
+    body.dark .border-stone-300 { border-color: var(--border-color-dark); }
+    body.dark text { fill: var(--text-color-dark); }
+    body.dark .bg-white { background-color: var(--paper-bg-dark) !important; }
+
+    /* --- Theme Switcher --- */
+    .theme-switcher {
+      position: relative;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background-color: rgba(0,0,0,0.1);
+      border: 1px solid rgba(0,0,0,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .theme-switcher:hover {
+      transform: scale(1.1) rotate(15deg);
+      background-color: rgba(0,0,0,0.2);
+    }
+    .theme-switcher svg {
+      width: 16px;
+      height: 16px;
+      color: #1c1917;
+      transition: opacity 0.3s, transform 0.3s;
+    }
+    body.dark .theme-switcher {
+      background-color: rgba(255,255,255,0.1);
+      border-color: rgba(255,255,255,0.2);
+    }
+    body.dark .theme-switcher svg {
+      color: #fdfaf4;
+    }
+    .theme-switcher .sun-icon { opacity: 1; transform: scale(1) rotate(0deg); }
+    .theme-switcher .moon-icon { opacity: 0; transform: scale(0) rotate(-90deg); position: absolute; }
+    body.dark .theme-switcher .sun-icon { opacity: 0; transform: scale(0) rotate(90deg); }
+    body.dark .theme-switcher .moon-icon { opacity: 1; transform: scale(1) rotate(0deg); }
+
   </style>
 <script type="importmap">
 {

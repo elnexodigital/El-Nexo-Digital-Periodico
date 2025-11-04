@@ -1,6 +1,6 @@
-
 import React, { useRef, FC, useState } from 'react';
 import type { Page, OddPage, EvenPage, CoverStory } from '../types.ts';
+import IndexPage from './IndexPage.tsx';
 
 // --- NUEVO: Componente para Páginas Impares (con texto) ---
 const OddPageLayout: FC<{ page: OddPage }> = ({ page }) => {
@@ -148,8 +148,30 @@ const Magazine: React.FC<MagazineProps> = ({ pages, cover }) => {
   const turningPageRef = useRef<HTMLDivElement | null>(null);
   const animationFrameRef = useRef(0);
 
+  // --- Desktop Navigation ---
+  const goToDesktopPage = (pageIndex: number) => {
+    const numPapers = Math.ceil((pages.length + 2) / 2);
+    setCurrentDesktopPage(Math.max(0, Math.min(pageIndex, numPapers)));
+  };
+  
+  const articlesForIndex = pages
+    .map((page, index) => ({ page, originalIndex: index }))
+    .filter(item => item.page.type === 'odd')
+    .map(item => ({
+      ...(item.page as OddPage),
+      originalIndex: item.originalIndex,
+      // Page numbers for display: Cover=1, Index=2, so first article is on page 3
+      pageNumber: item.originalIndex + 3 
+    }));
+
+  const handleIndexNavigation = (mobilePage: number, desktopPage: number) => {
+      setCurrentMobilePage(mobilePage);
+      goToDesktopPage(desktopPage);
+  };
+
   const allPages: React.ReactNode[] = [
     <CoverPage key="cover" coverStory={cover} />,
+    <IndexPage key="index" articles={articlesForIndex} onNavigate={handleIndexNavigation} />,
     ...pages.map((page, index) => {
       if (page.type === 'odd') {
         return <OddPageLayout key={page.id} page={page} />;
@@ -208,11 +230,6 @@ const Magazine: React.FC<MagazineProps> = ({ pages, cover }) => {
       turningPageRef.current.style.transform = `rotateY(${rotation}deg)`;
   };
 
-
-  // --- Desktop Navigation ---
-  const goToDesktopPage = (pageIndex: number) => {
-    setCurrentDesktopPage(Math.max(0, Math.min(pageIndex, numPapers)));
-  };
 
   return (
     <div className="w-full flex flex-col items-center">

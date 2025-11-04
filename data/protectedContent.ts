@@ -50,14 +50,14 @@ export const PATRON_CONTENT: Patron[] = [
         title: 'STARTNOW',
         description: 'Logotipo de la marca preparado para publicar.',
         url: 'https://res.cloudinary.com/dus9zcgen/image/upload/v1759387535/suplemento_logo1_rysjks.jpg',
-        type: 'video',
+        type: 'image',
       },
       {
         id: 'pc3-4',
         title: 'SUPLEMENTO JL',
         description: 'Logotipo de la marca preparado para publicar.',
         url: 'https://res.cloudinary.com/dus9zcgen/image/upload/v1759387535/suplemento_logo_2_nuo6nf.jpg',
-        type: 'video',
+        type: 'image',
       },
       {
         id: 'pc3-5',

@@ -1,4 +1,3 @@
-
 export interface MusicTrack {
   id: string;
   url: string;
@@ -75,11 +74,32 @@ export interface ProtectedContent {
   title: string;
   description: string;
   url: string;
-  type: 'audio' | 'video';
+  type: 'audio' | 'video' | 'image';
 }
 
 export interface Patron {
   id: string;
   name: string;
   content: ProtectedContent[];
+}
+
+export interface StickyNote {
+  id: string;
+  name: string;
+  text: string;
+  color: string;
+  // FIX: Added position and rotation properties to support dynamic placement.
+  position: { x: number; y: number };
+  rotation: number;
+}
+
+export interface LibraryItem {
+  id: string;
+  category: 'Libros' | 'Discos' | 'Películas';
+  title: string;
+  author: string; // O artista, director, etc.
+  imageUrl: string;
+  review: string;
+  audioUrl?: string;
+  videoUrl?: string;
 }

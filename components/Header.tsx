@@ -38,6 +38,12 @@ interface HeaderProps {
   onPodcastButtonClick: () => void;
   showPodcastButton: boolean;
   onProtectedButtonClick: () => void;
+  onStickyNoteButtonClick: () => void;
+  onLibraryButtonClick: () => void;
+  notesCount: number;
+  onAdminAuthRequest: () => void;
+  isDarkMode: boolean;
+  onToggleDarkMode: () => void;
 }
 
 interface RadioData {
@@ -51,6 +57,11 @@ interface RadioData {
   MUSIC_TRACKS: MusicTrack[];
   PODCASTS_MP3: PodcastMP3[];
   COMMERCIAL_JINGLES: string[];
+  TIME_JINGLES: {
+    morning: string[];
+    afternoon: string[];
+    night: string[];
+  };
 }
 
 const shuffleArray = <T,>(array: T[]): T[] => {
@@ -64,7 +75,7 @@ const shuffleArray = <T,>(array: T[]): T[] => {
 };
 
 
-const Header = forwardRef<HeaderControls, HeaderProps>(({ isPodcastModalOpen, onPodcastButtonClick, showPodcastButton, onProtectedButtonClick }, ref) => {
+const Header = forwardRef<HeaderControls, HeaderProps>(({ isPodcastModalOpen, onPodcastButtonClick, showPodcastButton, onProtectedButtonClick, onStickyNoteButtonClick, onLibraryButtonClick, notesCount, onAdminAuthRequest, isDarkMode, onToggleDarkMode }, ref) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isGreetingPlaying, setIsGreetingPlaying] = useState(false);
   const [videoQueue, setVideoQueue] = useState(() => shuffleArray(VIDEO_URLS));
@@ -83,10 +94,17 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({ isPodcastModalOpen, on
   const separatorAudioRef = useRef<HTMLAudioElement | null>(null);
   const podcastMP3AudioRef = useRef<HTMLAudioElement | null>(null);
   const commercialJingleAudioRef = useRef<HTMLAudioElement | null>(null);
+  const timeJingleAudioRef = useRef<HTMLAudioElement | null>(null);
   const musicVolumeRef = useRef(1.0);
 
   const separatorTimerRef = useRef<number | null>(null);
   const commercialJingleTimerRef = useRef<number | null>(null);
+  const timeJingleTimerRef = useRef<number | null>(null);
+
+  const activePodcastMP3Ref = useRef(activePodcastMP3);
+  useEffect(() => {
+    activePodcastMP3Ref.current = activePodcastMP3;
+  }, [activePodcastMP3]);
 
   const currentDate = new Date().toLocaleDateString('es-ES', {
     weekday: 'long',
@@ -106,6 +124,7 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({ isPodcastModalOpen, on
           musicModule,
           podcastsMp3Module,
           jinglesModule,
+          timeJinglesModule,
         ] = await Promise.all([
           import('../greetings.ts'),
           import('../data/broadcasts.ts'),
@@ -113,6 +132,7 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({ isPodcastModalOpen, on
           import('../data/music.ts'),
           import('../data/podcastsMP3.ts'),
           import('../data/jingles.ts'),
+          import('../data/timeJingles.ts'),
         ]);
         
         const loadedRadioData = {
@@ -122,6 +142,7 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({ isPodcastModalOpen, on
           MUSIC_TRACKS: musicModule.MUSIC_TRACKS,
           PODCASTS_MP3: podcastsMp3Module.PODCASTS_MP3,
           COMMERCIAL_JINGLES: jinglesModule.COMMERCIAL_JINGLES,
+          TIME_JINGLES: timeJinglesModule.TIME_JINGLES,
         };
         setRadioData(loadedRadioData);
         setMusicQueue(shuffleArray(loadedRadioData.MUSIC_TRACKS));
@@ -159,28 +180,45 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({ isPodcastModalOpen, on
     const audio = audioRef.current;
     if (!audio) return;
 
+    const handleMediaError = (event: Event) => {
+        console.error(`Audio element error for src: ${audio.src}. Skipping track.`, event);
+        playNextMusicTrack();
+    };
+    audio.addEventListener('error', handleMediaError);
+
     const shouldPlayMusic = isPlaying && !isGreetingPlaying && musicQueue.length > 0 && !activeBroadcast && !activePodcastMP3;
 
     if (shouldPlayMusic) {
       const newSrc = musicQueue[0].url;
-      if (audio.src !== newSrc || audio.paused) {
-        if (audio.src !== newSrc) {
-          audio.src = newSrc;
-        }
+      
+      const playAudio = () => {
         const playPromise = audio.play();
         if (playPromise !== undefined) {
           playPromise.catch(error => {
             if (error.name !== 'AbortError') {
-              console.error("Error playing music:", error);
-              setIsPlaying(false);
+              console.error(`Error playing music promise for ${audio.src}:`, error);
+              playNextMusicTrack();
             }
           });
         }
+      };
+
+      if (audio.src !== newSrc) {
+        audio.src = newSrc;
+        audio.load();
+        playAudio();
+      } else if (audio.paused) {
+        playAudio();
       }
-    } else if (!isPlaying) {
+    } else if (!isPlaying && !audio.paused) {
       audio.pause();
     }
-  }, [musicQueue, isPlaying, isGreetingPlaying, activeBroadcast, activePodcastMP3]);
+    
+    return () => {
+      audio.removeEventListener('error', handleMediaError);
+    };
+  }, [musicQueue, isPlaying, isGreetingPlaying, activeBroadcast, activePodcastMP3, playNextMusicTrack]);
+
 
   const playBroadcast = useCallback((broadcast: NewsBroadcast, hour: number) => {
     const musicAudio = audioRef.current;
@@ -205,7 +243,6 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({ isPodcastModalOpen, on
     const resumeMusic = () => {
       setActiveBroadcast(null);
       if (wasMusicPlaying && musicAudio) {
-        // The main useEffect will handle resuming the music
       }
       if (newsAudioRef.current) {
           newsAudioRef.current.removeEventListener('ended', resumeMusic);
@@ -260,54 +297,62 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({ isPodcastModalOpen, on
 
   useEffect(() => {
     const playRandomPodcast = () => {
-        if (!radioData) return;
-        if (isPlaying && !isPodcastModalOpen && !activeBroadcast && !activePodcastMP3) {
-            const podcastToPlay = radioData.PODCASTS_MP3[Math.floor(Math.random() * radioData.PODCASTS_MP3.length)];
-            const musicAudio = audioRef.current;
-            if (!musicAudio) return;
+      if (!radioData) return;
+      if (isPlaying && !isPodcastModalOpen && !activeBroadcast && !activePodcastMP3Ref.current) {
+        const podcastToPlay = radioData.PODCASTS_MP3[Math.floor(Math.random() * radioData.PODCASTS_MP3.length)];
+        const musicAudio = audioRef.current;
+        if (!musicAudio) return;
 
-            musicVolumeRef.current = musicAudio.volume;
-            musicAudio.volume = 0.2;
-
-            setActivePodcastMP3(podcastToPlay);
-            const podcastPlayer = new Audio(podcastToPlay.videoId);
-            podcastMP3AudioRef.current = podcastPlayer;
-
-            const handlePodcastEnd = () => {
-                if (audioRef.current) {
-                    audioRef.current.volume = musicVolumeRef.current;
-                }
-                setActivePodcastMP3(null);
-                if (podcastMP3AudioRef.current) {
-                    podcastMP3AudioRef.current.removeEventListener('ended', handlePodcastEnd);
-                    podcastMP3AudioRef.current.removeEventListener('error', handlePodcastEnd);
-                    podcastMP3AudioRef.current = null;
-                }
-            };
-
-            podcastPlayer.addEventListener('ended', handlePodcastEnd);
-            podcastPlayer.addEventListener('error', (e) => {
-                console.error("Podcast MP3 play failed", e);
-                handlePodcastEnd();
-            });
-            
-            podcastPlayer.play().catch(e => {
-                console.error("Podcast MP3 play promise rejected", e);
-                handlePodcastEnd();
-            });
+        if (!musicAudio.paused) {
+          musicAudio.pause();
         }
+
+        setActivePodcastMP3(podcastToPlay);
+        const podcastPlayer = new Audio(podcastToPlay.videoId);
+        podcastMP3AudioRef.current = podcastPlayer;
+
+        const handlePodcastEnd = () => {
+          setActivePodcastMP3(null);
+          if (podcastMP3AudioRef.current) {
+            podcastMP3AudioRef.current.removeEventListener('ended', handlePodcastEnd);
+            podcastMP3AudioRef.current.removeEventListener('error', handlePodcastEnd);
+            podcastMP3AudioRef.current = null;
+          }
+        };
+
+        podcastPlayer.addEventListener('ended', handlePodcastEnd);
+        podcastPlayer.addEventListener('error', (e) => {
+          console.error("Podcast MP3 audio element reported an error:", e);
+          handlePodcastEnd();
+        });
+
+        podcastPlayer.play().catch(e => {
+          if (e.name !== 'AbortError') {
+            console.error("Podcast MP3 play promise was rejected:", e);
+            handlePodcastEnd();
+          }
+        });
+      }
     };
+
+    if (!isPlaying) {
+      return;
+    }
 
     const podcastInterval = setInterval(playRandomPodcast, 30 * 60 * 1000);
 
     return () => {
-        clearInterval(podcastInterval);
-        if (podcastMP3AudioRef.current) {
-            podcastMP3AudioRef.current.pause();
-            podcastMP3AudioRef.current = null;
-        }
+      clearInterval(podcastInterval);
     };
-  }, [isPlaying, isPodcastModalOpen, activeBroadcast, activePodcastMP3, radioData]);
+  }, [isPlaying, isPodcastModalOpen, activeBroadcast, radioData]);
+
+  useEffect(() => {
+    return () => {
+      if (podcastMP3AudioRef.current) {
+        podcastMP3AudioRef.current.pause();
+      }
+    }
+  }, []);
 
   const getGreetingTimeOfDay = (): 'morning' | 'afternoon' | 'night' | null => {
     const now = new Date();
@@ -343,6 +388,7 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({ isPodcastModalOpen, on
     if (podcastMP3AudioRef.current) podcastMP3AudioRef.current.pause();
     if (newsAudioRef.current) newsAudioRef.current.pause();
     if (commercialJingleAudioRef.current) commercialJingleAudioRef.current.pause();
+    if (timeJingleAudioRef.current) timeJingleAudioRef.current.pause();
   };
   
   const togglePlayPause = () => {
@@ -373,6 +419,10 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({ isPodcastModalOpen, on
     }
     if (separatorAudioRef.current?.paused && !separatorAudioRef.current.ended) {
       separatorAudioRef.current.play().catch(e => console.error("Error resuming separator", e));
+      return;
+    }
+     if (timeJingleAudioRef.current?.paused && !timeJingleAudioRef.current.ended) {
+      timeJingleAudioRef.current.play().catch(e => console.error("Error resuming time jingle", e));
       return;
     }
     if (greetingAudioRef.current?.paused && !greetingAudioRef.current.ended) {
@@ -431,6 +481,10 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({ isPodcastModalOpen, on
         separatorAudioRef.current.pause();
         separatorAudioRef.current = null;
     }
+    if (timeJingleAudioRef.current) {
+        timeJingleAudioRef.current.pause();
+        timeJingleAudioRef.current = null;
+    }
 
     playNextMusicTrack();
     
@@ -471,7 +525,7 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({ isPodcastModalOpen, on
 
   useEffect(() => {
     const playRandomJingle = () => {
-      if (!radioData || !isPlaying || isPodcastModalOpen || activeBroadcast || activePodcastMP3 || (separatorAudioRef.current && !separatorAudioRef.current.paused) || (commercialJingleAudioRef.current && !commercialJingleAudioRef.current.paused)) {
+      if (!radioData || !isPlaying || isPodcastModalOpen || activeBroadcast || activePodcastMP3 || (separatorAudioRef.current && !separatorAudioRef.current.paused) || (commercialJingleAudioRef.current && !commercialJingleAudioRef.current.paused) || (timeJingleAudioRef.current && !timeJingleAudioRef.current.paused)) {
         scheduleNextJingle();
         return;
       }
@@ -542,7 +596,7 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({ isPodcastModalOpen, on
   
   useEffect(() => {
     const playRandomSeparator = () => {
-      if (!radioData || !isPlaying || isPodcastModalOpen || activeBroadcast || activePodcastMP3 || (separatorAudioRef.current && !separatorAudioRef.current.paused) || (commercialJingleAudioRef.current && !commercialJingleAudioRef.current.paused)) {
+      if (!radioData || !isPlaying || isPodcastModalOpen || activeBroadcast || activePodcastMP3 || (separatorAudioRef.current && !separatorAudioRef.current.paused) || (commercialJingleAudioRef.current && !commercialJingleAudioRef.current.paused) || (timeJingleAudioRef.current && !timeJingleAudioRef.current.paused)) {
         scheduleNextSeparator();
         return;
       }
@@ -602,6 +656,88 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({ isPodcastModalOpen, on
     };
   }, [isPlaying, radioData, isPodcastModalOpen, activeBroadcast, activePodcastMP3]);
 
+  useEffect(() => {
+    const playRandomTimeJingle = () => {
+      if (!radioData || !isPlaying || isPodcastModalOpen || activeBroadcast || activePodcastMP3 || (separatorAudioRef.current && !separatorAudioRef.current.paused) || (commercialJingleAudioRef.current && !commercialJingleAudioRef.current.paused) || (timeJingleAudioRef.current && !timeJingleAudioRef.current.paused)) {
+        scheduleNextTimeJingle();
+        return;
+      }
+
+      const musicAudio = audioRef.current;
+      if (!musicAudio || musicAudio.paused) {
+        scheduleNextTimeJingle();
+        return;
+      }
+      
+      const timeOfDay = getGreetingTimeOfDay();
+      if (!timeOfDay) {
+        scheduleNextTimeJingle();
+        return;
+      }
+
+      const jingles = radioData.TIME_JINGLES[timeOfDay];
+      if (!jingles || jingles.length === 0) {
+          scheduleNextTimeJingle();
+          return;
+      }
+      
+      const jingleUrl = jingles[Math.floor(Math.random() * jingles.length)];
+      
+      const wasMusicPlaying = !musicAudio.paused;
+      if (wasMusicPlaying) {
+          musicAudio.pause();
+      }
+
+      const jinglePlayer = new Audio(jingleUrl);
+      timeJingleAudioRef.current = jinglePlayer;
+
+      const handleJingleEnd = () => {
+          if (audioRef.current && wasMusicPlaying && isPlaying) {
+              audioRef.current.play().catch(e => console.error("Failed to resume music after time jingle", e));
+          }
+          if (timeJingleAudioRef.current) {
+              timeJingleAudioRef.current.removeEventListener('ended', handleJingleEnd);
+              timeJingleAudioRef.current.removeEventListener('error', handleJingleEnd);
+              timeJingleAudioRef.current = null;
+          }
+          scheduleNextTimeJingle();
+      };
+
+      jinglePlayer.addEventListener('ended', handleJingleEnd);
+      jinglePlayer.addEventListener('error', (e) => {
+          console.error("Time jingle play failed", e);
+          handleJingleEnd();
+      });
+
+      jinglePlayer.play().catch(e => {
+          console.error("Time jingle play promise rejected", e);
+          handleJingleEnd();
+      });
+    };
+    
+    const scheduleNextTimeJingle = () => {
+      if (timeJingleTimerRef.current) {
+        clearTimeout(timeJingleTimerRef.current);
+      }
+      const timeout = (Math.random() * 6 + 12) * 60 * 1000; // Approx 15 mins
+      timeJingleTimerRef.current = window.setTimeout(playRandomTimeJingle, timeout);
+    };
+
+    if (isPlaying && radioData) {
+      scheduleNextTimeJingle();
+    }
+
+    return () => {
+      if (timeJingleTimerRef.current) {
+        clearTimeout(timeJingleTimerRef.current);
+      }
+      if (timeJingleAudioRef.current) {
+          timeJingleAudioRef.current.pause();
+          timeJingleAudioRef.current = null;
+      }
+    };
+  }, [isPlaying, isPodcastModalOpen, activeBroadcast, activePodcastMP3, radioData]);
+
 
   useImperativeHandle(ref, () => ({
     playRadio: () => {
@@ -631,6 +767,21 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({ isPodcastModalOpen, on
 
   return (
     <header className="text-center relative">
+      <button
+          onClick={onAdminAuthRequest}
+          className="admin-notes-icon"
+          aria-label={`Ver ${notesCount} notas de administrador`}
+        >
+          <div className="relative">
+            <img 
+              src="https://res.cloudinary.com/ddmj6zevz/image/upload/v1762214989/Copilot_20251103_210903_eswig4.png" 
+              alt="Icono para ver notas de administrador" 
+              className="w-full h-full object-contain"
+            />
+            {notesCount > 0 && <span className="admin-notes-badge">{notesCount}</span>}
+          </div>
+        </button>
+
       <ListenerCounter />
       <div className="py-6 border-b-4 border-double border-stone-800">
         <img
@@ -644,35 +795,56 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({ isPodcastModalOpen, on
         <p className="text-black mt-4 text-sm md:text-base">
           Periódico digital independiente
         </p>
-        <p className="text-black mt-1 text-sm md:text-base uppercase">
-          Aplicación en desarrollo
-        </p>
+        <div className="max-w-xl mx-auto px-4">
+            <div className="relative flex justify-center items-center mt-1">
+                <p className="text-black text-sm md:text-base uppercase">
+                    Aplicación en desarrollo
+                </p>
+                <div className="absolute right-0">
+                  <button onClick={onToggleDarkMode} className="theme-switcher" aria-label={isDarkMode ? 'Activar modo claro' : 'Activar modo oscuro'}>
+                      <svg className="sun-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                      </svg>
+                      <svg className="moon-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                      </svg>
+                  </button>
+                </div>
+            </div>
+        </div>
         <p className="text-black mt-1 text-sm md:text-base capitalize">{currentDate}</p>
       </div>
 
-      <div className="my-4 overflow-hidden border-b-4 border-double border-stone-800 header-video-banner">
-        <video
-          key={bannerSrc}
-          src={bannerSrc}
-          autoPlay
-          muted
-          loop={!activeBroadcast}
-          playsInline
-          onEnded={activeBroadcast ? undefined : selectNextVideo}
-          className="object-cover z-0"
-          aria-hidden="true"
-        />
-        <div className="z-10 flex justify-start items-center gap-4 bg-black/30 px-4">
-          <audio
-            ref={audioRef}
-            onEnded={handleTrackEnded}
-          />
-          <audio
-            ref={jingleAudioRef}
-            src="https://res.cloudinary.com/ddmj6zevz/video/upload/q_auto:good/v1757900327/el_nexo_digital_nicolle_egtjoc.mp3"
-            preload="auto"
-          />
-          <div className="flex flex-col items-center flex-shrink-0 py-2">
+      <div className="my-4 overflow-hidden border-b-4 border-double border-stone-800">
+        <div className="header-video-banner">
+          {activePodcastMP3 ? (
+            <img
+              key={activePodcastMP3.id}
+              src={activePodcastMP3.coverUrl}
+              alt={`Portada de ${activePodcastMP3.title}`}
+              className="object-cover w-full h-full z-0 fade-in-image"
+              aria-hidden="true"
+            />
+          ) : (
+            <video
+              key={bannerSrc}
+              src={bannerSrc}
+              autoPlay
+              muted
+              loop={!activeBroadcast}
+              playsInline
+              onEnded={activeBroadcast ? undefined : selectNextVideo}
+              className="object-cover z-0"
+              aria-hidden="true"
+            />
+          )}
+        </div>
+        
+        <div className="bg-stone-800 text-white p-4 flex items-center justify-between gap-4 font-typewriter">
+          <audio ref={audioRef} onEnded={handleTrackEnded} />
+          <audio ref={jingleAudioRef} src="https://res.cloudinary.com/ddmj6zevz/video/upload/q_auto:good/v1757900327/el_nexo_digital_nicolle_egtjoc.mp3" preload="auto" />
+          
+          <div className="flex-shrink-0">
             <button
               onClick={togglePlayPause}
               disabled={isRadioLoading}
@@ -694,56 +866,120 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({ isPodcastModalOpen, on
                 </svg>
               )}
             </button>
-            <button
+          </div>
+
+          <div className="flex-1 text-center min-w-0">
+            <p className="font-bold text-lg truncate" title={currentArtist}>{currentArtist}</p>
+            <p className="opacity-80 text-sm truncate" title={currentTitle}>
+              {currentTitle}
+            </p>
+          </div>
+          
+          <div className="flex-shrink-0">
+             <button
                 onClick={handleChangeVibe}
                 disabled={isRadioLoading}
-                className="mt-2 px-3 py-1 text-xs border border-white text-white rounded-full hover:bg-white/20 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white disabled:opacity-50 disabled:cursor-wait"
+                className="px-4 py-2 text-sm border border-white text-white rounded-full hover:bg-white/20 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white disabled:opacity-50 disabled:cursor-wait"
                 aria-label="Cambiar la onda musical"
               >
                 cambiar la onda
             </button>
           </div>
-          <div className="flex-1 text-white text-base text-left min-w-0">
-            <p className="font-bold text-lg truncate">{currentArtist}</p>
-            <p className="opacity-80 text-xs truncate" title={currentTitle}>
-              {currentTitle}
-            </p>
-          </div>
         </div>
       </div>
       
-      <div className="py-4 flex justify-center items-center gap-4 md:gap-8 bg-[#fdfaf4]">
+      <div className="py-4 grid grid-cols-2 gap-y-8 gap-x-4 justify-items-center items-start md:flex md:justify-center md:gap-8 bg-[#fdfaf4]">
         {showPodcastButton && (
-          <FloatingPodcastButton onClick={onPodcastButtonClick} />
-        )}
-        <button
-          onClick={onProtectedButtonClick}
-          className="relative w-28 h-28 md:w-36 md:h-36 rounded-full shadow-2xl transition-transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-black/50"
-          aria-label="Acceder a contenido para Mecenas"
-        >
-          <div className="relative w-full h-full flex items-center justify-center">
-            {/* Spinning Text */}
-            <svg viewBox="0 0 100 100" className="absolute top-0 left-0 w-full h-full animate-spin-very-slow text-black">
-              <defs>
-                <path id="circleMecenas" d=" M 50, 50 m -39, 0 a 39,39 0 1,1 78,0 a 39,39 0 1,1 -78,0 "/>
-              </defs>
-              <text fill="currentColor" style={{fontSize: '14px', fontWeight: 'bold', letterSpacing: '0.5px'}} className="uppercase">
-                <textPath xlinkHref="#circleMecenas" startOffset="25%" textAnchor="middle">
-                  MECENAS
-                </textPath>
-              </text>
-            </svg>
-
-            {/* Inner Image with Pulse Animation */}
-            <div className="w-[70%] h-[70%] rounded-full animate-pulse-slow bg-white shadow-inner flex items-center justify-center">
-              <img
-                  src="https://res.cloudinary.com/dus9zcgen/image/upload/v1759387606/Gemini_Generated_Image_komhuokomhuokomh-removebg-preview_erl5zc.png"
-                  alt="Acceder a contenido exclusivo"
-                  className="w-full h-full object-contain"
-              />
-            </div>
+          <div className="flex flex-col items-center w-28 md:w-36">
+            <FloatingPodcastButton onClick={onPodcastButtonClick} />
           </div>
-        </button>
+        )}
+        <div className="flex flex-col items-center w-28 md:w-36">
+            <button
+              onClick={onStickyNoteButtonClick}
+              className="relative w-full h-28 md:h-36 rounded-full shadow-2xl transition-transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-black/50"
+              aria-label="Escribir una nota"
+            >
+              <div className="relative w-full h-full flex items-center justify-center">
+                <svg viewBox="0 0 100 100" className="absolute top-0 left-0 w-full h-full animate-spin-very-slow text-black">
+                  <defs>
+                    <path id="circleNota" d=" M 50, 50 m -39, 0 a 39,39 0 1,1 78,0 a 39,39 0 1,1 -78,0 "/>
+                  </defs>
+                  <text fill="currentColor" style={{fontSize: '14px', fontWeight: 'bold', letterSpacing: '0.5px'}} className="uppercase">
+                    <textPath xlinkHref="#circleNota" startOffset="25%" textAnchor="middle">
+                      Escribir Nota
+                    </textPath>
+                  </text>
+                </svg>
+
+                <div className="w-[70%] h-[70%] rounded-full animate-pulse-slow bg-white shadow-inner flex items-center justify-center">
+                  <img
+                    src="https://res.cloudinary.com/ddmj6zevz/image/upload/v1762215081/Copilot_20251103_210653_yecnvc.png"
+                    alt="Dejar una nota"
+                    className="w-full h-full object-cover rounded-full p-1"
+                  />
+                </div>
+              </div>
+            </button>
+        </div>
+
+        <div className="flex flex-col items-center w-28 md:w-36">
+            <button
+              onClick={onProtectedButtonClick}
+              className="relative w-full h-28 md:h-36 rounded-full shadow-2xl transition-transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-black/50"
+              aria-label="Acceder a contenido para Mecenas"
+            >
+              <div className="relative w-full h-full flex items-center justify-center">
+                <svg viewBox="0 0 100 100" className="absolute top-0 left-0 w-full h-full animate-spin-very-slow text-black">
+                  <defs>
+                    <path id="circleMecenas" d=" M 50, 50 m -39, 0 a 39,39 0 1,1 78,0 a 39,39 0 1,1 -78,0 "/>
+                  </defs>
+                  <text fill="currentColor" style={{fontSize: '14px', fontWeight: 'bold', letterSpacing: '0.5px'}} className="uppercase">
+                    <textPath xlinkHref="#circleMecenas" startOffset="25%" textAnchor="middle">
+                      MECENAS
+                    </textPath>
+                  </text>
+                </svg>
+
+                <div className="w-[70%] h-[70%] rounded-full animate-pulse-slow bg-white shadow-inner flex items-center justify-center">
+                  <img
+                      src="https://res.cloudinary.com/dus9zcgen/image/upload/v1759387606/Gemini_Generated_Image_komhuokomhuokomh-removebg-preview_erl5zc.png"
+                      alt="Acceder a contenido exclusivo"
+                      className="w-full h-full object-contain"
+                  />
+                </div>
+              </div>
+            </button>
+        </div>
+
+        <div className="flex flex-col items-center w-28 md:w-36">
+            <button
+              onClick={onLibraryButtonClick}
+              className="relative w-full h-28 md:h-36 rounded-full shadow-2xl transition-transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-black/50"
+              aria-label="Acceder a la Biblioteca"
+            >
+              <div className="relative w-full h-full flex items-center justify-center">
+                <svg viewBox="0 0 100 100" className="absolute top-0 left-0 w-full h-full animate-spin-very-slow text-black">
+                  <defs>
+                    <path id="circleBiblioteca" d=" M 50, 50 m -39, 0 a 39,39 0 1,1 78,0 a 39,39 0 1,1 -78,0 "/>
+                  </defs>
+                  <text fill="currentColor" style={{fontSize: '14px', fontWeight: 'bold', letterSpacing: '0.5px'}} className="uppercase">
+                    <textPath xlinkHref="#circleBiblioteca" startOffset="25%" textAnchor="middle">
+                      BIBLIOTECA
+                    </textPath>
+                  </text>
+                </svg>
+
+                <div className="w-[70%] h-[70%] rounded-full animate-pulse-slow bg-white shadow-inner flex items-center justify-center">
+                  <img
+                      src="https://res.cloudinary.com/ddmj6zevz/image/upload/v1762221635/Gemini_Generated_Image_ooj0fjooj0fjooj0-removebg-preview_o1y7yh.png"
+                      alt="Biblioteca de contenidos"
+                      className="w-full h-full object-contain p-1"
+                  />
+                </div>
+              </div>
+            </button>
+        </div>
       </div>
 
     </header>
