@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef, lazy, Suspense } from 'react';
-import type { VideoPodcast, HeaderControls, StickyNote, WeeklyContent } from './types.ts';
+import type { VideoPodcast, HeaderControls, StickyNote } from './types.ts';
 import Header from './components/Header.tsx';
 import LoadingSpinner from './components/LoadingSpinner.tsx';
+import { WEEKLY_EDITION_CONTENT } from './data/weeklyContent.ts';
 
 const PodcastModal = lazy(() => import('./components/PodcastModal.tsx'));
 const ProtectedContentModal = lazy(() => import('./components/ProtectedContentModal.tsx'));
@@ -19,7 +20,6 @@ type View = 'magazine' | 'library';
 const App: React.FC = () => {
   const [currentView, setCurrentView] = useState<View>('magazine');
   const [dailyPodcast, setDailyPodcast] = useState<VideoPodcast | null>(null);
-  const [weeklyContent, setWeeklyContent] = useState<WeeklyContent | null>(null);
   const [isPodcastModalOpen, setIsPodcastModalOpen] = useState(false);
   const [isProtectedModalOpen, setIsProtectedModalOpen] = useState(false);
   const [isStickyNoteModalOpen, setIsStickyNoteModalOpen] = useState(false);
@@ -86,25 +86,21 @@ const App: React.FC = () => {
     }
   }, [isDarkMode]);
 
-  // Effect to load initial podcast and weekly content data
+  // Effect to load initial podcast data
   useEffect(() => {
-    const loadData = async () => {
+    const loadLocalData = async () => {
       try {
-        const podcastModule = await import('./data/podcasts.ts');
-        if (podcastModule.VIDEO_PODCASTS.length > 0) {
-            const randomIndex = Math.floor(Math.random() * podcastModule.VIDEO_PODCASTS.length);
-            setDailyPodcast(podcastModule.VIDEO_PODCASTS[randomIndex]);
+        const { VIDEO_PODCASTS } = await import('./data/podcasts.ts');
+        if (VIDEO_PODCASTS.length > 0) {
+            const randomIndex = Math.floor(Math.random() * VIDEO_PODCASTS.length);
+            setDailyPodcast(VIDEO_PODCASTS[randomIndex]);
         }
-
-        const contentModule = await import('./data/weeklyContent.ts');
-        setWeeklyContent(contentModule.WEEKLY_EDITION_CONTENT);
-
       } catch(e) {
-        console.error("Error loading initial data:", e);
+        console.error("Error loading daily podcast:", e);
       }
     };
 
-    loadData();
+    loadLocalData();
   }, []);
 
   // Effect to save notes to localStorage whenever they change
@@ -210,7 +206,7 @@ const App: React.FC = () => {
       <main className="container mx-auto px-4 py-8">
         <Suspense fallback={<LoadingSpinner />}>
            {currentView === 'magazine' ? (
-              (weeklyContent ? <Magazine pages={weeklyContent.pages} cover={weeklyContent.cover} /> : <LoadingSpinner />)
+              <Magazine pages={WEEKLY_EDITION_CONTENT.pages} cover={WEEKLY_EDITION_CONTENT.cover} />
            ) : (
               <Library onBackToMagazine={() => setCurrentView('magazine')} />
            )}
