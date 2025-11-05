@@ -3,12 +3,12 @@ import type { VideoPodcast, HeaderControls, StickyNote } from './types.ts';
 import Header from './components/Header.tsx';
 import LoadingSpinner from './components/LoadingSpinner.tsx';
 import { WEEKLY_EDITION_CONTENT } from './data/weeklyContent.ts';
-import AdminAuthModal from './components/AdminAuthModal.tsx';
 
 const PodcastModal = lazy(() => import('./components/PodcastModal.tsx'));
 const ProtectedContentModal = lazy(() => import('./components/ProtectedContentModal.tsx'));
 const StickyNoteModal = lazy(() => import('./components/StickyNoteModal.tsx'));
 const AdminNotesModal = lazy(() => import('./components/AdminNotesModal.tsx'));
+const AdminAuthModal = lazy(() => import('./components/AdminAuthModal.tsx'));
 const Magazine = lazy(() => import('./components/Magazine.tsx'));
 const Library = lazy(() => import('./components/Library.tsx'));
 
@@ -238,11 +238,13 @@ const App: React.FC = () => {
         />
       </Suspense>
 
-      <AdminAuthModal
-        isOpen={isAuthModalOpen}
-        onClose={() => setIsAuthModalOpen(false)}
-        onLogin={handleAdminLogin}
-      />
+      <Suspense fallback={null}>
+        <AdminAuthModal
+          isOpen={isAuthModalOpen}
+          onClose={() => setIsAuthModalOpen(false)}
+          onLogin={handleAdminLogin}
+        />
+      </Suspense>
 
       <Suspense fallback={null}>
         <AdminNotesModal
