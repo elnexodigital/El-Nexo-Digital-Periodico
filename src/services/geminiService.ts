@@ -9,11 +9,11 @@ function getAiClient(): GoogleGenAI | null {
     return ai;
   }
   
-  // La clave de la API ahora es inyectada por el proceso de construcción de Vite.
-  // Este código funcionará correctamente en el nuevo entorno.
+  // La clave de la API es inyectada por el proceso de construcción de Vite.
+  // `process.env.API_KEY` se reemplaza con el valor real de la variable de entorno.
   const apiKey = process.env.API_KEY;
   
-  if (!apiKey) {
+  if (!apiKey || apiKey === 'undefined') {
     // Este error se mostrará en la consola del desarrollador.
     // El usuario verá un mensaje más amigable en la UI.
     console.error("API_KEY de Gemini no está configurada en las variables de entorno.");

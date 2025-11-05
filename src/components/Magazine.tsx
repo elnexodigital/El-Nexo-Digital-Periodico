@@ -138,7 +138,6 @@ interface MagazineProps {
   cover: CoverStory;
 }
 
-// FIX: The component was not returning a value, causing a 'void' return type error.
 const Magazine: React.FC<MagazineProps> = ({ pages, cover }) => {
   const [currentDesktopPage, setCurrentDesktopPage] = useState(0);
   const [currentMobilePage, setCurrentMobilePage] = useState(0);
