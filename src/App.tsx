@@ -241,7 +241,7 @@ const App: React.FC = () => {
           onAddNote={handleAddNote}
         />
       </Suspense>
-      
+
       <Suspense fallback={null}>
         <AdminAuthModal
           isOpen={isAuthModalOpen}
