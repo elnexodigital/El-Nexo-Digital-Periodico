@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, lazy, Suspense } from 'react';
 import type { VideoPodcast, HeaderControls, StickyNote } from './types.ts';
 import Header from './components/Header.tsx';
 import LoadingSpinner from './components/LoadingSpinner.tsx';
-import { WEEKLY_EDITION_CONTENT } from './data/weeklyContent.ts';
+import { WEEKLY_EDITION_CONTENT } from '../data/weeklyContent.ts';
 
 const PodcastModal = lazy(() => import('./components/PodcastModal.tsx'));
 const ProtectedContentModal = lazy(() => import('./components/ProtectedContentModal.tsx'));
