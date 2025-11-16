@@ -1,4 +1,4 @@
-import type { NewsBroadcast } from '../types.ts';
+import type { NewsBroadcast } from '~/types.ts';
 
 export const NEWS_BROADCASTS: Record<number, NewsBroadcast> = {
   10: {

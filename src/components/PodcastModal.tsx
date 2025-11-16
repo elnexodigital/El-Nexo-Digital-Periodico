@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import type { VideoPodcast } from '../types.ts';
+import type { VideoPodcast } from '~/types.ts';
 
 interface PodcastModalProps {
   isOpen: boolean;
