@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import type { StickyNote } from '~/types.ts';
+import type { StickyNote } from '../types.ts';
 
 // --- Single Note Display Component ---
 interface StickyNoteDisplayProps {

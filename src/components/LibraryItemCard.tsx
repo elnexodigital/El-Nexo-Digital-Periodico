@@ -1,5 +1,5 @@
 import React from 'react';
-import type { LibraryItem } from '~/types.ts';
+import type { LibraryItem } from '../types.ts';
 
 interface LibraryItemCardProps {
   item: LibraryItem;

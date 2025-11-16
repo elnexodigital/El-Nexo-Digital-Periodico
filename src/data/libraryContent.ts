@@ -1,4 +1,4 @@
-import type { LibraryItem } from '~/types.ts';
+import type { LibraryItem } from '../types.ts';
 
 export const LIBRARY_CONTENT: LibraryItem[] = [
   // --- LIBROS ---

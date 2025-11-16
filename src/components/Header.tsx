@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, useCallback, forwardRef, useImperativeHandle } from 'react';
-import type { MusicTrack, HeaderControls, NewsBroadcast, PodcastMP3 } from '~/types.ts';
+import type { MusicTrack, HeaderControls, NewsBroadcast, PodcastMP3 } from '../types.ts';
 import FloatingPodcastButton from './FloatingPodcastButton.tsx';
 import ListenerCounter from './ListenerCounter.tsx';
 
@@ -126,13 +126,13 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({ isPodcastModalOpen, on
           jinglesModule,
           timeJinglesModule,
         ] = await Promise.all([
-          import('~/greetings.ts'),
-          import('~/data/broadcasts.ts'),
-          import('~/data/separators.ts'),
-          import('~/data/music.ts'),
-          import('~/data/podcastsMP3.ts'),
-          import('~/data/jingles.ts'),
-          import('~/data/timeJingles.ts'),
+          import('../greetings.ts'),
+          import('../data/broadcasts.ts'),
+          import('../data/separators.ts'),
+          import('../data/music.ts'),
+          import('../data/podcastsMP3.ts'),
+          import('../data/jingles.ts'),
+          import('../data/timeJingles.ts'),
         ]);
         
         const loadedRadioData = {

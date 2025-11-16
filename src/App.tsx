@@ -1,18 +1,18 @@
 
 
 import React, { useState, useEffect, useRef, lazy, Suspense } from 'react';
-import type { VideoPodcast, HeaderControls, StickyNote } from '~/types.ts';
-import Header from '~/components/Header.tsx';
-import LoadingSpinner from '~/components/LoadingSpinner.tsx';
+import type { VideoPodcast, HeaderControls, StickyNote } from './types.ts';
+import Header from './components/Header.tsx';
+import LoadingSpinner from './components/LoadingSpinner.tsx';
 
-const PodcastModal = lazy(() => import('~/components/PodcastModal.tsx'));
-const ProtectedContentModal = lazy(() => import('~/components/ProtectedContentModal.tsx'));
-const StickyNoteModal = lazy(() => import('~/components/StickyNoteModal.tsx'));
-const AdminNotesModal = lazy(() => import('~/components/AdminNotesModal.tsx'));
-const AdminAuthModal = lazy(() => import('~/components/AdminAuthModal.tsx'));
-const Magazine = lazy(() => import('~/components/Magazine.tsx'));
-const Library = lazy(() => import('~/components/Library.tsx'));
-const StickyNotesContainer = lazy(() => import('~/components/StickyNotesContainer.tsx'));
+const PodcastModal = lazy(() => import('./components/PodcastModal.tsx'));
+const ProtectedContentModal = lazy(() => import('./components/ProtectedContentModal.tsx'));
+const StickyNoteModal = lazy(() => import('./components/StickyNoteModal.tsx'));
+const AdminNotesModal = lazy(() => import('./components/AdminNotesModal.tsx'));
+const AdminAuthModal = lazy(() => import('./components/AdminAuthModal.tsx'));
+const Magazine = lazy(() => import('./components/Magazine.tsx'));
+const Library = lazy(() => import('./components/Library.tsx'));
+const StickyNotesContainer = lazy(() => import('./components/StickyNotesContainer.tsx'));
 
 const NOTES_STORAGE_KEY = 'elNexoDigitalAdminNotes';
 const THEME_STORAGE_KEY = 'elNexoDigitalTheme';
@@ -92,7 +92,7 @@ const App: React.FC = () => {
   useEffect(() => {
     const loadLocalData = async () => {
       try {
-        const { VIDEO_PODCASTS } = await import('~/data/podcasts.ts');
+        const { VIDEO_PODCASTS } = await import('./data/podcasts.ts');
         if (VIDEO_PODCASTS.length > 0) {
             const randomIndex = Math.floor(Math.random() * VIDEO_PODCASTS.length);
             setDailyPodcast(VIDEO_PODCASTS[randomIndex]);

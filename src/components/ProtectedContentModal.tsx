@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { PATRON_CONTENT } from '~/data/protectedContent.ts';
-import type { Patron } from '~/types.ts';
+import { PATRON_CONTENT } from '../data/protectedContent.ts';
+import type { Patron } from '../types.ts';
 
 interface ProtectedContentModalProps {
   isOpen: boolean;

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import type { LibraryItem } from '~/types.ts';
+import type { LibraryItem } from '../types.ts';
 
 interface LibraryDetailModalProps {
   isOpen: boolean;

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { LIBRARY_CONTENT } from '~/data/libraryContent.ts';
+import { LIBRARY_CONTENT } from '../data/libraryContent.ts';
 import RecommendationModal from './RecommendationModal.tsx';
 
 interface LibraryProps {

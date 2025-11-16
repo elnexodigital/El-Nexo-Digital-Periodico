@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import type { StickyNote } from '~/types.ts';
+import type { StickyNote } from '../types.ts';
 
 interface AdminNotesModalProps {
   isOpen: boolean;

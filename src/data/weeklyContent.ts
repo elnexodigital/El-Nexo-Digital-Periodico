@@ -1,4 +1,4 @@
-import type { WeeklyContent } from '~/types.ts';
+import type { WeeklyContent } from '../types.ts';
 
 // ====================================================================================
 // PLANTILLA DE CONTENIDO SEMANAL - ¡EDITA ESTE ARCHIVO PARA ACTUALIZAR LA REVISTA!

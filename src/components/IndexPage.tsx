@@ -1,5 +1,5 @@
 import React from 'react';
-import type { OddPage } from '~/types.ts';
+import type { OddPage } from '../types.ts';
 
 type ArticleForIndex = OddPage & {
   originalIndex: number;

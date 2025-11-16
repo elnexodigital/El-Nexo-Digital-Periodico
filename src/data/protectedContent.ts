@@ -1,4 +1,4 @@
-import type { Patron } from '~/types.ts';
+import type { Patron } from '../types.ts';
 
 export const PATRON_CONTENT: Patron[] = [
   {

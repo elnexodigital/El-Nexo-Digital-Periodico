@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { getRecommendation } from '~/services/geminiService.ts';
+import { getRecommendation } from '../services/geminiService.ts';
 
 interface RecommendationModalProps {
   isOpen: boolean;
