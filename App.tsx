@@ -11,6 +11,7 @@ const StickyNoteModal = lazy(() => import('./components/StickyNoteModal.tsx'));
 const AdminNotesModal = lazy(() => import('./components/AdminNotesModal.tsx'));
 const Magazine = lazy(() => import('./components/Magazine.tsx'));
 const Library = lazy(() => import('./components/Library.tsx'));
+const StickyNotesContainer = lazy(() => import('./components/StickyNotesContainer.tsx'));
 
 const NOTES_STORAGE_KEY = 'elNexoDigitalAdminNotes';
 const THEME_STORAGE_KEY = 'elNexoDigitalTheme';
@@ -205,7 +206,6 @@ const App: React.FC = () => {
 
       <main className="container mx-auto px-4 py-8">
         <Suspense fallback={<LoadingSpinner />}>
-{/* FIX: The Magazine component does not accept `pages` or `cover` props. They have been removed. */}
            {currentView === 'magazine' ? (
               <Magazine />
            ) : (
@@ -251,6 +251,14 @@ const App: React.FC = () => {
           onClose={() => setIsAdminNotesModalOpen(false)}
           notes={notes}
           setNotes={setNotes}
+        />
+      </Suspense>
+
+      <Suspense fallback={null}>
+        <StickyNotesContainer 
+          notes={notes}
+          isNotesAdmin={isNotesAdmin}
+          onAdminAuthRequest={handleAdminAuthRequest}
         />
       </Suspense>
     </div>
