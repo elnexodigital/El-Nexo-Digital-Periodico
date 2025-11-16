@@ -1,8 +1,8 @@
+
 import React, { useState, useEffect, useRef, lazy, Suspense } from 'react';
 import type { VideoPodcast, HeaderControls, StickyNote } from './types.ts';
 import Header from './components/Header.tsx';
 import LoadingSpinner from './components/LoadingSpinner.tsx';
-import { WEEKLY_EDITION_CONTENT } from './data/weeklyContent.ts';
 import AdminAuthModal from './components/AdminAuthModal.tsx';
 
 const PodcastModal = lazy(() => import('./components/PodcastModal.tsx'));
@@ -205,8 +205,9 @@ const App: React.FC = () => {
 
       <main className="container mx-auto px-4 py-8">
         <Suspense fallback={<LoadingSpinner />}>
+{/* FIX: The Magazine component does not accept `pages` or `cover` props. They have been removed. */}
            {currentView === 'magazine' ? (
-              <Magazine pages={WEEKLY_EDITION_CONTENT.pages} cover={WEEKLY_EDITION_CONTENT.cover} />
+              <Magazine />
            ) : (
               <Library onBackToMagazine={() => setCurrentView('magazine')} />
            )}
