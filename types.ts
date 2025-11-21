@@ -102,4 +102,6 @@ export interface LibraryItem {
   review: string;
   audioUrl?: string;
   videoUrl?: string;
+  publicationDate: string;
+  sources?: string;
 }

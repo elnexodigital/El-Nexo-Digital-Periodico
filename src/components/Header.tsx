@@ -1,3 +1,4 @@
+
 import React, { useState, useRef, useEffect, useCallback, forwardRef, useImperativeHandle } from 'react';
 import type { MusicTrack, HeaderControls, NewsBroadcast, PodcastMP3 } from '../types.ts';
 import FloatingPodcastButton from './FloatingPodcastButton.tsx';
@@ -97,6 +98,12 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({ isPodcastModalOpen, on
   const timeJingleAudioRef = useRef<HTMLAudioElement | null>(null);
   const musicVolumeRef = useRef(1.0);
 
+  const lastRandomEventTimeRef = useRef<number>(0);
+  const MIN_EVENT_SPACING = 30000; // 30 seconds
+
+  const recentTracksRef = useRef<string[]>([]);
+  const recentVideosRef = useRef<string[]>([]);
+  
   const separatorTimerRef = useRef<number | null>(null);
   const commercialJingleTimerRef = useRef<number | null>(null);
   const timeJingleTimerRef = useRef<number | null>(null);
@@ -158,7 +165,18 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({ isPodcastModalOpen, on
 
   const selectNextVideo = useCallback(() => {
     setVideoQueue(prevQueue => {
-      const [first, ...rest] = prevQueue;
+      let [first, ...rest] = prevQueue;
+      
+      if (recentVideosRef.current.includes(first) && rest.length > 5) {
+         const swapIndex = Math.floor(Math.random() * (rest.length - 1)) + 1;
+         const temp = first;
+         first = rest[swapIndex];
+         rest[swapIndex] = temp;
+      }
+
+      const newHistory = [first, ...recentVideosRef.current].slice(0, 5);
+      recentVideosRef.current = newHistory;
+
       if (rest.length === 0) {
         return shuffleArray(VIDEO_URLS);
       }
@@ -168,7 +186,20 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({ isPodcastModalOpen, on
 
   const playNextMusicTrack = useCallback(() => {
     setMusicQueue(prevQueue => {
-        const [first, ...rest] = prevQueue;
+        let [first, ...rest] = prevQueue;
+        
+        if (first && recentTracksRef.current.includes(first.id) && rest.length > 10) {
+            const swapIndex = Math.floor(Math.random() * Math.min(20, rest.length));
+            const temp = first;
+            first = rest[swapIndex];
+            rest[swapIndex] = temp;
+        }
+
+        if (first) {
+            const newHistory = [first.id, ...recentTracksRef.current].slice(0, 15);
+            recentTracksRef.current = newHistory;
+        }
+
         if (rest.length === 0) {
             return radioData ? shuffleArray(radioData.MUSIC_TRACKS) : [];
         }
@@ -281,7 +312,7 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({ isPodcastModalOpen, on
       }
   
       const broadcast = radioData.NEWS_BROADCASTS[hour];
-      if (broadcast && minutes === 0 && !playedBroadcasts[hour]) {
+      if (broadcast && minutes === 0 && !playedBroadcasts[hour] && isPlaying) {
         playBroadcast(broadcast, hour);
       }
     };
@@ -293,7 +324,7 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({ isPodcastModalOpen, on
       clearTimeout(mountTimeout);
       clearInterval(intervalId);
     };
-  }, [playedBroadcasts, playBroadcast, radioData]);
+  }, [playedBroadcasts, playBroadcast, radioData, isPlaying]);
 
   useEffect(() => {
     const playRandomPodcast = () => {
@@ -530,6 +561,12 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({ isPodcastModalOpen, on
         return;
       }
 
+      const now = Date.now();
+      if (now - lastRandomEventTimeRef.current < MIN_EVENT_SPACING) {
+          scheduleNextJingle();
+          return;
+      }
+
       const musicAudio = audioRef.current;
       const nicolleJingle = jingleAudioRef.current;
       if (!musicAudio || (nicolleJingle && !nicolleJingle.paused)) {
@@ -546,6 +583,8 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({ isPodcastModalOpen, on
 
       const jinglePlayer = new Audio(jingleUrl);
       commercialJingleAudioRef.current = jinglePlayer;
+      
+      lastRandomEventTimeRef.current = Date.now();
 
       const handleJingleEnd = () => {
           if (audioRef.current && wasMusicPlaying && isPlaying) {
@@ -601,6 +640,12 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({ isPodcastModalOpen, on
         return;
       }
 
+      const now = Date.now();
+      if (now - lastRandomEventTimeRef.current < MIN_EVENT_SPACING) {
+          scheduleNextSeparator();
+          return;
+      }
+
       const musicAudio = audioRef.current;
       if (!musicAudio || musicAudio.paused) {
         scheduleNextSeparator();
@@ -612,6 +657,8 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({ isPodcastModalOpen, on
       const separatorUrl = radioData.SEPARATOR_AUDIOS[Math.floor(Math.random() * radioData.SEPARATOR_AUDIOS.length)];
       const separatorPlayer = new Audio(separatorUrl);
       separatorAudioRef.current = separatorPlayer;
+      
+      lastRandomEventTimeRef.current = Date.now();
 
       const handleSeparatorEnd = () => {
         if (audioRef.current && isPlaying) {
@@ -663,6 +710,12 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({ isPodcastModalOpen, on
         return;
       }
 
+      const now = Date.now();
+      if (now - lastRandomEventTimeRef.current < MIN_EVENT_SPACING) {
+          scheduleNextTimeJingle();
+          return;
+      }
+
       const musicAudio = audioRef.current;
       if (!musicAudio || musicAudio.paused) {
         scheduleNextTimeJingle();
@@ -683,17 +736,17 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({ isPodcastModalOpen, on
       
       const jingleUrl = jingles[Math.floor(Math.random() * jingles.length)];
       
-      const wasMusicPlaying = !musicAudio.paused;
-      if (wasMusicPlaying) {
-          musicAudio.pause();
-      }
+      musicVolumeRef.current = musicAudio.volume;
+      musicAudio.volume = 0.2;
 
       const jinglePlayer = new Audio(jingleUrl);
       timeJingleAudioRef.current = jinglePlayer;
+      
+      lastRandomEventTimeRef.current = Date.now();
 
       const handleJingleEnd = () => {
-          if (audioRef.current && wasMusicPlaying && isPlaying) {
-              audioRef.current.play().catch(e => console.error("Failed to resume music after time jingle", e));
+          if (audioRef.current) {
+              audioRef.current.volume = musicVolumeRef.current;
           }
           if (timeJingleAudioRef.current) {
               timeJingleAudioRef.current.removeEventListener('ended', handleJingleEnd);
@@ -759,7 +812,7 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({ isPodcastModalOpen, on
   };
   
   const currentVideoUrl = videoQueue[0] || '';
-  const bannerSrc = activeBroadcast?.bannerUrl || currentVideoUrl;
+  const bannerSrc = currentVideoUrl;
 
   const currentTrack = musicQueue[0] || null;
   const currentTitle = activeBroadcast?.description || activePodcastMP3?.title || currentTrack?.description || 'El Nexo Digital';
@@ -831,9 +884,9 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({ isPodcastModalOpen, on
               src={bannerSrc}
               autoPlay
               muted
-              loop={!activeBroadcast}
+              loop={true}
               playsInline
-              onEnded={activeBroadcast ? undefined : selectNextVideo}
+              onEnded={selectNextVideo}
               className="object-cover z-0"
               aria-hidden="true"
             />

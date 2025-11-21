@@ -6,11 +6,17 @@ export default defineConfig(({ mode }) => {
   return {
     plugins: [react()],
     define: {
-      // Expone las variables de entorno de Vercel al código del cliente.
-      // Esto reemplaza `process.env.API_KEY` con el valor real de la clave durante el build.
       'process.env.API_KEY': JSON.stringify(process.env.API_KEY),
     },
     root: '.',
+    server: {
+      // Force no cache headers
+      headers: {
+        'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0',
+        'Pragma': 'no-cache',
+        'Expires': '0',
+      },
+    },
     build: {
       outDir: 'dist',
       rollupOptions: {

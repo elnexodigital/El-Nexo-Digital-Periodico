@@ -1,3 +1,4 @@
+
 import type { MusicTrack } from '../types.ts';
 
 export const MUSIC_TRACKS: MusicTrack[] = [
@@ -884,7 +885,7 @@ export const MUSIC_TRACKS: MusicTrack[] = [
   {
     id: 'm198',
     url: 'https://res.cloudinary.com/dgvkbrgre/video/upload/q_auto:good/v1756425489/Halsey_Without_Me_v0kfeb.mp3',
-    description: 'Pop confesional para cuando el amor te sube al pedestal y después te deja caer: ideal para recordar que fuiste vos quien lo sostuvo, y también quien aprendió a soltar',
+    description: 'Pop confesional para cuando el amor te sube al pedestal y después te deja caer: ideal para recordar que fuiste vos quien lo sostuvo, y también quien aprendeu a soltar',
   },
   {
     id: 'm199',

@@ -3,15 +3,16 @@ import React, { useState, useEffect, useRef, lazy, Suspense } from 'react';
 import type { VideoPodcast, HeaderControls, StickyNote } from './types.ts';
 import Header from './components/Header.tsx';
 import LoadingSpinner from './components/LoadingSpinner.tsx';
-import AdminAuthModal from './components/AdminAuthModal.tsx';
+import Library from './components/Library.tsx';
 
+// --- COMPONENTES EXTERNOS CON LAZY LOADING ---
 const PodcastModal = lazy(() => import('./components/PodcastModal.tsx'));
 const ProtectedContentModal = lazy(() => import('./components/ProtectedContentModal.tsx'));
 const StickyNoteModal = lazy(() => import('./components/StickyNoteModal.tsx'));
 const AdminNotesModal = lazy(() => import('./components/AdminNotesModal.tsx'));
 const Magazine = lazy(() => import('./components/Magazine.tsx'));
-const Library = lazy(() => import('./components/Library.tsx'));
 const StickyNotesContainer = lazy(() => import('./components/StickyNotesContainer.tsx'));
+const AdminAuthModal = lazy(() => import('./components/AdminAuthModal.tsx'));
 
 const NOTES_STORAGE_KEY = 'elNexoDigitalAdminNotes';
 const THEME_STORAGE_KEY = 'elNexoDigitalTheme';
@@ -41,7 +42,6 @@ const App: React.FC = () => {
       if (!savedNotes) return [];
       
       let needsUpdate = false;
-      // FIX: Add migration for notes from localStorage to include position and rotation.
       const parsedNotes = JSON.parse(savedNotes);
       const migratedNotes = parsedNotes.map((note: any) => {
         if (note.position && typeof note.rotation !== 'undefined') {
@@ -72,7 +72,6 @@ const App: React.FC = () => {
   
   const NOTES_ADMIN_PASSWORD = 'sauce';
 
-  // Effect to manage dark mode class and local storage
   useEffect(() => {
     const body = document.body;
     if (isDarkMode) {
@@ -87,7 +86,6 @@ const App: React.FC = () => {
     }
   }, [isDarkMode]);
 
-  // Effect to load initial podcast data
   useEffect(() => {
     const loadLocalData = async () => {
       try {
@@ -104,7 +102,6 @@ const App: React.FC = () => {
     loadLocalData();
   }, []);
 
-  // Effect to save notes to localStorage whenever they change
   useEffect(() => {
     try {
       window.localStorage.setItem(NOTES_STORAGE_KEY, JSON.stringify(notes));
@@ -175,7 +172,6 @@ const App: React.FC = () => {
 
   const handleAddNote = (noteData: { name: string; text: string }) => {
     const noteColors = ['#ffc', '#cfc', '#ccf', '#fcc', '#cff', '#ffb3ba', '#ffffba', '#baffc9'];
-    // FIX: Add position and rotation properties to new notes.
     const newNote: StickyNote = {
         id: `note_${Date.now()}`,
         name: noteData.name.trim() || 'Anónimo',
@@ -239,11 +235,13 @@ const App: React.FC = () => {
         />
       </Suspense>
       
-      <AdminAuthModal
-        isOpen={isAuthModalOpen}
-        onClose={() => setIsAuthModalOpen(false)}
-        onLogin={handleAdminLogin}
-      />
+      <Suspense fallback={null}>
+        <AdminAuthModal
+          isOpen={isAuthModalOpen}
+          onClose={() => setIsAuthModalOpen(false)}
+          onLogin={handleAdminLogin}
+        />
+      </Suspense>
 
       <Suspense fallback={null}>
         <AdminNotesModal

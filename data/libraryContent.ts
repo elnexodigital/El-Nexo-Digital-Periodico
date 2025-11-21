@@ -64,6 +64,12 @@ Conclusión
 En definitiva, el realismo mágico en la obra de Gabriel García Márquez es mucho más que un estilo literario; es el dispositivo hermenéutico fundamental con el que el autor articula una visión compleja y trágica de la identidad latinoamericana. A través de la saga de los Buendía, García Márquez demuestra que lo fantástico no es una fuga de la realidad, sino un prisma que la descompone para magnificar sus verdades ocultas. La historia de Macondo es la de una tierra marcada por la condena a la soledad, una fuerza que aísla a los individuos y fractura a la sociedad, y por la repetición incesante de la violencia. La destrucción final de Macondo no es, por tanto, el mero fin de una familia ficticia, sino la representación mítica del destino de un continente atrapado en los engranajes de su propia historia, sin una segunda oportunidad sobre la tierra.`,
     audioUrl: 'https://res.cloudinary.com/dsammmekc/video/upload/v1762292455/Cien_A%C3%B1os_de_Soledad__El_Realismo_M%C3%A1gico__la_Censura_y_el_Final_fuk0lv.mp4',
     videoUrl: 'https://res.cloudinary.com/dsammmekc/video/upload/v1762291490/Cien_a%C3%B1os_de_controversia_ubapnm.mp4',
+    publicationDate: 'Octubre, 2024',
+    sources: `Análisis generado con el apoyo de NotebookLM, utilizando como fuentes primarias:
+- "Cien años de soledad" de Gabriel García Márquez.
+- "La soledad de América Latina", Discurso de aceptación del Premio Nobel de Literatura 1982 por Gabriel García Márquez.
+- "El viaje a la semilla" de Alejo Carpentier (para el concepto de "lo real maravilloso").
+- Artículos académicos sobre la Guerra de los Mil Días y la Masacre de las Bananeras en Colombia.`
   },
   {
     id: 'libro2',
@@ -71,7 +77,9 @@ En definitiva, el realismo mágico en la obra de Gabriel García Márquez es muc
     title: '1984',
     author: 'George Orwell',
     imageUrl: 'https://m.media-amazon.com/images/I/81StsY-8i3L._AC_UF1000,1000_QL80_.jpg',
-    review: 'Una distopía sombría y atemporal que explora temas de vigilancia masiva, totalitarismo y manipulación de la verdad. La historia de Winston Smith y su lucha contra el Partido y el Gran Hermano es un escalofriante recordatorio de los peligros de la pérdida de la libertad individual y la subversión del lenguaje. Su relevancia perdura, siendo una obra fundamental de la literatura política.'
+    review: 'Una distopía sombría y atemporal que explora temas de vigilancia masiva, totalitarismo y manipulación de la verdad. La historia de Winston Smith y su lucha contra el Partido y el Gran Hermano es un escalofriante recordatorio de los peligros de la pérdida de la libertad individual y la subversión del lenguaje. Su relevancia perdura, siendo una obra fundamental de la literatura política.',
+    publicationDate: 'Septiembre, 2024',
+    sources: 'Reseña basada en análisis literario estándar de la obra.'
   },
   {
     id: 'libro3',
@@ -79,7 +87,9 @@ En definitiva, el realismo mágico en la obra de Gabriel García Márquez es muc
     title: 'El Principito',
     author: 'Antoine de Saint-Exupéry',
     imageUrl: 'https://m.media-amazon.com/images/I/71La4A02d0L._AC_UF1000,1000_QL80_.jpg',
-    review: 'Aunque es breve, esta fábula filosófica es profundamente conmovedora. A través de los ojos de un pequeño príncipe que viaja por el universo, Saint-Exupéry reflexiona sobre la amistad, el amor, la pérdida y el sentido de la vida adulta. Es un libro que se lee en diferentes etapas de la vida y siempre ofrece nuevas lecciones. Es simple, poético y esencial.'
+    review: 'Aunque es breve, esta fábula filosófica es profundamente conmovedora. A través de los ojos de un pequeño príncipe que viaja por el universo, Saint-Exupéry reflexiona sobre la amistad, el amor, la pérdida y el sentido de la vida adulta. Es un libro que se lee en diferentes etapas de la vida y siempre ofrece nuevas lecciones. Es simple, poético y esencial.',
+    publicationDate: 'Agosto, 2024',
+    sources: 'Reseña basada en análisis literario estándar de la obra.'
   },
   {
     id: 'libro4',
@@ -87,7 +97,9 @@ En definitiva, el realismo mágico en la obra de Gabriel García Márquez es muc
     title: 'Crimen y Castigo',
     author: 'Fiódor Dostoievski',
     imageUrl: 'https://images.cdn2.buscalibre.com/fit-in/360x360/b2/89/b2896557b545465134764b6e51248472.jpg',
-    review: 'Un examen psicológico intenso de Raskólnikov, un estudiante pobre en San Petersburgo que comete un asesinato para probar una teoría filosófica. La novela se sumerge en su culpa, paranoia y redención. Es una obra densa y poderosa que cuestiona la moralidad, la justicia y la naturaleza humana, ofreciendo una visión magistral de la complejidad del alma.'
+    review: 'Un examen psicológico intenso de Raskólnikov, un estudiante pobre en San Petersburgo que comete un asesinato para probar una teoría filosófica. La novela se sumerge en su culpa, paranoia y redención. Es una obra densa y poderosa que cuestiona la moralidad, la justicia y la naturaleza humana, ofreciendo una visión magistral de la complejidad del alma.',
+    publicationDate: 'Julio, 2024',
+    sources: 'Reseña basada en análisis literario estándar de la obra.'
   },
 
   // --- DISCOS ---
@@ -97,7 +109,9 @@ En definitiva, el realismo mágico en la obra de Gabriel García Márquez es muc
     title: 'Signos',
     author: 'Soda Stereo',
     imageUrl: 'https://upload.wikimedia.org/wikipedia/en/7/75/Soda_Stereo_-_Signos.png',
-    review: 'Considerado uno de los mejores álbumes de rock en español. Lanzado en 1986, "Signos" es un disco oscuro, denso y experimental que consolidó a Soda Stereo como una banda innovadora. La atmósfera es cautivadora, combinando rock gótico, new wave y letras poéticas que tocan temas existenciales. Canciones como "Signos," "Persiana Americana," y "En la Ciudad de la Furia" son icónicas.'
+    review: 'Considerado uno de los mejores álbumes de rock en español. Lanzado en 1986, "Signos" es un disco oscuro, denso y experimental que consolidó a Soda Stereo como una banda innovadora. La atmósfera es cautivadora, combinando rock gótico, new wave y letras poéticas que tocan temas existenciales. Canciones como "Signos," "Persiana Americana," y "En la Ciudad de la Furia" son icónicas.',
+    publicationDate: 'Junio, 2024',
+    sources: 'Reseña basada en críticas musicales y análisis de la discografía de la banda.'
   },
   {
     id: 'disco2',
@@ -105,7 +119,9 @@ En definitiva, el realismo mágico en la obra de Gabriel García Márquez es muc
     title: 'OK Computer',
     author: 'Radiohead',
     imageUrl: 'https://upload.wikimedia.org/wikipedia/en/b/ba/Radioheadokcomputer.png',
-    review: 'Una pieza fundamental del rock alternativo y una crítica profética a la modernidad, la globalización y la tecnología a finales del siglo XX. El álbum es ambicioso en su sonido, mezclando texturas electrónicas, orquestación sutil y guitarras épicas. Temas como "Paranoid Android" y "Karma Police" definieron una generación.'
+    review: 'Una pieza fundamental del rock alternativo y una crítica profética a la modernidad, la globalización y la tecnología a finales del siglo XX. El álbum es ambicioso en su sonido, mezclando texturas electrónicas, orquestación sutil y guitarras épicas. Temas como "Paranoid Android" y "Karma Police" definieron una generación.',
+    publicationDate: 'Mayo, 2024',
+    sources: 'Reseña basada en críticas musicales y análisis de la discografía de la banda.'
   },
   {
     id: 'disco3',
@@ -113,7 +129,9 @@ En definitiva, el realismo mágico en la obra de Gabriel García Márquez es muc
     title: 'Buena Vista Social Club',
     author: 'Buena Vista Social Club',
     imageUrl: 'https://upload.wikimedia.org/wikipedia/en/a/a7/Buena_Vista_Social_Club_album.jpg',
-    review: 'Más que un álbum, es un redescubrimiento. Grabado en 1997, reunió a leyendas olvidadas de la música tradicional cubana (son, bolero, guajira). El resultado es un sonido vibrante, nostálgico y lleno de vida que resucitó el interés global por la música cubana y ganó un Grammy. Ideal para bailar y para el alma.'
+    review: 'Más que un álbum, es un redescubrimiento. Grabado en 1997, reunió a leyendas olvidadas de la música tradicional cubana (son, bolero, guajira). El resultado es un sonido vibrante, nostálgico y lleno de vida que resucitó el interés global por la música cubana y ganó un Grammy. Ideal para bailar y para el alma.',
+    publicationDate: 'Abril, 2024',
+    sources: 'Reseña basada en la historia del álbum y su impacto cultural.'
   },
   {
     id: 'disco4',
@@ -121,7 +139,9 @@ En definitiva, el realismo mágico en la obra de Gabriel García Márquez es muc
     title: 'El Mal Querer',
     author: 'Rosalía',
     imageUrl: 'https://upload.wikimedia.org/wikipedia/en/8/87/Rosalia_-_El_Mal_Querer.png',
-    review: 'Una obra conceptual y moderna que redefine el flamenco. Basado en una novela occitana del siglo XIII, el álbum narra una relación tóxica. Rosalía fusiona la tradición flamenca (palmas, quejíos) con sonidos urbanos (trap, electrónica) de una manera magistral, creando un disco vanguardista y emocionalmente potente.'
+    review: 'Una obra conceptual y moderna que redefine el flamenco. Basado en una novela occitana del siglo XIII, el álbum narra una relación tóxica. Rosalía fusiona la tradición flamenca (palmas, quejíos) con sonidos urbanos (trap, electrónica) de una manera magistral, creando un disco vanguardista y emocionalmente potente.',
+    publicationDate: 'Marzo, 2024',
+    sources: 'Reseña basada en críticas musicales y análisis del concepto del álbum.'
   },
   
   // --- PELÍCULAS ---
@@ -131,7 +151,9 @@ En definitiva, el realismo mágico en la obra de Gabriel García Márquez es muc
     title: 'El Laberinto del Fauno',
     author: 'Guillermo del Toro',
     imageUrl: 'https://es.web.img3.acsta.net/pictures/14/04/11/11/44/282199.jpg',
-    review: 'Una fantasía oscura ambientada en la España de 1944. Combina la cruda realidad de la Guerra Civil con un mundo de fantasía mágico y aterrador. La película es visualmente impresionante, con un diseño de criaturas memorable, y ofrece una exploración profunda de la inocencia, la desobediencia y la elección moral en tiempos de guerra.'
+    review: 'Una fantasía oscura ambientada en la España de 1944. Combina la cruda realidad de la Guerra Civil con un mundo de fantasía mágico y aterrador. La película es visualmente impresionante, con un diseño de criaturas memorable, y ofrece una exploración profunda de la inocencia, la desobediencia y la elección moral en tiempos de guerra.',
+    publicationDate: 'Febrero, 2024',
+    sources: 'Reseña basada en análisis cinematográfico de la obra.'
   },
   {
     id: 'peli2',
@@ -139,7 +161,9 @@ En definitiva, el realismo mágico en la obra de Gabriel García Márquez es muc
     title: 'Parásitos (Parasite)',
     author: 'Bong Joon-ho',
     imageUrl: 'https://hips.hearstapps.com/hmg-prod/images/parasite-poster-1579203730.jpg?crop=1xw:1xh;center,top&resize=980:*',
-    review: 'Una sátira social magistralmente ejecutada que es a la vez tensa, divertida y trágica. La historia de dos familias, una rica y otra pobre, y cómo sus vidas se entrelazan, es una crítica mordaz a la desigualdad de clases. El guion es perfecto, con giros inesperados y un ritmo implacable. Ganadora del Óscar a Mejor Película.'
+    review: 'Una sátira social magistralmente ejecutada que es a la vez tensa, divertida y trágica. La historia de dos familias, una rica y otra pobre, y cómo sus vidas se entrelazan, es una crítica mordaz a la desigualdad de clases. El guion es perfecto, con giros inesperados y un ritmo implacable. Ganadora del Óscar a Mejor Película.',
+    publicationDate: 'Enero, 2024',
+    sources: 'Reseña basada en análisis cinematográfico de la obra.'
   },
   {
     id: 'peli3',
@@ -147,7 +171,9 @@ En definitiva, el realismo mágico en la obra de Gabriel García Márquez es muc
     title: 'Breaking Bad (Serie)',
     author: 'Vince Gilligan (Creador)',
     imageUrl: 'https://m.media-amazon.com/images/I/811+g43+KbL._AC_UF1000,1000_QL80_.jpg',
-    review: 'Una de las series de televisión más aclamadas de todos los tiempos. Sigue la transformación de Walter White, un profesor de química que se convierte en un capo de la droga. Es un estudio de personajes profundo sobre la moralidad, las decisiones y las consecuencias. La calidad de la escritura, la dirección y las actuaciones es insuperable, con un final redondo y satisfactorio.'
+    review: 'Una de las series de televisión más aclamadas de todos los tiempos. Sigue la transformación de Walter White, un profesor de química que se convierte en un capo de la droga. Es un estudio de personajes profundo sobre la moralidad, las decisiones y las consecuencias. La calidad de la escritura, la dirección y las actuaciones es insuperable, con un final redondo y satisfactorio.',
+    publicationDate: 'Diciembre, 2023',
+    sources: 'Reseña basada en análisis televisivo de la serie.'
   },
   {
     id: 'peli4',
@@ -155,6 +181,8 @@ En definitiva, el realismo mágico en la obra de Gabriel García Márquez es muc
     title: 'Roma',
     author: 'Alfonso Cuarón',
     imageUrl: 'https://m.media-amazon.com/images/M/MV5BMTU0OTc3ODk4Ml5BMl5BanBnXkFtZTgwMzM4NzI5NjM@._V1_.jpg',
-    review: 'Una obra semiautobiográfica filmada en blanco y negro que retrata la vida de una familia de clase media en la Ciudad de México en la década de 1970, centrándose en la empleada doméstica, Cleo. Es un homenaje poético a la figura materna y un retrato social de la época. La cinematografía es espectacular, con tomas largas y fluidas que sumergen al espectador.'
+    review: 'Una obra semiautobiográfica filmada en blanco y negro que retrata la vida de una familia de clase media en la Ciudad de México en la década de 1970, centrándose en la empleada doméstica, Cleo. Es un homenaje poético a la figura materna y un retrato social de la época. La cinematografía es espectacular, con tomas largas y fluidas que sumergen al espectador.',
+    publicationDate: 'Noviembre, 2023',
+    sources: 'Reseña basada en análisis cinematográfico de la obra.'
   },
 ];

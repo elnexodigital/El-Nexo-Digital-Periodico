@@ -1,3 +1,4 @@
+
 export interface MusicTrack {
   id: string;
   url: string;
@@ -21,7 +22,7 @@ export interface NewsBroadcast {
   id: string;
   url: string;
   description: string;
-  bannerUrl: string;
+  // bannerUrl removed for Micro Temático conversion
 }
 
 export interface PodcastMP3 {
@@ -95,11 +96,14 @@ export interface StickyNote {
 
 export interface LibraryItem {
   id: string;
-  category: 'Libros' | 'Discos' | 'Películas';
+  category: 'Libros' | 'Discos' | 'Películas' | 'Revistas';
   title: string;
   author: string; // O artista, director, etc.
   imageUrl: string;
   review: string;
   audioUrl?: string;
   videoUrl?: string;
+  pdfUrl?: string; // URL para descargar PDF (Revistas)
+  publicationDate: string;
+  sources?: string;
 }
