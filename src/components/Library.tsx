@@ -9,7 +9,7 @@ interface LibraryProps {
   onBackToMagazine: () => void;
 }
 
-type CategoryFilter = 'Todos' | 'Revistas' | 'Libros' | 'Discos' | 'Películas';
+type CategoryFilter = 'Todos' | 'Revistas' | 'Podcasts' | 'Libros' | 'Discos' | 'Películas';
 
 const Library: React.FC<LibraryProps> = ({ onBackToMagazine }) => {
   const [activeTab, setActiveTab] = useState<'analysis' | 'audio' | 'video'>('analysis');
@@ -39,6 +39,14 @@ const Library: React.FC<LibraryProps> = ({ onBackToMagazine }) => {
   const handleCloseDetailModal = () => {
     setSelectedItem(null);
   };
+
+  const getNexoLogo = () => (
+    <img 
+      src="https://res.cloudinary.com/ddmj6zevz/image/upload/w_32,h_32,c_fit,f_auto,q_auto/v1756714882/logo_el_nexo_digital_assa82.png" 
+      alt="Logo El Nexo" 
+      className="w-5 h-5 rounded-full border border-stone-300 dark:border-stone-600 animate-spin-very-slow"
+    />
+  );
 
   return (
     <div className="w-full font-typewriter pb-12 animate-fade-in">
@@ -150,19 +158,25 @@ const Library: React.FC<LibraryProps> = ({ onBackToMagazine }) => {
             </h2>
             
             <div className="flex justify-center gap-3 mb-10 flex-wrap">
-            {(['Todos', 'Revistas', 'Libros', 'Discos', 'Películas'] as CategoryFilter[]).map(filter => (
-                <button
-                key={filter}
-                onClick={() => setActiveFilter(filter)}
-                className={`px-5 py-2 text-sm font-bold rounded-full border transition-all duration-200 ${
-                    activeFilter === filter 
-                    ? 'bg-stone-900 text-white border-stone-900 dark:bg-stone-100 dark:text-stone-900' 
-                    : 'bg-transparent text-stone-600 border-stone-400 hover:border-stone-900 hover:text-stone-900 dark:text-stone-400 dark:border-stone-600 dark:hover:border-stone-300 dark:hover:text-stone-200'
-                }`}
-                >
-                {filter}
-                </button>
-            ))}
+            {(['Todos', 'Revistas', 'Podcasts', 'Libros', 'Discos', 'Películas'] as CategoryFilter[]).map(filter => {
+                const isSpecial = filter === 'Revistas' || filter === 'Podcasts';
+                return (
+                  <button
+                  key={filter}
+                  onClick={() => setActiveFilter(filter)}
+                  className={`flex items-center gap-2 px-5 py-2 text-sm font-bold rounded-full transition-all duration-200 ${
+                      isSpecial ? 'border-2' : 'border'
+                  } ${
+                      activeFilter === filter 
+                      ? 'bg-stone-900 text-white border-stone-900 dark:bg-stone-100 dark:text-stone-900 shadow-md transform scale-105' 
+                      : 'bg-transparent text-stone-600 border-stone-400 hover:border-stone-900 hover:text-stone-900 dark:text-stone-400 dark:border-stone-600 dark:hover:border-stone-300 dark:hover:text-stone-200'
+                  }`}
+                  >
+                  {isSpecial && getNexoLogo()}
+                  {filter}
+                  </button>
+                );
+            })}
             </div>
 
             {filteredItems.length === 0 ? (

@@ -42,6 +42,195 @@ export const LIBRARY_CONTENT: LibraryItem[] = [
     sources: 'Archivo histórico de El Nexo Digital.'
   },
 
+  // --- PODCASTS (VIDEO) ---
+  {
+    id: 'vp1_lib',
+    category: 'Podcasts',
+    title: 'Nuestra Relación con el Miedo',
+    author: 'El Nexo Digital',
+    imageUrl: 'https://res.cloudinary.com/dnauavz56/image/upload/v1764004910/Nuestra_Relaci%C3%B3n_con_el_Miedo_glyfqz.png',
+    review: 'El miedo, esa sombra que nos sigue, que nos define. ¿Es un ancla o una brújula? A menudo lo vemos como un enemigo a vencer, una debilidad a ocultar. Pero, ¿y si fuera un lenguaje? El lenguaje primordial de la vida misma, una señal de que estamos al borde de algo nuevo, de algo que importa...',
+    videoUrl: 'https://res.cloudinary.com/ddmj6zevz/video/upload/w_720,q_auto:good/v1756788223/Nuestra_relaci%C3%B3n_con_el_miedo_mp4_qpekkp.mp4',
+    publicationDate: 'Video Podcast',
+    sources: 'El Nexo Digital'
+  },
+  {
+    id: 'vp2_lib',
+    category: 'Podcasts',
+    title: 'La Paradoja de Sísifo',
+    author: 'El Nexo Digital',
+    imageUrl: 'https://res.cloudinary.com/dnauavz56/image/upload/v1764004909/La_Paradoja_de_S%C3%ADsifo_gpq8wm.jpg',
+    review: 'Hablemos de Sísifo. Condenado a empujar una roca eternamente. Un símbolo del absurdo, de la lucha sin sentido. Pero Camus nos invita a imaginar a un Sísifo feliz. Feliz no por la meta, que es inalcanzable, sino por la lucha misma. En el esfuerzo, en la tensión del músculo, en la roca que se domina por un instante... ahí reside una forma extraña de libertad. Quizás nuestra existencia es eso: encontrar la dignidad en el esfuerzo, sin esperar una cima definitiva.',
+    videoUrl: 'https://res.cloudinary.com/ddmj6zevz/video/upload/w_720,q_auto:good/v1756788223/La_paradoja_de_S%C3%ADsifo_mp4_kkmzqh.mp4',
+    publicationDate: 'Video Podcast',
+    sources: 'El Nexo Digital'
+  },
+  {
+    id: 'vp3_lib',
+    category: 'Podcasts',
+    title: '¿Vale la pena la felicidad?',
+    author: 'El Nexo Digital',
+    imageUrl: 'https://res.cloudinary.com/dnauavz56/video/upload/f_jpg,so_0/v1764004910/Vale_la_pena_la_felicidad_m1gmb4.jpg',
+    review: 'Este episodio profundiza en una crítica a la concepción contemporánea de la felicidad, presentándola no como un estado natural, sino como un constructo de la sociedad de consumo. El locutor argumenta que la felicidad se ha mercantilizado, siendo promovida a través de la publicidad y las redes sociales como un producto que se puede adquirir, generando una búsqueda incesante y, a menudo, frustrante.',
+    videoUrl: 'https://res.cloudinary.com/ddmj6zevz/video/upload/w_720,q_auto:good/v1756716939/vale_la_pena_la_felicidad_lryhcf.mp4',
+    publicationDate: 'Video Podcast',
+    sources: 'El Nexo Digital'
+  },
+  {
+    id: 'vp4_lib',
+    category: 'Podcasts',
+    title: 'El pecado de ser positivo',
+    author: 'El Nexo Digital',
+    imageUrl: 'https://res.cloudinary.com/dnauavz56/video/upload/f_jpg,so_0/v1764004909/El_pecado_de_ser_positivo._mjydyz.jpg',
+    review: 'Este pódcast explora la dualidad entre el optimismo inspirador y el pragmatismo necesario para alcanzar metas. A través de la definición de "mantra" y la presentación de la canción "What\'s Up?", se introduce la idea de la lucha interna y la búsqueda de sentido. Se dirige a los "soñadores de vocación", aquellos que se aferran a la positividad y a la autoayuda, presentándoles con un toque de ironía libros de éxito personal.',
+    videoUrl: 'https://res.cloudinary.com/ddmj6zevz/video/upload/w_720,q_auto:good/v1756716797/pecado_de_positivo_enqsru.mp4',
+    publicationDate: 'Video Podcast',
+    sources: 'El Nexo Digital'
+  },
+  {
+    id: 'vp5_lib',
+    category: 'Podcasts',
+    title: 'El colectivo, virus de la mediocridad',
+    author: 'El Nexo Digital',
+    imageUrl: 'https://res.cloudinary.com/dnauavz56/video/upload/f_jpg,so_0/v1764004909/El_colectivo_virus_de_la_mediocridad_rqsmxz.jpg',
+    review: 'Una crítica contundente al conformismo social y a la pérdida de la individualidad en la era moderna, un fenómeno que denominamos "el virus de la mediocridad encubierta". Se argumenta que la sociedad, especialmente a través de las redes sociales, nos presiona para encajar en un molde colectivo, donde la validación externa reemplaza la autenticidad.',
+    videoUrl: 'https://res.cloudinary.com/ddmj6zevz/video/upload/w_720,q_auto:good/v1756714528/el_colectivo_h0vlp5.mp4',
+    publicationDate: 'Video Podcast',
+    sources: 'El Nexo Digital'
+  },
+  {
+    id: 'vp6_lib',
+    category: 'Podcasts',
+    title: 'El sesgo cognitivo en los sueños',
+    author: 'El Nexo Digital',
+    imageUrl: 'https://res.cloudinary.com/dnauavz56/video/upload/f_jpg,so_0/v1764004908/El_sesgo_cognitivo_en_los_sue%C3%B1os_vpsooo.jpg',
+    review: 'Se introduce el concepto de "inercia cognitiva" y "sesgo de confirmación" para explicar por qué seguimos estos caminos preestablecidos sin cuestionarlos. El episodio propone un cambio de enfoque: en lugar de buscar la realización en lo material y externo, sugiere una introspección para descubrir una meta espiritual y auténtica.',
+    videoUrl: 'https://res.cloudinary.com/ddmj6zevz/video/upload/w_720,q_auto:good/v1756716775/sesgo_cognitivo_en_los_suenos_tuyj6e.mp4',
+    publicationDate: 'Video Podcast',
+    sources: 'El Nexo Digital'
+  },
+  {
+    id: 'vp7_lib',
+    category: 'Podcasts',
+    title: 'Persistencia',
+    author: 'El Nexo Digital',
+    imageUrl: 'https://res.cloudinary.com/dnauavz56/image/upload/v1764004909/Persistencia_kqixsn.png',
+    review: 'Una meditación poética sobre la naturaleza cruda de la persistencia. Despoja al acto de "seguir adelante" del glamour de la motivación o la inspiración, presentándolo como un instinto fundamental de resistencia, casi mecánico. La persistencia se redefine como una forma de fe secular, un "como si" que nos mantiene en movimiento.',
+    videoUrl: 'https://res.cloudinary.com/ddmj6zevz/video/upload/w_720,q_auto:good/v1756714508/persistencia_xdkmtb.mp4',
+    publicationDate: 'Video Podcast',
+    sources: 'El Nexo Digital'
+  },
+  {
+    id: 'vp8_lib',
+    category: 'Podcasts',
+    title: 'Persigue tus sueños!!',
+    author: 'El Nexo Digital',
+    imageUrl: 'https://res.cloudinary.com/dnauavz56/image/upload/v1764004905/Persigue_tus_sue%C3%B1os_nn0yus.png',
+    review: 'Reflexión crítica sobre el concepto de "perseguir los sueños" en la sociedad contemporánea. Argumentamos que la presión social y la cultura de la inmediatez a menudo nos llevan a adoptar metas que no son auténticas, lo que puede conducir a la insatisfacción a largo plazo.',
+    videoUrl: 'https://res.cloudinary.com/ddmj6zevz/video/upload/w_720,q_auto:good/v1756716712/persigue_tus_suenos_zvkqiv.mp4',
+    publicationDate: 'Video Podcast',
+    sources: 'El Nexo Digital'
+  },
+  {
+    id: 'vp9_lib',
+    category: 'Podcasts',
+    title: 'Simplificar.. es INVOLUTIVO',
+    author: 'El Nexo Digital',
+    imageUrl: 'https://res.cloudinary.com/dnauavz56/image/upload/v1764004907/Simplificar.._es_INVOLUTIVO_opdbva.png',
+    review: 'Crítica a la simplificación del lenguaje en la era digital, argumentando que la inmediatez y la "cultura de la reacción" están erosionando la reflexión crítica y la profundidad comunicativa. Citando a sociólogos como Evgeny Morozov y Manuel Castells, el locutor describe una involución donde abreviaciones y emojis reemplazan pensamientos complejos.',
+    videoUrl: 'https://res.cloudinary.com/ddmj6zevz/video/upload/w_720,q_auto:good/v1756715180/040225_simplificar_es_involutivo_j81nvg.mp4',
+    publicationDate: 'Video Podcast',
+    sources: 'El Nexo Digital'
+  },
+  {
+    id: 'vp10_lib',
+    category: 'Podcasts',
+    title: 'El pecado de ser positivo (Parte 2)',
+    author: 'El Nexo Digital',
+    imageUrl: 'https://res.cloudinary.com/dnauavz56/video/upload/f_jpg,so_0/v1764004909/El_pecado_de_ser_positivo._mjydyz.jpg',
+    review: 'Continuamos explorando la dualidad entre el optimismo inspirador y el pragmatismo necesario para alcanzar metas. Se profundiza en la idea de que la verdadera sabiduría reside en equilibrar la inspiración con la ejecución.',
+    videoUrl: 'https://res.cloudinary.com/ddmj6zevz/video/upload/w_720,q_auto:good/v1756716797/pecado_de_positivo_enqsru.mp4',
+    publicationDate: 'Video Podcast',
+    sources: 'El Nexo Digital'
+  },
+  {
+    id: 'vp11_lib',
+    category: 'Podcasts',
+    title: 'Efecto Halo: El Poder de la Primera Impresión',
+    author: 'El Nexo Digital',
+    imageUrl: 'https://res.cloudinary.com/dnauavz56/image/upload/v1764004906/Efecto_Halo_El_Poder_de_la_Primera_Impresi%C3%B3n_hjg4pg.png',
+    review: 'Este podcast explora el "efecto halo", un sesgo cognitivo que nos lleva a formar una opinión general sobre alguien o algo a partir de una única característica positiva o negativa inicial. Explicamos cómo esta primera impresión actúa como un "filtro" que distorsiona nuestra percepción de otros rasgos.',
+    videoUrl: 'https://res.cloudinary.com/ddmj6zevz/video/upload/w_720,q_auto:good/v1757025613/Efecto_Halo_El_Poder_de_la_Primera_Impresi%C3%B3n_s883t0.mp4',
+    publicationDate: 'Video Podcast',
+    sources: 'El Nexo Digital'
+  },
+  {
+    id: 'vp12_lib',
+    category: 'Podcasts',
+    title: 'El Sentido de la Vida: Conexión en la Era Digital',
+    author: 'El Nexo Digital',
+    imageUrl: 'https://res.cloudinary.com/dnauavz56/image/upload/v1764004905/El_Sentido_de_la_Vida_Conexi%C3%B3n_en_la_Era_Digital_mzdo4r.png',
+    review: 'Este podcast aborda la búsqueda del sentido de la vida en el contexto de la era digital y la hiperconectividad. Sostiene que la verdadera conexión y propósito no se encuentran en la superficialidad de las interacciones digitales, sino en la creación consciente de significado a través de pequeños actos y momentos de pausa reflexiva.',
+    videoUrl: 'https://res.cloudinary.com/ddmj6zevz/video/upload/w_720,q_auto:good/v1757025822/el_sentido_de_la_vida_a0s8rs.mp4',
+    publicationDate: 'Video Podcast',
+    sources: 'El Nexo Digital'
+  },
+  {
+    id: 'vp13_lib',
+    category: 'Podcasts',
+    title: 'Elemento FUEGO: Un Mito sobre el Poder y la Destrucción',
+    author: 'El Nexo Digital',
+    imageUrl: 'https://res.cloudinary.com/dnauavz56/image/upload/v1764004906/Elemento_FUEGO_Un_Mito_sobre_el_Poder_y_la_Destrucci%C3%B3n_n1dvza.png',
+    review: 'Una poderosa alegoría sobre la relación de la humanidad con el fuego, evocando el mito de Prometeo. Presenta el fuego no solo como una herramienta para la supervivencia y el progreso, sino como una metáfora de la ambición y el poder: una fuerza de doble filo capaz tanto de crear civilizaciones como de alimentar la autodestrucción.',
+    videoUrl: 'https://res.cloudinary.com/ddmj6zevz/video/upload/w_720,q_auto:good/v1757025878/elemento_fuego_bzneem.mp4',
+    publicationDate: 'Video Podcast',
+    sources: 'El Nexo Digital'
+  },
+  {
+    id: 'vp14_lib',
+    category: 'Podcasts',
+    title: 'Elemento Tierra: Ancla y Trampolín',
+    author: 'El Nexo Digital',
+    imageUrl: 'https://res.cloudinary.com/dnauavz56/video/upload/f_jpg,so_0/v1764004908/Elemento_Tierra_Ancla_y_Trampol%C3%ADn_hgmpzr.jpg',
+    review: 'Reflexión filosófica sobre la relación de la humanidad con la Tierra, enmarcada en una dualidad fundamental. Por un lado, la Tierra es nuestro ancla, la realidad física que nos da cimientos. Por otro, se plantea como una posible limitación para un espíritu que anhela trascender.',
+    videoUrl: 'https://res.cloudinary.com/ddmj6zevz/video/upload/w_720,q_auto:good/v1757025930/elemento_tierra_emlpy6.mp4',
+    publicationDate: 'Video Podcast',
+    sources: 'El Nexo Digital'
+  },
+  {
+    id: 'vp15_lib',
+    category: 'Podcasts',
+    title: 'Decisiones Emocionales: Cerebro vs Corazón',
+    author: 'El Nexo Digital',
+    imageUrl: 'https://res.cloudinary.com/dnauavz56/image/upload/v1764004907/Decisiones_Emocionales_La_lucha_entre_el_cerebro_y_el_coraz%C3%B3n_wmriuh.png',
+    review: 'Este podcast desmitifica la idea de que somos seres puramente racionales, explorando la profunda influencia que las emociones tienen en nuestra toma de decisiones. Basándose en conceptos de la psicología, como los dos sistemas de pensamiento de Daniel Kahneman.',
+    videoUrl: 'https://res.cloudinary.com/ddmj6zevz/video/upload/w_720,q_auto:good/v1757026016/emociones_vs_decisiones_ytaqss.mp4',
+    publicationDate: 'Video Podcast',
+    sources: 'El Nexo Digital'
+  },
+  {
+    id: 'vp16_lib',
+    category: 'Podcasts',
+    title: 'Epistemología',
+    author: 'El Nexo Digital',
+    imageUrl: 'https://res.cloudinary.com/dnauavz56/image/upload/v1764004906/Epistemolog%C3%ADa_yluxvc.png',
+    review: 'Profunda reflexión epistemológica que explora la compleja relación entre creencia, conocimiento y realidad. El locutor argumenta que, si bien el conocimiento se basa en hechos justificados, las creencias subjetivas, cuando se masifican, pueden crear "realidades sociales" con consecuencias tangibles.',
+    videoUrl: 'https://res.cloudinary.com/ddmj6zevz/video/upload/w_720,q_auto:good/v1757027951/epistemolog%C3%ADa_dxnca5.mp4',
+    publicationDate: 'Video Podcast',
+    sources: 'El Nexo Digital'
+  },
+  {
+    id: 'vp17_lib',
+    category: 'Podcasts',
+    title: 'La Paradoja del Libre Albedrío',
+    author: 'El Nexo Digital',
+    imageUrl: 'https://res.cloudinary.com/dnauavz56/image/upload/v1764004906/La_Paradoja_del_Libre_Albedr%C3%ADo_qavv5p.png',
+    review: 'Este podcast aborda el clásico debate filosófico entre el determinismo y el libre albedrío, cuestionando hasta qué punto nuestras decisiones son verdaderamente nuestras. El locutor argumenta que factores como la biología, la educación y la cultura actúan como fuerzas deterministas.',
+    videoUrl: 'https://res.cloudinary.com/ddmj6zevz/video/upload/w_720,q_auto:good/v1757028671/Libre_albedr%C3%ADo_evpvhp.mp4',
+    publicationDate: 'Video Podcast',
+    sources: 'El Nexo Digital'
+  },
+
   // --- LIBROS ---
   {
     id: 'libro1',

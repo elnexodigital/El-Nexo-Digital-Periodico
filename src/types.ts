@@ -96,7 +96,7 @@ export interface StickyNote {
 
 export interface LibraryItem {
   id: string;
-  category: 'Libros' | 'Discos' | 'Películas' | 'Revistas';
+  category: 'Libros' | 'Discos' | 'Películas' | 'Revistas' | 'Podcasts';
   title: string;
   author: string; // O artista, director, etc.
   imageUrl: string;

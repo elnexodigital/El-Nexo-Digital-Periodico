@@ -63,6 +63,12 @@ const LibraryDetailModal: React.FC<LibraryDetailModalProps> = ({ isOpen, onClose
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
                 </svg>
              );
+        case 'Podcasts':
+            return (
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
+                </svg>
+            );
         default:
             return null;
     }
@@ -161,7 +167,9 @@ const LibraryDetailModal: React.FC<LibraryDetailModalProps> = ({ isOpen, onClose
 
                     {item.videoUrl && (
                         <div className="col-span-2">
-                            <h4 className="font-bold text-stone-700 dark:text-stone-300 mb-3 text-sm uppercase tracking-wide">Video Complementario</h4>
+                            <h4 className="font-bold text-stone-700 dark:text-stone-300 mb-3 text-sm uppercase tracking-wide">
+                                {item.category === 'Podcasts' ? 'Reproducir Podcast' : 'Video Complementario'}
+                            </h4>
                             <div className="aspect-video bg-black rounded-xl overflow-hidden shadow-2xl">
                                 <video controls className="w-full h-full">
                                     <source src={item.videoUrl} type="video/mp4" />
