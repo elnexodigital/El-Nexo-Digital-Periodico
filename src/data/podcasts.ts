@@ -5,14 +5,14 @@ export const VIDEO_PODCASTS: VideoPodcast[] = [
   {
     id: 'vp1',
     title: 'Nuestra Relación con el Miedo',
-    videoUrl: 'https://res.cloudinary.com/ddmj6zevz/video/upload/w_720,q_auto:good/v1756788223/Nuestra_relaci%C3%B3n_con_el_miedo_mp4_qpekkp.mp4',
+    videoUrl: 'https://res.cloudinary.com/ddmj6zevz/video/upload/v1764886279/la_busqueda_de_lo_sobrenatural_nn2mhb.mp4',
     transcript: 'El miedo, esa sombra que nos sigue, que nos define. ¿Es un ancla o una brújula? A menudo lo vemos como un enemigo a vencer, una debilidad a ocultar. Pero, ¿y si fuera un lenguaje? El lenguaje primordial de la vida misma, una señal de que estamos al borde de algo nuevo, de algo que importa...'
   },
   {
-    id: 'vp2',
-    title: 'La Paradoja de Sísifo',
-    videoUrl: 'https://res.cloudinary.com/ddmj6zevz/video/upload/w_720,q_auto:good/v1756788223/La_paradoja_de_S%C3%ADsifo_mp4_kkmzqh.mp4',
-    transcript: 'Hablemos de Sísifo. Condenado a empujar una roca eternamente. Un símbolo del absurdo, de la lucha sin sentido. Pero Camus nos invita a imaginar a un Sísifo feliz. Feliz no por la meta, que es inalcanzable, sino por la lucha misma. En el esfuerzo, en la tensión del músculo, en la roca que se domina por un instante... ahí reside una forma extraña de libertad. Quizás nuestra existencia es eso: encontrar la dignidad en el esfuerzo, sin esperar una cima definitiva.'
+    id: 'vp_quijote',
+    title: 'Don Quijote: Un Manifiesto Existencial',
+    videoUrl: 'https://res.cloudinary.com/ddmj6zevz/video/upload/v1758266308/Don_Quijote_Un_Manifiesto_Existencial_g1rxky.mp4',
+    transcript: 'El video reinterpreta la figura de Don Quijote, no como un demente, sino como un individuo en plena crisis existencial que elige conscientemente crear una nueva realidad para darle propósito a su vida. Se establece un paralelismo entre su "locura" y la audacia de los soñadores modernos que desafían lo convencional. Sancho Panza es presentado como el contrapunto pragmático y cauteloso, simbolizando la lucha interna entre el idealismo y el miedo al fracaso. La pieza es una meditación sobre la auto-creación, el coraje de perseguir un propósito personal y la delgada línea que la sociedad traza entre la genialidad y la locura.'
   },
   {
     id: 'vp3',
