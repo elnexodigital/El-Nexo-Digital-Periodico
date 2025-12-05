@@ -163,6 +163,18 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({ isPodcastModalOpen, on
     loadRadioData();
   }, []);
 
+  // Listener para pausar la radio desde otros componentes (ej. Biblioteca)
+  useEffect(() => {
+    const handlePauseRequest = () => {
+      if (isPlaying) {
+          setIsPlaying(false);
+          pauseAllAudio();
+      }
+    };
+    window.addEventListener('pauseRadio', handlePauseRequest);
+    return () => window.removeEventListener('pauseRadio', handlePauseRequest);
+  }, [isPlaying]);
+
   const selectNextVideo = useCallback(() => {
     setVideoQueue(prevQueue => {
       let [first, ...rest] = prevQueue;
@@ -820,6 +832,12 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({ isPodcastModalOpen, on
 
   return (
     <header className="text-center relative">
+      <div className="gift-ribbon-wrapper">
+        <div className="gift-ribbon">
+          <span>¡REGALOS EN BIBLIOTECA!</span>
+        </div>
+      </div>
+
       <button
           onClick={onAdminAuthRequest}
           className="admin-notes-icon"

@@ -9,6 +9,8 @@ interface LibraryItemCardProps {
 
 const LibraryItemCard: React.FC<LibraryItemCardProps> = ({ item, onClick }) => {
   const isMagazine = item.category === 'Revistas';
+  const isGift = item.category === 'Postales';
+  const showGiftBadge = isGift || isMagazine; // Unify badge logic: both get the green "REGALO" style
 
   const handleDownload = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -35,11 +37,11 @@ const LibraryItemCard: React.FC<LibraryItemCardProps> = ({ item, onClick }) => {
       }}
       aria-label={`Ver detalles de ${item.title}`}
     >
-      {/* Badge para Revistas PDF */}
-      {isMagazine && (
+      {/* Badge unificado para Regalos y Revistas */}
+      {showGiftBadge && (
         <div className="absolute top-0 right-0 z-20">
-            <div className="bg-red-600 text-white text-[10px] font-bold px-3 py-1 shadow-md rounded-bl-lg animate-pulse">
-                PDF
+            <div className="bg-green-600 text-white text-[10px] font-bold px-3 py-1 shadow-md rounded-bl-lg animate-bounce">
+                REGALO
             </div>
         </div>
       )}

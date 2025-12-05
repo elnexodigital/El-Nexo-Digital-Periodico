@@ -9,7 +9,7 @@ interface LibraryProps {
   onBackToMagazine: () => void;
 }
 
-type CategoryFilter = 'Todos' | 'Revistas' | 'Podcasts' | 'Libros' | 'Discos' | 'Películas';
+type CategoryFilter = 'Todos' | 'Revistas' | 'Podcasts' | 'Postales' | 'Libros' | 'Discos' | 'Películas';
 
 const Library: React.FC<LibraryProps> = ({ onBackToMagazine }) => {
   const [activeTab, setActiveTab] = useState<'analysis' | 'audio' | 'video'>('analysis');
@@ -22,10 +22,24 @@ const Library: React.FC<LibraryProps> = ({ onBackToMagazine }) => {
   const archiveItems = useMemo(() => LIBRARY_CONTENT.filter(item => item.id !== 'libro1'), []);
 
   const filteredItems = useMemo(() => {
+    let items = activeFilter === 'Todos' ? archiveItems : archiveItems.filter(item => item.category === activeFilter);
+
     if (activeFilter === 'Todos') {
-      return archiveItems;
+      return [...items].sort((a, b) => {
+        // Prioridad de categorías para la vista "Todos"
+        const priority: Record<string, number> = {
+          'Revistas': 1,
+          'Podcasts': 2,
+          'Postales': 3,
+          // El resto tendrá prioridad baja (undefined o > 3)
+        };
+        const pA = priority[a.category] || 99;
+        const pB = priority[b.category] || 99;
+        return pA - pB;
+      });
     }
-    return archiveItems.filter(item => item.category === activeFilter);
+
+    return items;
   }, [archiveItems, activeFilter]);
 
   if (!monthlyPick) {
@@ -158,8 +172,8 @@ const Library: React.FC<LibraryProps> = ({ onBackToMagazine }) => {
             </h2>
             
             <div className="flex justify-center gap-3 mb-10 flex-wrap">
-            {(['Todos', 'Revistas', 'Podcasts', 'Libros', 'Discos', 'Películas'] as CategoryFilter[]).map(filter => {
-                const isSpecial = filter === 'Revistas' || filter === 'Podcasts';
+            {(['Todos', 'Revistas', 'Podcasts', 'Postales', 'Libros', 'Discos', 'Películas'] as CategoryFilter[]).map(filter => {
+                const isSpecial = filter === 'Revistas' || filter === 'Podcasts' || filter === 'Postales';
                 return (
                   <button
                   key={filter}
@@ -172,7 +186,7 @@ const Library: React.FC<LibraryProps> = ({ onBackToMagazine }) => {
                       : 'bg-transparent text-stone-600 border-stone-400 hover:border-stone-900 hover:text-stone-900 dark:text-stone-400 dark:border-stone-600 dark:hover:border-stone-300 dark:hover:text-stone-200'
                   }`}
                   >
-                  {isSpecial && getNexoLogo()}
+                  {(filter === 'Revistas' || filter === 'Podcasts') && getNexoLogo()}
                   {filter}
                   </button>
                 );

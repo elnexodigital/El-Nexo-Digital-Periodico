@@ -255,10 +255,10 @@ body.dark .digit-box {
 
 .admin-notes-icon {
   position: absolute;
-  top: 15px;
+  top: 90px; /* Moved down to avoid ribbon overlap */
   left: 15px;
   z-index: 21;
-  width: 60px;
+  width: 50px; /* Slightly smaller */
   cursor: pointer;
   transition: transform 0.2s ease-in-out;
   filter: drop-shadow(0 4px 6px rgba(0,0,0,0.2));
@@ -292,6 +292,36 @@ body.dark .digit-box {
   font-weight: bold;
   border: 2px solid white;
   font-family: 'Courier Prime', monospace;
+}
+
+/* --- Gift Ribbon --- */
+.gift-ribbon-wrapper {
+  width: 150px;
+  height: 150px;
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 30;
+  pointer-events: none;
+}
+
+.gift-ribbon {
+  position: absolute;
+  display: block;
+  width: 225px;
+  padding: 10px 0;
+  background-color: #dc2626;
+  box-shadow: 0 5px 10px rgba(0,0,0,.3);
+  color: #fff;
+  font: 700 10px/1 'Courier Prime', monospace;
+  text-shadow: 0 1px 1px rgba(0,0,0,.2);
+  text-transform: uppercase;
+  text-align: center;
+  left: -50px;
+  top: 35px;
+  transform: rotate(-45deg);
+  letter-spacing: 1px;
 }
 
 /* Modals */
