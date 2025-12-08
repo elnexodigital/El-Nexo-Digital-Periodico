@@ -886,26 +886,48 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({ isPodcastModalOpen, on
         <p className="text-black mt-1 text-sm md:text-base capitalize">{currentDate}</p>
       </div>
 
-      <div className="my-4 overflow-hidden border-b-4 border-double border-stone-800">
+      <div className="my-4 overflow-hidden border-b-4 border-double border-stone-800 relative bg-[#fdfaf4]">
         <div className="header-video-banner">
           {activePodcastMP3 ? (
-            <img
-              key={activePodcastMP3.id}
-              src={activePodcastMP3.coverUrl}
-              alt={`Portada de ${activePodcastMP3.title}`}
-              className="object-cover w-full h-full z-0 fade-in-image"
-              aria-hidden="true"
-            />
+             // --- TARJETA DE LECTURA PARA PODCASTS MP3 ---
+            <div className="absolute top-0 left-0 w-full h-full z-10 flex flex-col items-center justify-center p-8 bg-[#fdfaf4] dark:bg-[#1f2023] text-center fade-in-image overflow-y-auto custom-scrollbar">
+                <div className="max-w-4xl mx-auto flex flex-col items-center justify-center h-full">
+                    {/* Icono decorativo o Logo pequeño */}
+                    <div className="mb-4 opacity-80">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 text-stone-400 dark:text-stone-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
+                        </svg>
+                    </div>
+                    
+                    {/* Título Elegante */}
+                    <h2 className="text-3xl md:text-5xl font-bold mb-6 text-stone-900 dark:text-stone-100 leading-tight" style={{ fontFamily: "'Playfair Display', serif" }}>
+                        {activePodcastMP3.title}
+                    </h2>
+                    
+                    {/* Separador */}
+                    <div className="w-24 h-1 bg-stone-300 dark:bg-stone-700 mb-6"></div>
+
+                    {/* Descripción / Resumen */}
+                    <p className="text-lg md:text-xl text-stone-700 dark:text-stone-300 font-typewriter leading-relaxed max-w-2xl">
+                        {activePodcastMP3.description}
+                    </p>
+                    
+                     {/* Autor (si hay) */}
+                    <p className="mt-6 text-sm text-stone-500 uppercase tracking-widest font-bold">
+                        {activePodcastMP3.artist}
+                    </p>
+                </div>
+            </div>
           ) : (
             <video
               key={bannerSrc}
               src={bannerSrc}
               autoPlay
               muted
-              loop={true}
+              loop={!!activeBroadcast}
               playsInline
-              onEnded={selectNextVideo}
-              className="object-cover z-0"
+              onEnded={activeBroadcast ? undefined : selectNextVideo}
+              className="object-cover z-0 absolute top-0 left-0 w-full h-full"
               aria-hidden="true"
             />
           )}

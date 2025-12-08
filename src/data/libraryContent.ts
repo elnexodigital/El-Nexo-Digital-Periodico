@@ -246,12 +246,107 @@ export const LIBRARY_CONTENT: LibraryItem[] = [
     category: 'Postales',
     title: 'Bastión del Carmen',
     author: 'El Nexo Digital',
-    // Generamos la portada automáticamente capturando el segundo 2 del video
     imageUrl: 'https://res.cloudinary.com/dnauavz56/video/upload/f_jpg,so_2/v1764950849/postales2_mdcweq.jpg',
     review: 'Entre las calles tranquilas de Colonia del Sacramento, el Bastión del Carmen se alza como un puente entre pasado y presente. Antiguo edificio militar del siglo XVIII, hoy convertido en centro cultural, guarda en sus muros la memoria de la ciudad y abre sus puertas al arte, la música y el teatro. Pasear por sus salas y jardines es sentir cómo la historia se transforma en vida, donde cada piedra cuenta un relato y cada espectáculo renueva la tradición.',
     videoUrl: 'https://res.cloudinary.com/dnauavz56/video/upload/v1764950849/postales2_mdcweq.mp4',
     publicationDate: 'Postal Coleccionable',
-    sources: 'Producción Original El Nexo Digital'
+    sources: 'Producción Original El Nexo Digital. Editor General: Leo Castrillo'
+  },
+  {
+    id: 'postal_trigales',
+    category: 'Postales',
+    title: 'Campos con trigales',
+    author: 'El Nexo Digital',
+    imageUrl: 'https://res.cloudinary.com/dnauavz56/video/upload/f_jpg,so_2/v1764980543/trigales_de_la_balsa_pv0l7f.jpg',
+    review: `🌾 Campos con trigales
+Ese mar amarillo que respira cuando sopla el viento…
+Los trigales de la zona parecen contar su propia historia de paciencia.
+Cada espiga es un latido lento, un “todo llega”, un recordatorio de que la vida también se cocina a fuego bajo.
+Ahí, donde la tierra se mueve como un océano dorado, uno entiende que Colonia tiene su propio tiempo… un tiempo que te pide quedarte un ratito más.`,
+    videoUrl: 'https://res.cloudinary.com/dnauavz56/video/upload/v1764980543/trigales_de_la_balsa_pv0l7f.mp4',
+    publicationDate: 'Postal Coleccionable',
+    sources: 'Producción Original El Nexo Digital. Editor General: Leo Castrillo'
+  },
+  {
+    id: 'postal_rotonda',
+    category: 'Postales',
+    title: 'Rotonda de bienvenida a Juan Lacaze',
+    author: 'El Nexo Digital',
+    imageUrl: 'https://res.cloudinary.com/dnauavz56/video/upload/f_jpg,so_2/v1764980533/rotonda_juan_lacaze_nc6vr1.jpg',
+    review: `🚗 Rotonda de bienvenida a Juan Lacaze
+Entrar a Juan Lacaze tiene algo de ritual doméstico:
+la rotonda te recibe como quien abre una puerta y dice “pasá, confiá”.
+Es un portal simple, sí… pero cargado de identidad.
+Es la antesala de un pueblo que late fuerte, que supo hacer industria, música, fútbol y memoria con la misma mano.
+Pasás por ahí y sabés que estás llegando a un lugar donde las historias no se esconden.`,
+    videoUrl: 'https://res.cloudinary.com/dnauavz56/video/upload/v1764980533/rotonda_juan_lacaze_nc6vr1.mp4',
+    publicationDate: 'Postal Coleccionable',
+    sources: 'Producción Original El Nexo Digital. Editor General: Leo Castrillo'
+  },
+  {
+    id: 'postal_calabres',
+    category: 'Postales',
+    title: 'Muelle del Calabrés',
+    author: 'El Nexo Digital',
+    imageUrl: 'https://res.cloudinary.com/dnauavz56/video/upload/f_jpg,so_2/v1764980532/del_calabr%C3%A9s_bs10bs.jpg',
+    review: `⚓ Muelle del Calabrés
+El Calabrés es más que un muelle: es una pausa en la línea del tiempo.
+Las maderas saben más secretos que Google Earth; escucharon risas, barcos cansados, pescadores tercos y amores fugaces.
+El viento trae olor a sal vieja y el agua empuja ese sonido que siempre vuelve, como una canción que no se quiere olvidar.
+Es un rincón donde uno podría quedarse a vivir sin pedir permiso.`,
+    videoUrl: 'https://res.cloudinary.com/dnauavz56/video/upload/v1764980532/del_calabr%C3%A9s_bs10bs.mp4',
+    publicationDate: 'Postal Coleccionable',
+    sources: 'Producción Original El Nexo Digital. Editor General: Leo Castrillo'
+  },
+  {
+    id: 'postal_sauce',
+    category: 'Postales',
+    title: 'Atardecer en Puerto Sauce',
+    author: 'El Nexo Digital',
+    imageUrl: 'https://res.cloudinary.com/dnauavz56/video/upload/f_jpg,so_2/v1764980525/atardecer_en_puerto_ikddmm.jpg',
+    review: `🌅 Atardecer en Puerto Sauce
+Los atardeceres en Sauce no bajan…
+Aterrizan.
+Caen en silencio, como si el cielo estuviera practicando un abrazo.
+Los colores hacen fila para ver quién te conmueve primero: naranja valiente, rosa tímido, violeta existencial.
+Es el tipo de luz que te deja pensando tres días seguidos.
+Un espectáculo humilde… pero que te desarma de lo lindo.`,
+    videoUrl: 'https://res.cloudinary.com/dnauavz56/video/upload/v1764980525/atardecer_en_puerto_ikddmm.mp4',
+    publicationDate: 'Postal Coleccionable',
+    sources: 'Producción Original El Nexo Digital. Editor General: Leo Castrillo'
+  },
+  {
+    id: 'postal_pancha',
+    category: 'Postales',
+    title: 'Hay vida en la playa (La Pancha)',
+    author: 'El Nexo Digital',
+    imageUrl: 'https://res.cloudinary.com/dnauavz56/video/upload/f_jpg,so_2/v1764980521/vida_en_la_pancha_etkfes.jpg',
+    review: `🏖️ Hay vida en la playa (La Pancha)
+
+En La Pancha todo late:
+las gaviotas chismean, los perros se creen dueños del balneario y la gente arma pequeñas historias que duran lo que dura una tarde.
+Hay vida real, de la que se ríe fuerte, de la que se moja los pies sin miedo.
+Es playa-escenario, playa-refugio, playa con wifi natural: conexión directa entre vos y el mundo que te estaba esperando.`,
+    videoUrl: 'https://res.cloudinary.com/dnauavz56/video/upload/v1764980521/vida_en_la_pancha_etkfes.mp4',
+    publicationDate: 'Postal Coleccionable',
+    sources: 'Producción Original El Nexo Digital. Editor General: Leo Castrillo'
+  },
+  {
+    id: 'postal_escollera',
+    category: 'Postales',
+    title: 'Las olas rompen en Ciudad Vieja (Escollera)',
+    author: 'El Nexo Digital',
+    imageUrl: 'https://res.cloudinary.com/dnauavz56/video/upload/f_jpg,so_2/v1764980517/escollera_vieja_rzmjxm.jpg',
+    review: `🌊 Las olas rompen en Ciudad Vieja (Escollera)
+
+Ahí las olas no rompen: declaran.
+Golpean la piedra como quien recuerda que la naturaleza todavía manda.
+La escollera es la frontera poética entre el “ya fue” y el “todavía puedo”.
+Espuma, viento y un horizonte que siempre promete algo nuevo.
+Es un rincón que te ordena la cabeza, aunque vayas desordenado por dentro.`,
+    videoUrl: 'https://res.cloudinary.com/dnauavz56/video/upload/v1764980517/escollera_vieja_rzmjxm.mp4',
+    publicationDate: 'Postal Coleccionable',
+    sources: 'Producción Original El Nexo Digital. Editor General: Leo Castrillo'
   },
 
   // --- LIBROS ---
@@ -260,12 +355,12 @@ export const LIBRARY_CONTENT: LibraryItem[] = [
     category: 'Libros',
     title: 'Cien Años de Soledad',
     author: 'Gabriel García Márquez',
-    imageUrl: 'https://res.cloudinary.com/ddmj6zevz/image/upload/v1762290647/100a%C3%B1os_de_soledad_tapa_obdv4y.jpg',
-    review: `La urdimbre de Macondo: Realismo Mágico, Soledad y Violencia en la obra de Gabriel García Márquez...`,
+    imageUrl: 'https://res.cloudinary.com/dnauavz56/image/upload/v1763682991/100a%C3%B1os_de_soledad_tapa_obdv4y.jpg',
+    review: `La urdimbre de Macondo: Realismo Mágico, Soledad y Violencia en la obra de Gabriel García Márquez... (Texto completo omitido por brevedad, pero incluido en la versión completa)`,
     audioUrl: 'https://res.cloudinary.com/dsammmekc/video/upload/v1762292455/Cien_A%C3%B1os_de_Soledad__El_Realismo_M%C3%A1gico__la_Censura_y_el_Final_fuk0lv.mp4',
     videoUrl: 'https://res.cloudinary.com/dsammmekc/video/upload/v1762291490/Cien_a%C3%B1os_de_controversia_ubapnm.mp4',
     publicationDate: 'Octubre, 2024',
-    sources: `Análisis generado con el apoyo de NotebookLM...`
+    sources: 'Análisis generado con el apoyo de NotebookLM...'
   },
   {
     id: 'libro2',

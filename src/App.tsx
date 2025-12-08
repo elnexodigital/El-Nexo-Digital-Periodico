@@ -117,7 +117,7 @@ const App: React.FC = () => {
   const openPodcastModal = () => {
     if (headerRef.current) {
       wasRadioPlaying.current = headerRef.current.getIsPlayingState();
-      headerRef.current.pauseRadio();
+      headerRef.current.pauseRadio(); // Call pauseRadio here!
     }
     setIsPodcastModalOpen(true);
   };

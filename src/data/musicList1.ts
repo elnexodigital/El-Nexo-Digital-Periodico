@@ -113,7 +113,7 @@ export const MUSIC_LIST_1: MusicTrack[] = [
   { id: 'm109', url: 'https://res.cloudinary.com/dgvkbrgre/video/upload/q_auto:good/v1756425624/Sakura_Cherry_Blossoms_zosbnq.mp3', description: 'Melodía delicada para llorar flores que nunca volverán' },
   { id: 'm110', url: 'https://res.cloudinary.com/dgvkbrgre/video/upload/q_auto:good/v1756425618/Rising_Appalachia_-_Silver_xxzlyl.mp3', description: 'Folk brillante para buscar tesoros que nadie ve' },
   { id: 'm111', url: 'https://res.cloudinary.com/dgvkbrgre/video/upload/q_auto:good/v1756425616/Rivo_-_Last_Night_Korolova_Remix_qygtnj.mp3', description: 'Electropop nocturno para arrepentirte bailando' },
-  { id: 'm112', url: 'https://res.cloudinary.com/dgvkbrgre/video/upload/q_auto:good/v1756154286/RAJA_-_Maasai_mk8k2k.mp3', description: 'Beat tribal para caminar con orgullo aunque nadie te mire' },
+  { id: 'm112', url: 'https://res.cloudinary.com/dgvkbrgre/video/upload/v1756154286/RAJA_-_Maasai_mk8k2k.mp3', description: 'Beat tribal para caminar con orgullo aunque nadie te mire' },
   { id: 'm113', url: 'https://res.cloudinary.com/dgvkbrgre/video/upload/q_auto:good/v1756425612/Ren_Hi_Ren_mvxeiv.mp3', description: 'Pop inquieto para perseguir sombras sin descanso' },
   { id: 'm114', url: 'https://res.cloudinary.com/dgvkbrgre/video/upload/q_auto:good/v1756425608/RAJA_MAASAI_xbasm7.mp3', description: 'Etnic techno con más tambores que una mudanza tribal' },
   { id: 'm115', url: 'https://res.cloudinary.com/dgvkbrgre/video/upload/q_auto:good/v1756425603/Rag_n_Bone_Man_Human_iegg84.mp3', description: 'Ideal para gritarle al espejo con voz de góspel y cara de lunes' },
@@ -131,5 +131,5 @@ export const MUSIC_LIST_1: MusicTrack[] = [
   { id: 'm127', url: 'https://res.cloudinary.com/dgvkbrgre/video/upload/q_auto:good/v1756425590/Omiki_-_Devil_in_Me_wlnidq.mp3', description: 'Psytrance poseído: beats que sudan pecado y melodía con olor a exorcismo elegante' },
   { id: 'm128', url: 'https://res.cloudinary.com/dgvkbrgre/video/upload/q_auto:good/v1756425590/OTTA_orchestra_Royal_Safari_fs1c3a.mp3', description: 'Instrumental teatral con delirio imperial: suena a desfile de coronas en plena selva psicodélica' },
   { id: 'm129', url: 'https://res.cloudinary.com/dgvkbrgre/video/upload/q_auto:good/v1756425587/One_Hundred_Hunters_gl7y7w.mp3', description: 'Electrónica cinemática para perseguir ideas como si fueran bestias en la niebla' },
-  { id: 'm130', url: 'https://res.cloudinary.com/dgvkbrgre/video/upload/q_auto:good/v1756425584/Of_Monsters_and_Men_Dirty_Paws_s5cpxu.mp3', description: 'Fábula indie para bestias sensibles: cuando la guerra la ganan las patas sucias y los árboles que cantan' }
+  { id: 'm130', url: 'https://res.cloudinary.com/dgvkbrgre/video/upload/q_auto:good/v1756425584/Of_Monsters_and_Men_Dirty_Paws_s5cpxu.mp3', description: 'Fábula indie para bestias sensibles: cuando la guerra la ganan las patas sucias y los árboles que cantan' },
 ];

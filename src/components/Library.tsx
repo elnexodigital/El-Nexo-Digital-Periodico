@@ -29,8 +29,8 @@ const Library: React.FC<LibraryProps> = ({ onBackToMagazine }) => {
         // Prioridad de categorías para la vista "Todos"
         const priority: Record<string, number> = {
           'Revistas': 1,
-          'Podcasts': 2,
-          'Postales': 3,
+          'Postales': 2,
+          'Podcasts': 3,
           // El resto tendrá prioridad baja (undefined o > 3)
         };
         const pA = priority[a.category] || 99;
@@ -186,7 +186,7 @@ const Library: React.FC<LibraryProps> = ({ onBackToMagazine }) => {
                       : 'bg-transparent text-stone-600 border-stone-400 hover:border-stone-900 hover:text-stone-900 dark:text-stone-400 dark:border-stone-600 dark:hover:border-stone-300 dark:hover:text-stone-200'
                   }`}
                   >
-                  {(filter === 'Revistas' || filter === 'Podcasts') && getNexoLogo()}
+                  {isSpecial && getNexoLogo()}
                   {filter}
                   </button>
                 );

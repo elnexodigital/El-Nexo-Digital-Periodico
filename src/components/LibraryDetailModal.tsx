@@ -98,134 +98,115 @@ const LibraryDetailModal: React.FC<LibraryDetailModalProps> = ({ isOpen, onClose
       onClick={onClose}
     >
       <div
-        className="library-detail-modal-content bg-stone-50 dark:bg-stone-900 w-full h-full md:h-auto md:max-h-[90vh] md:rounded-xl shadow-2xl overflow-hidden flex flex-col max-w-4xl mx-auto relative"
+        className="library-detail-modal-content bg-stone-50 dark:bg-stone-900 w-full h-full md:h-auto md:max-h-[90vh] md:rounded-xl shadow-2xl overflow-hidden flex flex-col max-w-6xl mx-auto relative"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Botón de cerrar flotante superior */}
         <button
             onClick={onClose}
-            className="absolute top-4 right-4 z-50 p-2 rounded-full bg-white/80 dark:bg-black/50 text-stone-800 dark:text-white hover:bg-white dark:hover:bg-black shadow-lg transition-all transform hover:scale-110"
-            aria-label="Cerrar"
+            className="absolute top-4 right-4 z-50 p-2 rounded-full bg-white/80 dark:bg-black/50 text-stone-800 dark:text-white hover:bg-white dark:hover:bg-black shadow-lg transition-all transform hover:scale-110 focus:outline-none"
+            aria-label="Cerrar detalle"
         >
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
-            <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
             </svg>
         </button>
 
-        {/* Contenedor único con scroll */}
-        <div className="overflow-y-auto h-full w-full custom-scrollbar">
-            
-            {/* Banner de Imagen */}
-            <div className="relative w-full aspect-video md:aspect-[21/9] bg-stone-900 flex items-center justify-center overflow-hidden">
-                {/* Fondo borroso */}
-                <img
-                    src={item.imageUrl}
-                    alt=""
-                    className="absolute inset-0 w-full h-full object-cover opacity-30 blur-xl scale-110"
-                    aria-hidden="true"
-                />
-                {/* Imagen principal */}
-                <img
-                    src={item.imageUrl}
-                    alt={`Portada de ${item.title}`}
-                    className="relative h-full w-auto object-contain shadow-2xl z-10 py-4 md:py-8 transition-transform duration-700 hover:scale-105"
-                />
+        <div className="flex flex-col md:flex-row h-full overflow-hidden">
+            {/* Columna Izquierda: Imagen/Media */}
+            <div className="w-full md:w-2/5 h-1/3 md:h-full relative bg-black flex items-center justify-center overflow-hidden">
+               {item.videoUrl ? (
+                   <video 
+                     controls 
+                     className="w-full h-full object-contain"
+                     src={item.videoUrl}
+                     onPlay={handleMediaPlay}
+                   >
+                       Tu navegador no soporta video.
+                   </video>
+               ) : (
+                   <img 
+                     src={item.imageUrl} 
+                     alt={item.title} 
+                     className="w-full h-full object-cover opacity-90"
+                   />
+               )}
+               {/* Badge de Categoría */}
+               <div className="absolute top-4 left-4 bg-stone-900/80 text-white px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider flex items-center gap-2 backdrop-blur-sm shadow-md">
+                   {getCategoryIcon(item.category)}
+                   {item.category}
+               </div>
             </div>
 
-            {/* Contenido */}
-            <div className="p-6 md:p-12 bg-stone-50 dark:bg-stone-900 min-h-[50vh]">
-                <div className="flex flex-col gap-4 mb-8 border-b border-stone-200 dark:border-stone-700 pb-8">
-                    <div className="flex items-center justify-between">
-                        <span className="inline-flex items-center gap-2 font-bold uppercase text-xs text-stone-600 dark:text-stone-300 tracking-wider border border-stone-300 dark:border-stone-600 px-3 py-1.5 rounded-full bg-stone-100 dark:bg-stone-800">
-                            {getCategoryIcon(item.category)}
-                            {item.category}
-                        </span>
-                        <span className="text-xs font-bold text-stone-500 dark:text-stone-400">{item.publicationDate}</span>
+            {/* Columna Derecha: Contenido */}
+            <div className="w-full md:w-3/5 h-2/3 md:h-full flex flex-col bg-stone-50 dark:bg-stone-900">
+                <div className="p-6 md:p-8 overflow-y-auto flex-grow scrollbar-thin scrollbar-thumb-stone-300 dark:scrollbar-thumb-stone-600">
+                    <div className="mb-6">
+                        <h2 className="text-3xl md:text-4xl font-bold text-stone-900 dark:text-stone-100 mb-2 leading-tight" style={{ fontFamily: "'Playfair Display', serif" }}>
+                            {item.title}
+                        </h2>
+                        <p className="text-lg text-stone-600 dark:text-stone-400 italic font-serif border-b border-stone-200 dark:border-stone-700 pb-4">
+                            {item.author}
+                        </p>
                     </div>
-                    <h2 className="text-3xl md:text-5xl font-bold text-stone-900 dark:text-stone-100 leading-tight" style={{ fontFamily: "'Playfair Display', serif" }}>
-                        {item.title}
-                    </h2>
-                    <p className="text-xl text-stone-700 dark:text-stone-300 italic font-serif">
-                        {item.author}
-                    </p>
-                </div>
-                
-                <div className="prose prose-lg dark:prose-invert max-w-none mb-12 text-stone-800 dark:text-stone-300 leading-relaxed font-serif text-justify">
-                    <p className="whitespace-pre-wrap">{item.review}</p>
-                </div>
 
-                {/* Botones de Acción */}
-                <div className="grid gap-6 md:grid-cols-2 mb-12">
-                    {item.pdfUrl && (
-                        <a 
-                            href={forceCloudinaryDownload(item.pdfUrl)} 
-                            download 
-                            className="flex items-center justify-center gap-3 px-6 py-4 bg-green-700 text-white font-bold rounded-lg hover:bg-green-800 transition-all hover:shadow-lg hover:-translate-y-1"
-                        >
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                            </svg>
-                            Descargar PDF
-                        </a>
+                    <div className="prose prose-stone dark:prose-invert max-w-none mb-8">
+                        <p className="whitespace-pre-wrap leading-relaxed text-base md:text-lg text-stone-800 dark:text-stone-200">
+                            {item.review}
+                        </p>
+                    </div>
+
+                    {/* Metadata y Fuentes */}
+                    {(item.publicationDate || item.sources) && (
+                        <div className="bg-stone-100 dark:bg-stone-800 rounded-lg p-4 text-sm text-stone-600 dark:text-stone-400 border border-stone-200 dark:border-stone-700">
+                            {item.publicationDate && (
+                                <p className="mb-1"><span className="font-bold">Publicado:</span> {item.publicationDate}</p>
+                            )}
+                            {item.sources && (
+                                <p><span className="font-bold">Fuente:</span> {item.sources}</p>
+                            )}
+                        </div>
                     )}
+                </div>
 
-                    {/* Botón especial para descargar regalo (Video) */}
-                    {isGift && item.videoUrl && (
-                        <a 
-                            href={forceCloudinaryDownload(item.videoUrl)} 
-                            download 
-                            className="flex items-center justify-center gap-3 px-6 py-4 bg-green-600 text-white font-bold rounded-lg hover:bg-green-700 transition-all hover:shadow-lg hover:-translate-y-1 col-span-2 md:col-span-1"
-                        >
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                            </svg>
-                            DESCARGAR REGALO (Video)
-                        </a>
-                    )}
-
+                {/* Footer con acciones */}
+                <div className="p-6 border-t border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-800 flex flex-wrap gap-4 items-center justify-between">
                     {item.audioUrl && (
-                        <div className="col-span-2 bg-stone-200 dark:bg-stone-800 p-6 rounded-xl shadow-inner">
-                            <h4 className="font-bold text-stone-700 dark:text-stone-300 mb-3 text-sm uppercase tracking-wide">Audio Complementario</h4>
-                            <audio controls className="w-full" onPlay={handleMediaPlay}>
+                        <div className="w-full md:w-auto flex-grow">
+                            <audio controls className="w-full h-10" onPlay={handleMediaPlay}>
                                 <source src={item.audioUrl} type="audio/mp4" />
-                                Tu navegador no soporta el elemento de audio.
+                                Tu navegador no soporta audio.
                             </audio>
                         </div>
                     )}
-
-                    {item.videoUrl && (
-                        <div className="col-span-2">
-                            <h4 className="font-bold text-stone-700 dark:text-stone-300 mb-3 text-sm uppercase tracking-wide">
-                                {item.category === 'Podcasts' ? 'Reproducir Podcast' : 'Vista Previa'}
-                            </h4>
-                            <div className="aspect-video bg-black rounded-xl overflow-hidden shadow-2xl">
-                                <video controls className="w-full h-full" onPlay={handleMediaPlay}>
-                                    <source src={item.videoUrl} type="video/mp4" />
-                                    Tu navegador no soporta el elemento de video.
-                                </video>
-                            </div>
-                        </div>
-                    )}
-                </div>
-                
-                {item.sources && (
-                    <div className="mb-12 pt-6 border-t border-stone-200 dark:border-stone-700 opacity-70">
-                        <h4 className="font-bold text-xs uppercase text-stone-500 mb-2 tracking-wider">Fuentes</h4>
-                        <p className="text-xs text-stone-500 dark:text-stone-400 whitespace-pre-wrap leading-relaxed">{item.sources}</p>
+                    
+                    <div className="flex gap-3 w-full md:w-auto justify-end">
+                        {item.pdfUrl && (
+                            <a 
+                                href={forceCloudinaryDownload(item.pdfUrl)} 
+                                download 
+                                className="inline-flex items-center gap-2 px-4 py-2 bg-red-700 hover:bg-red-800 text-white font-bold rounded-lg transition-colors shadow-md text-sm"
+                            >
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                </svg>
+                                Descargar PDF
+                            </a>
+                        )}
+                        
+                        {isGift && (
+                             <a 
+                                href={item.videoUrl ? forceCloudinaryDownload(item.videoUrl) : forceCloudinaryDownload(item.imageUrl)} 
+                                download 
+                                className="inline-flex items-center gap-2 px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-bold rounded-lg transition-colors shadow-md text-sm"
+                            >
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                                </svg>
+                                Descargar Postal
+                            </a>
+                        )}
                     </div>
-                )}
-
-                {/* Botón de Volver Inferior */}
-                <div className="flex justify-center border-t border-stone-200 dark:border-stone-700 pt-8">
-                    <button
-                        onClick={onClose}
-                        className="px-8 py-3 rounded-full bg-stone-200 dark:bg-stone-800 text-stone-800 dark:text-stone-200 font-bold hover:bg-stone-300 dark:hover:bg-stone-700 transition-colors flex items-center gap-2 shadow-sm"
-                    >
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                            <path fillRule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clipRule="evenodd" />
-                        </svg>
-                        Volver a la Colección
-                    </button>
                 </div>
             </div>
         </div>

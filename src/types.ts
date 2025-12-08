@@ -31,6 +31,7 @@ export interface PodcastMP3 {
   artist: string;
   videoId: string;
   coverUrl: string;
+  description: string;
 }
 
 export type ArticleLayout = 'columna-izquierda' | 'columna-derecha' | 'columna-centro' | 'media-hoja' | 'hoja-completa' | 'columna-izquierda-centrada';
