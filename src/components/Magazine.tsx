@@ -1,7 +1,7 @@
 
 import React from 'react';
 
-const HEYZINE_FLIPBOOK_URL = "https://heyzine.com/flip-book/d9c3b219c4.html";
+const HEYZINE_FLIPBOOK_URL = "https://heyzine.com/flip-book/6419983d24.html";
 
 const Magazine: React.FC = () => {
   return (

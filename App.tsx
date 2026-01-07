@@ -1,17 +1,18 @@
+
 import React, { useState, useEffect, useRef, lazy, Suspense } from 'react';
 import type { VideoPodcast, HeaderControls, StickyNote } from './types.ts';
-import Header from './components/Header.tsx';
-import LoadingSpinner from './components/LoadingSpinner.tsx';
-import Library from './components/Library.tsx';
+import Header from './src/components/Header.tsx';
+import LoadingSpinner from './src/components/LoadingSpinner.tsx';
+import Library from './src/components/Library.tsx';
 
-// --- COMPONENTES EXTERNOS CON LAZY LOADING ---
-const PodcastModal = lazy(() => import('./components/PodcastModal.tsx'));
-const ProtectedContentModal = lazy(() => import('./components/ProtectedContentModal.tsx'));
-const StickyNoteModal = lazy(() => import('./components/StickyNoteModal.tsx'));
-const AdminNotesModal = lazy(() => import('./components/AdminNotesModal.tsx'));
-const Magazine = lazy(() => import('./components/Magazine.tsx'));
-const StickyNotesContainer = lazy(() => import('./components/StickyNotesContainer.tsx'));
-const AdminAuthModal = lazy(() => import('./components/AdminAuthModal.tsx'));
+// --- COMPONENTES EXTERNOS CON LAZY LOADING (Rutas apuntando a src/) ---
+const PodcastModal = lazy(() => import('./src/components/PodcastModal.tsx'));
+const ProtectedContentModal = lazy(() => import('./src/components/ProtectedContentModal.tsx'));
+const StickyNoteModal = lazy(() => import('./src/components/StickyNoteModal.tsx'));
+const AdminNotesModal = lazy(() => import('./src/components/AdminNotesModal.tsx'));
+const Magazine = lazy(() => import('./src/components/Magazine.tsx'));
+const StickyNotesContainer = lazy(() => import('./src/components/StickyNotesContainer.tsx'));
+const AdminAuthModal = lazy(() => import('./src/components/AdminAuthModal.tsx'));
 
 const NOTES_STORAGE_KEY = 'elNexoDigitalAdminNotes';
 const THEME_STORAGE_KEY = 'elNexoDigitalTheme';
@@ -40,24 +41,12 @@ const App: React.FC = () => {
       const savedNotes = window.localStorage.getItem(NOTES_STORAGE_KEY);
       if (!savedNotes) return [];
       
-      let needsUpdate = false;
       const parsedNotes = JSON.parse(savedNotes);
-      const migratedNotes = parsedNotes.map((note: any) => {
-        if (note.position && typeof note.rotation !== 'undefined') {
-          return note;
-        }
-        needsUpdate = true;
-        return {
-          ...note,
-          position: { x: Math.random() * 80 + 10, y: Math.random() * 80 + 10 },
-          rotation: Math.random() * 30 - 15,
-        };
-      });
-      
-      if (needsUpdate) {
-        window.localStorage.setItem(NOTES_STORAGE_KEY, JSON.stringify(migratedNotes));
-      }
-      return migratedNotes;
+      return parsedNotes.map((note: any) => ({
+        ...note,
+        position: note.position || { x: Math.random() * 80 + 10, y: Math.random() * 80 + 10 },
+        rotation: typeof note.rotation !== 'undefined' ? note.rotation : Math.random() * 30 - 15,
+      }));
     } catch (error) {
       console.error('Error reading notes from localStorage', error);
       return [];
@@ -71,6 +60,7 @@ const App: React.FC = () => {
   
   const NOTES_ADMIN_PASSWORD = 'sauce';
 
+  // Sincronización del tema oscuro con el body y el localStorage
   useEffect(() => {
     const body = document.body;
     if (isDarkMode) {
@@ -85,10 +75,11 @@ const App: React.FC = () => {
     }
   }, [isDarkMode]);
 
+  // Carga del podcast del día desde los datos en src/data/
   useEffect(() => {
     const loadLocalData = async () => {
       try {
-        const { VIDEO_PODCASTS } = await import('./data/podcasts.ts');
+        const { VIDEO_PODCASTS } = await import('./src/data/podcasts.ts');
         if (VIDEO_PODCASTS && VIDEO_PODCASTS.length > 0) {
             const randomIndex = Math.floor(Math.random() * VIDEO_PODCASTS.length);
             setDailyPodcast(VIDEO_PODCASTS[randomIndex]);
@@ -97,10 +88,10 @@ const App: React.FC = () => {
         console.error("Error loading daily podcast:", e);
       }
     };
-
     loadLocalData();
   }, []);
 
+  // Persistencia de las notas adhesivas
   useEffect(() => {
     try {
       window.localStorage.setItem(NOTES_STORAGE_KEY, JSON.stringify(notes));
@@ -109,9 +100,7 @@ const App: React.FC = () => {
     }
   }, [notes]);
   
-  const toggleDarkMode = () => {
-    setIsDarkMode(prevMode => !prevMode);
-  };
+  const toggleDarkMode = () => setIsDarkMode(prevMode => !prevMode);
 
   const openPodcastModal = () => {
     if (headerRef.current) {
@@ -143,13 +132,8 @@ const App: React.FC = () => {
     }
   };
 
-  const openStickyNoteModal = () => {
-    setIsStickyNoteModalOpen(true);
-  }
-
-  const closeStickyNoteModal = () => {
-    setIsStickyNoteModalOpen(false);
-  }
+  const openStickyNoteModal = () => setIsStickyNoteModalOpen(true);
+  const closeStickyNoteModal = () => setIsStickyNoteModalOpen(false);
   
   const handleAdminAuthRequest = () => {
     if (isNotesAdmin) {

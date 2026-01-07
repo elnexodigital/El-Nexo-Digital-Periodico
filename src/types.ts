@@ -29,7 +29,7 @@ export interface PodcastMP3 {
   id:string;
   title: string;
   artist: string;
-  videoId: string;
+  audioUrl: string; // Renamed from videoId for clarity
   coverUrl: string;
   description: string;
 }

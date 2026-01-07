@@ -9,7 +9,7 @@ export const PODCASTS_MP3: PodcastMP3[] = [
     title: 'La Percepción de la Realidad',
     artist: 'Leo Castrillo',
     description: 'El locutor explora cómo la percepción individual moldea la realidad, usando la analogía de cómo los saltamontes ven el mundo de manera fragmentada y en ultravioleta. Destaca que nuestra propia percepción, influenciada por la biología, la historia, las emociones y las creencias, es la que construye nuestra realidad.',
-    videoId: 'https://res.cloudinary.com/dgvkbrgre/video/upload/q_auto:good/v1756957389/ver_diferente_es_vivir_diferente_q2zmj8.mp3',
+    audioUrl: 'https://res.cloudinary.com/dgvkbrgre/video/upload/q_auto:good/v1756957389/ver_diferente_es_vivir_diferente_q2zmj8.mp3',
     coverUrl: DEFAULT_COVER,
   },
   {
@@ -17,7 +17,7 @@ export const PODCASTS_MP3: PodcastMP3[] = [
     title: 'La Tierra: Ancla y Vuelo del Espíritu',
     artist: 'El Nexo Digital',
     description: 'Una profunda reflexión sobre la Tierra como ancla y prisión para el espíritu humano. Se explora cómo, a pesar de los intentos de trascender los límites físicos mediante la ciencia y la imaginación, la Tierra nos devuelve a nuestra realidad. La narración concluye que nuestras raíces en la Tierra no son cadenas, sino cimientos.',
-    videoId: 'https://res.cloudinary.com/dgvkbrgre/video/upload/q_auto:good/v1756606275/tierra_hfudg2.mp3',
+    audioUrl: 'https://res.cloudinary.com/dgvkbrgre/video/upload/q_auto:good/v1756606275/tierra_hfudg2.mp3',
     coverUrl: DEFAULT_COVER,
   },
   {
@@ -25,7 +25,7 @@ export const PODCASTS_MP3: PodcastMP3[] = [
     title: 'El Pulso del Techno: Del Corazón al Ritmo Digital',
     artist: 'El Nexo Digital',
     description: 'El locutor explora la conexión entre los ritmos ancestrales, como el latido del corazón y los tambores primitivos, y la música electrónica moderna. Destaca cómo este "tok-tok" repetitivo ha evolucionado para manifestarse en el BPM del techno.',
-    videoId: 'https://res.cloudinary.com/dgvkbrgre/video/upload/q_auto:good/v1756606802/somos_ritmo_y_ritmo_somos_cgqvmy.mp3',
+    audioUrl: 'https://res.cloudinary.com/dgvkbrgre/video/upload/q_auto:good/v1756606802/somos_ritmo_y_ritmo_somos_cgqvmy.mp3',
     coverUrl: DEFAULT_COVER,
   },
   {
@@ -33,7 +33,7 @@ export const PODCASTS_MP3: PodcastMP3[] = [
     title: 'La Existencia como Eco y Espejo',
     artist: 'El Nexo Digital',
     description: 'El locutor invita a reflexionar sobre preguntas existenciales, cuestionando si el universo tiene un centro, si el tiempo es una invención humana, y si todas las historias son la misma. Utilizando metáforas como un espejo empañado y un eco, explora la percepción de la realidad.',
-    videoId: 'https://res.cloudinary.com/dgvkbrgre/video/upload/q_auto:good/v1756607093/Siro_confuso_ugpldr.mp3',
+    audioUrl: 'https://res.cloudinary.com/dgvkbrgre/video/upload/q_auto:good/v1756607093/Siro_confuso_ugpldr.mp3',
     coverUrl: DEFAULT_COVER,
   },
   {
@@ -41,7 +41,7 @@ export const PODCASTS_MP3: PodcastMP3[] = [
     title: 'La Música de Nuestra Infancia',
     artist: 'El Nexo Digital',
     description: 'El locutor reflexiona sobre la profunda conexión con la música en su infancia, recordando la época de los casetes y las radios en un mundo sin plataformas digitales. Destaca cómo la música no era solo entretenimiento, sino compañerismo.',
-    videoId: 'https://res.cloudinary.com/dgvkbrgre/video/upload/sergio_infancia.mp3',
+    audioUrl: 'https://res.cloudinary.com/dgvkbrgre/video/upload/sergio_infancia.mp3',
     coverUrl: DEFAULT_COVER,
   },
   {
@@ -49,7 +49,7 @@ export const PODCASTS_MP3: PodcastMP3[] = [
     title: 'El Bit Hace Historia',
     artist: 'El Nexo Digital',
     description: 'El locutor celebra el reconocimiento de la música electrónica como patrimonio cultural inmaterial de la humanidad por la UNESCO. Traza su historia desde los pioneros como Kraftwerk hasta las vibrantes escenas de Detroit y Berlín.',
-    videoId: 'https://res.cloudinary.com/dgvkbrgre/video/upload/sergio_dia_electronica.mp3',
+    audioUrl: 'https://res.cloudinary.com/dgvkbrgre/video/upload/sergio_dia_electronica.mp3',
     coverUrl: DEFAULT_COVER,
   },
   {
@@ -57,7 +57,7 @@ export const PODCASTS_MP3: PodcastMP3[] = [
     title: 'Consejos de vida con Conchita Macarney',
     artist: 'Conchita Macarney',
     description: 'Conchita Macarney, experta en supervivencia emocional y astrología, ofrece consejos humorísticos y poco convencionales para la vida moderna. Cubre temas como la meditación, la cocina, la vestimenta y el rol de influencer.',
-    videoId: 'https://res.cloudinary.com/dgvkbrgre/video/upload/scroll2.mp3',
+    audioUrl: 'https://res.cloudinary.com/dgvkbrgre/video/upload/scroll2.mp3',
     coverUrl: DEFAULT_COVER,
   },
   {
@@ -65,7 +65,7 @@ export const PODCASTS_MP3: PodcastMP3[] = [
     title: 'Un Refugio Imaginado',
     artist: 'El Nexo Digital',
     description: 'El narrador describe un viaje a un mundo imaginado al hundir su mano en arena húmeda. En este lugar, la realidad es más suave, el tiempo no es lineal y las barreras físicas se disuelven.',
-    videoId: 'https://res.cloudinary.com/dgvkbrgre/video/upload/q_auto:good/v1756607089/quizas_la_vida_ryzzta.mp3',
+    audioUrl: 'https://res.cloudinary.com/dgvkbrgre/video/upload/q_auto:good/v1756607089/quizas_la_vida_ryzzta.mp3',
     coverUrl: DEFAULT_COVER,
   },
   {
@@ -73,7 +73,7 @@ export const PODCASTS_MP3: PodcastMP3[] = [
     title: 'La Playlist Marciana',
     artist: 'El Nexo Digital',
     description: 'El locutor imagina la visita de extraterrestres y la necesidad de representar a la humanidad. Deciden crear una "playlist marciana" con música de artistas como José González, Asaf Avidan y compositores clásicos para mostrar nuestra profundidad.',
-    videoId: 'https://res.cloudinary.com/dgvkbrgre/video/upload/playlist_marsiana.mp3',
+    audioUrl: 'https://res.cloudinary.com/dgvkbrgre/video/upload/playlist_marsiana.mp3',
     coverUrl: DEFAULT_COVER,
   },
   {
@@ -81,7 +81,7 @@ export const PODCASTS_MP3: PodcastMP3[] = [
     title: 'Tu Silencio es Estrategia',
     artist: 'El Nexo Digital',
     description: 'En un mundo ruidoso y caótico, el locutor se dirige a aquellos que eligen el silencio y la introspección. Su "voz baja" no es debilidad, sino una estrategia, una pausa que afila la lucidez clandestina.',
-    videoId: 'https://res.cloudinary.com/dgvkbrgre/video/upload/pausa_que_afila.mp3',
+    audioUrl: 'https://res.cloudinary.com/dgvkbrgre/video/upload/pausa_que_afila.mp3',
     coverUrl: DEFAULT_COVER,
   },
   {
@@ -89,7 +89,7 @@ export const PODCASTS_MP3: PodcastMP3[] = [
     title: 'Mamíferos Digitales y la Paranoia Doméstica',
     artist: 'El Nexo Digital',
     description: 'El locutor describe a los "mamíferos digitales" del siglo XXI, humanos de carne y hueso atrapados en un bucle digital, perdiéndose en videos virales y contenido superficial. Este fenómeno da origen a la "paranoia doméstica".',
-    videoId: 'https://res.cloudinary.com/dgvkbrgre/video/upload/q_auto:good/v1756606972/paranoia_dom%C3%A9stica_y6qr0e.mp3',
+    audioUrl: 'https://res.cloudinary.com/dgvkbrgre/video/upload/q_auto:good/v1756606972/paranoia_dom%C3%A9stica_y6qr0e.mp3',
     coverUrl: DEFAULT_COVER,
   },
   {
@@ -97,7 +97,7 @@ export const PODCASTS_MP3: PodcastMP3[] = [
     title: 'Tecnología con Vida Propia',
     artist: 'El Nexo Digital',
     description: 'El podcast Mamíferos Digitales explora anécdotas extrañas de la tecnología. En este episodio, se relata el caso de un router que susurraba "mamá" en Juan Lacaze y el de un asistente de voz que respondía con insultos.',
-    videoId: 'https://res.cloudinary.com/dgvkbrgre/video/upload/q_auto:good/v1756606971/paranoia_digital1_o1n621.mp3',
+    audioUrl: 'https://res.cloudinary.com/dgvkbrgre/video/upload/q_auto:good/v1756606971/paranoia_digital1_o1n621.mp3',
     coverUrl: DEFAULT_COVER,
   },
   {
@@ -105,7 +105,7 @@ export const PODCASTS_MP3: PodcastMP3[] = [
     title: 'La Involución del Entretenimiento',
     artist: 'El Nexo Digital',
     description: 'El locutor critica el Hollywood actual, que prioriza la inclusión y diversidad dictadas por algoritmos sociales sobre la "sustancia" y el arte. Argumenta que el entretenimiento se ha convertido en un mecanismo de adiestramiento.',
-    videoId: 'https://res.cloudinary.com/dgvkbrgre/video/upload/oscars.mp3',
+    audioUrl: 'https://res.cloudinary.com/dgvkbrgre/video/upload/oscars.mp3',
     coverUrl: DEFAULT_COVER,
   },
   {
@@ -113,7 +113,7 @@ export const PODCASTS_MP3: PodcastMP3[] = [
     title: 'Comercios Sugeridos por El Nexo Digital',
     artist: 'El Nexo Digital',
     description: 'Este segmento presenta una guía de comercios sugeridos por "El Nexo Digital". Se anuncian varios negocios locales detallando sus ubicaciones y algunos de sus productos o servicios.',
-    videoId: 'https://res.cloudinary.com/dgvkbrgre/video/upload/Nexo_digitalpublicidades.mp3',
+    audioUrl: 'https://res.cloudinary.com/dgvkbrgre/video/upload/Nexo_digitalpublicidades.mp3',
     coverUrl: DEFAULT_COVER,
   },
   {
@@ -121,7 +121,7 @@ export const PODCASTS_MP3: PodcastMP3[] = [
     title: 'Análisis Musical y Anuncios Locales',
     artist: 'El Nexo Digital',
     description: 'El locutor presenta comentarios sobre varias piezas musicales, destacando la fuerza de una colaboración de Wos y Ricardo Mollo, y analizando la disonancia emocional en una canción de Mon Laferte.',
-    videoId: 'https://res.cloudinary.com/dgvkbrgre/video/upload/m%C3%BAsica_conector_de_cerebro_y_corazon.mp3',
+    audioUrl: 'https://res.cloudinary.com/dgvkbrgre/video/upload/m%C3%BAsica_conector_de_cerebro_y_corazon.mp3',
     coverUrl: DEFAULT_COVER,
   },
   {
@@ -129,7 +129,7 @@ export const PODCASTS_MP3: PodcastMP3[] = [
     title: 'El Dedo Inquieto: La Trampa del Scroll',
     artist: 'El Nexo Digital',
     description: 'El locutor describe la era digital como un periodo de constante "scroll" que, aunque promete libertad, actúa como una trampa y una forma moderna de hipnosis. Invita a "scrollear" hacia el interior.',
-    videoId: 'https://res.cloudinary.com/dgvkbrgre/video/upload/maldito_scroll.mp3',
+    audioUrl: 'https://res.cloudinary.com/dgvkbrgre/video/upload/maldito_scroll.mp3',
     coverUrl: DEFAULT_COVER,
   },
   {
@@ -137,7 +137,7 @@ export const PODCASTS_MP3: PodcastMP3[] = [
     title: 'La Ilusión del Poder: De Feudal a Micro',
     artist: 'El Nexo Digital',
     description: 'El episodio analiza cómo el poder se mantiene a través de la delegación, comparando las estructuras modernas con el feudalismo. Introduce el concepto de "micropoderes", pequeñas acciones cotidianas de control.',
-    videoId: 'https://res.cloudinary.com/dgvkbrgre/video/upload/q_auto:good/v1756606840/Los_lame_botas_del_poder_tnmoge.mp3',
+    audioUrl: 'https://res.cloudinary.com/dgvkbrgre/video/upload/q_auto:good/v1756606840/Los_lame_botas_del_poder_tnmoge.mp3',
     coverUrl: DEFAULT_COVER,
   },
   {
@@ -145,7 +145,7 @@ export const PODCASTS_MP3: PodcastMP3[] = [
     title: 'El Poder de la Observación',
     artist: 'El Nexo Digital',
     description: 'El locutor explora la idea de que la realidad no es un hecho fijo, sino que se construye a través de nuestra percepción y observación. Utilizando conceptos de la física cuántica, sugiere que colectivamente creamos nuestra realidad.',
-    videoId: 'https://res.cloudinary.com/dgvkbrgre/video/upload/q_auto:good/v1756957114/lo_que_vemos_wackkg.mp3',
+    audioUrl: 'https://res.cloudinary.com/dgvkbrgre/video/upload/q_auto:good/v1756957114/lo_que_vemos_wackkg.mp3',
     coverUrl: DEFAULT_COVER,
   },
   {
@@ -153,7 +153,7 @@ export const PODCASTS_MP3: PodcastMP3[] = [
     title: 'La Esencia Humana en la Era Digital',
     artist: 'Graciela Aquelarre',
     description: 'Graciela reflexiona sobre la historia no como una suma de aciertos y errores, sino como una fuente para crear nuevos mundos. Argumenta que la IA nos ayuda a "recuperar el tiempo para sentirnos humanos".',
-    videoId: 'https://res.cloudinary.com/dgvkbrgre/video/upload/las_IAs_en_las_cavernas.mp3',
+    audioUrl: 'https://res.cloudinary.com/dgvkbrgre/video/upload/las_IAs_en_las_cavernas.mp3',
     coverUrl: DEFAULT_COVER,
   },
   {
@@ -161,7 +161,7 @@ export const PODCASTS_MP3: PodcastMP3[] = [
     title: 'La Paradoja de la Lluvia y la Vida',
     artist: 'El Nexo Digital',
     description: 'El locutor reflexiona sobre la dualidad y complejidad de la lluvia y la vida, describiendo cómo el agua que cae, aparentemente simple, en realidad ensucia para limpiar.',
-    videoId: 'https://res.cloudinary.com/dgvkbrgre/video/upload/la_lluvia.mp3',
+    audioUrl: 'https://res.cloudinary.com/dgvkbrgre/video/upload/la_lluvia.mp3',
     coverUrl: DEFAULT_COVER,
   },
   {
@@ -169,7 +169,7 @@ export const PODCASTS_MP3: PodcastMP3[] = [
     title: 'Explorando la Fe y el Misterio',
     artist: 'El Nexo Digital',
     description: 'El episodio invita a cruzar el umbral hacia un templo virtual de conocimiento y misterio, explorando los secretos de las religiones ancestrales y el enigma de los dioses antiguos.',
-    videoId: 'https://res.cloudinary.com/dgvkbrgre/video/upload/q_auto:good/v1756606783/la_fe_a_pesar_de_la_muerte_qvtqkc.mp3',
+    audioUrl: 'https://res.cloudinary.com/dgvkbrgre/video/upload/q_auto:good/v1756606783/la_fe_a_pesar_de_la_muerte_qvtqkc.mp3',
     coverUrl: DEFAULT_COVER,
   },
   {
@@ -177,7 +177,7 @@ export const PODCASTS_MP3: PodcastMP3[] = [
     title: 'El Infierno Rediseñado',
     artist: 'El Nexo Digital',
     description: 'El locutor explora el concepto del infierno en la sociedad moderna, desde la música hasta la idea de que hemos "rediseñado" el infierno con la tecnología. El mensaje final es que el infierno puede ser un umbral.',
-    videoId: 'https://res.cloudinary.com/dgvkbrgre/video/upload/infierno4.mp3',
+    audioUrl: 'https://res.cloudinary.com/dgvkbrgre/video/upload/infierno4.mp3',
     coverUrl: DEFAULT_COVER,
   },
   {
@@ -185,7 +185,7 @@ export const PODCASTS_MP3: PodcastMP3[] = [
     title: 'El Infierno Musical',
     artist: 'El Nexo Digital',
     description: 'El locutor explora cómo la música, desde el rock hasta la electrónica, reinterpreta el concepto de "infierno" no como un lugar mítico, sino como las luchas y la oscuridad inherentes a la condición humana.',
-    videoId: 'https://res.cloudinary.com/dgvkbrgre/video/upload/infierno3.mp3',
+    audioUrl: 'https://res.cloudinary.com/dgvkbrgre/video/upload/infierno3.mp3',
     coverUrl: DEFAULT_COVER,
   },
   {
@@ -193,7 +193,7 @@ export const PODCASTS_MP3: PodcastMP3[] = [
     title: 'El Infierno Digital y Cotidiano',
     artist: 'Conchita Macarney',
     description: 'Conchita reflexiona sobre el infierno, afirmando que no está "allá abajo" sino que es una realidad que hemos creado nosotros mismos, como unas "empanadas caseras pero con culpa, plástico y 5G".',
-    videoId: 'https://res.cloudinary.com/dgvkbrgre/video/upload/infierno2.mp3',
+    audioUrl: 'https://res.cloudinary.com/dgvkbrgre/video/upload/infierno2.mp3',
     coverUrl: DEFAULT_COVER,
   },
   {
@@ -201,7 +201,7 @@ export const PODCASTS_MP3: PodcastMP3[] = [
     title: 'Nuestro Infierno Cotidiano',
     artist: 'Grace',
     description: 'Grace invita a reflexionar sobre un "infierno" creado por el ser humano a través de leyes, el silencio, la indiferencia y la tecnología. Cuestiona si somos capaces de mejorar la relación con el mundo.',
-    videoId: 'https://res.cloudinary.com/dgvkbrgre/video/upload/infierno1.mp3',
+    audioUrl: 'https://res.cloudinary.com/dgvkbrgre/video/upload/infierno1.mp3',
     coverUrl: DEFAULT_COVER,
   },
   {
@@ -209,7 +209,7 @@ export const PODCASTS_MP3: PodcastMP3[] = [
     title: 'El Big Bang de la Infancia',
     artist: 'Grace',
     description: 'Grace explora cómo la infancia es el "zona cero emocional" que moldea nuestra identidad adulta. Detalla cómo las creencias impuestas nos condicionan a buscar aprobación.',
-    videoId: 'https://res.cloudinary.com/dgvkbrgre/video/upload/Grace_infancia.mp3',
+    audioUrl: 'https://res.cloudinary.com/dgvkbrgre/video/upload/Grace_infancia.mp3',
     coverUrl: DEFAULT_COVER,
   },
   {
@@ -217,7 +217,7 @@ export const PODCASTS_MP3: PodcastMP3[] = [
     title: 'La Nada: Origen y Potencial',
     artist: 'Gabriel Callum',
     description: 'El locutor reflexiona sobre el concepto de "la nada" no como una ausencia, sino como un origen fértil y un espacio de potencial. Explica que la nada es una chispa creadora.',
-    videoId: 'https://res.cloudinary.com/dgvkbrgre/video/upload/Gabriel_vacio.mp3',
+    audioUrl: 'https://res.cloudinary.com/dgvkbrgre/video/upload/Gabriel_vacio.mp3',
     coverUrl: DEFAULT_COVER,
   },
   {
@@ -225,7 +225,7 @@ export const PODCASTS_MP3: PodcastMP3[] = [
     title: 'Un Viaje al Niño Interior',
     artist: 'Gabriel Callum',
     description: 'Gabriel comparte una introspección sobre el reencuentro con su niño interior, quien le revela que se deja de ser niño cuando se deja de jugar. Presenta la canción "The Pretender" como himno.',
-    videoId: 'https://res.cloudinary.com/dgvkbrgre/video/upload/Gabriel_infancia.mp3',
+    audioUrl: 'https://res.cloudinary.com/dgvkbrgre/video/upload/Gabriel_infancia.mp3',
     coverUrl: DEFAULT_COVER,
   },
   {
@@ -233,7 +233,7 @@ export const PODCASTS_MP3: PodcastMP3[] = [
     title: 'El Fuego: Amo o Esclavo',
     artist: 'El Nexo Digital',
     description: 'El locutor narra una parábola sobre la relación del hombre con el fuego. El hombre domesticó el fuego y construyó imperios, pero su ambición lo llevó a volverse contra sí mismo.',
-    videoId: 'https://res.cloudinary.com/dgvkbrgre/video/upload/fuego1.mp3',
+    audioUrl: 'https://res.cloudinary.com/dgvkbrgre/video/upload/fuego1.mp3',
     coverUrl: DEFAULT_COVER,
   },
   {
@@ -241,7 +241,7 @@ export const PODCASTS_MP3: PodcastMP3[] = [
     title: 'Fuego, Destino y Sonido',
     artist: 'El Nexo Digital',
     description: 'El episodio explora la canción "In the End" y narra una historia profunda sobre la relación del hombre con el fuego. Se analizan canciones que representan la búsqueda de uno mismo.',
-    videoId: 'https://res.cloudinary.com/dgvkbrgre/video/upload/q_auto:good/v1756606275/fuego_sqewvj.mp3',
+    audioUrl: 'https://res.cloudinary.com/dgvkbrgre/video/upload/q_auto:good/v1756606275/fuego_sqewvj.mp3',
     coverUrl: DEFAULT_COVER,
   },
   {
@@ -249,7 +249,7 @@ export const PODCASTS_MP3: PodcastMP3[] = [
     title: 'Percepción, Creencia y Realidad',
     artist: 'El Nexo Digital',
     description: 'El locutor explora la diferencia entre conocimiento y creencia, introduciendo la epistemología y cómo las creencias masificadas pueden moldear la realidad social.',
-    videoId: 'https://res.cloudinary.com/dgvkbrgre/video/upload/epistemologia.mp3',
+    audioUrl: 'https://res.cloudinary.com/dgvkbrgre/video/upload/epistemologia.mp3',
     coverUrl: DEFAULT_COVER,
   },
   {
@@ -257,7 +257,7 @@ export const PODCASTS_MP3: PodcastMP3[] = [
     title: 'El Agua y el Aire: El Cosmos a Nuestro Alrededor',
     artist: 'El Nexo Digital',
     description: 'Una profunda reflexión sobre el agua y el aire, presentándolos no solo como elementos naturales, sino como universos en sí mismos. Destaca el agua como un cosmos palpable y el aire como red de conexión.',
-    videoId: 'https://res.cloudinary.com/dgvkbrgre/video/upload/episodio_3.mp3',
+    audioUrl: 'https://res.cloudinary.com/dgvkbrgre/video/upload/episodio_3.mp3',
     coverUrl: DEFAULT_COVER,
   },
   {
@@ -265,7 +265,7 @@ export const PODCASTS_MP3: PodcastMP3[] = [
     title: 'El alma en el Nexo Digital',
     artist: 'El Nexo Digital',
     description: 'El locutor explora el concepto del alma, planteando si reside en todo, si es moldeada por nuestras experiencias y recuerdos, y si es un hilo invisible que nos conecta.',
-    videoId: 'https://res.cloudinary.com/dgvkbrgre/video/upload/q_auto:good/v1756607090/elemento_alma_r9conb.mp3',
+    audioUrl: 'https://res.cloudinary.com/dgvkbrgre/video/upload/q_auto:good/v1756607090/elemento_alma_r9conb.mp3',
     coverUrl: DEFAULT_COVER,
   },
   {
@@ -273,7 +273,7 @@ export const PODCASTS_MP3: PodcastMP3[] = [
     title: 'La Red de Pensamientos y Emociones',
     artist: 'El Nexo Digital',
     description: 'El segmento explora la idea de que el aire es una vasta red invisible que transporta emociones e ideas. Introduce conceptos como la Noosfera y el entrelazamiento cuántico.',
-    videoId: 'https://res.cloudinary.com/dgvkbrgre/video/upload/q_auto:good/v1756957226/elemento_aire_vcbbhw.mp3',
+    audioUrl: 'https://res.cloudinary.com/dgvkbrgre/video/upload/q_auto:good/v1756957226/elemento_aire_vcbbhw.mp3',
     coverUrl: DEFAULT_COVER,
   },
   {
@@ -281,7 +281,7 @@ export const PODCASTS_MP3: PodcastMP3[] = [
     title: 'El Yo en Bucle Existencial',
     artist: 'El Nexo Digital',
     description: 'El locutor reflexiona sobre cómo el "yo" vive en un bucle existencial, donde cada célula muere y renace. Concluye que el "yo" es una versión piadosa inventada para sobrevivir al tiempo.',
-    videoId: 'https://res.cloudinary.com/dgvkbrgre/video/upload/el_yo_que_me_sostiene.mp3',
+    audioUrl: 'https://res.cloudinary.com/dgvkbrgre/video/upload/el_yo_que_me_sostiene.mp3',
     coverUrl: DEFAULT_COVER,
   },
   {
@@ -289,7 +289,7 @@ export const PODCASTS_MP3: PodcastMP3[] = [
     title: 'El Vagabundo del Viento y el Misterio del Sonido',
     artist: 'El Nexo Digital',
     description: 'Se narra la historia de "El vagabundo del viento", un hombre que buscaba un sonido místico. Comprende que el sonido es la búsqueda misma, el caminar y el viento.',
-    videoId: 'https://res.cloudinary.com/dgvkbrgre/video/upload/el_vagabundo_del_viento.mp3',
+    audioUrl: 'https://res.cloudinary.com/dgvkbrgre/video/upload/el_vagabundo_del_viento.mp3',
     coverUrl: DEFAULT_COVER,
   },
   {
@@ -297,7 +297,7 @@ export const PODCASTS_MP3: PodcastMP3[] = [
     title: 'El Universo Somos Nosotros',
     artist: 'El Nexo Digital',
     description: 'El segmento explora la interconexión de todas las formas de vida como una expresión mágica del cosmos. Concluye que no somos excepciones, sino una regla cósmica, parte intrínseca del universo vivo.',
-    videoId: 'https://res.cloudinary.com/dgvkbrgre/video/upload/q_auto:good/v1756606277/el_universo_vive_myuffn.mp3',
+    audioUrl: 'https://res.cloudinary.com/dgvkbrgre/video/upload/q_auto:good/v1756606277/el_universo_vive_myuffn.mp3',
     coverUrl: DEFAULT_COVER,
   },
   {
@@ -305,7 +305,7 @@ export const PODCASTS_MP3: PodcastMP3[] = [
     title: 'La Paradoja del Miedo Moderno',
     artist: 'El Nexo Digital',
     description: 'El locutor explora cómo el miedo ancestral a lo desconocido llevó a la humanidad a buscar lo sobrenatural. Traza un paralelismo con la sociedad moderna y la búsqueda de seguridad en símbolos políticos.',
-    videoId: 'https://res.cloudinary.com/dgvkbrgre/video/upload/El_Miedo_como_Se%C3%B1al_de_Vida.mp3',
+    audioUrl: 'https://res.cloudinary.com/dgvkbrgre/video/upload/El_Miedo_como_Se%C3%B1al_de_Vida.mp3',
     coverUrl: DEFAULT_COVER,
   },
   {
@@ -313,7 +313,7 @@ export const PODCASTS_MP3: PodcastMP3[] = [
     title: 'Don Quijote y la búsqueda de propósito',
     artist: 'El Nexo Digital',
     description: 'El locutor explica que Alonso Quijano no está loco, sino que redefine su existencia al buscar un propósito más allá de lo ordinario. La lucha no es por un amor idealizado, sino por la validación de su propia vida.',
-    videoId: 'https://res.cloudinary.com/dgvkbrgre/video/upload/q_auto:good/v1756606839/Don_Quijano_euutdn.mp3',
+    audioUrl: 'https://res.cloudinary.com/dgvkbrgre/video/upload/q_auto:good/v1756606839/Don_Quijano_euutdn.mp3',
     coverUrl: DEFAULT_COVER,
   },
   {
@@ -321,7 +321,7 @@ export const PODCASTS_MP3: PodcastMP3[] = [
     title: 'Una Experiencia Musical Profunda',
     artist: 'El Nexo Digital',
     description: 'El locutor presenta "El Nexo Digital", invitando a sentir, cuestionar y romper esquemas. Introduce temas musicales diversos destacando su capacidad para generar emociones intensas.',
-    videoId: 'https://res.cloudinary.com/dgvkbrgre/video/upload/domingo_de_agosto.mp3',
+    audioUrl: 'https://res.cloudinary.com/dgvkbrgre/video/upload/domingo_de_agosto.mp3',
     coverUrl: DEFAULT_COVER,
   },
   {
@@ -329,7 +329,7 @@ export const PODCASTS_MP3: PodcastMP3[] = [
     title: 'El Desarraigo: Una Isla Portátil',
     artist: 'El Nexo Digital',
     description: 'La locutora reflexiona sobre el desarraigo, describiéndolo como ser arrancado de la tierra sin anestesia. Enfatiza la resiliencia y la capacidad de llevar la cultura y la memoria consigo.',
-    videoId: 'https://res.cloudinary.com/dgvkbrgre/video/upload/desarreaigo2.mp3',
+    audioUrl: 'https://res.cloudinary.com/dgvkbrgre/video/upload/desarreaigo2.mp3',
     coverUrl: DEFAULT_COVER,
   },
   {
@@ -337,7 +337,7 @@ export const PODCASTS_MP3: PodcastMP3[] = [
     title: 'Desarraigo y Reencuentro',
     artist: 'El Nexo Digital',
     description: 'El locutor define el desarraigo como una herida emocional profunda. Propone un ritual de paso para quemar mapas viejos y sugiere encontrar luz y dirección en la oscuridad.',
-    videoId: 'https://res.cloudinary.com/dgvkbrgre/video/upload/desarraigo4.mp3',
+    audioUrl: 'https://res.cloudinary.com/dgvkbrgre/video/upload/desarraigo4.mp3',
     coverUrl: DEFAULT_COVER,
   },
   {
@@ -345,7 +345,7 @@ export const PODCASTS_MP3: PodcastMP3[] = [
     title: 'Música para el Alma Errante',
     artist: 'El Nexo Digital',
     description: 'El locutor explora cómo la música sirve como refugio y conexión para aquellos que se sienten desarraigados. La música se presenta como un escape y un reencuentro con uno mismo.',
-    videoId: 'https://res.cloudinary.com/dgvkbrgre/video/upload/desarraigo3.mp3',
+    audioUrl: 'https://res.cloudinary.com/dgvkbrgre/video/upload/desarraigo3.mp3',
     coverUrl: DEFAULT_COVER,
   },
   {
@@ -353,7 +353,7 @@ export const PODCASTS_MP3: PodcastMP3[] = [
     title: 'El Desarraigo: Viaje y Oportunidad',
     artist: 'El Nexo Digital',
     description: 'El locutor redefine el desarraigo no como una pérdida, sino como una mutación y un viaje que revela nuevas oportunidades. Al perder el suelo, se abre el horizonte.',
-    videoId: 'https://res.cloudinary.com/dgvkbrgre/video/upload/desarraigo1.mp3',
+    audioUrl: 'https://res.cloudinary.com/dgvkbrgre/video/upload/desarraigo1.mp3',
     coverUrl: DEFAULT_COVER,
   },
   {
@@ -361,7 +361,7 @@ export const PODCASTS_MP3: PodcastMP3[] = [
     title: 'El Dios que Llevamos Dentro',
     artist: 'El Nexo Digital',
     description: 'El locutor reflexiona sobre la naturaleza de Dios, sugiriendo que es una proyección humana nacida de la soledad. Concluye que cada persona lleva a su propio Dios, moldeado por sus heridas y amor.',
-    videoId: 'https://res.cloudinary.com/dgvkbrgre/video/upload/q_auto:good/v1756606972/De_dios_del_alma_y_de_s%C3%ADsifo_xm8vzu.mp3',
+    audioUrl: 'https://res.cloudinary.com/dgvkbrgre/video/upload/q_auto:good/v1756606972/De_dios_del_alma_y_de_s%C3%ADsifo_xm8vzu.mp3',
     coverUrl: DEFAULT_COVER,
   },
   {
@@ -369,7 +369,7 @@ export const PODCASTS_MP3: PodcastMP3[] = [
     title: 'La Mejor Costumbre: Tu Propio Ritmo',
     artist: 'El Nexo Digital',
     description: 'El locutor explora cómo las costumbres dan forma a la música y la vida. Anima a los oyentes a buscar su propio ritmo, privilegiando la autenticidad y el sentir la música.',
-    videoId: 'https://res.cloudinary.com/dgvkbrgre/video/upload/costumbres4.mp3',
+    audioUrl: 'https://res.cloudinary.com/dgvkbrgre/video/upload/costumbres4.mp3',
     coverUrl: DEFAULT_COVER,
   },
   {
@@ -377,7 +377,7 @@ export const PODCASTS_MP3: PodcastMP3[] = [
     title: 'El Legado de las Costumbres',
     artist: 'El Nexo Digital',
     description: 'El locutor reflexiona sobre cómo las viejas costumbres se desvanecen. Subraya que estas tradiciones son la memoria viva de quienes fuimos y el eco que nos conecta con el pasado.',
-    videoId: 'https://res.cloudinary.com/dgvkbrgre/video/upload/costumbres3.mp3',
+    audioUrl: 'https://res.cloudinary.com/dgvkbrgre/video/upload/costumbres3.mp3',
     coverUrl: DEFAULT_COVER,
   },
   {
@@ -385,7 +385,7 @@ export const PODCASTS_MP3: PodcastMP3[] = [
     title: 'De Gatos, Costumbres y Reinvención',
     artist: 'Conchita Macarney',
     description: 'Conchita reflexiona críticamente sobre las "nuevas costumbres" de la era digital, argumentando que muchas necesidades modernas son superficiales y nacen del miedo al silencio.',
-    videoId: 'https://res.cloudinary.com/dgvkbrgre/video/upload/costumbres2.mp3',
+    audioUrl: 'https://res.cloudinary.com/dgvkbrgre/video/upload/costumbres2.mp3',
     coverUrl: DEFAULT_COVER,
   },
   {
@@ -393,7 +393,7 @@ export const PODCASTS_MP3: PodcastMP3[] = [
     title: 'Un Viaje por las Costumbres',
     artist: 'El Nexo Digital',
     description: 'El locutor nos invita a reflexionar sobre las costumbres, analizando su evolución. El podcast subraya que las costumbres son un estandarte de identidad y pertenencia.',
-    videoId: 'https://res.cloudinary.com/dgvkbrgre/video/upload/costumbres1.mp3',
+    audioUrl: 'https://res.cloudinary.com/dgvkbrgre/video/upload/costumbres1.mp3',
     coverUrl: DEFAULT_COVER,
   },
   {
@@ -401,7 +401,7 @@ export const PODCASTS_MP3: PodcastMP3[] = [
     title: 'Supervivencia Emocional Extrema',
     artist: 'Conchita Macarney',
     description: 'Conchita se presenta como experta en supervivencia emocional. Ofrece consejos irónicos y directos para sobrellevar la vida moderna, incluyendo tips para la meditación y las redes sociales.',
-    videoId: 'https://res.cloudinary.com/dgvkbrgre/video/upload/q_auto:good/v1756606776/conchita_macarnei_pifvph.mp3',
+    audioUrl: 'https://res.cloudinary.com/dgvkbrgre/video/upload/q_auto:good/v1756606776/conchita_macarnei_pifvph.mp3',
     coverUrl: DEFAULT_COVER,
   },
   {
@@ -409,7 +409,7 @@ export const PODCASTS_MP3: PodcastMP3[] = [
     title: 'La Era de la Superación Personal',
     artist: 'Conchita Macarney',
     description: 'Conchita ofrece una perspectiva irónica sobre la "era de la superación personal". Detalla cómo la vida moderna exige estar constantemente buscando ser una "versión superior" de uno mismo.',
-    videoId: 'https://res.cloudinary.com/dgvkbrgre/video/upload/conchita_macarnei.mp3',
+    audioUrl: 'https://res.cloudinary.com/dgvkbrgre/video/upload/conchita_macarnei.mp3',
     coverUrl: DEFAULT_COVER,
   },
   {
@@ -417,7 +417,7 @@ export const PODCASTS_MP3: PodcastMP3[] = [
     title: 'La infancia que te salvó',
     artist: 'Conchita Macarney',
     description: 'La locutora reflexiona sobre la infancia, destacando sus placeres y la libertad de imaginar. Anima a los oyentes a reconectar con su niñez y no temer a lo que otros piensen.',
-    videoId: 'https://res.cloudinary.com/dgvkbrgre/video/upload/conchita_infancia.mp3',
+    audioUrl: 'https://res.cloudinary.com/dgvkbrgre/video/upload/conchita_infancia.mp3',
     coverUrl: DEFAULT_COVER,
   },
   {
@@ -425,7 +425,7 @@ export const PODCASTS_MP3: PodcastMP3[] = [
     title: 'Cenicienta: Más allá del cuento de hadas',
     artist: 'El Nexo Digital',
     description: 'Este podcast analiza la historia de Cenicienta desde una perspectiva psicológica, revelando cómo el cuento clásico refleja dinámicas familiares disfuncionales y la manipulación emocional.',
-    videoId: 'https://res.cloudinary.com/dgvkbrgre/video/upload/q_auto:good/v1756606823/cenicienta_wnj1go.mp3',
+    audioUrl: 'https://res.cloudinary.com/dgvkbrgre/video/upload/q_auto:good/v1756606823/cenicienta_wnj1go.mp3',
     coverUrl: DEFAULT_COVER,
   },
   {
@@ -433,7 +433,7 @@ export const PODCASTS_MP3: PodcastMP3[] = [
     title: 'Vibrar Alto: La Perspectiva de Conchita',
     artist: 'Conchita Macarney',
     description: 'Conchita critica la tendencia de "vibrar alto" y la cultura de los influencers. Argumenta que la abundancia surge de lo que uno hace con las sacudidas de la vida, no de gurús.',
-    videoId: 'https://res.cloudinary.com/dgvkbrgre/video/upload/budaconchita.mp3',
+    audioUrl: 'https://res.cloudinary.com/dgvkbrgre/video/upload/budaconchita.mp3',
     coverUrl: DEFAULT_COVER,
   },
   {
@@ -441,7 +441,7 @@ export const PODCASTS_MP3: PodcastMP3[] = [
     title: 'Redescubriendo a Sidarta Gautama',
     artist: 'Grace',
     description: 'El locutor presenta a Sidarta Gautama como una figura histórica que no vino a ofrecer soluciones superficiales. Explica cómo Sidarta confrontó las duras realidades de la vida.',
-    videoId: 'https://res.cloudinary.com/dgvkbrgre/video/upload/buda_grace.mp3',
+    audioUrl: 'https://res.cloudinary.com/dgvkbrgre/video/upload/buda_grace.mp3',
     coverUrl: DEFAULT_COVER,
   },
   {
@@ -449,7 +449,7 @@ export const PODCASTS_MP3: PodcastMP3[] = [
     title: 'La Búsqueda del Sentido',
     artist: 'El Nexo Digital',
     description: 'El podcast reflexiona sobre la condición humana a través de la música y la literatura. Explora la idea de que la música es una promesa y un acto creativo, citando a Hermann Hesse.',
-    videoId: 'https://res.cloudinary.com/dgvkbrgre/video/upload/bloke4.mp3',
+    audioUrl: 'https://res.cloudinary.com/dgvkbrgre/video/upload/bloke4.mp3',
     coverUrl: DEFAULT_COVER,
   },
   {
@@ -457,7 +457,7 @@ export const PODCASTS_MP3: PodcastMP3[] = [
     title: 'Música, Alma y Resistencia',
     artist: 'El Nexo Digital',
     description: 'El episodio explora la canción "Starvation" de Faithless, interpretándola más allá del hambre física. Se argumenta que aburrirse es un acto político y una forma de resistencia.',
-    videoId: 'https://res.cloudinary.com/dgvkbrgre/video/upload/bloke3.mp3',
+    audioUrl: 'https://res.cloudinary.com/dgvkbrgre/video/upload/bloke3.mp3',
     coverUrl: DEFAULT_COVER,
   },
   {
@@ -465,7 +465,7 @@ export const PODCASTS_MP3: PodcastMP3[] = [
     title: 'El Dedo Inquieto y el Scroll Inverso',
     artist: 'El Nexo Digital',
     description: 'El locutor reflexiona sobre la era digital y el "dedo inquieto". Propone "scrollear" hacia adentro, parar el dedo y mirar por la ventana para recuperar el control.',
-    videoId: 'https://res.cloudinary.com/dgvkbrgre/video/upload/bloke1_.mp3',
+    audioUrl: 'https://res.cloudinary.com/dgvkbrgre/video/upload/bloke1_.mp3',
     coverUrl: DEFAULT_COVER,
   },
   {
@@ -473,7 +473,7 @@ export const PODCASTS_MP3: PodcastMP3[] = [
     title: 'El Poder de la Palabra',
     artist: 'El Nexo Digital',
     description: 'El locutor advierte desde el futuro sobre la evolución de la comunicación. La sobreconexión saturó el cerebro humano, simplificando el lenguaje hasta acortar frases y palabras.',
-    videoId: 'https://res.cloudinary.com/dgvkbrgre/video/upload/040225uno.mp3',
+    audioUrl: 'https://res.cloudinary.com/dgvkbrgre/video/upload/040225uno.mp3',
     coverUrl: DEFAULT_COVER,
   },
   {
@@ -481,7 +481,7 @@ export const PODCASTS_MP3: PodcastMP3[] = [
     title: 'Sobrecarga Informativa y Resiliencia',
     artist: 'El Nexo Digital',
     description: 'El locutor introduce "El Nexo Digital". Profundiza en el fenómeno de la "infoxicación", la saturación de información en la era digital que abruma y paraliza.',
-    videoId: 'https://res.cloudinary.com/dgvkbrgre/video/upload/040225tres.mp3',
+    audioUrl: 'https://res.cloudinary.com/dgvkbrgre/video/upload/040225tres.mp3',
     coverUrl: DEFAULT_COVER,
   },
   {
@@ -489,7 +489,7 @@ export const PODCASTS_MP3: PodcastMP3[] = [
     title: 'La Comunicación Digital: Un Retorno a la Caverna',
     artist: 'El Nexo Digital',
     description: 'El locutor analiza cómo la evolución tecnológica está transformando la comunicación humana. Argumenta que nos está llevando a un "regreso a la caverna", reduciendo la comunicación a símbolos.',
-    videoId: 'https://res.cloudinary.com/dgvkbrgre/video/upload/040225seis.mp3',
+    audioUrl: 'https://res.cloudinary.com/dgvkbrgre/video/upload/040225seis.mp3',
     coverUrl: DEFAULT_COVER,
   },
   {
@@ -497,7 +497,7 @@ export const PODCASTS_MP3: PodcastMP3[] = [
     title: 'La Paradoja de la Hiperconectividad',
     artist: 'El Nexo Digital',
     description: 'El podcast analiza la paradoja de la hiperconectividad, explicando cómo la sobrecarga de información y las interacciones digitales superficiales llevan a una sensación de soledad.',
-    videoId: 'https://res.cloudinary.com/dgvkbrgre/video/upload/040225dos.mp3',
+    audioUrl: 'https://res.cloudinary.com/dgvkbrgre/video/upload/040225dos.mp3',
     coverUrl: DEFAULT_COVER,
   },
   {
@@ -505,7 +505,7 @@ export const PODCASTS_MP3: PodcastMP3[] = [
     title: 'Comunicación Digital: ¿Simplificación o Pérdida?',
     artist: 'El Nexo Digital',
     description: 'El locutor explica cómo la comunicación digital ha simplificado la forma en que interactuamos, pero a costa de la profundidad y riqueza del lenguaje.',
-    videoId: 'https://res.cloudinary.com/dgvkbrgre/video/upload/040225cuatro.mp3',
+    audioUrl: 'https://res.cloudinary.com/dgvkbrgre/video/upload/040225cuatro.mp3',
     coverUrl: DEFAULT_COVER,
   },
   {
@@ -513,7 +513,7 @@ export const PODCASTS_MP3: PodcastMP3[] = [
     title: 'La Comunicación en la Era Digital',
     artist: 'El Nexo Digital',
     description: 'El locutor analiza cómo la comunicación moderna ha evolucionado hacia un intercambio binario y emocional, donde el ruido prevalece sobre el diálogo constructivo.',
-    videoId: 'https://res.cloudinary.com/dgvkbrgre/video/upload/040225cinco.mp3',
+    audioUrl: 'https://res.cloudinary.com/dgvkbrgre/video/upload/040225cinco.mp3',
     coverUrl: DEFAULT_COVER,
   },
   {
@@ -521,7 +521,7 @@ export const PODCASTS_MP3: PodcastMP3[] = [
     title: 'Felicidad en la rueda de hamster',
     artist: 'El Nexo Digital',
     description: 'El locutor comienza explicando qué es un mantra. Reflexiona sobre la búsqueda de la felicidad, la importancia de vivir el presente y apreciar los pequeños momentos.',
-    videoId: 'https://res.cloudinary.com/dgvkbrgre/video/upload/030225_felicidad_en_la_rueda_de_hamster.mp3',
+    audioUrl: 'https://res.cloudinary.com/dgvkbrgre/video/upload/030225_felicidad_en_la_rueda_de_hamster.mp3',
     coverUrl: DEFAULT_COVER,
   },
   {
@@ -529,7 +529,7 @@ export const PODCASTS_MP3: PodcastMP3[] = [
     title: 'La Felicidad: ¿Realidad o Producto?',
     artist: 'El Nexo Digital',
     description: 'El episodio explora si la felicidad es un objetivo al que vale la pena dedicar la vida o una "zanahoria" que perseguimos. Se analiza cómo la sociedad moderna ha moldeado nuestra percepción.',
-    videoId: 'https://res.cloudinary.com/dgvkbrgre/video/upload/030225_dos.mp3',
+    audioUrl: 'https://res.cloudinary.com/dgvkbrgre/video/upload/030225_dos.mp3',
     coverUrl: DEFAULT_COVER,
   },
   {
@@ -537,7 +537,7 @@ export const PODCASTS_MP3: PodcastMP3[] = [
     title: 'El Engaño de la Felicidad',
     artist: 'El Nexo Digital',
     description: 'El podcast desafía la noción tradicional de felicidad, presentándola como una "gran mentira" y una ilusión creada por la sociedad para mantenernos consumistas.',
-    videoId: 'https://res.cloudinary.com/dgvkbrgre/video/upload/030125uno.mp3',
+    audioUrl: 'https://res.cloudinary.com/dgvkbrgre/video/upload/030125uno.mp3',
     coverUrl: DEFAULT_COVER,
   },
   {
@@ -545,7 +545,7 @@ export const PODCASTS_MP3: PodcastMP3[] = [
     title: 'La Música: ¿Catarsis o Anestesia?',
     artist: 'El Nexo Digital',
     description: 'El locutor reflexiona sobre cómo la música, incluso la que trata sobre desamor, puede generar euforia. Se plantea si la música nos hace más felices o si es una droga.',
-    videoId: 'https://res.cloudinary.com/dgvkbrgre/video/upload/030125_tres.mp3',
+    audioUrl: 'https://res.cloudinary.com/dgvkbrgre/video/upload/030125_tres.mp3',
     coverUrl: DEFAULT_COVER,
   },
   {
@@ -553,7 +553,7 @@ export const PODCASTS_MP3: PodcastMP3[] = [
     title: 'La Música del Alma y la Felicidad Auténtica',
     artist: 'El Nexo Digital',
     description: 'El programa presenta canciones celebradas como himnos al amor. El locutor comparte una reflexión sobre la felicidad, definiéndola como un proceso de momentos sencillos.',
-    videoId: 'https://res.cloudinary.com/dgvkbrgre/video/upload/030125_seis.mp3',
+    audioUrl: 'https://res.cloudinary.com/dgvkbrgre/video/upload/030125_seis.mp3',
     coverUrl: DEFAULT_COVER,
   },
   {
@@ -561,7 +561,7 @@ export const PODCASTS_MP3: PodcastMP3[] = [
     title: 'Música, Reflexión y Anuncios Variados',
     artist: 'El Nexo Digital',
     description: 'El segmento incluye música rap con letras introspectivas. Se presenta una reflexión sobre la modificación de la manera de actuar para obtener resultados diferentes.',
-    videoId: 'https://res.cloudinary.com/dgvkbrgre/video/upload/030125_cuatro.mp3',
+    audioUrl: 'https://res.cloudinary.com/dgvkbrgre/video/upload/030125_cuatro.mp3',
     coverUrl: DEFAULT_COVER,
   },
   {
@@ -569,7 +569,7 @@ export const PODCASTS_MP3: PodcastMP3[] = [
     title: 'La Magia de la Felicidad',
     artist: 'El Nexo Digital',
     description: 'El locutor presenta "Friday I\'m in Love" como una dosis de energía. Reflexiona sobre la búsqueda de la felicidad, argumentando que no se encuentra en logros externos.',
-    videoId: 'https://res.cloudinary.com/dgvkbrgre/video/upload/030125_cinco.mp3',
+    audioUrl: 'https://res.cloudinary.com/dgvkbrgre/video/upload/030125_cinco.mp3',
     coverUrl: DEFAULT_COVER,
   },
   {
@@ -577,7 +577,7 @@ export const PODCASTS_MP3: PodcastMP3[] = [
     title: 'Despertá o Perdete',
     artist: 'El Nexo Digital',
     description: 'El locutor entrega un mensaje motivacional poderoso sobre la importancia de la acción y el esfuerzo. Destaca que el destino no regala nada y que creer sin actuar es inútil.',
-    videoId: 'https://res.cloudinary.com/dgvkbrgre/video/upload/6.mp3',
+    audioUrl: 'https://res.cloudinary.com/dgvkbrgre/video/upload/6.mp3',
     coverUrl: DEFAULT_COVER,
   },
   {
@@ -585,7 +585,7 @@ export const PODCASTS_MP3: PodcastMP3[] = [
     title: 'El Poder de Soñar y Actuar',
     artist: 'El Nexo Digital',
     description: 'El locutor explica el concepto de un mantra y describe a personas optimistas. Enfatiza que para conquistar el mundo se necesita trabajo, sentido común y acción.',
-    videoId: 'https://res.cloudinary.com/dgvkbrgre/video/upload/5.mp3',
+    audioUrl: 'https://res.cloudinary.com/dgvkbrgre/video/upload/5.mp3',
     coverUrl: DEFAULT_COVER,
   },
   {
@@ -593,7 +593,7 @@ export const PODCASTS_MP3: PodcastMP3[] = [
     title: 'La Trampa de los Sueños',
     artist: 'El Nexo Digital',
     description: 'El locutor critica la idea de "perseguir tus sueños", calificándola de trampa social. Anima a cuestionar los sueños impuestos por una sociedad consumista.',
-    videoId: 'https://res.cloudinary.com/dgvkbrgre/video/upload/4.mp3',
+    audioUrl: 'https://res.cloudinary.com/dgvkbrgre/video/upload/4.mp3',
     coverUrl: DEFAULT_COVER,
   },
   {
@@ -601,7 +601,7 @@ export const PODCASTS_MP3: PodcastMP3[] = [
     title: 'La Gran Estafa Existencial',
     artist: 'El Nexo Digital',
     description: 'El locutor denuncia que la sociedad nos programa para seguir un camino de conformidad bajo la premisa de la felicidad. Afirma que el verdadero sentido reside en el cultivo interior.',
-    videoId: 'https://res.cloudinary.com/dgvkbrgre/video/upload/3.mp3',
+    audioUrl: 'https://res.cloudinary.com/dgvkbrgre/video/upload/3.mp3',
     coverUrl: DEFAULT_COVER,
   },
   {
@@ -609,7 +609,7 @@ export const PODCASTS_MP3: PodcastMP3[] = [
     title: 'Despertando a la Esencia',
     artist: 'El Nexo Digital',
     description: 'El locutor analiza cómo la inercia cognitiva nos lleva a seguir caminos sin cuestionarlos. Subraya la importancia de la autenticidad como un proceso continuo de auto-cuestionamiento.',
-    videoId: 'https://res.cloudinary.com/dgvkbrgre/video/upload/2.mp3',
+    audioUrl: 'https://res.cloudinary.com/dgvkbrgre/video/upload/2.mp3',
     coverUrl: DEFAULT_COVER,
   },
   {
@@ -617,7 +617,7 @@ export const PODCASTS_MP3: PodcastMP3[] = [
     title: 'El Dilema de las Metas',
     artist: 'El Nexo Digital',
     description: 'El locutor cuestiona el dicho "persigue tus sueños". Se enfatiza el "precio de la inmediatez" que nos impulsa a seguir lo que la sociedad considera correcto.',
-    videoId: 'https://res.cloudinary.com/dgvkbrgre/video/upload/1.mp3',
+    audioUrl: 'https://res.cloudinary.com/dgvkbrgre/video/upload/1.mp3',
     coverUrl: DEFAULT_COVER,
   },
   {
@@ -625,7 +625,7 @@ export const PODCASTS_MP3: PodcastMP3[] = [
     title: '¿Somos Realmente Libres?',
     artist: 'El Nexo Digital',
     description: 'El locutor explora el eterno debate entre el libre albedrío y el determinismo. Se examina la paradoja de las decisiones aparentemente libres y la influencia de experiencias pasadas.',
-    videoId: 'https://res.cloudinary.com/dgvkbrgre/video/upload/%C2%BFEres_Libre_o_Sigues_un_Guion.mp3',
+    audioUrl: 'https://res.cloudinary.com/dgvkbrgre/video/upload/%C2%BFEres_Libre_o_Sigues_un_Guion.mp3',
     coverUrl: DEFAULT_COVER,
   }
 ];

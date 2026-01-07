@@ -4,6 +4,17 @@ import type { LibraryItem } from '../types.ts';
 export const LIBRARY_CONTENT: LibraryItem[] = [
   // --- EDICIONES ANTERIORES (REVISTAS) ---
   {
+    id: 'mag_casandra',
+    category: 'Revistas',
+    title: 'Edición Especial: La Coartada de Casandra',
+    author: 'El Nexo Digital',
+    imageUrl: 'https://res.cloudinary.com/ddmj6zevz/image/upload/v1759416770/tapa%20arroyo%20del%20sauce.png',
+    review: 'Una investigación profunda sobre cómo Occidente instrumentaliza el feminismo para justificar intervenciones geopolíticas. Analizamos el "Feminismo de Exportación", el concepto de la mujer como campo de batalla simbólico y el Orientalismo 2.0. Incluye ensayos sobre la Ideología de Género como coartada imperial y las voces que el sistema prefiere silenciar.',
+    publicationDate: 'Febrero, 2025',
+    pdfUrl: '', // Pendiente de link de usuario
+    sources: 'Archivo de investigación y cultura de El Nexo Digital.'
+  },
+  {
     id: 'doc_bataille',
     category: 'Revistas',
     title: 'Investigación: Georges Bataille',
@@ -202,7 +213,7 @@ export const LIBRARY_CONTENT: LibraryItem[] = [
     author: 'El Nexo Digital',
     imageUrl: 'https://res.cloudinary.com/dnauavz56/video/upload/f_jpg,so_2/v1764004908/Elemento_Tierra_Ancla_y_Trampol%C3%ADn_hgmpzr.jpg',
     review: 'Reflexión filosófica sobre la relación de la humanidad con la Tierra, enmarcada en una dualidad fundamental. Por un lado, la Tierra es nuestro ancla, la realidad física que nos da cimientos. Por otro, se plantea como una posible limitación para un espíritu que anhela trascender.',
-    videoUrl: 'https://res.cloudinary.com/ddmj6zevz/video/upload/w_720,q_auto:good/v1757025930/elemento_tierra_emlpy6.mp4',
+    videoUrl: 'https://res.cloudinary.com/ddmj6zevz/video/upload/w_720,q_auto:good/v1756715930/elemento_tierra_emlpy6.mp4',
     publicationDate: 'Video Podcast',
     sources: 'El Nexo Digital'
   },
