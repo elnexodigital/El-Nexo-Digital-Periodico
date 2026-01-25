@@ -22,55 +22,42 @@ export interface NewsBroadcast {
   id: string;
   url: string;
   description: string;
-  // bannerUrl removed for Micro Temático conversion
 }
 
 export interface PodcastMP3 {
   id:string;
   title: string;
   artist: string;
-  audioUrl: string; // Renamed from videoId for clarity
+  audioUrl: string; 
   coverUrl: string;
   description: string;
 }
 
-export type ArticleLayout = 'columna-izquierda' | 'columna-derecha' | 'columna-centro' | 'media-hoja' | 'hoja-completa' | 'columna-izquierda-centrada';
-
-export interface CoverStory {
-    headline: string;
-    subtitle: string;
-    imageUrl?: string;
+/* Added StickyNote interface for community notes functionality */
+export interface StickyNote {
+  id: string;
+  name: string;
+  text: string;
+  color: string;
+  position: { x: number; y: number };
+  rotation: number;
 }
 
-// --- NEW PAGE STRUCTURE ---
-export interface OddPage {
-    type: 'odd';
-    id: string;
-    headline: string;
-    subtitle?: string;
-    category: string;
-    backgroundUrl: string;
-    layout: ArticleLayout;
-    content: string;
-    sources?: string[];
-    bannerUrl: string;
+export interface LibraryItem {
+  id: string;
+  category: 'Libros' | 'Discos' | 'Películas' | 'Revistas' | 'Podcasts' | 'Postales';
+  title: string;
+  author: string;
+  imageUrl: string;
+  review: string;
+  audioUrl?: string;
+  videoUrl?: string;
+  pdfUrl?: string;
+  publicationDate: string;
+  sources?: string;
 }
 
-export interface EvenPage {
-    type: 'even';
-    imageUrl: string;
-    bannerUrl: string;
-    headline?: string;
-    objectPosition?: string;
-}
-
-export type Page = OddPage | EvenPage;
-
-export interface WeeklyContent {
-    cover: CoverStory;
-    pages: Page[];
-}
-
+/* Added ProtectedContent and Patron interfaces for the mecenas section */
 export interface ProtectedContent {
   id: string;
   title: string;
@@ -85,26 +72,33 @@ export interface Patron {
   content: ProtectedContent[];
 }
 
-export interface StickyNote {
+/* Added WeeklyContent and Page types for the magazine interactive edition */
+export interface OddPage {
+  type: 'odd';
   id: string;
-  name: string;
-  text: string;
-  color: string;
-  // FIX: Added position and rotation properties to support dynamic placement.
-  position: { x: number; y: number };
-  rotation: number;
+  headline: string;
+  subtitle?: string;
+  category: string;
+  backgroundUrl: string;
+  layout: string;
+  content: string;
+  sources: string[];
+  bannerUrl: string;
 }
 
-export interface LibraryItem {
-  id: string;
-  category: 'Libros' | 'Discos' | 'Películas' | 'Revistas' | 'Podcasts' | 'Postales';
-  title: string;
-  author: string; // O artista, director, etc.
+export interface EvenPage {
+  type: 'even';
   imageUrl: string;
-  review: string;
-  audioUrl?: string;
-  videoUrl?: string;
-  pdfUrl?: string; // URL para descargar PDF (Revistas)
-  publicationDate: string;
-  sources?: string;
+  bannerUrl: string;
+  headline: string;
+  objectPosition: 'top' | 'center' | 'bottom';
+}
+
+export interface WeeklyContent {
+  cover: {
+    headline: string;
+    subtitle: string;
+    imageUrl: string;
+  };
+  pages: (OddPage | EvenPage)[];
 }
