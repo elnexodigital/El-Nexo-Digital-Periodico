@@ -12,15 +12,21 @@ const AdminNotesModal = lazy(() => import('./components/AdminNotesModal.tsx'));
 const Magazine = lazy(() => import('./components/Magazine.tsx'));
 const StickyNotesContainer = lazy(() => import('./components/StickyNotesContainer.tsx'));
 const AdminAuthModal = lazy(() => import('./components/AdminAuthModal.tsx'));
+const PodcastGallery = lazy(() => import('./components/PodcastGallery.tsx'));
+
+// New Imports
+import { AudioProvider } from './context/AudioContext.tsx';
+import StickyPlayer from './components/StickyPlayer.tsx';
 
 const NOTES_STORAGE_KEY = 'elNexoDigitalAdminNotes';
 const THEME_STORAGE_KEY = 'elNexoDigitalTheme';
 
-type View = 'magazine' | 'library';
+type View = 'magazine' | 'library' | 'podcasts';
 
 const App: React.FC = () => {
   const [currentView, setCurrentView] = useState<View>('magazine');
   const [dailyPodcast, setDailyPodcast] = useState<VideoPodcast | null>(null);
+  const [selectedPodcast, setSelectedPodcast] = useState<VideoPodcast | null>(null);
   const [isPodcastModalOpen, setIsPodcastModalOpen] = useState(false);
   const [isProtectedModalOpen, setIsProtectedModalOpen] = useState(false);
   const [isStickyNoteModalOpen, setIsStickyNoteModalOpen] = useState(false);
@@ -39,7 +45,7 @@ const App: React.FC = () => {
     try {
       const savedNotes = window.localStorage.getItem(NOTES_STORAGE_KEY);
       if (!savedNotes) return [];
-      
+
       let needsUpdate = false;
       const parsedNotes = JSON.parse(savedNotes);
       const migratedNotes = parsedNotes.map((note: any) => {
@@ -53,7 +59,7 @@ const App: React.FC = () => {
           rotation: Math.random() * 30 - 15,
         };
       });
-      
+
       if (needsUpdate) {
         window.localStorage.setItem(NOTES_STORAGE_KEY, JSON.stringify(migratedNotes));
       }
@@ -65,10 +71,10 @@ const App: React.FC = () => {
   });
 
   const [isNotesAdmin, setIsNotesAdmin] = useState(false);
-  
+
   const headerRef = useRef<HeaderControls>(null);
   const wasRadioPlaying = useRef(false);
-  
+
   const NOTES_ADMIN_PASSWORD = 'sauce';
 
   useEffect(() => {
@@ -90,10 +96,10 @@ const App: React.FC = () => {
       try {
         const { VIDEO_PODCASTS } = await import('./data/podcasts.ts');
         if (VIDEO_PODCASTS && VIDEO_PODCASTS.length > 0) {
-            const randomIndex = Math.floor(Math.random() * VIDEO_PODCASTS.length);
-            setDailyPodcast(VIDEO_PODCASTS[randomIndex]);
+          const randomIndex = Math.floor(Math.random() * VIDEO_PODCASTS.length);
+          setDailyPodcast(VIDEO_PODCASTS[randomIndex]);
         }
-      } catch(e) {
+      } catch (e) {
         console.error("Error loading daily podcast:", e);
       }
     };
@@ -108,21 +114,27 @@ const App: React.FC = () => {
       console.error('Error saving notes to localStorage', error);
     }
   }, [notes]);
-  
+
   const toggleDarkMode = () => {
     setIsDarkMode(prevMode => !prevMode);
   };
 
-  const openPodcastModal = () => {
+  const openPodcastModal = (podcast?: VideoPodcast) => {
     if (headerRef.current) {
       wasRadioPlaying.current = headerRef.current.getIsPlayingState();
-      headerRef.current.pauseRadio(); 
+      headerRef.current.pauseRadio();
+    }
+    if (podcast) {
+      setSelectedPodcast(podcast);
+    } else if (dailyPodcast) {
+      setSelectedPodcast(dailyPodcast);
     }
     setIsPodcastModalOpen(true);
   };
 
   const closePodcastModal = () => {
     setIsPodcastModalOpen(false);
+    setSelectedPodcast(null);
     if (headerRef.current && wasRadioPlaying.current) {
       headerRef.current.playRadio();
     }
@@ -150,7 +162,7 @@ const App: React.FC = () => {
   const closeStickyNoteModal = () => {
     setIsStickyNoteModalOpen(false);
   }
-  
+
   const handleAdminAuthRequest = () => {
     if (isNotesAdmin) {
       setIsAdminNotesModalOpen(true);
@@ -158,13 +170,13 @@ const App: React.FC = () => {
       setIsAuthModalOpen(true);
     }
   };
-  
+
   const handleAdminLogin = (password: string): boolean => {
     if (password === NOTES_ADMIN_PASSWORD) {
-        setIsNotesAdmin(true);
-        setIsAuthModalOpen(false);
-        setIsAdminNotesModalOpen(true);
-        return true;
+      setIsNotesAdmin(true);
+      setIsAuthModalOpen(false);
+      setIsAdminNotesModalOpen(true);
+      return true;
     }
     return false;
   };
@@ -172,93 +184,96 @@ const App: React.FC = () => {
   const handleAddNote = (noteData: { name: string; text: string }) => {
     const noteColors = ['#ffc', '#cfc', '#ccf', '#fcc', '#cff', '#ffb3ba', '#ffffba', '#baffc9'];
     const newNote: StickyNote = {
-        id: `note_${Date.now()}`,
-        name: noteData.name.trim() || 'Anónimo',
-        text: noteData.text,
-        color: noteColors[Math.floor(Math.random() * noteColors.length)],
-        position: { x: Math.random() * 80 + 10, y: Math.random() * 80 + 10 },
-        rotation: Math.random() * 30 - 15,
+      id: `note_${Date.now()}`,
+      name: noteData.name.trim() || 'Anónimo',
+      text: noteData.text,
+      color: noteColors[Math.floor(Math.random() * noteColors.length)],
+      position: { x: Math.random() * 80 + 10, y: Math.random() * 80 + 10 },
+      rotation: Math.random() * 30 - 15,
     };
     setNotes(prevNotes => [...prevNotes, newNote]);
     closeStickyNoteModal();
   };
 
   return (
-    <div className="min-h-screen">
-      <Header 
-        ref={headerRef} 
-        isPodcastModalOpen={isPodcastModalOpen}
-        onPodcastButtonClick={openPodcastModal}
-        showPodcastButton={!!dailyPodcast}
-        onProtectedButtonClick={openProtectedModal}
-        onStickyNoteButtonClick={openStickyNoteModal}
-        onLibraryButtonClick={() => setCurrentView('library')}
-        notesCount={notes.length}
-        onAdminAuthRequest={handleAdminAuthRequest}
-        isDarkMode={isDarkMode}
-        onToggleDarkMode={toggleDarkMode}
-      />
+    <AudioProvider>
+      <div className="min-h-screen pb-20"> {/* pb-20 to make space for Sticky Player */}
+        <Header
+          ref={headerRef}
+          isPodcastModalOpen={isPodcastModalOpen}
+          onPodcastButtonClick={() => setCurrentView('podcasts')}
+          showPodcastButton={true}
+          onHomeButtonClick={() => setCurrentView('magazine')}
+          onProtectedButtonClick={openProtectedModal}
+          onStickyNoteButtonClick={openStickyNoteModal}
+          onLibraryButtonClick={() => setCurrentView('library')}
+          notesCount={notes.length}
+          onAdminAuthRequest={handleAdminAuthRequest}
+          isDarkMode={isDarkMode}
+          onToggleDarkMode={toggleDarkMode}
+        />
 
-      <main className="container mx-auto px-4 py-8">
-        <Suspense fallback={<LoadingSpinner />}>
-           {currentView === 'magazine' ? (
-              <Magazine />
-           ) : (
-              <Library onBackToMagazine={() => setCurrentView('magazine')} />
-           )}
-        </Suspense>
-      </main>
+        <main className="container mx-auto px-4 py-8">
+          <Suspense fallback={<LoadingSpinner />}>
+            {currentView === 'magazine' && <Magazine />}
+            {currentView === 'library' && <Library onBackToMagazine={() => setCurrentView('magazine')} />}
+            {currentView === 'podcasts' && <PodcastGallery onPodcastSelect={openPodcastModal} />}
+          </Suspense>
+        </main>
 
-      {dailyPodcast && (
+        <StickyPlayer />
+
+        {selectedPodcast && (
+          <Suspense fallback={null}>
+            <PodcastModal
+              isOpen={isPodcastModalOpen}
+              onClose={closePodcastModal}
+              podcast={selectedPodcast}
+            />
+          </Suspense>
+        )}
+
         <Suspense fallback={null}>
-          <PodcastModal 
-            isOpen={isPodcastModalOpen}
-            onClose={closePodcastModal}
-            podcast={dailyPodcast}
+          <ProtectedContentModal
+            isOpen={isProtectedModalOpen}
+            onClose={closeProtectedModal}
           />
         </Suspense>
-      )}
 
-      <Suspense fallback={null}>
-        <ProtectedContentModal
-          isOpen={isProtectedModalOpen}
-          onClose={closeProtectedModal}
-        />
-      </Suspense>
+        <Suspense fallback={null}>
+          <StickyNoteModal
+            isOpen={isStickyNoteModalOpen}
+            onClose={closeStickyNoteModal}
+            onAddNote={handleAddNote}
+          />
+        </Suspense>
 
-      <Suspense fallback={null}>
-        <StickyNoteModal
-          isOpen={isStickyNoteModalOpen}
-          onClose={closeStickyNoteModal}
-          onAddNote={handleAddNote}
-        />
-      </Suspense>
-      
-      <Suspense fallback={null}>
-        <AdminAuthModal
-          isOpen={isAuthModalOpen}
-          onClose={() => setIsAuthModalOpen(false)}
-          onLogin={handleAdminLogin}
-        />
-      </Suspense>
+        <Suspense fallback={null}>
+          <AdminAuthModal
+            isOpen={isAuthModalOpen}
+            onClose={() => setIsAuthModalOpen(false)}
+            onLogin={handleAdminLogin}
+          />
+        </Suspense>
 
-      <Suspense fallback={null}>
-        <AdminNotesModal
-          isOpen={isAdminNotesModalOpen}
-          onClose={() => setIsAdminNotesModalOpen(false)}
-          notes={notes}
-          setNotes={setNotes}
-        />
-      </Suspense>
+        <Suspense fallback={null}>
+          <AdminNotesModal
+            isOpen={isAdminNotesModalOpen}
+            onClose={() => setIsAdminNotesModalOpen(false)}
+            notes={notes}
+            setNotes={setNotes}
+          />
+        </Suspense>
 
-      <Suspense fallback={null}>
-        <StickyNotesContainer 
-          notes={notes}
-          isNotesAdmin={isNotesAdmin}
-          onAdminAuthRequest={handleAdminAuthRequest}
-        />
-      </Suspense>
-    </div>
+        <Suspense fallback={null}>
+          <StickyNotesContainer
+            notes={notes}
+            isNotesAdmin={isNotesAdmin}
+            onAdminAuthRequest={handleAdminAuthRequest}
+          />
+        </Suspense>
+      </div>
+    </AudioProvider>
   );
 };
 

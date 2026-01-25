@@ -8,22 +8,29 @@
 }
 
 :root {
-  --bg-color-light: #fdfaf4;
-  --text-color-light: #000000;
-  --paper-bg-light: #fdfaf4;
-  --modal-bg-light: #fdfaf4;
-  --protected-modal-bg-light: #f5f5f4; /* stone-100 */
-  --header-border-light: #292524; /* stone-800 */
+  /* New Palette */
+  --color-carbon: #1C1C1C;
+  --color-gold: #D4AF37;
+  --color-white: #FFFFFF;
+  --color-off-white: #F5F5F7;
 
-  --bg-color-dark: #1f2023;
-  --text-color-dark: #e8e6e3;
-  --paper-bg-dark: #2a2a2e;
-  --modal-bg-dark: #313236;
-  --note-bg-dark: #3a3a40;
-  --border-color-dark: #4d4d53;
-  --header-border-dark: #a8a29e; /* stone-400 */
-  --protected-modal-bg-dark: #313236;
-  --library-card-bg-dark: #2a2a2e;
+  /* Theme mappings */
+  --bg-color-light: var(--color-off-white);
+  --text-color-light: var(--color-carbon);
+  --paper-bg-light: #FDFAF4; /* Keeping original paper texture base */
+  --modal-bg-light: var(--color-white);
+  --protected-modal-bg-light: #F5F5F4;
+  --header-border-light: var(--color-carbon);
+
+  --bg-color-dark: var(--color-carbon);
+  --text-color-dark: var(--color-gold);
+  --paper-bg-dark: #2A2A2E;
+  --modal-bg-dark: #2C2C2C;
+  --note-bg-dark: #3A3A40;
+  --border-color-dark: #4D4D53;
+  --header-border-dark: var(--color-gold);
+  --protected-modal-bg-dark: #2C2C2C;
+  --library-card-bg-dark: #2A2A2E;
 }
 
 body {
