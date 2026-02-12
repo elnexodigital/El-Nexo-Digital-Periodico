@@ -1,14 +1,16 @@
-
 import React, { useState, useRef, useEffect, forwardRef, useImperativeHandle } from 'react';
 import type { MusicTrack, HeaderControls, PodcastMP3 } from '../types.ts';
 import FloatingPodcastButton from './FloatingPodcastButton.tsx';
 import ListenerCounter from './ListenerCounter.tsx';
 
+// Cola de videos MP4 para el fondo del reproductor (incluye clips cinemáticos de postales)
 const VIDEO_URLS: string[] = [
   'https://res.cloudinary.com/ddmj6zevz/video/upload/w_1280,q_auto:good/v1755907719/animaci%C3%B3n_APP_pvxjop.mp4',
   'https://res.cloudinary.com/ddmj6zevz/video/upload/w_1280,q_auto:good/v1756345297/14_okcuk0.mp4',
   'https://res.cloudinary.com/ddmj6zevz/video/upload/w_1280,q_auto:good/v1757874034/tu_compa%C3%B1%C3%ADa_247_srq9ah.mp4',
   'https://res.cloudinary.com/ddmj6zevz/video/upload/w_1280,q_auto:good/v1756612883/Vienen_las_Noticias_ujmv2i.mp4',
+  'https://res.cloudinary.com/dnauavz56/video/upload/v1764950849/postales2_mdcweq.mp4',
+  'https://res.cloudinary.com/dnauavz56/video/upload/v1764980525/atardecer_en_puerto_ikddmm.mp4'
 ];
 
 interface HeaderProps {
@@ -18,11 +20,6 @@ interface HeaderProps {
   onLibraryButtonClick: () => void;
   isDarkMode: boolean;
   onToggleDarkMode: () => void;
-  /* Missing props added for consistency with App.tsx */
-  onProtectedButtonClick?: () => void;
-  onStickyNoteButtonClick?: () => void;
-  onAdminAuthRequest?: () => void;
-  notesCount?: number;
 }
 
 const Header = forwardRef<HeaderControls, HeaderProps>((props, ref) => {
@@ -38,10 +35,11 @@ const Header = forwardRef<HeaderControls, HeaderProps>((props, ref) => {
   useEffect(() => {
     const init = async () => {
       try {
+        // MUSIC_TRACKS ahora contiene: Música + Podcasts Audio + Jingles + Separadores
         const { MUSIC_TRACKS } = await import('../data/music.ts');
         setMusicQueue([...MUSIC_TRACKS].sort(() => Math.random() - 0.5));
       } catch (e) {
-        console.error("Error cargando música:", e);
+        console.error("Error cargando radio:", e);
       } finally {
         setIsLoading(false);
       }
@@ -98,6 +96,7 @@ const Header = forwardRef<HeaderControls, HeaderProps>((props, ref) => {
 
   const nextTrack = () => {
     setMusicQueue(prev => {
+      if (prev.length <= 1) return prev;
       const [first, ...rest] = prev;
       return [...rest, first];
     });
@@ -106,13 +105,14 @@ const Header = forwardRef<HeaderControls, HeaderProps>((props, ref) => {
 
   const nextVideo = () => {
     setVideoQueue(prev => {
+      if (prev.length <= 1) return prev;
       const [first, ...rest] = prev;
       return [...rest, first];
     });
   };
 
   const displayTitle = activePodcast?.title || currentTrack?.description || "Sintonizando El Nexo Digital...";
-  const displayArtist = activePodcast?.artist || (isLoading ? "Cargando dial..." : "RADIO EN VIVO");
+  const displayArtist = activePodcast?.artist || (isLoading ? "Cargando..." : "RADIO EN VIVO");
 
   return (
     <header className="text-center relative select-none">
@@ -183,52 +183,9 @@ const Header = forwardRef<HeaderControls, HeaderProps>((props, ref) => {
 
       <audio ref={audioRef} src={currentTrack?.url} onEnded={nextTrack} onError={nextTrack} />
 
-      <div className="py-8 flex flex-wrap justify-center items-center gap-6 md:gap-12">
+      <div className="py-8 flex flex-wrap justify-center items-center gap-12 md:gap-20">
         {props.showPodcastButton && (
           <FloatingPodcastButton onClick={props.onPodcastButtonClick} />
-        )}
-
-        {/* MECENAS BUTTON - Links to protected content modal */}
-        {props.onProtectedButtonClick && (
-          <button 
-            onClick={props.onProtectedButtonClick}
-            className="group relative w-28 h-28 md:w-36 md:h-36 rounded-full shadow-2xl transition-all hover:scale-110 active:scale-95 bg-white dark:bg-stone-800 border-4 border-stone-800 dark:border-stone-400 overflow-hidden flex flex-col items-center justify-center"
-          >
-            <div className="absolute inset-0 flex items-center justify-center p-2">
-              <img 
-                src="https://res.cloudinary.com/ddmj6zevz/image/upload/v1764887019/Gemini_Generated_Image_a2c5dia2c5dia2c5_x0dvmh.png" 
-                alt="Mecenas" 
-                className="w-full h-full object-contain group-hover:scale-110 transition-transform" 
-              />
-            </div>
-            <div className="absolute bottom-2 left-0 right-0 text-center">
-              <span className="text-[10px] md:text-xs font-black uppercase tracking-widest bg-red-700 text-white px-2 py-0.5 rounded">Mecenas</span>
-            </div>
-          </button>
-        )}
-
-        {/* STICKY NOTES BUTTON - Triggers the note submission modal */}
-        {props.onStickyNoteButtonClick && (
-          <button 
-            onClick={props.onStickyNoteButtonClick}
-            className="group relative w-28 h-28 md:w-36 md:h-36 rounded-full shadow-2xl transition-all hover:scale-110 active:scale-95 bg-white dark:bg-stone-800 border-4 border-stone-800 dark:border-stone-400 overflow-hidden flex flex-col items-center justify-center"
-          >
-             <div className="absolute inset-0 flex items-center justify-center p-2">
-              <img 
-                src="https://res.cloudinary.com/ddmj6zevz/image/upload/v1756851098/Generated_Image_September_02__2025_-_1_54PM-removebg-preview_fpoafd.png" 
-                alt="Notas" 
-                className="w-full h-full object-contain group-hover:scale-110 transition-transform" 
-              />
-            </div>
-            <div className="absolute bottom-2 left-0 right-0 text-center">
-              <span className="text-[10px] md:text-xs font-black uppercase tracking-widest bg-yellow-600 text-white px-2 py-0.5 rounded">Notas</span>
-            </div>
-            {typeof props.notesCount === 'number' && props.notesCount > 0 && (
-              <div className="absolute top-2 right-2 bg-red-600 text-white text-[10px] font-bold w-6 h-6 rounded-full flex items-center justify-center border-2 border-white animate-pulse">
-                {props.notesCount}
-              </div>
-            )}
-          </button>
         )}
         
         <button 
@@ -246,16 +203,6 @@ const Header = forwardRef<HeaderControls, HeaderProps>((props, ref) => {
             <span className="text-[10px] md:text-xs font-black uppercase tracking-widest bg-stone-900 text-white px-2 py-0.5 rounded">Biblioteca</span>
           </div>
         </button>
-
-        {/* HIDDEN ADMIN BUTTON - Triggers auth for managing notes */}
-        {props.onAdminAuthRequest && (
-           <button 
-             onClick={props.onAdminAuthRequest}
-             className="absolute bottom-2 right-2 text-[8px] font-bold uppercase opacity-20 hover:opacity-100 transition-opacity dark:text-white"
-           >
-             Admin
-           </button>
-        )}
       </div>
     </header>
   );

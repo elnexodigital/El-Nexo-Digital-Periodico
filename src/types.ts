@@ -33,16 +33,6 @@ export interface PodcastMP3 {
   description: string;
 }
 
-/* Added StickyNote interface for community notes functionality */
-export interface StickyNote {
-  id: string;
-  name: string;
-  text: string;
-  color: string;
-  position: { x: number; y: number };
-  rotation: number;
-}
-
 export interface LibraryItem {
   id: string;
   category: 'Libros' | 'Discos' | 'Películas' | 'Revistas' | 'Podcasts' | 'Postales';
@@ -57,27 +47,12 @@ export interface LibraryItem {
   sources?: string;
 }
 
-/* Added ProtectedContent and Patron interfaces for the mecenas section */
-export interface ProtectedContent {
-  id: string;
-  title: string;
-  description: string;
-  url: string;
-  type: 'audio' | 'video' | 'image';
-}
-
-export interface Patron {
-  id: string;
-  name: string;
-  content: ProtectedContent[];
-}
-
-/* Added WeeklyContent and Page types for the magazine interactive edition */
+// Interfaces para la edición semanal
 export interface OddPage {
   type: 'odd';
   id: string;
   headline: string;
-  subtitle?: string;
+  subtitle: string;
   category: string;
   backgroundUrl: string;
   layout: string;
@@ -91,8 +66,10 @@ export interface EvenPage {
   imageUrl: string;
   bannerUrl: string;
   headline: string;
-  objectPosition: 'top' | 'center' | 'bottom';
+  objectPosition: string;
 }
+
+export type Page = OddPage | EvenPage;
 
 export interface WeeklyContent {
   cover: {
@@ -100,5 +77,30 @@ export interface WeeklyContent {
     subtitle: string;
     imageUrl: string;
   };
-  pages: (OddPage | EvenPage)[];
+  pages: Page[];
+}
+
+// --- Added StickyNote and Patron interfaces to fix compilation errors ---
+
+export interface StickyNote {
+  id: string;
+  text: string;
+  name: string;
+  color: string;
+  position: { x: number; y: number };
+  rotation: number;
+}
+
+export interface PatronContentItem {
+  id: string;
+  title: string;
+  description: string;
+  url: string;
+  type: 'audio' | 'video' | 'image';
+}
+
+export interface Patron {
+  id: string;
+  name: string;
+  content: PatronContentItem[];
 }

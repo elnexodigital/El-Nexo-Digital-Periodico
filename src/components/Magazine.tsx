@@ -1,4 +1,3 @@
-
 import React from 'react';
 
 const Magazine: React.FC = () => {
@@ -14,7 +13,7 @@ const Magazine: React.FC = () => {
         
         <div className="aspect-[4/3] w-full relative bg-stone-200">
           <iframe 
-            src="https://heyzine.com/flip-book/6419983d24.html" 
+            src="https://heyzine.com/flip-book/a5b1698e99.html" 
             title="El Nexo Digital - Edición Semanal"
             className="absolute inset-0 w-full h-full border-0"
             allowFullScreen

@@ -5,7 +5,7 @@ import Header from './components/Header.tsx';
 import LoadingSpinner from './components/LoadingSpinner.tsx';
 import Library from './components/Library.tsx';
 
-// --- COMPONENTES EXTERNOS CON LAZY LOADING ---
+// --- COMPONENTES CON LAZY LOADING ---
 const PodcastModal = lazy(() => import('./components/PodcastModal.tsx'));
 const Magazine = lazy(() => import('./components/Magazine.tsx'));
 

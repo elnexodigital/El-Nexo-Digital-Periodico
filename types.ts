@@ -1,3 +1,4 @@
+
 export interface MusicTrack {
   id: string;
   url: string;
@@ -32,15 +33,6 @@ export interface PodcastMP3 {
   description: string;
 }
 
-export interface StickyNote {
-  id: string;
-  name: string;
-  text: string;
-  color: string;
-  position: { x: number; y: number };
-  rotation: number;
-}
-
 export interface LibraryItem {
   id: string;
   category: 'Libros' | 'Discos' | 'Películas' | 'Revistas' | 'Podcasts' | 'Postales';
@@ -53,18 +45,4 @@ export interface LibraryItem {
   pdfUrl?: string;
   publicationDate: string;
   sources?: string;
-}
-
-export interface Patron {
-  id: string;
-  name: string;
-  content: ProtectedContent[];
-}
-
-export interface ProtectedContent {
-  id: string;
-  title: string;
-  description: string;
-  url: string;
-  type: 'audio' | 'video' | 'image';
 }
