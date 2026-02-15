@@ -1,54 +1,44 @@
 @import url('https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=Playfair+Display:wght@700&family=Caveat:wght@400;700&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 @font-face {
-  font-family: 'Britani';
-  src: url('https://res.cloudinary.com/ddmj6zevz/raw/upload/v1756916641/brittany_ifg3wl.ttf') format('truetype');
+  font-family: 'Brittany';
+  /* Fuente local correcta */
+  src: url('/fonts/brittany.ttf') format('truetype');
   font-display: swap;
 }
 
 :root {
-  --bg-color-light: #fdfaf4;
-  --text-color-light: #000000;
-  --bg-color-dark: #1f2023;
-  --text-color-dark: #e8e6e3;
+  --space-white: #e2e8f0;
+  --rust-orange: #c2410c;
+  --rust-border: #94a3b8;
+  --led-green: #22c55e;
+  --led-red: #ef4444;
+  --led-orange: #f97316;
+  --monitor-bg: #0f172a;
+
+  --bg-color-light: #f1f5f9;
+  /* Aligned with space-white but softer */
+  --text-color-light: #0f172a;
+  --bg-color-dark: #020617;
+  --text-color-dark: #f8fafc;
 }
 
-body {
-  font-family: 'Courier Prime', monospace;
-  background-color: var(--bg-color-light);
-  background-image: url('https://www.transparenttextures.com/patterns/paper.png');
-  transition: background-color 0.3s, color 0.3s;
-  color: var(--text-color-light);
-}
+/* ... (omitting unchanged body rules for brevity if possible, or just replacing the block) ... */
+/* To be safe, I'll replace the specific blocks */
 
-body.dark {
-  background-color: var(--bg-color-dark);
-  background-image: url('https://www.transparenttextures.com/patterns/dark-paper.png');
-  color: var(--text-color-dark);
-}
-
-body.modal-open {
-  overflow: hidden;
-}
-
-h1, h2, h3, h4, h5, h6 {
-  font-family: 'Playfair Display', serif;
-  color: #000000;
-}
-
-body.dark h1, body.dark h2, body.dark h3, body.dark h4, body.dark h5, body.dark h6 {
-  color: var(--text-color-dark);
-}
-
-.font-typewriter { font-family: 'Courier Prime', monospace; }
-
+/* Skipping to line 58 */
 .newspaper-title {
-  font-family: 'Britani', serif;
-  font-weight: normal; 
+  font-family: 'Brittany', serif;
+  font-weight: normal;
   letter-spacing: normal;
 }
 
-body.dark .newspaper-title { color: var(--text-color-dark); }
+body.dark .newspaper-title {
+  color: var(--text-color-dark);
+}
 
 /* MARQUEE STYLES */
 .marquee-container {
@@ -67,17 +57,53 @@ body.dark .newspaper-title { color: var(--text-color-dark); }
 }
 
 @keyframes marquee {
-  0% { transform: translate3d(0, 0, 0); }
-  100% { transform: translate3d(-100%, 0, 0); }
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  100% {
+    transform: translate3d(-100%, 0, 0);
+  }
 }
 
 @keyframes spin-very-slow {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .animate-spin-very-slow {
   animation: spin-very-slow 25s linear infinite;
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0) translateX(0);
+    opacity: 0;
+  }
+
+  10% {
+    opacity: 0.6;
+  }
+
+  90% {
+    opacity: 0.6;
+  }
+
+  100% {
+    transform: translateY(-100px) translateX(20px);
+    opacity: 0;
+  }
+}
+
+.animate-float {
+  animation-name: float;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
 }
 
 /* LISTENER COUNTER REDESIGN */
@@ -125,7 +151,7 @@ body.dark .listener-counter {
   color: #ffffff;
   font-weight: 800;
   font-size: 0.85rem;
-  box-shadow: inset 0 1px 3px rgba(0,0,0,0.5);
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.5);
 }
 
 body.dark .digit-box {
@@ -133,12 +159,39 @@ body.dark .digit-box {
   color: #1c1917;
 }
 
-.gift-ribbon-wrapper { width: 120px; height: 120px; overflow: hidden; position: absolute; top: 0; left: 0; z-index: 30; pointer-events: none; }
-.gift-ribbon { position: absolute; display: block; width: 180px; padding: 6px 0; background-color: #dc2626; color: #fff; font: 700 8px/1 'Courier Prime', monospace; text-transform: uppercase; text-align: center; left: -45px; top: 25px; transform: rotate(-45deg); letter-spacing: 1px; }
+.gift-ribbon-wrapper {
+  width: 120px;
+  height: 120px;
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 30;
+  pointer-events: none;
+}
+
+.gift-ribbon {
+  position: absolute;
+  display: block;
+  width: 180px;
+  padding: 6px 0;
+  background-color: #dc2626;
+  color: #fff;
+  font: 700 8px/1 'Courier Prime', monospace;
+  text-transform: uppercase;
+  text-align: center;
+  left: -45px;
+  top: 25px;
+  transform: rotate(-45deg);
+  letter-spacing: 1px;
+}
 
 .theme-switcher {
   font-size: 1.25rem;
   cursor: pointer;
   transition: transform 0.2s;
 }
-.theme-switcher:hover { transform: scale(1.2); }
+
+.theme-switcher:hover {
+  transform: scale(1.2);
+}

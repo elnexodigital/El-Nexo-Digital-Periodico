@@ -1,17 +1,21 @@
 
-import React, { useState, useEffect, useRef, lazy, Suspense } from 'react';
-import type { VideoPodcast, HeaderControls } from './types.ts';
+import React, { useState, useEffect, lazy, Suspense } from 'react';
+import type { VideoPodcast } from './types.ts';
 import Header from './components/Header.tsx';
 import LoadingSpinner from './components/LoadingSpinner.tsx';
 import Library from './components/Library.tsx';
+import FloatingParticles from './components/FloatingParticles.tsx';
+import HeroPlayer from './components/HeroPlayer.tsx';
 
 // --- COMPONENTES CON LAZY LOADING ---
 const PodcastModal = lazy(() => import('./components/PodcastModal.tsx'));
 const Magazine = lazy(() => import('./components/Magazine.tsx'));
+const Interviews = lazy(() => import('./components/Interviews.tsx'));
+const Ateneo = lazy(() => import('./components/Ateneo.tsx'));
 
 const THEME_STORAGE_KEY = 'elNexoDigitalTheme';
 
-type View = 'magazine' | 'library';
+type View = 'magazine' | 'library' | 'interviews' | 'ateneo';
 
 const App: React.FC = () => {
   const [currentView, setCurrentView] = useState<View>('magazine');
@@ -26,8 +30,7 @@ const App: React.FC = () => {
     }
   });
 
-  const headerRef = useRef<HeaderControls>(null);
-  const wasRadioPlaying = useRef(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   // Sincronización del tema oscuro
   useEffect(() => {
@@ -50,63 +53,77 @@ const App: React.FC = () => {
       try {
         const { VIDEO_PODCASTS } = await import('./data/podcasts.ts');
         if (VIDEO_PODCASTS && VIDEO_PODCASTS.length > 0) {
-            const randomIndex = Math.floor(Math.random() * VIDEO_PODCASTS.length);
-            setDailyPodcast(VIDEO_PODCASTS[randomIndex]);
+          const randomIndex = Math.floor(Math.random() * VIDEO_PODCASTS.length);
+          setDailyPodcast(VIDEO_PODCASTS[randomIndex]);
         }
-      } catch(e) {
+      } catch (e) {
         console.error("Error loading daily podcast:", e);
       }
     };
     loadLocalData();
   }, []);
-  
+
   const toggleDarkMode = () => setIsDarkMode(prevMode => !prevMode);
 
   const openPodcastModal = () => {
-    if (headerRef.current) {
-      wasRadioPlaying.current = headerRef.current.getIsPlayingState();
-      headerRef.current.pauseRadio(); 
-    }
     setIsPodcastModalOpen(true);
   };
 
   const closePodcastModal = () => {
     setIsPodcastModalOpen(false);
-    if (headerRef.current && wasRadioPlaying.current) {
-      headerRef.current.playRadio();
-    }
   };
 
+
+
   return (
-    <div className="min-h-screen">
-      <Header 
-        ref={headerRef} 
-        isPodcastModalOpen={isPodcastModalOpen}
-        onPodcastButtonClick={openPodcastModal}
-        showPodcastButton={!!dailyPodcast}
-        onLibraryButtonClick={() => setCurrentView('library')}
+    <div className="min-h-screen relative overflow-hidden">
+      <FloatingParticles />
+      <Header
+        currentView={currentView}
+        onNavigate={(view) => {
+          setCurrentView(view);
+          setIsMobileMenuOpen(false);
+        }}
         isDarkMode={isDarkMode}
         onToggleDarkMode={toggleDarkMode}
+        isMobileMenuOpen={isMobileMenuOpen}
+        onToggleMobileMenu={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
       />
 
       <main className="container mx-auto px-4 py-8">
         <Suspense fallback={<LoadingSpinner />}>
-           {currentView === 'magazine' ? (
+          {currentView === 'magazine' && (
+            <>
+              <HeroPlayer />
               <Magazine />
-           ) : (
-              <Library onBackToMagazine={() => setCurrentView('magazine')} />
-           )}
+            </>
+          )}
+          {currentView === 'library' && (
+            <Library onBackToMagazine={() => setCurrentView('magazine')} />
+          )}
+          {currentView === 'interviews' && <Interviews />}
+          {currentView === 'ateneo' && <Ateneo />}
         </Suspense>
       </main>
 
       {dailyPodcast && (
         <Suspense fallback={null}>
-          <PodcastModal 
+          <PodcastModal
             isOpen={isPodcastModalOpen}
             onClose={closePodcastModal}
             podcast={dailyPodcast}
           />
         </Suspense>
+      )}
+
+      {/* Botón flotante para el Podcast del día si estamos en magazine y hay podcast */}
+      {currentView === 'magazine' && dailyPodcast && (
+        <button
+          onClick={openPodcastModal}
+          className="fixed bottom-8 right-8 w-16 h-16 rounded-full bg-brand-orange text-white shadow-2xl flex items-center justify-center hover:scale-110 transition-transform z-40"
+        >
+          <span className="text-2xl">🎙️</span>
+        </button>
       )}
     </div>
   );

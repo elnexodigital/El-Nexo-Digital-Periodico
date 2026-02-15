@@ -13,22 +13,23 @@ export default {
                     DEFAULT: '#1C1C1C',
                     dark: '#000000',
                 },
-                gold: {
-                    light: '#E5C048',
-                    DEFAULT: '#D4AF37',
-                    dark: '#B08D1A',
+                brand: {
+                    orange: '#FF851B', // Vibrant, friendly Orange
+                    green: '#2ECC40',  // Futuristic, fresh Green
+                    darkOrange: '#D35400',
+                    darkGreen: '#27AE60',
                 },
                 paper: {
-                    light: '#F5F5F7',
-                    DEFAULT: '#FDFAF4',
-                    dark: '#2A2A2E',
+                    light: '#F8F9FA', // Cleaner, more modern light grey/white
+                    DEFAULT: '#FFFFFF',
+                    dark: '#121212',  // Deep dark for futuristic feel
                 }
             },
             fontFamily: {
                 serif: ['Playfair Display', 'serif'],
                 mono: ['Courier Prime', 'monospace'],
                 hand: ['Caveat', 'cursive'],
-                title: ['Britani', 'serif'],
+                title: ['Brittany', 'serif'],
             }
         },
     },
