@@ -26,34 +26,31 @@ const LibraryItemCard: React.FC<LibraryItemCardProps> = ({ item, onClick }) => {
 
   return (
     <div
-      className="library-item-card group text-left bg-white rounded-lg shadow-lg overflow-hidden w-full relative hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 flex flex-col"
+      className="library-item-card group text-left glass-panel rounded-xl shadow-md overflow-hidden w-full relative hover:bg-white/5 transition-all duration-500 flex flex-col border border-white/5"
     >
-      {/* Badge unificado para Regalos y Revistas */}
       {showGiftBadge && (
         <div className="absolute top-0 right-0 z-20">
-          <div className="bg-green-600 text-white text-[10px] font-bold px-3 py-1 shadow-md rounded-bl-lg animate-bounce">
-            REGALO
+          <div className="bg-white/10 text-white/60 text-[8px] font-mono px-3 py-1 rounded-bl-lg backdrop-blur-md uppercase tracking-widest">
+            Fragmento
           </div>
         </div>
       )}
 
       <div
-        className="aspect-[2/3] overflow-hidden relative w-full cursor-pointer"
+        className="aspect-[3/4] overflow-hidden relative w-full cursor-pointer"
         onClick={onClick}
       >
         <img
           src={item.imageUrl}
-          alt={`Portada de ${item.title}`}
-          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+          alt={item.title}
+          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-80 group-hover:opacity-100"
         />
-        {/* Overlay sutil al hacer hover */}
-        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300" />
       </div>
 
-      <div className="p-4 bg-white dark:bg-stone-800 flex-grow flex flex-col justify-between">
-        <div className="mb-2 cursor-pointer" onClick={onClick}>
-          <h3 className="font-bold text-sm leading-tight text-stone-900 dark:text-stone-100 line-clamp-2 group-hover:text-red-700 transition-colors">{item.title}</h3>
-          <p className="text-xs text-stone-600 dark:text-stone-400 truncate mt-1">{item.author}</p>
+      <div className="p-6 bg-black/20 backdrop-blur-md flex-grow flex flex-col justify-between border-t border-white/5">
+        <div className="mb-4 cursor-pointer" onClick={onClick}>
+          <h3 className="font-signature text-lg leading-tight text-white/90 line-clamp-2 transition-colors">{item.title}</h3>
+          <p className="text-[9px] font-mono uppercase tracking-[0.2em] text-white/30 truncate mt-2">{item.author}</p>
         </div>
 
         {isMagazine && item.pdfUrl && (
@@ -61,13 +58,9 @@ const LibraryItemCard: React.FC<LibraryItemCardProps> = ({ item, onClick }) => {
             href={getDownloadUrl(item.pdfUrl)}
             download
             onClick={handleDownload}
-            className="mt-2 w-full inline-flex items-center justify-center gap-2 px-3 py-2 bg-green-700 hover:bg-green-800 text-white text-xs font-bold rounded transition-colors z-10 relative shadow-sm"
-            aria-label={`Descargar PDF de ${item.title}`}
+            className="mt-2 w-full inline-flex items-center justify-center gap-2 px-3 py-2 bg-white/5 hover:bg-white/10 text-white/40 hover:text-white/80 text-[9px] font-mono tracking-[0.2em] rounded-lg transition-all border border-white/5 uppercase"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-            </svg>
-            DESCARGAR PDF
+            Descargar_PDF
           </a>
         )}
       </div>

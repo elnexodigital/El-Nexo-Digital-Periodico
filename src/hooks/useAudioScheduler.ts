@@ -5,7 +5,7 @@ import { SEPARATOR_AUDIOS } from '../data/separators';
 import { PODCASTS_MP3 } from '../data/podcastsMP3';
 import { MUSIC_LIST_1 } from '../data/musicList1';
 import { MUSIC_LIST_2 } from '../data/musicList2';
-import type { MusicTrack } from '../types';
+
 
 // Combinar listas de música
 const ALL_MUSIC = [...MUSIC_LIST_1, ...MUSIC_LIST_2];
@@ -32,6 +32,8 @@ export const useAudioScheduler = () => {
     const lastPodcastTimeRef = useRef<number>(Date.now()); // Iniciar contador ahora
     const musicCountRef = useRef<number>(0); // Contador de canciones desde el último filler
     const isFirstPlayRef = useRef<boolean>(true);
+    const recoveryTimeoutRef = useRef<any>(null);
+    const isMountedRef = useRef<boolean>(true);
 
     // Configuración
     const FILLER_INTERVAL = 3; // Cada 3 canciones
@@ -47,9 +49,26 @@ export const useAudioScheduler = () => {
         // Manejo de errores básico
         audioRef.current.onerror = (e) => {
             console.error("Error reproduciendo audio:", e);
-            // Intentar recuperar reproduciendo el siguiente tras un breve delay
-            setTimeout(() => playNext(), 1000);
+            // Intentar recuperar reproduciendo el siguiente tras un breve delay si sigue montado
+            if (isMountedRef.current) {
+                recoveryTimeoutRef.current = setTimeout(() => {
+                    if (isMountedRef.current) playNext();
+                }, 2000);
+            }
         };
+
+        // Listener global para pausar la radio desde otros componentes (exclamación de audios mezclados)
+        const handlePause = (e: Event) => {
+            // Evitar auto-pausado si el evento lo envió el propio scheduler
+            if (e instanceof CustomEvent && e.detail?.source === 'scheduler') {
+                return;
+            }
+            if (audioRef.current) {
+                audioRef.current.pause();
+                setIsPlaying(false);
+            }
+        };
+        window.addEventListener('pauseRadio', handlePause as EventListener);
 
         // Cargar primera pista (Saludo)
         const greeting = getTimeBasedGreeting();
@@ -61,9 +80,15 @@ export const useAudioScheduler = () => {
         }
 
         return () => {
+            isMountedRef.current = false;
+            window.removeEventListener('pauseRadio', handlePause);
+            if (recoveryTimeoutRef.current) {
+                clearTimeout(recoveryTimeoutRef.current);
+            }
             if (audioRef.current) {
                 audioRef.current.pause();
                 audioRef.current.src = '';
+                audioRef.current.load(); // Force release
             }
         };
     }, []);
@@ -83,6 +108,9 @@ export const useAudioScheduler = () => {
             audioRef.current.pause();
             setIsPlaying(false);
         } else {
+            // Notificar a otros componentes que deben pausarse
+            window.dispatchEvent(new CustomEvent('pauseRadio', { detail: { source: 'scheduler' } }));
+
             // Promesa de play para evitar errores de interrupción
             const playPromise = audioRef.current.play();
             if (playPromise !== undefined) {
@@ -199,6 +227,9 @@ export const useAudioScheduler = () => {
         setIsPlaying(true); // Asumimos que queremos seguir reproduciendo
 
         if (audioRef.current) {
+            // Notificar a otros componentes que deben pausarse
+            window.dispatchEvent(new CustomEvent('pauseRadio', { detail: { source: 'scheduler' } }));
+
             audioRef.current.src = nextTrack.url;
             audioRef.current.load();
             const playPromise = audioRef.current.play();

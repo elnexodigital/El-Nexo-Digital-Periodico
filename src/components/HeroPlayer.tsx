@@ -2,14 +2,12 @@ import React, { useRef, useState } from 'react';
 import { Play, Pause, SkipForward, Volume2, VolumeX } from 'lucide-react';
 import { useAudioScheduler } from '../hooks/useAudioScheduler';
 
-// Cola de videos MP4 para el fondo del reproductor
+// Cola de videos MP4 para el fondo del reproductor (Industrial/Rhythmic only)
 const VIDEO_URLS: string[] = [
     'https://res.cloudinary.com/ddmj6zevz/video/upload/w_1280,q_auto:good/v1755907719/animaci%C3%B3n_APP_pvxjop.mp4',
     'https://res.cloudinary.com/ddmj6zevz/video/upload/w_1280,q_auto:good/v1756345297/14_okcuk0.mp4',
     'https://res.cloudinary.com/ddmj6zevz/video/upload/w_1280,q_auto:good/v1757874034/tu_compa%C3%B1%C3%ADa_247_srq9ah.mp4',
-    'https://res.cloudinary.com/ddmj6zevz/video/upload/w_1280,q_auto:good/v1756612883/Vienen_las_Noticias_ujmv2i.mp4',
-    'https://res.cloudinary.com/dnauavz56/video/upload/v1764950849/postales2_mdcweq.mp4',
-    'https://res.cloudinary.com/dnauavz56/video/upload/v1764980525/atardecer_en_puerto_ikddmm.mp4'
+    'https://res.cloudinary.com/ddmj6zevz/video/upload/w_1280,q_auto:good/v1756612883/Vienen_las_Noticias_ujmv2i.mp4'
 ];
 
 const HeroPlayer: React.FC = () => {
@@ -45,80 +43,130 @@ const HeroPlayer: React.FC = () => {
     const marqueeText = `${displayTitle} • ${displayArtist} • ${displayTitle} • ${displayArtist}`;
 
     return (
-        <div className="w-full mb-12 relative group animate-fade-in max-w-[1080px] mx-auto">
-            {/* Main Marquee/Player Container - Card Style - 1080x336 Aspect Ratio */}
-            <div className="glass-panel rounded-3xl overflow-hidden shadow-2xl border-0 ring-1 ring-white/20 relative w-full aspect-[3/4] sm:aspect-video md:aspect-[1080/336]">
+        <div className="w-full mb-16 relative group animate-fade-in max-w-[1100px] mx-auto px-4 mt-12 boot-sequence">
 
-                {/* Background/Video Area */}
-                <div className="absolute inset-0 bg-black">
-                    <video
-                        ref={videoRef}
-                        key={currentVideoUrl}
-                        src={currentVideoUrl}
-                        autoPlay
-                        muted
-                        playsInline
-                        loop
-                        className="w-full h-full object-cover opacity-60 group-hover:scale-105 transition-transform duration-700"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
-                </div>
-
-                {/* Content Overlay */}
-                <div className="absolute bottom-0 left-0 right-0 p-4 md:p-12 flex flex-col md:flex-row items-end justify-between gap-4 md:gap-6">
-
-                    {/* Text Content */}
-                    <div className="flex-1 space-y-3 relative z-10 overflow-hidden w-full">
-                        <div className="flex items-center gap-3">
-                            <span className="px-3 py-1 rounded-full bg-brand-orange text-white text-xs font-bold tracking-wider uppercase shadow-lg shadow-brand-orange/20 animate-pulse">
-                                {currentTrack?.type === 'podcast' ? 'PODCAST EN VIVO' : 'EN VIVO'}
-                            </span>
-                            <span className="px-3 py-1 rounded-full bg-brand-green/20 text-brand-green text-xs font-bold tracking-wider uppercase border border-brand-green/30 backdrop-blur-md">
-                                {currentTrack?.type === 'greeting' ? 'BIENVENIDA' : 'Música & Cultural'}
-                            </span>
-                        </div>
-                        <h1 className="text-2xl sm:text-4xl md:text-6xl font-title text-white leading-tight drop-shadow-lg truncate">
-                            El Nexo Digital
-                        </h1>
-                        <div className="marquee-container w-full max-w-md overflow-hidden bg-white/5 backdrop-blur-sm rounded-lg border border-white/10 p-2">
-                            <p className="text-gray-200 text-lg whitespace-nowrap marquee-content">
-                                {marqueeText}
-                            </p>
-                        </div>
-                    </div>
-
-                    {/* Controls - Friendly & Rounded */}
-                    <div className="flex items-center gap-4 relative z-10 shrink-0">
-                        <button
-                            onClick={toggleMute}
-                            className="w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-md text-white flex items-center justify-center border border-white/20 transition-all hover:scale-105"
-                            aria-label={isMuted ? "Activar sonido" : "Silenciar"}
-                        >
-                            {isMuted ? <VolumeX size={20} /> : <Volume2 size={20} />}
-                        </button>
-
-                        <button
-                            onClick={togglePlay}
-                            className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-brand-orange hover:bg-brand-darkOrange text-white flex items-center justify-center shadow-lg shadow-brand-orange/40 transition-all hover:scale-110 active:scale-95 border-4 border-white/10"
-                            aria-label={isPlaying ? "Pausar" : "Reproducir"}
-                        >
-                            {isPlaying ? <Pause size={32} fill="currentColor" className="md:w-10 md:h-10" /> : <Play size={32} fill="currentColor" className="ml-1 md:ml-2 md:w-10 md:h-10" />}
-                        </button>
-
-                        <button
-                            onClick={handleNext}
-                            className="w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-md text-white flex items-center justify-center border border-white/20 transition-all hover:scale-105"
-                            aria-label="Siguiente"
-                        >
-                            <SkipForward size={24} />
-                        </button>
-                    </div>
-                </div>
+            {/* ARCHAIC MARKINGS EXTERIOR */}
+            <div className="absolute -top-6 right-12 archaic-text opacity-30 pointer-events-none select-none text-sm">
+                Ѻ Ϟ Ͽ ϗ
             </div>
 
-            {/* Decorative Elements around the player */}
-            <div className="absolute -top-10 -right-10 w-40 h-40 bg-brand-green/30 rounded-full blur-3xl -z-10 animate-pulse" />
-            <div className="absolute -bottom-10 -left-10 w-48 h-48 bg-brand-orange/20 rounded-full blur-3xl -z-10" />
+            {/* MAIN CONSOLE BODY */}
+            <div className="glass-panel rounded-[40px] p-8 shadow-2xl relative overflow-hidden weathered-panel flex flex-col items-center">
+
+                {/* Structural Bolts */}
+                <div className="absolute top-5 left-5 remache opacity-30" />
+                <div className="absolute top-5 right-5 remache opacity-30" />
+                <div className="absolute bottom-5 left-5 remache opacity-30" />
+                <div className="absolute bottom-5 right-5 remache opacity-30" />
+
+                {/* Side Labels */}
+                <div className="absolute top-1/2 -left-4 font-mono text-[7px] tracking-[0.4em] -rotate-90 opacity-40">COMM_LINK_ACTIVE</div>
+                <div className="absolute top-1/2 -right-4 font-mono text-[7px] tracking-[0.4em] rotate-90 opacity-40">NODE_ARCHIVE_A4</div>
+
+                <div className="w-full flex flex-col gap-10 items-center">
+
+                    {/* THE MONITOR - Archaeological Focus - PRECISION RESIZE 1080x336 */}
+                    <div className="monitor-crt p-2 bg-slate-900 border-slate-800 w-full max-w-[1080px] h-auto lg:h-[336px] shadow-[0_20px_60px_rgba(0,0,0,0.8),0_0_20px_rgba(59,130,246,0.2)]">
+                        <div className="monitor-content relative w-full h-full bg-slate-950 rounded-[28px] overflow-hidden aspect-video lg:aspect-auto">
+                            {/* Video Background */}
+                            <video
+                                ref={videoRef}
+                                key={currentVideoUrl}
+                                src={currentVideoUrl}
+                                autoPlay
+                                muted
+                                playsInline
+                                loop
+                                className="w-full h-full object-cover opacity-60 contrast-110 brightness-75 grayscale-[0.2]"
+                            />
+
+                            {/* CRT Glow Overlay */}
+                            <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 via-transparent to-black/80 pointer-events-none z-10" />
+
+                            {/* UI Overlay */}
+                            <div className="absolute inset-0 p-6 flex flex-col justify-between pointer-events-none z-20">
+                                <div className="flex justify-between items-start opacity-60 text-[9px] font-mono">
+                                    <div className="text-blue-400 leading-relaxed uppercase">
+                                        Archaeological_Node<br />Status: Deciphering
+                                    </div>
+                                    <div className="text-right text-cyan-400 leading-relaxed">
+                                        Signal_Strength: 98%<br />Sector: OMEGA_7
+                                    </div>
+                                </div>
+
+                                <div className="space-y-3 text-center">
+                                    <h2 className="text-3xl sm:text-5xl font-signature text-blue-100 drop-shadow-[0_4px_8px_rgba(0,0,0,0.9)]">
+                                        {displayArtist}
+                                    </h2>
+                                    <div className="marquee-container w-full max-w-md mx-auto bg-slate-950/80 py-2 px-4 border-l-2 border-blue-500/50 backdrop-blur-md rounded-sm">
+                                        <p className="marquee-content font-mono text-xs uppercase tracking-[0.3em] text-blue-300">
+                                            {marqueeText}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* INTERACTIVE CONTROL PANEL */}
+                    <div className="flex flex-wrap items-center justify-center gap-8 sm:gap-14 py-6 px-12 glass-panel rounded-[32px] border-white/5 border-t shadow-2xl">
+
+                        {/* TRANSMIT (Play) */}
+                        <div className="flex flex-col items-center gap-3">
+                            <button
+                                onClick={togglePlay}
+                                disabled={isPlaying}
+                                className={`boton-circular w-16 h-16 ${isPlaying ? 'bg-blue-600/60 cyan-neon' : 'bg-slate-700/40 opacity-50'} border-white/10`}
+                            >
+                                <Play size={22} fill="currentColor" className={isPlaying ? 'text-blue-100' : 'text-slate-500'} />
+                            </button>
+                            <span className="text-[10px] font-bold opacity-50 tracking-[0.2em] uppercase">Transmit</span>
+                        </div>
+
+                        {/* SUSPEND (Pause) */}
+                        <div className="flex flex-col items-center gap-3">
+                            <button
+                                onClick={togglePlay}
+                                disabled={!isPlaying}
+                                className={`boton-circular w-16 h-16 ${!isPlaying ? 'bg-red-900/40 border-red-500/30' : 'bg-slate-700/40 opacity-50'} border-white/10`}
+                            >
+                                <Pause size={22} fill="currentColor" className={!isPlaying ? 'text-red-200' : 'text-slate-500'} />
+                            </button>
+                            <span className="text-[10px] font-bold opacity-50 tracking-[0.2em] uppercase">Suspend</span>
+                        </div>
+
+                        {/* COMMS (Mute) */}
+                        <div className="flex flex-col items-center gap-3">
+                            <button
+                                onClick={toggleMute}
+                                className={`boton-circular w-16 h-16 ${!isMuted ? 'bg-slate-800/60 border-white/10' : 'bg-blue-900/60 border-blue-400/30 cyan-neon'} `}
+                            >
+                                {isMuted ? <VolumeX size={20} className="text-blue-200" /> : <Volume2 size={20} className="text-slate-300" />}
+                            </button>
+                            <span className="text-[10px] font-bold opacity-50 tracking-[0.2em] uppercase">Comms</span>
+                        </div>
+
+                        {/* ITERATE (Skip) */}
+                        <div className="flex flex-col items-center gap-3">
+                            <button
+                                onClick={handleNext}
+                                className="boton-circular w-16 h-16 bg-slate-800/60 border-white/10 hover:bg-slate-700/60 transition-colors"
+                            >
+                                <SkipForward size={20} fill="currentColor" className="text-slate-300" />
+                            </button>
+                            <span className="text-[10px] font-bold opacity-50 tracking-[0.2em] uppercase">Iterate</span>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Ambient Internal Glow */}
+                <div className="absolute top-0 right-0 w-64 h-64 bg-blue-600/10 blur-[100px] rounded-full -mr-20 -mt-20" />
+                <div className="absolute bottom-0 left-0 w-48 h-48 bg-cyan-600/5 blur-[80px] rounded-full -ml-10 -mb-10" />
+            </div>
+
+            {/* Decorative Connection Pipes */}
+            <div className="absolute top-1/2 -left-2 w-1.5 h-32 bg-blue-900/30 rounded-full blur-[2px]" />
+            <div className="absolute top-1/2 -right-2 w-2 h-40 bg-blue-800/30 rounded-full blur-[2px]" />
         </div>
     );
 };

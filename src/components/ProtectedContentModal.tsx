@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { PATRON_CONTENT } from '../data/protectedContent.ts';
-import type { Patron } from '../types.ts';
+
 
 interface ProtectedContentModalProps {
   isOpen: boolean;
@@ -35,7 +35,7 @@ const ProtectedContentModal: React.FC<ProtectedContentModalProps> = ({ isOpen, o
         setOpenPatronId(null);
       }, 300);
     }
-    
+
     return () => {
       window.removeEventListener('keydown', handleEsc);
       document.body.classList.remove('modal-open');
@@ -71,7 +71,7 @@ const ProtectedContentModal: React.FC<ProtectedContentModalProps> = ({ isOpen, o
         onClick={(e) => e.stopPropagation()}
       >
         <div className="p-6 flex-shrink-0 border-b border-stone-300">
-           <h2 className="text-2xl font-bold text-center">
+          <h2 className="text-2xl font-bold text-center">
             {isAuthenticated ? 'Contenido para Mecenas' : 'Acceso para Mecenas'}
           </h2>
         </div>
@@ -86,9 +86,9 @@ const ProtectedContentModal: React.FC<ProtectedContentModalProps> = ({ isOpen, o
                   aria-expanded={openPatronId === patron.id}
                 >
                   <span className="font-bold text-lg text-stone-800">{patron.name}</span>
-                  <svg 
-                    xmlns="http://www.w3.org/2000/svg" 
-                    className={`h-5 w-5 text-stone-500 transition-transform ${openPatronId === patron.id ? 'rotate-180' : ''}`} 
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className={`h-5 w-5 text-stone-500 transition-transform ${openPatronId === patron.id ? 'rotate-180' : ''}`}
                     fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
                   </svg>
@@ -98,29 +98,29 @@ const ProtectedContentModal: React.FC<ProtectedContentModalProps> = ({ isOpen, o
                     {patron.content.length > 0 ? (
                       <div className="space-y-4">
                         {patron.content.map((item) => (
-                           <div key={item.id} className="flex items-start gap-4">
-                              <div className="flex-shrink-0 text-stone-500 mt-1">
-                                {item.type === 'audio' ? (
-                                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2z" /></svg>
-                                ) : item.type === 'image' ? (
-                                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
-                                ) : (
-                                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
-                                )}
-                              </div>
-                              <div className="flex-1 min-w-0">
-                                <h3 className="font-bold text-md text-stone-800">{item.title}</h3>
-                                <p className="text-sm text-stone-600 mb-3">{item.description}</p>
-                                <a
-                                  href={item.url}
-                                  download
-                                  className="inline-flex items-center gap-2 px-4 py-2 bg-stone-800 text-white text-sm font-bold rounded-md hover:bg-black transition-colors"
-                                >
-                                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
-                                  Descargar
-                                </a>
-                              </div>
+                          <div key={item.id} className="flex items-start gap-4">
+                            <div className="flex-shrink-0 text-stone-500 mt-1">
+                              {item.type === 'audio' ? (
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2z" /></svg>
+                              ) : item.type === 'image' ? (
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                              ) : (
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
+                              )}
                             </div>
+                            <div className="flex-1 min-w-0">
+                              <h3 className="font-bold text-md text-stone-800">{item.title}</h3>
+                              <p className="text-sm text-stone-600 mb-3">{item.description}</p>
+                              <a
+                                href={item.url}
+                                download
+                                className="inline-flex items-center gap-2 px-4 py-2 bg-stone-800 text-white text-sm font-bold rounded-md hover:bg-black transition-colors"
+                              >
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
+                                Descargar
+                              </a>
+                            </div>
+                          </div>
                         ))}
                       </div>
                     ) : (
@@ -159,7 +159,7 @@ const ProtectedContentModal: React.FC<ProtectedContentModalProps> = ({ isOpen, o
             </form>
           </div>
         )}
-        
+
         <button
           onClick={onClose}
           className="absolute top-3 right-3 z-10 p-2 rounded-full bg-black/40 text-white hover:bg-black/70 transition-colors"

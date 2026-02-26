@@ -8,28 +8,28 @@ export default {
     theme: {
         extend: {
             colors: {
-                carbon: {
-                    light: '#2C2C2C',
-                    DEFAULT: '#1C1C1C',
-                    dark: '#000000',
+                zen: {
+                    bg: '#FAF9F6', // Ivory
+                    tan: '#F5F5DC', // Beige/Tan
+                    bamboo: '#A9BA9D',
+                    earth: '#D2B48C',
+                    charcoal: '#333333',
+                    steel: '#4682B4',
+                    emerald: '#50C878',
                 },
-                brand: {
-                    orange: '#FF851B', // Vibrant, friendly Orange
-                    green: '#2ECC40',  // Futuristic, fresh Green
-                    darkOrange: '#D35400',
-                    darkGreen: '#27AE60',
-                },
-                paper: {
-                    light: '#F8F9FA', // Cleaner, more modern light grey/white
-                    DEFAULT: '#FFFFFF',
-                    dark: '#121212',  // Deep dark for futuristic feel
+                industrial: {
+                    orange: '#FB923C',
+                    slate: '#1E293B',
+                    gray: '#94A3B8',
+                    cream: '#FAF9F6',
+                    green: '#10B981'
                 }
             },
             fontFamily: {
+                sans: ['Inter', 'sans-serif'],
+                mono: ['JetBrains Mono', 'monospace'],
                 serif: ['Playfair Display', 'serif'],
-                mono: ['Courier Prime', 'monospace'],
-                hand: ['Caveat', 'cursive'],
-                title: ['Brittany', 'serif'],
+                signature: ['Brittany', 'cursive'],
             }
         },
     },

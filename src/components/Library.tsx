@@ -16,146 +16,103 @@ const Library: React.FC<LibraryProps> = ({ onBackToMagazine }) => {
   const [activeFilter, setActiveFilter] = useState<CategoryFilter>('Todos');
   const [selectedItem, setSelectedItem] = useState<LibraryItem | null>(null);
 
-  // Identificar la recomendación del mes (hardcoded por ID o lógica)
   const monthlyPick = useMemo(() => LIBRARY_CONTENT.find(item => item.id === 'libro1'), []);
-  // El resto del contenido
   const archiveItems = useMemo(() => LIBRARY_CONTENT.filter(item => item.id !== 'libro1'), []);
 
   const filteredItems = useMemo(() => {
     let items = activeFilter === 'Todos' ? archiveItems : archiveItems.filter(item => item.category === activeFilter);
-
     if (activeFilter === 'Todos') {
       return [...items].sort((a, b) => {
-        // Prioridad de categorías para la vista "Todos"
-        const priority: Record<string, number> = {
-          'Revistas': 1,
-          'Postales': 2,
-          'Podcasts': 3,
-          // El resto tendrá prioridad baja (undefined o > 3)
-        };
-        const pA = priority[a.category] || 99;
-        const pB = priority[b.category] || 99;
-        return pA - pB;
+        const priority: Record<string, number> = { 'Revistas': 1, 'Postales': 2, 'Podcasts': 3 };
+        return (priority[a.category] || 99) - (priority[b.category] || 99);
       });
     }
-
     return items;
   }, [archiveItems, activeFilter]);
 
-  if (!monthlyPick) {
-    return <div>Error: No se encontró la recomendación del mes.</div>;
-  }
+  if (!monthlyPick) return null;
 
-  const handleOpenDetailModal = (item: LibraryItem) => {
-    setSelectedItem(item);
-  };
-
-  const handleCloseDetailModal = () => {
-    setSelectedItem(null);
-  };
-
-  const getNexoLogo = () => (
-    <img
-      src="https://res.cloudinary.com/ddmj6zevz/image/upload/w_32,h_32,c_fit,f_auto,q_auto/v1756714882/logo_el_nexo_digital_assa82.png"
-      alt="Logo El Nexo"
-      className="w-5 h-5 rounded-full border border-stone-300 dark:border-stone-600 animate-spin-very-slow"
-    />
-  );
+  const handleOpenDetailModal = (item: LibraryItem) => setSelectedItem(item);
+  const handleCloseDetailModal = () => setSelectedItem(null);
 
   return (
-    <div className="w-full pb-12 animate-fade-in">
-      <div className="text-center mb-12 pt-4">
+    <div className="w-full pb-32">
+      <div className="text-center mb-24 pt-12">
         <button
           onClick={onBackToMagazine}
-          className="mb-6 inline-flex items-center gap-2 px-6 py-2 bg-white/10 dark:bg-black/20 text-brand-orange text-sm font-bold rounded-full hover:bg-brand-orange hover:text-white transition-all hover:scale-105 shadow-md backdrop-blur-md border border-brand-orange/30"
+          className="mb-12 inline-flex items-center gap-3 px-8 py-2.5 bg-white/40 text-zen-charcoal/40 text-[9px] font-mono uppercase tracking-[0.3em] rounded-full hover:bg-white/60 hover:text-zen-charcoal/80 transition-all border border-black/5"
         >
-          &larr; Volver a la Revista
+          &larr; Volver
         </button>
-        <h1 className="text-5xl md:text-6xl mb-2 font-serif text-gray-900 dark:text-white">
+        <h1 className="text-6xl mb-6 font-serif text-zen-charcoal/80 italic">
           Archivo & Biblioteca
         </h1>
-        <div className="w-24 h-1 bg-brand-orange mx-auto mb-4 rounded-full"></div>
-        <p className="text-gray-600 dark:text-gray-400 mt-2 max-w-2xl mx-auto text-lg">
-          Un espacio de curación cultural y memoria digital.
+        <div className="w-12 h-px bg-zen-bamboo/30 mx-auto mb-8"></div>
+        <p className="text-zen-charcoal/30 max-w-2xl mx-auto text-[9px] font-mono uppercase tracking-[0.5em]">
+          Curación Cultural • Memoria • Flow
         </p>
       </div>
 
       {/* --- Recomendación del Mes --- */}
-      <section className="mb-20 px-4">
+      <section className="mb-32 px-6">
         <div className="max-w-5xl mx-auto">
-          <div className="flex items-center gap-4 mb-8">
-            <h2 className="text-3xl font-bold font-serif text-brand-green dark:text-brand-green">
-              Recomendación del Mes
-            </h2>
-            <div className="h-px bg-brand-green/30 flex-grow"></div>
+          <div className="flex items-center gap-8 mb-14">
+            <h2 className="text-3xl font-serif text-zen-charcoal/70 italic">Recomendación</h2>
+            <div className="h-px bg-black/5 flex-grow"></div>
           </div>
 
-          <div className="glass-panel rounded-2xl shadow-xl overflow-hidden md:grid md:grid-cols-5 gap-0 border border-white/20 dark:border-white/5">
-            <div className="md:col-span-2 relative min-h-[400px]">
+          <div className="bg-white shadow-sm rounded-3xl overflow-hidden md:grid md:grid-cols-5 gap-0 border border-black/5">
+            <div className="md:col-span-2 relative min-h-[500px]">
               <img
                 src={monthlyPick.imageUrl}
-                alt={`Portada de ${monthlyPick.title}`}
-                className="absolute inset-0 w-full h-full object-cover md:rounded-l-2xl"
+                alt={monthlyPick.title}
+                className="absolute inset-0 w-full h-full object-cover grayscale-[0.2]"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent md:hidden" />
             </div>
-            <div className="md:col-span-3 p-8 flex flex-col">
-              <div className="flex justify-between items-start mb-4">
-                <div>
-                  <span className="inline-block px-3 py-1 bg-brand-orange/10 text-brand-orange text-xs font-bold uppercase tracking-wider rounded-full mb-3 border border-brand-orange/20">
-                    {monthlyPick.category}
-                  </span>
-                  <h3 className="text-4xl font-bold mb-2 text-gray-900 dark:text-white font-serif">{monthlyPick.title}</h3>
-                  <p className="text-xl text-gray-600 dark:text-gray-400 italic font-serif">{monthlyPick.author}</p>
-                </div>
+            <div className="md:col-span-3 p-16 flex flex-col bg-white/60 backdrop-blur-xl">
+              <div className="mb-10">
+                <span className="inline-block px-5 py-1.5 bg-zen-tan/50 text-zen-charcoal/40 text-[9px] font-mono uppercase tracking-[0.3em] rounded-full mb-8 border border-black/5">
+                  {monthlyPick.category}
+                </span>
+                <h3 className="text-4xl font-serif mb-4 text-zen-charcoal/90">{monthlyPick.title}</h3>
+                <p className="text-xl text-zen-charcoal/40 italic font-serif">{monthlyPick.author}</p>
               </div>
 
-              <div className="border-b border-gray-200 dark:border-gray-700 mb-4">
-                <nav className="-mb-px flex space-x-6" aria-label="Tabs">
-                  <button
-                    onClick={() => setActiveTab('analysis')}
-                    className={`whitespace-nowrap py-2 border-b-2 font-bold text-sm transition-colors ${activeTab === 'analysis' ? 'border-brand-orange text-brand-orange' : 'border-transparent text-gray-600 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200'}`}
-                  >
-                    Análisis
-                  </button>
-                  {monthlyPick.audioUrl && (
-                    <button
-                      onClick={() => setActiveTab('audio')}
-                      className={`whitespace-nowrap py-2 border-b-2 font-bold text-sm transition-colors ${activeTab === 'audio' ? 'border-brand-orange text-brand-orange' : 'border-transparent text-gray-600 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200'}`}
-                    >
-                      Escuchar
-                    </button>
-                  )}
-                  {monthlyPick.videoUrl && (
-                    <button
-                      onClick={() => setActiveTab('video')}
-                      className={`whitespace-nowrap py-2 border-b-2 font-bold text-sm transition-colors ${activeTab === 'video' ? 'border-brand-orange text-brand-orange' : 'border-transparent text-gray-600 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200'}`}
-                    >
-                      Ver Video
-                    </button>
-                  )}
+              <div className="border-b border-black/5 mb-10">
+                <nav className="-mb-px flex space-x-12">
+                  {['analysis', 'audio', 'video'].map((tab) => {
+                    if (tab === 'audio' && !monthlyPick.audioUrl) return null;
+                    if (tab === 'video' && !monthlyPick.videoUrl) return null;
+                    return (
+                      <button
+                        key={tab}
+                        onClick={() => setActiveTab(tab as any)}
+                        className={`py-4 border-b font-mono text-[9px] uppercase tracking-[0.3em] transition-all ${activeTab === tab ? 'border-zen-bamboo text-zen-charcoal' : 'border-transparent text-zen-charcoal/30 hover:text-zen-charcoal/60'}`}
+                      >
+                        {tab}
+                      </button>
+                    );
+                  })}
                 </nav>
               </div>
 
               <div className="flex-grow flex flex-col">
                 {activeTab === 'analysis' && (
-                  <div className="flex-grow h-64 overflow-y-auto pr-2 text-sm leading-relaxed text-gray-700 dark:text-gray-300 scrollbar-thin">
+                  <div className="flex-grow h-72 overflow-y-auto pr-6 text-sm leading-relaxed text-zen-charcoal/60 font-sans tracking-wide scrollbar-thin scrollbar-thumb-black/5">
                     <p className="whitespace-pre-wrap">{monthlyPick.review}</p>
                   </div>
                 )}
                 {activeTab === 'audio' && monthlyPick.audioUrl && (
-                  <div className="py-4 my-auto bg-gray-50 dark:bg-black/30 rounded-xl p-4 border border-gray-100 dark:border-white/5">
-                    <audio controls className="w-full">
+                  <div className="py-8 my-auto bg-white/60 rounded-2xl p-8 border border-black/5">
+                    <audio controls className="w-full opacity-40 hover:opacity-80 transition-opacity contrast-75 brightness-75">
                       <source src={monthlyPick.audioUrl} type="audio/mp4" />
-                      Tu navegador no soporta el elemento de audio.
                     </audio>
                   </div>
                 )}
                 {activeTab === 'video' && monthlyPick.videoUrl && (
-                  <div className="aspect-video bg-black rounded-xl overflow-hidden shadow-lg my-auto">
-                    <video controls className="w-full h-full">
+                  <div className="aspect-video bg-black/5 rounded-2xl overflow-hidden shadow-inner my-auto border border-black/5">
+                    <video controls className="w-full h-full opacity-90">
                       <source src={monthlyPick.videoUrl} type="video/mp4" />
-                      Tu navegador no soporta el elemento de video.
                     </video>
                   </div>
                 )}
@@ -165,36 +122,28 @@ const Library: React.FC<LibraryProps> = ({ onBackToMagazine }) => {
         </div>
       </section>
 
-      {/* --- Archivo de la Biblioteca --- */}
-      <section className="border-t border-gray-200 dark:border-gray-800 pt-12 px-4">
+      {/* --- Colección --- */}
+      <section className="border-t border-black/5 pt-24 px-6">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl md:text-4xl text-center font-bold mb-8 text-gray-900 dark:text-white font-serif">
-            Colección
-          </h2>
-
-          <div className="flex justify-center gap-3 mb-10 flex-wrap">
-            {(['Todos', 'Revistas', 'Podcasts', 'Postales', 'Libros', 'Discos', 'Películas'] as CategoryFilter[]).map(filter => {
-              const isSpecial = filter === 'Revistas' || filter === 'Podcasts' || filter === 'Postales';
-              return (
-                <button
-                  key={filter}
-                  onClick={() => setActiveFilter(filter)}
-                  className={`flex items-center gap-2 px-5 py-2 text-sm font-bold rounded-full transition-all duration-200 backdrop-blur-sm ${activeFilter === filter
-                    ? 'bg-brand-orange text-white shadow-lg shadow-brand-orange/30 scale-105'
-                    : 'bg-white/50 dark:bg-white/5 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-white/10'
-                    } ${isSpecial && activeFilter !== filter ? 'border border-brand-orange/30 text-brand-orange' : ''}`}
-                >
-                  {isSpecial && getNexoLogo()}
-                  {filter}
-                </button>
-              );
-            })}
+          <div className="flex justify-center gap-6 mb-20 flex-wrap">
+            {(['Todos', 'Revistas', 'Podcasts', 'Postales', 'Libros', 'Discos', 'Películas'] as CategoryFilter[]).map(filter => (
+              <button
+                key={filter}
+                onClick={() => setActiveFilter(filter)}
+                className={`px-8 py-2.5 text-[9px] font-mono uppercase tracking-[0.3em] rounded-full transition-all duration-500 ${activeFilter === filter
+                  ? 'bg-zen-bamboo text-white shadow-sm border border-zen-bamboo'
+                  : 'text-zen-charcoal/30 hover:text-zen-charcoal/60 bg-white/40 border border-black/5'
+                  }`}
+              >
+                {filter}
+              </button>
+            ))}
           </div>
 
           {filteredItems.length === 0 ? (
-            <p className="text-center text-gray-500 py-12">No hay items en esta categoría aún.</p>
+            <p className="text-center text-zen-charcoal/20 py-32 font-mono uppercase tracking-[0.5em] text-[10px]">Vacío</p>
           ) : (
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-10">
               {filteredItems.map(item => (
                 <LibraryItemCard key={item.id} item={item} onClick={() => handleOpenDetailModal(item)} />
               ))}

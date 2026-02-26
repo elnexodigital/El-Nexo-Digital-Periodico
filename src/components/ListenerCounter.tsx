@@ -18,12 +18,12 @@ const ListenerCounter: React.FC = () => {
     const digits = paddedCount.split('');
 
     return (
-        <div className="listener-counter">
-            <span className="counter-title">EN LÍNEA</span>
-            <div className="digits-container">
+        <div className="listener-counter flex flex-col items-center">
+            <span className="text-[8px] font-bold tracking-[0.3em] text-[#1e293b] opacity-80 uppercase stencil-text mb-1">En Linea</span>
+            <div className="flex gap-1.5 p-1.5 bg-black/10 rounded-lg heavy-rust">
                 {digits.map((digit, index) => (
-                    <div className="digit-box" key={index}>
-                      <span className="digit-char" key={`${index}-${digit}`}>{digit}</span>
+                    <div className="w-6 h-8 bg-stone-900 flex items-center justify-center rounded border border-white/5 shadow-inner" key={index}>
+                        <span className="font-mono text-lg font-bold text-green-500/80 drop-shadow-[0_0_5px_rgba(34,197,94,0.5)]" key={`${index}-${digit}`}>{digit}</span>
                     </div>
                 ))}
             </div>

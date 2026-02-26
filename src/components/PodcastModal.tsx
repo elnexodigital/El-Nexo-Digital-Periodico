@@ -26,8 +26,16 @@ const PodcastModal: React.FC<PodcastModalProps> = ({ isOpen, onClose, podcast })
       document.body.classList.remove('modal-open');
     }
 
+    const handlePauseMedia = () => {
+      if (videoRef.current) {
+        videoRef.current.pause();
+      }
+    };
+    window.addEventListener('pauseRadio', handlePauseMedia);
+
     return () => {
       window.removeEventListener('keydown', handleEsc);
+      window.removeEventListener('pauseRadio', handlePauseMedia);
       document.body.classList.remove('modal-open');
     };
   }, [isOpen, onClose]);
@@ -35,6 +43,7 @@ const PodcastModal: React.FC<PodcastModalProps> = ({ isOpen, onClose, podcast })
   useEffect(() => {
     if (videoRef.current) {
       if (isOpen && podcast) {
+        window.dispatchEvent(new Event('pauseRadio'));
         videoRef.current.currentTime = 0; // Reset video on open
         videoRef.current.play().catch(e => console.error("Autoplay was prevented.", e));
       } else {
@@ -53,16 +62,15 @@ const PodcastModal: React.FC<PodcastModalProps> = ({ isOpen, onClose, podcast })
       onClick={onClose}
     >
       <div
-        className="relative glass-panel w-full max-w-4xl h-[90vh] md:h-auto rounded-3xl shadow-2xl flex flex-col md:flex-row overflow-hidden border border-white/10"
+        className="relative bg-[#FAF9F6] w-full max-w-5xl max-h-[95vh] rounded-3xl shadow-2xl flex flex-col md:flex-row overflow-hidden border border-black/10"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="w-full md:w-2/3 bg-black relative flex items-center justify-center">
+        <div className="w-full md:w-2/3 bg-black relative flex items-center justify-center min-h-[300px] md:min-h-0">
           <video
             ref={videoRef}
             key={podcast.id}
             src={podcast.videoUrl}
             controls
-            muted
             autoPlay
             playsInline
             className="w-full h-full object-contain"
@@ -72,16 +80,16 @@ const PodcastModal: React.FC<PodcastModalProps> = ({ isOpen, onClose, podcast })
           </video>
         </div>
 
-        <div className="w-full md:w-1/3 p-6 md:p-8 overflow-y-auto bg-white/5 backdrop-blur-sm border-l border-white/10 flex flex-col">
-          <span className="text-xs font-bold text-brand-orange uppercase tracking-widest mb-2">
+        <div className="w-full md:w-1/3 p-6 md:p-10 overflow-y-auto bg-white flex flex-col border-l border-black/5">
+          <span className="text-[10px] font-bold text-[#800020] uppercase tracking-[0.3em] mb-3">
             Podcast Exclusivo
           </span>
-          <h2 className="text-2xl md:text-3xl font-serif font-bold mb-4 text-white leading-tight">
+          <h2 className="text-2xl md:text-4xl font-serif font-bold mb-6 text-zen-charcoal leading-tight italic">
             {podcast.title}
           </h2>
-          <div className="w-12 h-1 bg-brand-green mb-6 rounded-full"></div>
-          <div className="prose prose-invert prose-sm leading-relaxed text-gray-300">
-            <p className="whitespace-pre-wrap">{podcast.transcript}</p>
+          <div className="w-12 h-[1px] bg-zen-bamboo mb-8"></div>
+          <div className="prose prose-sm leading-relaxed text-zen-charcoal/70 font-serif">
+            <p className="whitespace-pre-wrap italic">{podcast.transcript}</p>
           </div>
         </div>
 

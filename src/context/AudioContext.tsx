@@ -23,7 +23,22 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         audioRef.current = new Audio(STREAM_URL);
         audioRef.current.volume = volume;
 
+        // Listener global para pausar la radio desde otros componentes
+        const handlePause = (e: Event) => {
+            // Evitar auto-pausado si el evento lo envió el propio contexto de radio
+            if (e instanceof CustomEvent && e.detail?.source === 'live-radio') {
+                return;
+            }
+            if (audioRef.current) {
+                audioRef.current.pause();
+                setIsPlaying(false);
+            }
+        };
+
+        window.addEventListener('pauseRadio', handlePause as EventListener);
+
         return () => {
+            window.removeEventListener('pauseRadio', handlePause as EventListener);
             if (audioRef.current) {
                 audioRef.current.pause();
                 audioRef.current = null;
@@ -44,6 +59,9 @@ export const AudioProvider: React.FC<{ children: React.ReactNode }> = ({ childre
             audioRef.current.pause();
             setIsPlaying(false);
         } else {
+            // Notificar a otros componentes que deben pausarse
+            window.dispatchEvent(new CustomEvent('pauseRadio', { detail: { source: 'live-radio' } }));
+
             audioRef.current.play().catch(e => console.error("Playback failed:", e));
             setIsPlaying(true);
         }
