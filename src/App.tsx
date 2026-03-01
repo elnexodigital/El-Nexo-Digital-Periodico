@@ -67,13 +67,15 @@ const App: React.FC = () => {
         hasPodcast={!!dailyPodcast}
       />
 
-      <main className="container mx-auto px-4 py-8">
+      <main className="container mx-auto px-4 pt-1 pb-4">
         <Suspense fallback={<LoadingSpinner />}>
           {currentView === 'magazine' && (
-            <>
+            <div className="flex flex-col gap-2">
               <IndustrialPlayer />
+
               <Magazine />
-            </>
+            </div>
+
           )}
           {currentView === 'library' && (
             <Library onBackToMagazine={() => setCurrentView('magazine')} />
