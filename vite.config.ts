@@ -1,17 +1,33 @@
-import path from 'path';
-import { defineConfig, loadEnv } from 'vite';
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import tailwindcss from '@tailwindcss/vite';
 
+// https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
-    const env = loadEnv(mode, '.', '');
-    return {
-      define: {
-        'process.env.API_KEY': JSON.stringify(env.GEMINI_API_KEY),
-        'process.env.GEMINI_API_KEY': JSON.stringify(env.GEMINI_API_KEY)
+  return {
+    plugins: [
+      react(),
+      tailwindcss(),
+    ],
+    define: {
+      'process.env.API_KEY': JSON.stringify(process.env.API_KEY),
+    },
+    root: '.',
+    server: {
+      // Force no cache headers
+      headers: {
+        'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0',
+        'Pragma': 'no-cache',
+        'Expires': '0',
       },
-      resolve: {
-        alias: {
-          '@': path.resolve(__dirname, '.'),
-        }
-      }
-    };
+    },
+    build: {
+      outDir: 'dist',
+      rollupOptions: {
+        input: {
+          main: './index.html',
+        },
+      },
+    },
+  };
 });
