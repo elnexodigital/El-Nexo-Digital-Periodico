@@ -38,9 +38,7 @@ const shuffleArray = <T,>(array: T[]): T[] => {
 };
 
 const VIDEO_URLS: string[] = [
-  'https://res.cloudinary.com/dus9zcgen/video/upload/v1759387549/tuapp_cozzi_tko6ys.mp4',
   'https://res.cloudinary.com/dus9zcgen/video/upload/v1759387536/spot_10_segundos_completo_wsoeh1.mp4',
-  'https://res.cloudinary.com/dus9zcgen/video/upload/v1759387497/post_xk8alf.mp4',
   'https://res.cloudinary.com/ddmj6zevz/video/upload/w_1280,q_auto:good/v1755907719/animaci%C3%B3n_APP_pvxjop.mp4',
   'https://res.cloudinary.com/ddmj6zevz/video/upload/w_1280,q_auto:good/v1756345297/14_okcuk0.mp4',
   'https://res.cloudinary.com/ddmj6zevz/video/upload/w_1280,q_auto:good/v1756345296/13_debkpb.mp4',

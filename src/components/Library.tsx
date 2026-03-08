@@ -3,7 +3,8 @@ import React, { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ArrowLeft, Book, Music, Video, FileText, Mic, Image as ImageIcon, Star } from 'lucide-react';
 import { LIBRARY_CONTENT } from '../data/libraryContent.ts';
-import type { LibraryItem } from '../types.ts';
+import { PODCASTS_MP3 } from '../data/podcastsMP3.ts';
+import type { LibraryItem, PodcastMP3 } from '../types.ts';
 import LibraryItemCard from './LibraryItemCard.tsx';
 import LibraryDetailModal from './LibraryDetailModal.tsx';
 
@@ -20,6 +21,8 @@ const Library: React.FC<LibraryProps> = ({ onBackToMagazine }) => {
 
   const monthlyPick = useMemo(() => LIBRARY_CONTENT.find(item => item.id === 'libro1'), []);
   const archiveItems = useMemo(() => LIBRARY_CONTENT.filter(item => item.id !== 'libro1'), []);
+
+  const mp3Podcasts = useMemo(() => PODCASTS_MP3, []);
 
   const filteredItems = useMemo(() => {
     let items = activeFilter === 'Todos' ? archiveItems : archiveItems.filter(item => item.category === activeFilter);
@@ -44,8 +47,23 @@ const Library: React.FC<LibraryProps> = ({ onBackToMagazine }) => {
     return <div>Error: No se encontró la recomendación del mes.</div>;
   }
 
-  const handleOpenDetailModal = (item: LibraryItem) => {
-    setSelectedItem(item);
+  const handleOpenDetailModal = (item: LibraryItem | PodcastMP3) => {
+    if ('audioUrl' in item && !('category' in item)) {
+      // Convert PodcastMP3 to LibraryItem for the modal
+      const converted: LibraryItem = {
+        id: item.id,
+        category: 'Podcasts',
+        title: item.title,
+        author: item.artist,
+        imageUrl: item.coverUrl,
+        review: item.description,
+        audioUrl: item.audioUrl,
+        publicationDate: 'Audio Podcast',
+      };
+      setSelectedItem(converted);
+    } else {
+      setSelectedItem(item as LibraryItem);
+    }
   };
 
   const handleCloseDetailModal = () => {
@@ -215,22 +233,73 @@ const Library: React.FC<LibraryProps> = ({ onBackToMagazine }) => {
             </div>
           </div>
 
-          {filteredItems.length === 0 ? (
+          {filteredItems.length === 0 && activeFilter !== 'Podcasts' ? (
             <div className="text-center py-24 bg-zen-charcoal/5 rounded-2xl border border-dashed border-zen-charcoal/20">
               <p className="text-zen-charcoal/40 font-serif italic">No hay elementos en esta categoría aún.</p>
             </div>
           ) : (
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-8">
-              {filteredItems.map((item, index) => (
-                <motion.div
-                  key={item.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.05 }}
-                >
-                  <LibraryItemCard item={item} onClick={() => handleOpenDetailModal(item)} />
-                </motion.div>
-              ))}
+            <div className="space-y-12">
+              {/* Grid for standard items */}
+              {filteredItems.length > 0 && (
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-8">
+                  {filteredItems.map((item, index) => (
+                    <motion.div
+                      key={item.id}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: index * 0.05 }}
+                    >
+                      <LibraryItemCard item={item} onClick={() => handleOpenDetailModal(item)} />
+                    </motion.div>
+                  ))}
+                </div>
+              )}
+
+              {/* List for MP3 Podcasts */}
+              {(activeFilter === 'Podcasts' || activeFilter === 'Todos') && (
+                <div className="mt-16">
+                  <div className="flex items-center gap-4 mb-8">
+                    <h3 className="text-xl font-serif font-bold text-zen-charcoal/60">Podcasts de Audio ({mp3Podcasts.length})</h3>
+                    <div className="h-px bg-zen-charcoal/10 flex-grow"></div>
+                  </div>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {mp3Podcasts.map((podcast, index) => (
+                      <motion.div
+                        key={podcast.id}
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: index * 0.01 }}
+                        onClick={() => handleOpenDetailModal(podcast)}
+                        className="group flex items-center gap-4 p-3 bg-white rounded-xl border border-zen-charcoal/5 hover:border-[#800020]/30 hover:shadow-md transition-all cursor-pointer"
+                      >
+                        <div className="w-12 h-12 rounded-lg overflow-hidden flex-shrink-0 border border-zen-charcoal/10">
+                          <img 
+                            src={podcast.coverUrl} 
+                            alt={podcast.title} 
+                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                            referrerPolicy="no-referrer"
+                          />
+                        </div>
+                        <div className="flex-grow min-w-0">
+                          <h4 className="text-sm font-bold text-zen-charcoal group-hover:text-[#800020] transition-colors truncate">
+                            {podcast.title}
+                          </h4>
+                          <p className="text-[10px] text-zen-charcoal/40 uppercase tracking-widest font-bold truncate">
+                            {podcast.artist}
+                          </p>
+                          <p className="text-xs text-zen-charcoal/60 line-clamp-1 mt-0.5 font-serif italic">
+                            {podcast.description}
+                          </p>
+                        </div>
+                        <div className="w-8 h-8 rounded-full bg-zen-charcoal/5 flex items-center justify-center group-hover:bg-[#800020] group-hover:text-white transition-all">
+                          <Mic size={14} />
+                        </div>
+                      </motion.div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           )}
         </section>

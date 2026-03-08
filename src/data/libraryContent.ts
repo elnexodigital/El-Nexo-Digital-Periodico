@@ -137,6 +137,17 @@ export const LIBRARY_CONTENT: LibraryItem[] = [
     publicationDate: 'Video Podcast',
     sources: 'El Nexo Digital'
   },
+  {
+    id: 'vp_hesse_jung',
+    category: 'Podcasts',
+    title: 'Hesse y Jung: La Búsqueda de Unidad',
+    author: 'El Nexo Digital',
+    imageUrl: 'https://res.cloudinary.com/dnauavz56/image/upload/v1763348252/juego_de_abalorios_rmbqpw.webp',
+    review: 'Un diálogo profundo sobre la relación entre la obra de Hermann Hesse y la psicología analítica de Carl Jung.',
+    videoUrl: 'https://res.cloudinary.com/dnauavz56/video/upload/v1772890624/Hesse_Jung_La_B%C3%BAsqueda_De_Unidad_wkyh4j.mp4',
+    publicationDate: 'Video Podcast',
+    sources: 'El Nexo Digital'
+  },
 
   // --- POSTALES (Regalos) ---
   {
@@ -162,16 +173,29 @@ export const LIBRARY_CONTENT: LibraryItem[] = [
     sources: 'Producción Original El Nexo Digital.'
   },
 
-  // --- LIBROS ---
+  // --- LIBROS / RECOMENDACIÓN DEL MES ---
   {
     id: 'libro1',
     category: 'Libros',
-    title: 'Cien Años de Soledad',
+    title: 'El Juego de los Abalorios',
+    author: 'Hermann Hesse',
+    imageUrl: 'https://res.cloudinary.com/dnauavz56/image/upload/v1763348252/juego_de_abalorios_rmbqpw.webp',
+    review: 'La obra cumbre de Hermann Hesse. Un análisis sobre la síntesis del conocimiento, la crisis del arte y la búsqueda de la unidad trascendental a través del espíritu y el intelecto.',
+    videoUrl: 'https://res.cloudinary.com/dnauavz56/video/upload/v1772890627/Hermann_Hesse__El_Arte_de_la_Crisis_xfvlgw.mp4',
+    pdfUrl: 'https://res.cloudinary.com/dnauavz56/image/upload/v1772890894/resumen_el_juego_de_abalorios_tz8ijd.pdf',
+    publicationDate: 'Marzo, 2025',
+    sources: 'Análisis profundo de El Nexo Digital.'
+  },
+  {
+    id: 'doc_cien_anos',
+    category: 'Revistas',
+    title: 'Cien Años de Soledad (Archivo)',
     author: 'Gabriel García Márquez',
-    imageUrl: 'https://res.cloudinary.com/dnauavz56/image/upload/v1763682991/100a%C3%B1os_de_soledad_tapa_obdv4y.jpg',
-    review: 'La urdimbre de Macondo: Realismo Mágico, Soledad y Violencia.',
+    imageUrl: 'https://res.cloudinary.com/dnauavz56/image/upload/v1772891439/100_de_solewdad_mc91i5.webp',
+    review: 'La urdimbre de Macondo: Realismo Mágico, Soledad y Violencia. Este análisis exhaustivo explora las capas de la obra maestra de García Márquez.',
     audioUrl: 'https://res.cloudinary.com/dsammmekc/video/upload/v1762292455/Cien_A%C3%B1os_de_Soledad__El_Realismo_M%C3%A1gico__la_Censura_y_el_Final_fuk0lv.mp4',
     videoUrl: 'https://res.cloudinary.com/dsammmekc/video/upload/v1762291490/Cien_a%C3%B1os_de_controversia_ubapnm.mp4',
+    pdfUrl: 'https://res.cloudinary.com/dnauavz56/image/upload/v1772891035/La_urdimbre_de_Macondo__Realismo_M%C3%A1gico_Soledad_y_Violencia_en_la_obra_de_Gabriel_Garc%C3%ADa_M%C3%A1rquez_i2pfte.pdf',
     publicationDate: 'Octubre, 2024',
     sources: 'Análisis generado con NotebookLM.'
   }
