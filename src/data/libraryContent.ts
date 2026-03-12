@@ -1,8 +1,6 @@
 import type { LibraryItem } from '../types.ts';
-import { VIDEO_PODCASTS } from './podcasts.ts';
-import { PODCASTS_MP3 } from './podcastsMP3.ts';
 
-const STATIC_LIBRARY_CONTENT: LibraryItem[] = [
+export const LIBRARY_CONTENT: LibraryItem[] = [
   // --- DOCUMENTOS DE INVESTIGACIÓN / REVISTAS ---
   {
     id: 'doc_aguila',
@@ -49,6 +47,108 @@ const STATIC_LIBRARY_CONTENT: LibraryItem[] = [
     audioUrl: 'https://res.cloudinary.com/dnauavz56/video/upload/v1764532510/Bataille_Gasto_El_Sol_Erotismo_Fascismo_jhajdd.mp3',
     sources: 'Archivo de investigación de El Nexo Digital.'
   },
+
+  // --- PODCASTS (VIDEO) ---
+  {
+    id: 'vp1_lib',
+    category: 'Podcasts',
+    title: 'Nuestra Relación con el Miedo',
+    author: 'El Nexo Digital',
+    imageUrl: 'https://res.cloudinary.com/dnauavz56/image/upload/v1764004910/Nuestra_Relaci%C3%B3n_con_el_Miedo_glyfqz.png',
+    review: 'El miedo, esa sombra que nos sigue, que nos define. ¿Es un ancla o una brújula?',
+    videoUrl: 'https://res.cloudinary.com/ddmj6zevz/video/upload/v1764886279/la_busqueda_de_lo_sobrenatural_nn2mhb.mp4',
+    publicationDate: 'Video Podcast',
+    sources: 'El Nexo Digital'
+  },
+  {
+    id: 'vp_quijote_lib',
+    category: 'Podcasts',
+    title: 'Don Quijote: Manifiesto Existencial',
+    author: 'El Nexo Digital',
+    imageUrl: 'https://res.cloudinary.com/ddmj6zevz/image/upload/v1764887019/Gemini_Generated_Image_a2c5dia2c5dia2c5_x0dvmh.png',
+    review: 'El video reinterpreta la figura de Don Quijote como un individuo en plena crisis existencial.',
+    videoUrl: 'https://res.cloudinary.com/ddmj6zevz/video/upload/v1758266308/Don_Quijote_Un_Manifiesto_Existencial_g1rxky.mp4',
+    publicationDate: 'Video Podcast',
+    sources: 'El Nexo Digital'
+  },
+  {
+    id: 'vp3_lib',
+    category: 'Podcasts',
+    title: '¿Vale la pena la felicidad?',
+    author: 'El Nexo Digital',
+    imageUrl: 'https://res.cloudinary.com/dnauavz56/video/upload/f_jpg,so_2/v1764004910/Vale_la_pena_la_felicidad_m1gmb4.jpg',
+    review: 'Crítica a la concepción contemporánea de la felicidad como constructo de consumo.',
+    videoUrl: 'https://res.cloudinary.com/ddmj6zevz/video/upload/w_720,q_auto:good/v1756716939/vale_la_pena_la_felicidad_lryhcf.mp4',
+    publicationDate: 'Video Podcast',
+    sources: 'El Nexo Digital'
+  },
+  {
+    id: 'vp5_lib',
+    category: 'Podcasts',
+    title: 'El colectivo, virus de la mediocridad',
+    author: 'El Nexo Digital',
+    imageUrl: 'https://res.cloudinary.com/dnauavz56/video/upload/f_jpg,so_2/v1764004909/El_colectivo_virus_de_la_mediocridad_rqsmxz.jpg',
+    review: 'Crítica contundente al conformismo social y a la pérdida de la individualidad.',
+    videoUrl: 'https://res.cloudinary.com/ddmj6zevz/video/upload/w_720,q_auto:good/v1756714528/el_colectivo_h0vlp5.mp4',
+    publicationDate: 'Video Podcast',
+    sources: 'El Nexo Digital'
+  },
+  {
+    id: 'vp11_lib',
+    category: 'Podcasts',
+    title: 'Efecto Halo: El Poder de la Impresión',
+    author: 'El Nexo Digital',
+    imageUrl: 'https://res.cloudinary.com/ddmj6zevz/image/upload/v1756714882/logo_el_nexo_digital_assa82.png',
+    review: 'Exploración del sesgo cognitivo que distorsiona nuestra percepción de los demás.',
+    videoUrl: 'https://res.cloudinary.com/ddmj6zevz/video/upload/w_720,q_auto:good/v1757025613/Efecto_Halo_El_Poder_de_la_Primera_Impresi%C3%B3n_s883t0.mp4',
+    publicationDate: 'Video Podcast',
+    sources: 'El Nexo Digital'
+  },
+  {
+    id: 'vp13_lib',
+    category: 'Podcasts',
+    title: 'Elemento FUEGO: Poder y Destrucción',
+    author: 'El Nexo Digital',
+    imageUrl: 'https://res.cloudinary.com/ddmj6zevz/image/upload/v1756714882/logo_el_nexo_digital_assa82.png',
+    review: 'Poderosa alegoría sobre la relación de la humanidad con el fuego.',
+    videoUrl: 'https://res.cloudinary.com/ddmj6zevz/video/upload/w_720,q_auto:good/v1757025878/elemento_fuego_bzneem.mp4',
+    publicationDate: 'Video Podcast',
+    sources: 'El Nexo Digital'
+  },
+  {
+    id: 'vp16_lib',
+    category: 'Podcasts',
+    title: 'Epistemología: Creencia y Conocimiento',
+    author: 'El Nexo Digital',
+    imageUrl: 'https://res.cloudinary.com/ddmj6zevz/image/upload/v1756714882/logo_el_nexo_digital_assa82.png',
+    review: 'Profunda reflexión que explora la compleja relación entre creencia y realidad.',
+    videoUrl: 'https://res.cloudinary.com/ddmj6zevz/video/upload/w_720,q_auto:good/v1757027951/epistemolog%C3%ADa_dxnca5.mp4',
+    publicationDate: 'Video Podcast',
+    sources: 'El Nexo Digital'
+  },
+  {
+    id: 'vp17_lib',
+    category: 'Podcasts',
+    title: 'La Paradoja del Libre Albedrío',
+    author: 'El Nexo Digital',
+    imageUrl: 'https://res.cloudinary.com/ddmj6zevz/image/upload/v1756714882/logo_el_nexo_digital_assa82.png',
+    review: 'Cuestionamos hasta qué punto nuestras decisiones son verdaderamente nuestras.',
+    videoUrl: 'https://res.cloudinary.com/ddmj6zevz/video/upload/w_720,q_auto:good/v1757028671/Libre_albedr%C3%ADo_evpvhp.mp4',
+    publicationDate: 'Video Podcast',
+    sources: 'El Nexo Digital'
+  },
+  {
+    id: 'vp_hesse_jung',
+    category: 'Podcasts',
+    title: 'Hesse y Jung: La Búsqueda de Unidad',
+    author: 'El Nexo Digital',
+    imageUrl: 'https://res.cloudinary.com/dnauavz56/image/upload/v1763348252/juego_de_abalorios_rmbqpw.webp',
+    review: 'Un diálogo profundo sobre la relación entre la obra de Hermann Hesse y la psicología analítica de Carl Jung.',
+    videoUrl: 'https://res.cloudinary.com/dnauavz56/video/upload/v1772890624/Hesse_Jung_La_B%C3%BAsqueda_De_Unidad_wkyh4j.mp4',
+    publicationDate: 'Video Podcast',
+    sources: 'El Nexo Digital'
+  },
+
   // --- POSTALES (Regalos) ---
   {
     id: 'postal_bastion',
@@ -72,49 +172,31 @@ const STATIC_LIBRARY_CONTENT: LibraryItem[] = [
     publicationDate: 'Postal Coleccionable',
     sources: 'Producción Original El Nexo Digital.'
   },
-  // --- LIBROS ---
+
+  // --- LIBROS / RECOMENDACIÓN DEL MES ---
   {
     id: 'libro1',
     category: 'Libros',
-    title: 'Cien Años de Soledad',
+    title: 'El Juego de los Abalorios',
+    author: 'Hermann Hesse',
+    imageUrl: 'https://res.cloudinary.com/dnauavz56/image/upload/v1763348252/juego_de_abalorios_rmbqpw.webp',
+    review: 'La obra cumbre de Hermann Hesse. Un análisis sobre la síntesis del conocimiento, la crisis del arte y la búsqueda de la unidad trascendental a través del espíritu y el intelecto.',
+    videoUrl: 'https://res.cloudinary.com/dnauavz56/video/upload/v1772890627/Hermann_Hesse__El_Arte_de_la_Crisis_xfvlgw.mp4',
+    pdfUrl: 'https://res.cloudinary.com/dnauavz56/image/upload/v1772890894/resumen_el_juego_de_abalorios_tz8ijd.pdf',
+    publicationDate: 'Marzo, 2025',
+    sources: 'Análisis profundo de El Nexo Digital.'
+  },
+  {
+    id: 'doc_cien_anos',
+    category: 'Revistas',
+    title: 'Cien Años de Soledad (Archivo)',
     author: 'Gabriel García Márquez',
-    imageUrl: 'https://res.cloudinary.com/dnauavz56/image/upload/v1763682991/100a%C3%B1os_de_soledad_tapa_obdv4y.jpg',
-    review: 'La urdimbre de Macondo: Realismo Mágico, Soledad y Violencia.',
+    imageUrl: 'https://res.cloudinary.com/dnauavz56/image/upload/v1772891439/100_de_solewdad_mc91i5.webp',
+    review: 'La urdimbre de Macondo: Realismo Mágico, Soledad y Violencia. Este análisis exhaustivo explora las capas de la obra maestra de García Márquez.',
     audioUrl: 'https://res.cloudinary.com/dsammmekc/video/upload/v1762292455/Cien_A%C3%B1os_de_Soledad__El_Realismo_M%C3%A1gico__la_Censura_y_el_Final_fuk0lv.mp4',
     videoUrl: 'https://res.cloudinary.com/dsammmekc/video/upload/v1762291490/Cien_a%C3%B1os_de_controversia_ubapnm.mp4',
+    pdfUrl: 'https://res.cloudinary.com/dnauavz56/image/upload/v1772891035/La_urdimbre_de_Macondo__Realismo_M%C3%A1gico_Soledad_y_Violencia_en_la_obra_de_Gabriel_Garc%C3%ADa_M%C3%A1rquez_i2pfte.pdf',
     publicationDate: 'Octubre, 2024',
     sources: 'Análisis generado con NotebookLM.'
   }
-];
-
-// Map Video Podcasts to Library Items
-const VIDEO_LIBRARY_ITEMS: LibraryItem[] = VIDEO_PODCASTS.map(podcast => ({
-  id: `lib_${podcast.id}`,
-  category: 'Podcasts',
-  title: podcast.title,
-  author: 'El Nexo Digital',
-  imageUrl: 'https://res.cloudinary.com/ddmj6zevz/image/upload/v1756714882/logo_el_nexo_digital_assa82.png', // Default or specific
-  review: podcast.transcript.substring(0, 150) + '...',
-  videoUrl: podcast.videoUrl,
-  publicationDate: 'Video Podcast',
-  sources: 'El Nexo Digital Original'
-}));
-
-// Map MP3 Podcasts to Library Items
-const AUDIO_LIBRARY_ITEMS: LibraryItem[] = PODCASTS_MP3.map(podcast => ({
-  id: `lib_${podcast.id}`,
-  category: 'Podcasts',
-  title: podcast.title,
-  author: podcast.artist,
-  imageUrl: podcast.coverUrl || 'https://res.cloudinary.com/ddmj6zevz/image/upload/v1756714882/logo_el_nexo_digital_assa82.png',
-  review: podcast.description,
-  audioUrl: podcast.audioUrl,
-  publicationDate: 'Audio Podcast',
-  sources: 'El Nexo Digital Original'
-}));
-
-export const LIBRARY_CONTENT: LibraryItem[] = [
-  ...STATIC_LIBRARY_CONTENT,
-  ...VIDEO_LIBRARY_ITEMS,
-  ...AUDIO_LIBRARY_ITEMS
 ];

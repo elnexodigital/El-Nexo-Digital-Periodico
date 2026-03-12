@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion } from 'motion/react';
 import type { OddPage } from '../types.ts';
 
 type ArticleForIndex = OddPage & {
@@ -13,35 +14,63 @@ interface IndexPageProps {
 
 const IndexPage: React.FC<IndexPageProps> = ({ articles, onNavigate }) => {
   return (
-    <div className="w-full h-full bg-[#fdfaf4] p-6 md:p-10 flex flex-col font-typewriter overflow-y-auto">
-      <h2 className="text-4xl md:text-5xl font-bold mb-6 pb-4 border-b-2 border-stone-300" style={{ fontFamily: "'Playfair Display', serif" }}>
-        Índice
-      </h2>
-      <ul className="space-y-4">
-        {articles.map((article) => {
+    <div className="w-full h-full bg-zen-light p-8 md:p-16 flex flex-col overflow-y-auto">
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="mb-12 border-b-4 border-zen-charcoal pb-6"
+      >
+        <h2 className="text-6xl md:text-8xl font-serif font-black tracking-tighter text-zen-charcoal">
+          Índice
+        </h2>
+        <p className="font-display text-xs uppercase tracking-[0.4em] mt-4 opacity-50">Contenido de la Edición Actual</p>
+      </motion.div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8">
+        {articles.map((article, index) => {
           // Mobile: Cover=0, Index=1, pages start at 2.
           const mobilePageIndex = article.originalIndex + 2;
           // Desktop: Pairs. Paper 0 is Cover/Index. Paper 1 is Page 1/2.
           const desktopPaperIndex = Math.floor((article.originalIndex + 2) / 2);
 
           return (
-            <li key={article.id}>
+            <motion.div 
+              key={article.id}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 * index }}
+            >
               <button
                 onClick={() => onNavigate(mobilePageIndex, desktopPaperIndex)}
-                className="text-left w-full hover:bg-stone-200/50 p-2 rounded transition-colors focus:outline-none focus:ring-2 focus:ring-stone-400"
+                className="text-left w-full group focus:outline-none"
               >
-                <h3 className="text-lg md:text-xl font-bold text-stone-800 leading-tight">{article.headline}</h3>
+                <div className="flex justify-between items-baseline border-b border-zen-charcoal/10 group-hover:border-[#800020] transition-colors pb-2">
+                  <h3 className="text-xl md:text-2xl font-serif font-bold text-zen-charcoal group-hover:text-[#800020] transition-colors leading-tight">
+                    {article.headline}
+                  </h3>
+                  <span className="font-display text-sm font-bold opacity-30 group-hover:opacity-100 transition-opacity">
+                    {article.pageNumber}
+                  </span>
+                </div>
                 {article.subtitle && (
-                  <p className="text-sm text-stone-600 italic mt-1">{article.subtitle}</p>
+                  <p className="text-sm text-zen-charcoal/60 italic font-serif mt-2 line-clamp-2">
+                    {article.subtitle}
+                  </p>
                 )}
-                <span className="text-xs text-stone-500 font-bold uppercase mt-2 block">
-                  Página {article.pageNumber}
-                </span>
+                <div className="flex items-center gap-2 mt-3">
+                  <span className="text-[10px] font-bold uppercase tracking-widest px-2 py-0.5 bg-zen-charcoal/5 rounded">
+                    {article.category}
+                  </span>
+                </div>
               </button>
-            </li>
+            </motion.div>
           );
         })}
-      </ul>
+      </div>
+
+      <div className="mt-auto pt-12 text-center opacity-20">
+        <span className="font-script text-3xl">El Nexo Digital</span>
+      </div>
     </div>
   );
 };

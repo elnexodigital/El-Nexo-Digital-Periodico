@@ -1,11 +1,9 @@
 
-import React, { useState, useEffect, lazy, Suspense } from 'react';
-import type { VideoPodcast } from './types.ts';
+import React, { useState, useEffect, lazy, Suspense, useRef } from 'react';
+import type { VideoPodcast, HeaderControls } from './types.ts';
 import Header from './components/Header.tsx';
 import LoadingSpinner from './components/LoadingSpinner.tsx';
 import Library from './components/Library.tsx';
-import FloatingParticles from './components/FloatingParticles.tsx';
-import IndustrialPlayer from './components/IndustrialPlayer.tsx';
 
 
 // --- COMPONENTES CON LAZY LOADING ---
@@ -20,6 +18,7 @@ const App: React.FC = () => {
   const [currentView, setCurrentView] = useState<View>('magazine');
   const [dailyPodcast, setDailyPodcast] = useState<VideoPodcast | null>(null);
   const [isPodcastModalOpen, setIsPodcastModalOpen] = useState(false);
+  const headerRef = useRef<HeaderControls>(null);
 
   // Carga del podcast del día
   useEffect(() => {
@@ -38,6 +37,9 @@ const App: React.FC = () => {
   }, []);
 
   const openPodcastModal = () => {
+    if (headerRef.current?.getIsPlayingState()) {
+      headerRef.current.pauseRadio();
+    }
     setIsPodcastModalOpen(true);
   };
 
@@ -57,8 +59,8 @@ const App: React.FC = () => {
 
   return (
     <div className={`min-h-screen relative overflow-hidden flex flex-col weathered-panel transition-colors duration-200 ${getViewBackground()}`}>
-      <FloatingParticles />
       <Header
+        ref={headerRef}
         currentView={currentView}
         onNavigate={(view) => {
           setCurrentView(view);
@@ -71,8 +73,6 @@ const App: React.FC = () => {
         <Suspense fallback={<LoadingSpinner />}>
           {currentView === 'magazine' && (
             <div className="flex flex-col gap-2">
-              <IndustrialPlayer />
-
               <Magazine />
             </div>
 
