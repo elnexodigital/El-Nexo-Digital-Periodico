@@ -21,6 +21,7 @@ interface RadioData {
   MUSIC_TRACKS: MusicTrack[];
   PODCASTS_MP3: PodcastMP3[];
   COMMERCIAL_JINGLES: string[];
+  LEO_MUSIC_INTRO_URL: string;
   TIME_JINGLES: {
     morning: string[];
     afternoon: string[];
@@ -94,6 +95,7 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({
   const [currentDate, setCurrentDate] = useState('');
   const [isPlaying, setIsPlaying] = useState(false);
   const [isGreetingPlaying, setIsGreetingPlaying] = useState(false);
+  const [isIntroPlaying, setIsIntroPlaying] = useState(false);
   const [videoQueue, setVideoQueue] = useState(() => shuffleArray(VIDEO_URLS));
   const [musicQueue, setMusicQueue] = useState<MusicTrack[]>([]);
   const [hasGreetingPlayed, setHasGreetingPlayed] = useState(false);
@@ -110,7 +112,9 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({
   const podcastMP3AudioRef = useRef<HTMLAudioElement | null>(null);
   const commercialJingleAudioRef = useRef<HTMLAudioElement | null>(null);
   const timeJingleAudioRef = useRef<HTMLAudioElement | null>(null);
+  const introAudioRef = useRef<HTMLAudioElement | null>(null);
   const musicVolumeRef = useRef(1.0);
+  const playedIntroForTrackIdRef = useRef<string | null>(null);
 
   const recentTracksRef = useRef<string[]>([]);
   const recentVideosRef = useRef<string[]>([]);
@@ -160,6 +164,7 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({
           MUSIC_TRACKS: musicModule.MUSIC_TRACKS,
           PODCASTS_MP3: podcastsMp3Module.PODCASTS_MP3,
           COMMERCIAL_JINGLES: jinglesModule.COMMERCIAL_JINGLES,
+          LEO_MUSIC_INTRO_URL: musicModule.LEO_MUSIC_INTRO_URL,
           TIME_JINGLES: timeJinglesModule.TIME_JINGLES,
         };
         setRadioData(loadedRadioData);
@@ -224,7 +229,36 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({
     };
     audio.addEventListener('error', handleMediaError);
 
-    const shouldPlayMusic = isPlaying && !isGreetingPlaying && musicQueue.length > 0 && !activeBroadcast && !activePodcastMP3;
+    const currentTrack = musicQueue[0];
+    const isLeoTrack = currentTrack?.id.startsWith('leo_');
+    const introUrl = radioData?.LEO_MUSIC_INTRO_URL;
+
+    // Lógica para pasar la presentación antes de un tema propio (Leo Castrillo)
+    if (isPlaying && !isGreetingPlaying && !isIntroPlaying && isLeoTrack && introUrl && playedIntroForTrackIdRef.current !== currentTrack.id && !activeBroadcast && !activePodcastMP3) {
+      setIsIntroPlaying(true);
+      const introAudio = new Audio(introUrl);
+      introAudioRef.current = introAudio;
+      introAudio.volume = musicVolumeRef.current;
+      
+      const handleIntroEnd = () => {
+        setIsIntroPlaying(false);
+        playedIntroForTrackIdRef.current = currentTrack.id;
+        introAudio.removeEventListener('ended', handleIntroEnd);
+        introAudio.removeEventListener('error', handleIntroEnd);
+        introAudioRef.current = null;
+      };
+
+      introAudio.addEventListener('ended', handleIntroEnd);
+      introAudio.addEventListener('error', handleIntroEnd);
+      
+      introAudio.play().catch(err => {
+        console.error("Error playing Leo intro:", err);
+        handleIntroEnd();
+      });
+      return;
+    }
+
+    const shouldPlayMusic = isPlaying && !isGreetingPlaying && !isIntroPlaying && musicQueue.length > 0 && !activeBroadcast && !activePodcastMP3;
 
     if (shouldPlayMusic) {
       const newSrc = musicQueue[0].url;
@@ -381,6 +415,7 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({
     if (newsAudioRef.current) newsAudioRef.current.pause();
     if (commercialJingleAudioRef.current) commercialJingleAudioRef.current.pause();
     if (timeJingleAudioRef.current) timeJingleAudioRef.current.pause();
+    if (introAudioRef.current) introAudioRef.current.pause();
   };
   
   const togglePlayPause = () => {

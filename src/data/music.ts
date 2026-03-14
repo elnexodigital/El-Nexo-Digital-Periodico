@@ -1,10 +1,12 @@
 import type { MusicTrack } from '../types.ts';
 import { MUSIC_LIST_1 } from './musicList1.ts';
 import { MUSIC_LIST_2 } from './musicList2.ts';
-import { LEO_CASTRILLO_TRACKS } from './leoCastrillo.ts';
+import { LEO_CASTRILLO_TRACKS, LEO_MUSIC_INTRO_URL } from './leoCastrillo.ts';
 import { PODCASTS_MP3 } from './podcastsMP3.ts';
 import { COMMERCIAL_JINGLES } from './jingles.ts';
 import { SEPARATOR_AUDIOS } from './separators.ts';
+
+export { LEO_MUSIC_INTRO_URL };
 
 // Listas puras para el Director de Radio
 const ALL_LEO = LEO_CASTRILLO_TRACKS;
