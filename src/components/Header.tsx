@@ -236,6 +236,13 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({
     // Lógica para pasar la presentación antes de un tema propio (Leo Castrillo)
     if (isPlaying && !isGreetingPlaying && !isIntroPlaying && isLeoTrack && introUrls && introUrls.length > 0 && playedIntroForTrackIdRef.current !== currentTrack.id && !activeBroadcast && !activePodcastMP3) {
       setIsIntroPlaying(true);
+      
+      // Pre-cargar el tema musical mientras suena la intro
+      if (audio.src !== currentTrack.url) {
+        audio.src = currentTrack.url;
+        audio.load();
+      }
+
       const randomIntro = introUrls[Math.floor(Math.random() * introUrls.length)];
       const introAudio = new Audio(randomIntro);
       introAudioRef.current = introAudio;
@@ -283,7 +290,7 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({
         playAudio();
       }
     } else {
-      if (!audio.paused) {
+      if (!audio.paused && !isIntroPlaying) { // No pausar si estamos en medio de una transición de intro
         audio.pause();
       }
     }
@@ -291,7 +298,7 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({
     return () => {
       audio.removeEventListener('error', handleMediaError);
     };
-  }, [musicQueue, isPlaying, isGreetingPlaying, activeBroadcast, activePodcastMP3, playNextMusicTrack]);
+  }, [musicQueue, isPlaying, isGreetingPlaying, isIntroPlaying, activeBroadcast, activePodcastMP3, playNextMusicTrack]);
 
   const playBroadcast = useCallback((broadcast: NewsBroadcast, hour: number) => {
     const musicAudio = audioRef.current;
