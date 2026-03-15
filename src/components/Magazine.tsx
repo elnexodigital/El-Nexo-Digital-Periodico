@@ -30,7 +30,8 @@ const EDITIONS: MagazineEdition[] = [
     date: "Febrero 2026",
     url: "https://heyzine.com/flip-book/a5b1698e99.html",
     description: "SEQUÍA \"cuando el mito del Uruguay natural se cae a pedazos\"",
-    pdfUrl: "#"
+    pdfUrl: "#",
+    coverUrl: "https://res.cloudinary.com/dus9zcgen/image/upload/v1773593761/sequ%C3%ADa_tapa_dfcc2k.png"
   }
 ];
 

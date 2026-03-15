@@ -5,14 +5,11 @@ import Header from './components/Header.tsx';
 import LoadingSpinner from './components/LoadingSpinner.tsx';
 import Library from './components/Library.tsx';
 
-
 // --- COMPONENTES CON LAZY LOADING ---
 const PodcastModal = lazy(() => import('./components/PodcastModal.tsx'));
 const Magazine = lazy(() => import('./components/Magazine.tsx'));
-const Interviews = lazy(() => import('./components/Interviews.tsx'));
-const Ateneo = lazy(() => import('./components/Ateneo.tsx'));
 
-type View = 'magazine' | 'library' | 'interviews' | 'ateneo';
+type View = 'magazine' | 'library';
 
 const App: React.FC = () => {
   const [currentView, setCurrentView] = useState<View>('magazine');
@@ -20,14 +17,16 @@ const App: React.FC = () => {
   const [isPodcastModalOpen, setIsPodcastModalOpen] = useState(false);
   const headerRef = useRef<HeaderControls>(null);
 
-  // Carga del podcast del día
+  // Carga del podcast del día (cambia cada día basado en la fecha)
   useEffect(() => {
     const loadLocalData = async () => {
       try {
         const { VIDEO_PODCASTS } = await import('./data/podcasts.ts');
         if (VIDEO_PODCASTS && VIDEO_PODCASTS.length > 0) {
-          const randomIndex = Math.floor(Math.random() * VIDEO_PODCASTS.length);
-          setDailyPodcast(VIDEO_PODCASTS[randomIndex]);
+          const today = new Date();
+          const dayOfYear = Math.floor((today.getTime() - new Date(today.getFullYear(), 0, 0).getTime()) / 86400000);
+          const index = dayOfYear % VIDEO_PODCASTS.length;
+          setDailyPodcast(VIDEO_PODCASTS[index]);
         }
       } catch (e) {
         console.error("Error loading daily podcast:", e);
@@ -51,8 +50,6 @@ const App: React.FC = () => {
     switch (currentView) {
       case 'magazine': return 'bg-command-center';
       case 'library': return 'bg-archive';
-      case 'interviews': return 'bg-archive'; // Separate interviews later if needed
-      case 'ateneo': return 'bg-ateneo';
       default: return 'bg-industrial-base';
     }
   };
@@ -63,7 +60,7 @@ const App: React.FC = () => {
         ref={headerRef}
         currentView={currentView}
         onNavigate={(view) => {
-          setCurrentView(view);
+          setCurrentView(view as View);
         }}
         onOpenPodcast={openPodcastModal}
         hasPodcast={!!dailyPodcast}
@@ -75,13 +72,10 @@ const App: React.FC = () => {
             <div className="flex flex-col gap-2">
               <Magazine />
             </div>
-
           )}
           {currentView === 'library' && (
             <Library onBackToMagazine={() => setCurrentView('magazine')} />
           )}
-          {currentView === 'interviews' && <Interviews />}
-          {currentView === 'ateneo' && <Ateneo />}
         </Suspense>
       </main>
 
@@ -94,6 +88,15 @@ const App: React.FC = () => {
           />
         </Suspense>
       )}
+
+      <footer className="mt-auto py-6 text-center border-t border-stone-200/30">
+        <a 
+          href="mailto:leocastrillo@elnexodigital.com"
+          className="text-[10px] font-mono uppercase tracking-[0.2em] text-stone-500 hover:text-[#800020] transition-colors duration-500"
+        >
+          leocastrillo@elnexodigital.com
+        </a>
+      </footer>
     </div>
   );
 };

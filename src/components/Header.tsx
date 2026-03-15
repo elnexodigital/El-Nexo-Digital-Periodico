@@ -1,11 +1,11 @@
 import { useState, useEffect, useRef, useCallback, forwardRef, useImperativeHandle } from 'react';
 import ListenerCounter from './ListenerCounter.tsx';
-import { Library as LibraryIcon, Home, Mic, Play, Pause, SkipForward } from 'lucide-react';
+import { Library as LibraryIcon, Home, Play, Pause, SkipForward } from 'lucide-react';
 import type { MusicTrack, HeaderControls, NewsBroadcast, PodcastMP3 } from '../types.ts';
 
 interface HeaderProps {
-  currentView: 'magazine' | 'library' | 'interviews' | 'ateneo';
-  onNavigate: (view: 'magazine' | 'library' | 'interviews' | 'ateneo') => void;
+  currentView: 'magazine' | 'library';
+  onNavigate: (view: 'magazine' | 'library') => void;
   onOpenPodcast?: () => void;
   hasPodcast?: boolean;
 }
@@ -21,7 +21,7 @@ interface RadioData {
   MUSIC_TRACKS: MusicTrack[];
   PODCASTS_MP3: PodcastMP3[];
   COMMERCIAL_JINGLES: string[];
-  LEO_MUSIC_INTRO_URL: string;
+  LEO_MUSIC_INTRO_URLS: string[];
   TIME_JINGLES: {
     morning: string[];
     afternoon: string[];
@@ -77,7 +77,7 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({
 }, ref) => {
 
   const NavItem = ({ view, label, icon: Icon, onClick, active }: { view?: any, label: string, icon: any, onClick?: () => void, active?: boolean }) => (
-    <div className="flex flex-col items-center gap-1 sm:gap-2 px-2 sm:px-6 group">
+    <div className="flex flex-col items-center gap-1 sm:gap-2 px-2 sm:px-6 group relative">
       <button
         onClick={onClick || (() => onNavigate(view))}
         title={label}
@@ -164,7 +164,7 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({
           MUSIC_TRACKS: musicModule.MUSIC_TRACKS,
           PODCASTS_MP3: podcastsMp3Module.PODCASTS_MP3,
           COMMERCIAL_JINGLES: jinglesModule.COMMERCIAL_JINGLES,
-          LEO_MUSIC_INTRO_URL: musicModule.LEO_MUSIC_INTRO_URL,
+          LEO_MUSIC_INTRO_URLS: musicModule.LEO_MUSIC_INTRO_URLS,
           TIME_JINGLES: timeJinglesModule.TIME_JINGLES,
         };
         setRadioData(loadedRadioData);
@@ -231,12 +231,13 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({
 
     const currentTrack = musicQueue[0];
     const isLeoTrack = currentTrack?.id.startsWith('leo_');
-    const introUrl = radioData?.LEO_MUSIC_INTRO_URL;
+    const introUrls = radioData?.LEO_MUSIC_INTRO_URLS;
 
     // Lógica para pasar la presentación antes de un tema propio (Leo Castrillo)
-    if (isPlaying && !isGreetingPlaying && !isIntroPlaying && isLeoTrack && introUrl && playedIntroForTrackIdRef.current !== currentTrack.id && !activeBroadcast && !activePodcastMP3) {
+    if (isPlaying && !isGreetingPlaying && !isIntroPlaying && isLeoTrack && introUrls && introUrls.length > 0 && playedIntroForTrackIdRef.current !== currentTrack.id && !activeBroadcast && !activePodcastMP3) {
       setIsIntroPlaying(true);
-      const introAudio = new Audio(introUrl);
+      const randomIntro = introUrls[Math.floor(Math.random() * introUrls.length)];
+      const introAudio = new Audio(randomIntro);
       introAudioRef.current = introAudio;
       introAudio.volume = musicVolumeRef.current;
       
@@ -547,13 +548,12 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({
         {/* Moss Green Divider Line */}
         <div className="w-full h-[1px] bg-[#7A907E] opacity-50 mb-10" />
 
-        {/* Minimal Nav - 2x2 Grid */}
-        <nav className="grid grid-cols-2 gap-4 sm:gap-8 p-4 w-full max-w-2xl justify-center mx-auto">
+        {/* Minimal Nav - Responsive Grid */}
+        <nav className="flex flex-wrap justify-center gap-4 sm:gap-8 p-4 w-full max-w-4xl mx-auto">
           <NavItem view="magazine" label="Explorar" icon={Home} />
-          <NavItem view="interviews" label="Entrevistas" icon={Mic} />
-          <NavItem view="library" label="Archivos" icon={LibraryIcon} />
+          <NavItem view="library" label="Biblioteca" icon={LibraryIcon} />
           {hasPodcast && onOpenPodcast && (
-            <NavItem label="Podcast" icon={() => <span className="text-lg">🎙️</span>} onClick={onOpenPodcast} />
+            <NavItem label="Video Podcast" icon={() => <span className="text-lg">🎙️</span>} onClick={onOpenPodcast} />
           )}
         </nav>
       </div>

@@ -1,6 +1,9 @@
 import type { MusicTrack } from '../types.ts';
 
-export const LEO_MUSIC_INTRO_URL = 'https://res.cloudinary.com/dgb6icyzx/video/upload/v1773519293/presentaci%C3%B3n_mimusica_ifatik.mp3';
+export const LEO_MUSIC_INTRO_URLS = [
+  'https://res.cloudinary.com/dgb6icyzx/video/upload/v1773519293/presentaci%C3%B3n_mimusica_ifatik.mp3',
+  'https://res.cloudinary.com/dgb6icyzx/video/upload/v1773519700/presentaci%C3%B3n2_kfxoer.mp3'
+];
 
 export const LEO_CASTRILLO_TRACKS: MusicTrack[] = [
   { id: 'leo_1', url: 'https://res.cloudinary.com/dgb6icyzx/video/upload/v1772990254/Walking_through_uncertain_paths_4_dfbyaj.mp3', description: 'Leo Castrillo – Senderos inciertos: una caminata sonora entre la duda y el hallazgo.' },
