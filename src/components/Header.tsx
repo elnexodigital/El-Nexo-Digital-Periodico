@@ -104,6 +104,7 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({
   const [activePodcastMP3, setActivePodcastMP3] = useState<PodcastMP3 | null>(null);
   const [radioData, setRadioData] = useState<RadioData | null>(null);
   const [isRadioLoading, setIsRadioLoading] = useState(true);
+  const [blacklistedTracks, setBlacklistedTracks] = useState<Set<string>>(new Set());
 
   const audioRef = useRef<HTMLAudioElement>(null);
   const greetingAudioRef = useRef<HTMLAudioElement | null>(null);
@@ -166,9 +167,19 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({
           COMMERCIAL_JINGLES: jinglesModule.COMMERCIAL_JINGLES,
           LEO_MUSIC_INTRO_URLS: musicModule.LEO_MUSIC_INTRO_URLS,
           TIME_JINGLES: timeJinglesModule.TIME_JINGLES,
+          // Listas separadas para el programador
+          ONLY_MUSIC: musicModule.ONLY_MUSIC,
+          ONLY_LEO: musicModule.ONLY_MUSIC.filter((t: any) => t.id.startsWith('leo_')),
+          ONLY_GENERAL: musicModule.ONLY_MUSIC.filter((t: any) => !t.id.startsWith('leo_')),
+          ONLY_PODCASTS: musicModule.ONLY_PODCASTS,
+          ONLY_JINGLES: musicModule.ONLY_JINGLES,
+          ONLY_SEPARATORS: musicModule.ONLY_SEPARATORS,
         };
         setRadioData(loadedRadioData);
-        setMusicQueue(shuffleArray(loadedRadioData.MUSIC_TRACKS));
+        
+        // Generar la cola balanceada inicial
+        const balancedQueue = generateBalancedQueue(loadedRadioData);
+        setMusicQueue(balancedQueue);
       } catch (error) {
         console.error("Failed to load radio data:", error);
       } finally {
@@ -177,6 +188,52 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({
     };
     loadRadioData();
   }, []);
+
+  // Función para generar una cola de reproducción balanceada (Reloj de Radio)
+  const generateBalancedQueue = (data: any) => {
+    const queue: MusicTrack[] = [];
+    const generalMusic = shuffleArray([...data.ONLY_GENERAL]);
+    const leoMusic = shuffleArray([...data.ONLY_LEO]);
+    const podcasts = shuffleArray([...data.ONLY_PODCASTS]);
+    const jingles = shuffleArray([...data.ONLY_JINGLES]);
+    const separators = shuffleArray([...data.ONLY_SEPARATORS]);
+    const allGreetingUrls = [
+      ...(data.GREETING_AUDIOS.morning || []),
+      ...(data.GREETING_AUDIOS.afternoon || []),
+      ...(data.GREETING_AUDIOS.night || [])
+    ];
+
+    const greetings = shuffleArray([...allGreetingUrls.map((url: string, i: number) => ({
+      id: `greeting_${i}`,
+      url,
+      description: 'SALUDO - El Nexo Digital'
+    }))]);
+
+    // Índices para llevar cuenta de lo usado
+    let gIdx = 0, lIdx = 0, pIdx = 0, jIdx = 0, sIdx = 0, grIdx = 0;
+
+    // Generamos bloques de programación (aprox 100 items para tener una cola larga)
+    for (let i = 0; i < 20; i++) {
+      // 1. Música General
+      if (generalMusic.length > 0) queue.push(generalMusic[gIdx++ % generalMusic.length]);
+      // 2. Música General
+      if (generalMusic.length > 0) queue.push(generalMusic[gIdx++ % generalMusic.length]);
+      // 3. Separador/Cortina
+      if (separators.length > 0) queue.push(separators[sIdx++ % separators.length]);
+      // 4. Música de Leo
+      if (leoMusic.length > 0) queue.push(leoMusic[lIdx++ % leoMusic.length]);
+      // 5. Tanda Publicitaria / Jingle
+      if (jingles.length > 0) queue.push(jingles[jIdx++ % jingles.length]);
+      // 6. Música General
+      if (generalMusic.length > 0) queue.push(generalMusic[gIdx++ % generalMusic.length]);
+      // 7. Podcast MP3
+      if (podcasts.length > 0) queue.push(podcasts[pIdx++ % podcasts.length]);
+      // 8. Saludo (opcional cada bloque)
+      if (greetings.length > 0 && i % 2 === 0) queue.push(greetings[grIdx++ % greetings.length]);
+    }
+
+    return queue;
+  };
 
   const selectNextVideo = useCallback(() => {
     setVideoQueue(prevQueue => {
@@ -213,9 +270,9 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({
             recentTracksRef.current = newHistory;
         }
         if (rest.length === 0) {
-            return radioData ? shuffleArray(radioData.MUSIC_TRACKS) : [];
+            return radioData ? generateBalancedQueue(radioData) : [];
         }
-        return [...rest, first];
+        return rest;
     });
   }, [radioData]);
 
@@ -224,79 +281,92 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({
     if (!audio) return;
 
     const handleMediaError = (event: Event) => {
-        console.error(`Audio element error for src: ${audio.src}. Skipping track.`, event);
+        const failedSrc = audio.src;
+        console.warn(`Audio error for: ${failedSrc}. Adding to blacklist and skipping...`);
+        
+        // Añadir a la lista negra para no intentar reproducirla de nuevo en esta sesión
+        const trackId = musicQueue[0]?.id;
+        if (trackId) {
+          setBlacklistedTracks(prev => new Set(prev).add(trackId));
+        }
+        
         playNextMusicTrack();
     };
+
+    // Timeout para saltar pistas que se quedan "colgadas" cargando
+    const handleStalled = () => {
+        console.warn(`Audio stalled for: ${audio.src}. Skipping...`);
+        playNextMusicTrack();
+    };
+
     audio.addEventListener('error', handleMediaError);
+    audio.addEventListener('stalled', handleStalled);
 
     const currentTrack = musicQueue[0];
-    const isLeoTrack = currentTrack?.id.startsWith('leo_');
-    const introUrls = radioData?.LEO_MUSIC_INTRO_URLS;
-
-    // Lógica para pasar la presentación antes de un tema propio (Leo Castrillo)
-    if (isPlaying && !isGreetingPlaying && !isIntroPlaying && isLeoTrack && introUrls && introUrls.length > 0 && playedIntroForTrackIdRef.current !== currentTrack.id && !activeBroadcast && !activePodcastMP3) {
-      setIsIntroPlaying(true);
-      
-      // Pre-cargar el tema musical mientras suena la intro
-      if (audio.src !== currentTrack.url) {
-        audio.src = currentTrack.url;
-        audio.load();
-      }
-
-      const randomIntro = introUrls[Math.floor(Math.random() * introUrls.length)];
-      const introAudio = new Audio(randomIntro);
-      introAudioRef.current = introAudio;
-      introAudio.volume = musicVolumeRef.current;
-      
-      const handleIntroEnd = () => {
-        setIsIntroPlaying(false);
-        playedIntroForTrackIdRef.current = currentTrack.id;
-        introAudio.removeEventListener('ended', handleIntroEnd);
-        introAudio.removeEventListener('error', handleIntroEnd);
-        introAudioRef.current = null;
-      };
-
-      introAudio.addEventListener('ended', handleIntroEnd);
-      introAudio.addEventListener('error', handleIntroEnd);
-      
-      introAudio.play().catch(err => {
-        console.error("Error playing Leo intro:", err);
-        handleIntroEnd();
-      });
+    
+    // Si la pista actual está en la lista negra, saltarla inmediatamente
+    if (currentTrack && blacklistedTracks.has(currentTrack.id)) {
+      playNextMusicTrack();
       return;
     }
 
     const shouldPlayMusic = isPlaying && !isGreetingPlaying && !isIntroPlaying && musicQueue.length > 0 && !activeBroadcast && !activePodcastMP3;
 
     if (shouldPlayMusic) {
-      const newSrc = musicQueue[0].url;
+      const track = musicQueue[0];
+      let rawUrl = track.url;
+      
+      if (rawUrl.includes('cloudinary.com') && rawUrl.includes('q_auto:good')) {
+        rawUrl = rawUrl.replace('q_auto:good/', '');
+      }
+
+      const newSrc = encodeURI(rawUrl);
+
       const playAudio = () => {
         const playPromise = audio.play();
         if (playPromise !== undefined) {
           playPromise.catch(error => {
             if (error.name !== 'AbortError') {
-              console.error(`Error playing music promise for ${audio.src}:`, error);
+              console.warn(`Playback failed for ${audio.src}, skipping...`);
+              setBlacklistedTracks(prev => new Set(prev).add(track.id));
               playNextMusicTrack();
             }
           });
         }
       };
 
-      if (audio.src !== newSrc) {
-        audio.src = newSrc;
-        audio.load();
-        playAudio();
-      } else if (audio.paused) {
-        playAudio();
-      }
+      // Verificación preventiva: Si la pista falla, la saltamos antes de cargarla
+      const verifyAndPlay = async () => {
+        if (audio.src !== newSrc) {
+          try {
+            // Intentamos una petición HEAD rápida para ver si el archivo existe
+            const response = await fetch(newSrc, { method: 'HEAD', mode: 'no-cors' });
+            // Nota: Con no-cors no podemos ver el status real, pero si falla el fetch 
+            // es que hay un problema serio de red o DNS.
+            
+            audio.src = newSrc;
+            audio.load();
+            playAudio();
+          } catch (e) {
+            console.warn("Preventive check failed for track, skipping...");
+            setBlacklistedTracks(prev => new Set(prev).add(track.id));
+            playNextMusicTrack();
+          }
+        } else if (audio.paused) {
+          playAudio();
+        }
+      };
+
+      verifyAndPlay();
     } else {
-      if (!audio.paused && !isIntroPlaying) { // No pausar si estamos en medio de una transición de intro
+      if (!audio.paused && !isIntroPlaying) {
         audio.pause();
       }
     }
     
     return () => {
       audio.removeEventListener('error', handleMediaError);
+      audio.removeEventListener('stalled', handleStalled);
     };
   }, [musicQueue, isPlaying, isGreetingPlaying, isIntroPlaying, activeBroadcast, activePodcastMP3, playNextMusicTrack]);
 
@@ -356,38 +426,59 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({
   }, [playedBroadcasts, playBroadcast, radioData, isPlaying]);
 
   useEffect(() => {
-    const playRandomPodcast = () => {
+    const playRandomPodcast = async () => {
       if (!radioData) return;
       if (!radioData.PODCASTS_MP3 || radioData.PODCASTS_MP3.length === 0) return;
       if (isPlaying && !activeBroadcast && !activePodcastMP3Ref.current) {
         const randomIndex = Math.floor(Math.random() * radioData.PODCASTS_MP3.length);
         const podcastToPlay = radioData.PODCASTS_MP3[randomIndex];
         if (!podcastToPlay || !podcastToPlay.audioUrl) return;
-        if (audioRef.current && !audioRef.current.paused) {
-          audioRef.current.pause();
+
+        // Limpiar y codificar URL del podcast
+        let rawUrl = podcastToPlay.audioUrl;
+        if (rawUrl.includes('cloudinary.com') && rawUrl.includes('q_auto:good')) {
+          rawUrl = rawUrl.replace('q_auto:good/', '');
         }
-        setActivePodcastMP3(podcastToPlay);
-        const podcastPlayer = new Audio(podcastToPlay.audioUrl);
-        podcastMP3AudioRef.current = podcastPlayer;
-        const handlePodcastEnd = () => {
-          setActivePodcastMP3(null);
-          if (podcastMP3AudioRef.current) {
-            podcastMP3AudioRef.current.removeEventListener('ended', handlePodcastEnd);
-            podcastMP3AudioRef.current.removeEventListener('error', handlePodcastEnd);
-            podcastMP3AudioRef.current = null;
+        const safeUrl = encodeURI(rawUrl);
+
+        // Verificación preventiva del podcast
+        try {
+          // HEAD request rápida
+          await fetch(safeUrl, { method: 'HEAD', mode: 'no-cors' });
+          
+          if (audioRef.current && !audioRef.current.paused) {
+            audioRef.current.pause();
           }
-        };
-        podcastPlayer.addEventListener('ended', handlePodcastEnd);
-        podcastPlayer.addEventListener('error', (e) => {
-          console.error("Podcast MP3 error:", e);
-          handlePodcastEnd();
-        });
-        podcastPlayer.play().catch(e => {
-          if (e.name !== 'AbortError') {
-            console.error("Podcast MP3 play rejected:", e);
+          
+          setActivePodcastMP3(podcastToPlay);
+          const podcastPlayer = new Audio(safeUrl);
+          podcastMP3AudioRef.current = podcastPlayer;
+          
+          const handlePodcastEnd = () => {
+            setActivePodcastMP3(null);
+            if (podcastMP3AudioRef.current) {
+              podcastMP3AudioRef.current.removeEventListener('ended', handlePodcastEnd);
+              podcastMP3AudioRef.current.removeEventListener('error', handlePodcastEnd);
+              podcastMP3AudioRef.current = null;
+            }
+          };
+          
+          podcastPlayer.addEventListener('ended', handlePodcastEnd);
+          podcastPlayer.addEventListener('error', (e) => {
+            console.warn("Podcast MP3 error, returning to music:", e);
             handlePodcastEnd();
-          }
-        });
+          });
+          
+          podcastPlayer.play().catch(e => {
+            if (e.name !== 'AbortError') {
+              console.warn("Podcast MP3 play rejected:", e);
+              handlePodcastEnd();
+            }
+          });
+        } catch (e) {
+          console.warn("Podcast preventive check failed, skipping this time.");
+          // No hacemos nada, la música seguirá sonando o se intentará en el próximo ciclo
+        }
       }
     };
     if (!isPlaying) return;
