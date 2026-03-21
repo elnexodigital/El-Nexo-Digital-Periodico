@@ -1,32 +1,26 @@
 import { useState, useEffect, useRef, useCallback, forwardRef, useImperativeHandle } from 'react';
+import { cleanMediaUrl, getCloudinaryUrl, CLOUDINARY_CLOUD_NAMES } from '../utils/mediaUtils.ts';
 import ListenerCounter from './ListenerCounter.tsx';
 import { Library as LibraryIcon, Home, Play, Pause, SkipForward } from 'lucide-react';
 import type { MusicTrack, HeaderControls, NewsBroadcast, PodcastMP3 } from '../types.ts';
+
+// Static Imports for Radio Data
+import { GREETING_AUDIOS } from '../greetings.ts';
+import { NEWS_BROADCASTS } from '../data/broadcasts.ts';
+import { 
+  ONLY_GENERAL, 
+  ONLY_LEO, 
+  ONLY_PODCASTS, 
+  ONLY_JINGLES, 
+  ONLY_SEPARATORS
+} from '../data/music.ts';
+import { PODCASTS_MP3 } from '../data/podcastsMP3.ts';
 
 interface HeaderProps {
   currentView: 'magazine' | 'library';
   onNavigate: (view: 'magazine' | 'library') => void;
   onOpenPodcast?: () => void;
   hasPodcast?: boolean;
-}
-
-interface RadioData {
-  GREETING_AUDIOS: {
-    morning: string[];
-    afternoon: string[];
-    night: string[];
-  };
-  NEWS_BROADCASTS: Record<number, NewsBroadcast>;
-  SEPARATOR_AUDIOS: string[];
-  MUSIC_TRACKS: MusicTrack[];
-  PODCASTS_MP3: PodcastMP3[];
-  COMMERCIAL_JINGLES: string[];
-  LEO_MUSIC_INTRO_URLS: string[];
-  TIME_JINGLES: {
-    morning: string[];
-    afternoon: string[];
-    night: string[];
-  };
 }
 
 const shuffleArray = <T,>(array: T[]): T[] => {
@@ -39,34 +33,45 @@ const shuffleArray = <T,>(array: T[]): T[] => {
 };
 
 const VIDEO_URLS: string[] = [
-  'https://res.cloudinary.com/dus9zcgen/video/upload/v1759387536/spot_10_segundos_completo_wsoeh1.mp4',
-  'https://res.cloudinary.com/ddmj6zevz/video/upload/w_1280,q_auto:good/v1755907719/animaci%C3%B3n_APP_pvxjop.mp4',
-  'https://res.cloudinary.com/ddmj6zevz/video/upload/w_1280,q_auto:good/v1756345297/14_okcuk0.mp4',
-  'https://res.cloudinary.com/ddmj6zevz/video/upload/w_1280,q_auto:good/v1756345296/13_debkpb.mp4',
-  'https://res.cloudinary.com/ddmj6zevz/video/upload/w_1280,q_auto:good/v1756345293/11_gud5kv.mp4',
-  'https://res.cloudinary.com/ddmj6zevz/video/upload/w_1280,q_auto:good/v1756345294/12_ringmi.mp4',
-  'https://res.cloudinary.com/ddmj6zevz/video/upload/w_1280,q_auto:good/v1756345294/9_ulzdcy.mp4',
-  'https://res.cloudinary.com/ddmj6zevz/video/upload/w_1280,q_auto:good/v1756345293/10_io3g8k.mp4',
-  'https://res.cloudinary.com/ddmj6zevz/video/upload/w_1280,q_auto:good/v1756345059/8_vng8sz.mp4',
-  'https://res.cloudinary.com/ddmj6zevz/video/upload/w_1280,q_auto:good/v1756345005/4_hczosi.mp4',
-  'https://res.cloudinary.com/ddmj6zevz/video/upload/w_1280,q_auto:good/v1756345005/6_jdroij.mp4',
-  'https://res.cloudinary.com/ddmj6zevz/video/upload/w_1280,q_auto:good/v1756345004/5_ivvibp.mp4',
-  'https://res.cloudinary.com/ddmj6zevz/video/upload/w_1280,q_auto:good/v1756345004/7_aw3cxt.mp4',
-  'https://res.cloudinary.com/ddmj6zevz/video/upload/w_1280,q_auto:good/v1756345003/3_thswfg.mp4',
-  'https://res.cloudinary.com/ddmj6zevz/video/upload/w_1280,q_auto:good/v1756345002/2_gthspn.mp4',
-  'https://res.cloudinary.com/ddmj6zevz/video/upload/w_1280,q_auto:good/v1756345001/1_ndgmbp.mp4',
-  'https://res.cloudinary.com/ddmj6zevz/video/upload/w_1280,q_auto:good/v1757874034/tu_compa%C3%B1%C3%ADa_247_srq9ah.mp4',
-  'https://res.cloudinary.com/ddmj6zevz/video/upload/w_1280,q_auto:good/v1757877430/tu_compa%C3%B1%C3%ADa3_aoreex.mp4',
-  'https://res.cloudinary.com/ddmj6zevz/video/upload/w_1280,q_auto:good/v1757877463/tu_compa%C3%B1%C3%ADa_4_jk7aeq.mp4',
-  'https://res.cloudinary.com/ddmj6zevz/video/upload/w_1280,q_auto:good/v1757877465/tu_compa%C3%B1%C3%ADa_5_x13zf0.mp4',
-  'https://res.cloudinary.com/ddmj6zevz/video/upload/w_1280,q_auto:good/v1757877467/tu_compa%C3%B1%C3%ADa_7_okxvw2.mp4',
-  'https://res.cloudinary.com/ddmj6zevz/video/upload/w_1280,q_auto:good/v1757877467/tu_compa%C3%B1%C3%ADa_6_kkiqlc.mp4',
-  'https://res.cloudinary.com/ddmj6zevz/video/upload/w_1280,q_auto:good/v1757877700/tu_compa%C3%B1%C3%ADa2_nalqjp.mp4',
-  'https://res.cloudinary.com/ddmj6zevz/video/upload/w_1280,q_auto:good/v1757877469/tu_compa%C3%B1%C3%ADa_8_bnqoa2.mp4',
-  'https://res.cloudinary.com/ddmj6zevz/video/upload/w_1280,q_auto:good/v1757877470/tu_compa%C3%B1%C3%ADa_9_iomwyb.mp4',
-  'https://res.cloudinary.com/ddmj6zevz/video/upload/w_1280,q_auto:good/v1757877473/tu_compa%C3%B1%C3%ADa_10_t5gpkm.mp4',
-  'https://res.cloudinary.com/ddmj6zevz/video/upload/w_1280,q_auto:good/v1757877508/tu_compa%C3%B1%C3%ADa_11_el38c4.mp4',
-  'https://res.cloudinary.com/ddmj6zevz/video/upload/v1756612883/Vienen_las_Noticias_ujmv2i.mp4',
+  getCloudinaryUrl('v1759387536/spot_10_segundos_completo_wsoeh1.mp4', CLOUDINARY_CLOUD_NAMES.SECONDARY_VIDEO),
+  getCloudinaryUrl('v1755907719/animaci%C3%B3n_APP_pvxjop.mp4', CLOUDINARY_CLOUD_NAMES.VIDEO, 'video', 'w_1280,q_auto:good'),
+  getCloudinaryUrl('v1756345297/14_okcuk0.mp4', CLOUDINARY_CLOUD_NAMES.VIDEO, 'video', 'w_1280,q_auto:good'),
+  getCloudinaryUrl('v1756345296/13_debkpb.mp4', CLOUDINARY_CLOUD_NAMES.VIDEO, 'video', 'w_1280,q_auto:good'),
+  getCloudinaryUrl('v1756345293/11_gud5kv.mp4', CLOUDINARY_CLOUD_NAMES.VIDEO, 'video', 'w_1280,q_auto:good'),
+  getCloudinaryUrl('v1756345294/12_ringmi.mp4', CLOUDINARY_CLOUD_NAMES.VIDEO, 'video', 'w_1280,q_auto:good'),
+  getCloudinaryUrl('v1756345294/9_ulzdcy.mp4', CLOUDINARY_CLOUD_NAMES.VIDEO, 'video', 'w_1280,q_auto:good'),
+  getCloudinaryUrl('v1756345293/10_io3g8k.mp4', CLOUDINARY_CLOUD_NAMES.VIDEO, 'video', 'w_1280,q_auto:good'),
+  getCloudinaryUrl('v1756345059/8_vng8sz.mp4', CLOUDINARY_CLOUD_NAMES.VIDEO, 'video', 'w_1280,q_auto:good'),
+  getCloudinaryUrl('v1756345005/4_hczosi.mp4', CLOUDINARY_CLOUD_NAMES.VIDEO, 'video', 'w_1280,q_auto:good'),
+  getCloudinaryUrl('v1756345005/6_jdroij.mp4', CLOUDINARY_CLOUD_NAMES.VIDEO, 'video', 'w_1280,q_auto:good'),
+  getCloudinaryUrl('v1756345004/5_ivvibp.mp4', CLOUDINARY_CLOUD_NAMES.VIDEO, 'video', 'w_1280,q_auto:good'),
+  getCloudinaryUrl('v1756345004/7_aw3cxt.mp4', CLOUDINARY_CLOUD_NAMES.VIDEO, 'video', 'w_1280,q_auto:good'),
+  getCloudinaryUrl('v1756345003/3_thswfg.mp4', CLOUDINARY_CLOUD_NAMES.VIDEO, 'video', 'w_1280,q_auto:good'),
+  getCloudinaryUrl('v1756345002/2_gthspn.mp4', CLOUDINARY_CLOUD_NAMES.VIDEO, 'video', 'w_1280,q_auto:good'),
+  getCloudinaryUrl('v1756345001/1_ndgmbp.mp4', CLOUDINARY_CLOUD_NAMES.VIDEO, 'video', 'w_1280,q_auto:good'),
+  getCloudinaryUrl('v1757874034/tu_compa%C3%B1%C3%ADa_247_srq9ah.mp4', CLOUDINARY_CLOUD_NAMES.VIDEO, 'video', 'w_1280,q_auto:good'),
+  getCloudinaryUrl('v1757877430/tu_compa%C3%B1%C3%ADa3_aoreex.mp4', CLOUDINARY_CLOUD_NAMES.VIDEO, 'video', 'w_1280,q_auto:good'),
+  getCloudinaryUrl('v1757877463/tu_compa%C3%B1%C3%ADa_4_jk7aeq.mp4', CLOUDINARY_CLOUD_NAMES.VIDEO, 'video', 'w_1280,q_auto:good'),
+  getCloudinaryUrl('v1757877465/tu_compa%C3%B1%C3%ADa_5_x13zf0.mp4', CLOUDINARY_CLOUD_NAMES.VIDEO, 'video', 'w_1280,q_auto:good'),
+  getCloudinaryUrl('v1757877467/tu_compa%C3%B1%C3%ADa_7_okxvw2.mp4', CLOUDINARY_CLOUD_NAMES.VIDEO, 'video', 'w_1280,q_auto:good'),
+  getCloudinaryUrl('v1757877467/tu_compa%C3%B1%C3%ADa_6_kkiqlc.mp4', CLOUDINARY_CLOUD_NAMES.VIDEO, 'video', 'w_1280,q_auto:good'),
+  getCloudinaryUrl('v1757877700/tu_compa%C3%B1%C3%ADa2_nalqjp.mp4', CLOUDINARY_CLOUD_NAMES.VIDEO, 'video', 'w_1280,q_auto:good'),
+  getCloudinaryUrl('v1757877469/tu_compa%C3%B1%C3%ADa_8_bnqoa2.mp4', CLOUDINARY_CLOUD_NAMES.VIDEO, 'video', 'w_1280,q_auto:good'),
+  getCloudinaryUrl('v1757877470/tu_compa%C3%B1%C3%ADa_9_iomwyb.mp4', CLOUDINARY_CLOUD_NAMES.VIDEO, 'video', 'w_1280,q_auto:good'),
+  getCloudinaryUrl('v1757877473/tu_compa%C3%B1%C3%ADa_10_t5gpkm.mp4', CLOUDINARY_CLOUD_NAMES.VIDEO, 'video', 'w_1280,q_auto:good'),
+  getCloudinaryUrl('v1757877508/tu_compa%C3%B1%C3%ADa_11_el38c4.mp4', CLOUDINARY_CLOUD_NAMES.VIDEO, 'video', 'w_1280,q_auto:good'),
+  getCloudinaryUrl('v1774064355/marquesina_app1_aekb22.mp4', CLOUDINARY_CLOUD_NAMES.VIDEO),
+  getCloudinaryUrl('v1774064347/marquesina_app9_ldnyru.mp4', CLOUDINARY_CLOUD_NAMES.VIDEO),
+  getCloudinaryUrl('v1774064345/marquesina_app10_qgc8in.mp4', CLOUDINARY_CLOUD_NAMES.VIDEO),
+  getCloudinaryUrl('v1774064345/marquesina_app7_ohnqqj.mp4', CLOUDINARY_CLOUD_NAMES.VIDEO),
+  getCloudinaryUrl('v1774064344/marquesina_app6_hglg7r.mp4', CLOUDINARY_CLOUD_NAMES.VIDEO),
+  getCloudinaryUrl('v1774064341/marquesina_app11_vacrxs.mp4', CLOUDINARY_CLOUD_NAMES.VIDEO),
+  getCloudinaryUrl('v1774064341/marquesina_app5_rbxigs.mp4', CLOUDINARY_CLOUD_NAMES.VIDEO),
+  getCloudinaryUrl('v1774064337/marquesina_app8_ecjgfn.mp4', CLOUDINARY_CLOUD_NAMES.VIDEO),
+  getCloudinaryUrl('v1774064334/marquesina_app3_grkc5b.mp4', CLOUDINARY_CLOUD_NAMES.VIDEO),
+  getCloudinaryUrl('v1774064333/marquesina_app2_cjf782.mp4', CLOUDINARY_CLOUD_NAMES.VIDEO),
+  getCloudinaryUrl('v1774064329/marquesina_app4_a9cztq.mp4', CLOUDINARY_CLOUD_NAMES.VIDEO),
+  getCloudinaryUrl('v1774064329/marquesina_app_vfb7wa.mp4', CLOUDINARY_CLOUD_NAMES.VIDEO),
 ];
 
 const Header = forwardRef<HeaderControls, HeaderProps>(({
@@ -95,15 +100,12 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({
   const [currentDate, setCurrentDate] = useState('');
   const [isPlaying, setIsPlaying] = useState(false);
   const [isGreetingPlaying, setIsGreetingPlaying] = useState(false);
-  const [isIntroPlaying, setIsIntroPlaying] = useState(false);
-  const [videoQueue, setVideoQueue] = useState(() => shuffleArray(VIDEO_URLS));
+  const [videoQueue, setVideoQueue] = useState(() => shuffleArray(VIDEO_URLS).map(url => cleanMediaUrl(url)));
   const [musicQueue, setMusicQueue] = useState<MusicTrack[]>([]);
   const [hasGreetingPlayed, setHasGreetingPlayed] = useState(false);
   const [playedBroadcasts, setPlayedBroadcasts] = useState<Record<number, boolean>>({});
   const [activeBroadcast, setActiveBroadcast] = useState<NewsBroadcast | null>(null);
   const [activePodcastMP3, setActivePodcastMP3] = useState<PodcastMP3 | null>(null);
-  const [radioData, setRadioData] = useState<RadioData | null>(null);
-  const [isRadioLoading, setIsRadioLoading] = useState(true);
   const [blacklistedTracks, setBlacklistedTracks] = useState<Set<string>>(new Set());
 
   const audioRef = useRef<HTMLAudioElement>(null);
@@ -113,11 +115,8 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({
   const podcastMP3AudioRef = useRef<HTMLAudioElement | null>(null);
   const commercialJingleAudioRef = useRef<HTMLAudioElement | null>(null);
   const timeJingleAudioRef = useRef<HTMLAudioElement | null>(null);
-  const introAudioRef = useRef<HTMLAudioElement | null>(null);
   const musicVolumeRef = useRef(1.0);
-  const playedIntroForTrackIdRef = useRef<string | null>(null);
 
-  const recentTracksRef = useRef<string[]>([]);
   const recentVideosRef = useRef<string[]>([]);
 
   const activePodcastMP3Ref = useRef(activePodcastMP3);
@@ -137,70 +136,22 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({
   }, []);
 
   useEffect(() => {
-    const loadRadioData = async () => {
-      setIsRadioLoading(true);
-      try {
-        const [
-          greetingsModule,
-          broadcastsModule,
-          separatorsModule,
-          musicModule,
-          podcastsMp3Module,
-          jinglesModule,
-          timeJinglesModule,
-        ] = await Promise.all([
-          import('../greetings.ts'),
-          import('../data/broadcasts.ts'),
-          import('../data/separators.ts'),
-          import('../data/music.ts'),
-          import('../data/podcastsMP3.ts'),
-          import('../data/jingles.ts'),
-          import('../data/timeJingles.ts'),
-        ]);
-        
-        const loadedRadioData = {
-          GREETING_AUDIOS: greetingsModule.GREETING_AUDIOS,
-          NEWS_BROADCASTS: broadcastsModule.NEWS_BROADCASTS,
-          SEPARATOR_AUDIOS: separatorsModule.SEPARATOR_AUDIOS,
-          MUSIC_TRACKS: musicModule.MUSIC_TRACKS,
-          PODCASTS_MP3: podcastsMp3Module.PODCASTS_MP3,
-          COMMERCIAL_JINGLES: jinglesModule.COMMERCIAL_JINGLES,
-          LEO_MUSIC_INTRO_URLS: musicModule.LEO_MUSIC_INTRO_URLS,
-          TIME_JINGLES: timeJinglesModule.TIME_JINGLES,
-          // Listas separadas para el programador
-          ONLY_MUSIC: musicModule.ONLY_MUSIC,
-          ONLY_LEO: musicModule.ONLY_MUSIC.filter((t: any) => t.id.startsWith('leo_')),
-          ONLY_GENERAL: musicModule.ONLY_MUSIC.filter((t: any) => !t.id.startsWith('leo_')),
-          ONLY_PODCASTS: musicModule.ONLY_PODCASTS,
-          ONLY_JINGLES: musicModule.ONLY_JINGLES,
-          ONLY_SEPARATORS: musicModule.ONLY_SEPARATORS,
-        };
-        setRadioData(loadedRadioData);
-        
-        // Generar la cola balanceada inicial
-        const balancedQueue = generateBalancedQueue(loadedRadioData);
-        setMusicQueue(balancedQueue);
-      } catch (error) {
-        console.error("Failed to load radio data:", error);
-      } finally {
-        setIsRadioLoading(false);
-      }
-    };
-    loadRadioData();
+    const balancedQueue = generateBalancedQueue();
+    setMusicQueue(balancedQueue);
   }, []);
 
   // Función para generar una cola de reproducción balanceada (Reloj de Radio)
-  const generateBalancedQueue = (data: any) => {
+  const generateBalancedQueue = () => {
     const queue: MusicTrack[] = [];
-    const generalMusic = shuffleArray([...data.ONLY_GENERAL]);
-    const leoMusic = shuffleArray([...data.ONLY_LEO]);
-    const podcasts = shuffleArray([...data.ONLY_PODCASTS]);
-    const jingles = shuffleArray([...data.ONLY_JINGLES]);
-    const separators = shuffleArray([...data.ONLY_SEPARATORS]);
+    const generalMusic = shuffleArray([...ONLY_GENERAL]);
+    const leoMusic = shuffleArray([...ONLY_LEO]);
+    const podcasts = shuffleArray([...ONLY_PODCASTS]);
+    const jingles = shuffleArray([...ONLY_JINGLES]);
+    const separators = shuffleArray([...ONLY_SEPARATORS]);
     const allGreetingUrls = [
-      ...(data.GREETING_AUDIOS.morning || []),
-      ...(data.GREETING_AUDIOS.afternoon || []),
-      ...(data.GREETING_AUDIOS.night || [])
+      ...(GREETING_AUDIOS.morning || []),
+      ...(GREETING_AUDIOS.afternoon || []),
+      ...(GREETING_AUDIOS.night || [])
     ];
 
     const greetings = shuffleArray([...allGreetingUrls.map((url: string, i: number) => ({
@@ -212,24 +163,35 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({
     // Índices para llevar cuenta de lo usado
     let gIdx = 0, lIdx = 0, pIdx = 0, jIdx = 0, sIdx = 0, grIdx = 0;
 
-    // Generamos bloques de programación (aprox 100 items para tener una cola larga)
-    for (let i = 0; i < 20; i++) {
-      // 1. Música General
-      if (generalMusic.length > 0) queue.push(generalMusic[gIdx++ % generalMusic.length]);
-      // 2. Música General
-      if (generalMusic.length > 0) queue.push(generalMusic[gIdx++ % generalMusic.length]);
-      // 3. Separador/Cortina
+    // Generamos 60 bloques para una cola extensa (~24 horas de programación)
+    for (let i = 0; i < 60; i++) {
+      // 1. Identidad (Separador)
       if (separators.length > 0) queue.push(separators[sIdx++ % separators.length]);
-      // 4. Música de Leo
-      if (leoMusic.length > 0) queue.push(leoMusic[lIdx++ % leoMusic.length]);
-      // 5. Tanda Publicitaria / Jingle
+      
+      // 2. Bloque de música (3 temas generales)
+      for (let k = 0; k < 3; k++) {
+        if (generalMusic.length > 0) queue.push(generalMusic[gIdx++ % generalMusic.length]);
+      }
+
+      // 3. Contenido Especial (Alternamos Podcast y Leo cada bloque)
+      if (i % 2 === 0) {
+        if (podcasts.length > 0) queue.push(podcasts[pIdx++ % podcasts.length]);
+      } else {
+        if (leoMusic.length > 0) queue.push(leoMusic[lIdx++ % leoMusic.length]);
+      }
+
+      // 4. Más música (2 temas generales)
+      for (let k = 0; k < 2; k++) {
+        if (generalMusic.length > 0) queue.push(generalMusic[gIdx++ % generalMusic.length]);
+      }
+
+      // 5. Jingle / Publicidad
       if (jingles.length > 0) queue.push(jingles[jIdx++ % jingles.length]);
-      // 6. Música General
-      if (generalMusic.length > 0) queue.push(generalMusic[gIdx++ % generalMusic.length]);
-      // 7. Podcast MP3
-      if (podcasts.length > 0) queue.push(podcasts[pIdx++ % podcasts.length]);
-      // 8. Saludo (opcional cada bloque)
-      if (greetings.length > 0 && i % 2 === 0) queue.push(greetings[grIdx++ % greetings.length]);
+
+      // 6. Saludo (Cada 3 bloques para no saturar)
+      if (greetings.length > 0 && i % 3 === 0) {
+        queue.push(greetings[grIdx++ % greetings.length]);
+      }
     }
 
     return queue;
@@ -250,7 +212,7 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({
       recentVideosRef.current = newHistory;
 
       if (rest.length === 0) {
-        return shuffleArray(VIDEO_URLS);
+        return shuffleArray(VIDEO_URLS).map(url => cleanMediaUrl(url));
       }
       return [...rest, first];
     });
@@ -258,33 +220,24 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({
 
   const playNextMusicTrack = useCallback(() => {
     setMusicQueue(prevQueue => {
-        let [first, ...rest] = prevQueue;
-        if (first && recentTracksRef.current.includes(first.id) && rest.length > 10) {
-            const swapIndex = Math.floor(Math.random() * Math.min(20, rest.length));
-            const temp = first;
-            first = rest[swapIndex];
-            rest[swapIndex] = temp;
+        if (prevQueue.length <= 1) {
+            return generateBalancedQueue();
         }
-        if (first) {
-            const newHistory = [first.id, ...recentTracksRef.current].slice(0, 15);
-            recentTracksRef.current = newHistory;
-        }
-        if (rest.length === 0) {
-            return radioData ? generateBalancedQueue(radioData) : [];
-        }
-        return rest;
+        return prevQueue.slice(1);
     });
-  }, [radioData]);
+  }, []);
+
+  // Ref para evitar ciclos infinitos en el useEffect de música
+  const lastPlayedSrcRef = useRef<string>('');
 
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
 
-    const handleMediaError = (event: Event) => {
+    const handleMediaError = () => {
         const failedSrc = audio.src;
-        console.warn(`Audio error for: ${failedSrc}. Adding to blacklist and skipping...`);
+        console.warn(`Audio error for: ${failedSrc}. Skipping track...`);
         
-        // Añadir a la lista negra para no intentar reproducirla de nuevo en esta sesión
         const trackId = musicQueue[0]?.id;
         if (trackId) {
           setBlacklistedTracks(prev => new Set(prev).add(trackId));
@@ -293,7 +246,6 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({
         playNextMusicTrack();
     };
 
-    // Timeout para saltar pistas que se quedan "colgadas" cargando
     const handleStalled = () => {
         console.warn(`Audio stalled for: ${audio.src}. Skipping...`);
         playNextMusicTrack();
@@ -304,62 +256,50 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({
 
     const currentTrack = musicQueue[0];
     
-    // Si la pista actual está en la lista negra, saltarla inmediatamente
-    if (currentTrack && blacklistedTracks.has(currentTrack.id)) {
+    if (!currentTrack) return;
+
+    if (blacklistedTracks.has(currentTrack.id)) {
       playNextMusicTrack();
       return;
     }
 
-    const shouldPlayMusic = isPlaying && !isGreetingPlaying && !isIntroPlaying && musicQueue.length > 0 && !activeBroadcast && !activePodcastMP3;
+    const shouldPlayMusic = isPlaying && !isGreetingPlaying && !activeBroadcast;
 
     if (shouldPlayMusic) {
-      const track = musicQueue[0];
-      let rawUrl = track.url;
-      
-      if (rawUrl.includes('cloudinary.com') && rawUrl.includes('q_auto:good')) {
-        rawUrl = rawUrl.replace('q_auto:good/', '');
+      const newSrc = cleanMediaUrl(currentTrack.url);
+
+      // Solo actualizamos el src si ha cambiado realmente
+      if (lastPlayedSrcRef.current !== newSrc) {
+        console.log(`Playing next track: ${currentTrack.description} (${currentTrack.id})`);
+        lastPlayedSrcRef.current = newSrc;
+        
+        // Actualizar UI de podcast si corresponde
+        if (currentTrack.id.startsWith('podcast_mp3_')) {
+          const podcastId = currentTrack.id.replace('podcast_mp3_', '');
+          const podcastData = PODCASTS_MP3.find(p => String(p.id) === podcastId);
+          if (podcastData) {
+            console.log("Active Podcast Detected:", podcastData.title);
+            setActivePodcastMP3(podcastData);
+          }
+        } else {
+          setActivePodcastMP3(null);
+        }
+
+        audio.src = newSrc;
+        audio.load();
       }
 
-      const newSrc = encodeURI(rawUrl);
-
-      const playAudio = () => {
-        const playPromise = audio.play();
-        if (playPromise !== undefined) {
-          playPromise.catch(error => {
-            if (error.name !== 'AbortError') {
-              console.warn(`Playback failed for ${audio.src}, skipping...`);
-              setBlacklistedTracks(prev => new Set(prev).add(track.id));
-              playNextMusicTrack();
-            }
-          });
-        }
-      };
-
-      // Verificación preventiva: Si la pista falla, la saltamos antes de cargarla
-      const verifyAndPlay = async () => {
-        if (audio.src !== newSrc) {
-          try {
-            // Intentamos una petición HEAD rápida para ver si el archivo existe
-            const response = await fetch(newSrc, { method: 'HEAD', mode: 'no-cors' });
-            // Nota: Con no-cors no podemos ver el status real, pero si falla el fetch 
-            // es que hay un problema serio de red o DNS.
-            
-            audio.src = newSrc;
-            audio.load();
-            playAudio();
-          } catch (e) {
-            console.warn("Preventive check failed for track, skipping...");
-            setBlacklistedTracks(prev => new Set(prev).add(track.id));
+      if (audio.paused) {
+        audio.play().catch(error => {
+          if (error.name !== 'AbortError') {
+            console.warn(`Playback failed for ${newSrc}, skipping...`);
+            setBlacklistedTracks(prev => new Set(prev).add(currentTrack.id));
             playNextMusicTrack();
           }
-        } else if (audio.paused) {
-          playAudio();
-        }
-      };
-
-      verifyAndPlay();
+        });
+      }
     } else {
-      if (!audio.paused && !isIntroPlaying) {
+      if (!audio.paused) {
         audio.pause();
       }
     }
@@ -368,7 +308,7 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({
       audio.removeEventListener('error', handleMediaError);
       audio.removeEventListener('stalled', handleStalled);
     };
-  }, [musicQueue, isPlaying, isGreetingPlaying, isIntroPlaying, activeBroadcast, activePodcastMP3, playNextMusicTrack]);
+  }, [musicQueue[0]?.id, isPlaying, isGreetingPlaying, activeBroadcast, playNextMusicTrack]);
 
   const playBroadcast = useCallback((broadcast: NewsBroadcast, hour: number) => {
     const musicAudio = audioRef.current;
@@ -387,7 +327,7 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({
           newsAudioRef.current = null;
       }
     };
-    newsAudioRef.current = new Audio(broadcast.url);
+    newsAudioRef.current = new Audio(cleanMediaUrl(broadcast.url));
     newsAudioRef.current.addEventListener('ended', resumeMusic);
     newsAudioRef.current.addEventListener('error', (e) => {
         console.error("Broadcast play failed", e);
@@ -402,7 +342,6 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({
 
   useEffect(() => {
     const checkTime = () => {
-      if (!radioData) return;
       const now = new Date();
       const hour = now.getHours();
       const minutes = now.getMinutes();
@@ -412,7 +351,7 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({
         }
         return;
       }
-      const broadcast = radioData.NEWS_BROADCASTS[hour];
+      const broadcast = NEWS_BROADCASTS[hour];
       if (broadcast && minutes === 0 && !playedBroadcasts[hour] && isPlaying) {
         playBroadcast(broadcast, hour);
       }
@@ -423,68 +362,11 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({
       clearTimeout(mountTimeout);
       clearInterval(intervalId);
     };
-  }, [playedBroadcasts, playBroadcast, radioData, isPlaying]);
+  }, [playedBroadcasts, playBroadcast, isPlaying]);
 
-  useEffect(() => {
-    const playRandomPodcast = async () => {
-      if (!radioData) return;
-      if (!radioData.PODCASTS_MP3 || radioData.PODCASTS_MP3.length === 0) return;
-      if (isPlaying && !activeBroadcast && !activePodcastMP3Ref.current) {
-        const randomIndex = Math.floor(Math.random() * radioData.PODCASTS_MP3.length);
-        const podcastToPlay = radioData.PODCASTS_MP3[randomIndex];
-        if (!podcastToPlay || !podcastToPlay.audioUrl) return;
-
-        // Limpiar y codificar URL del podcast
-        let rawUrl = podcastToPlay.audioUrl;
-        if (rawUrl.includes('cloudinary.com') && rawUrl.includes('q_auto:good')) {
-          rawUrl = rawUrl.replace('q_auto:good/', '');
-        }
-        const safeUrl = encodeURI(rawUrl);
-
-        // Verificación preventiva del podcast
-        try {
-          // HEAD request rápida
-          await fetch(safeUrl, { method: 'HEAD', mode: 'no-cors' });
-          
-          if (audioRef.current && !audioRef.current.paused) {
-            audioRef.current.pause();
-          }
-          
-          setActivePodcastMP3(podcastToPlay);
-          const podcastPlayer = new Audio(safeUrl);
-          podcastMP3AudioRef.current = podcastPlayer;
-          
-          const handlePodcastEnd = () => {
-            setActivePodcastMP3(null);
-            if (podcastMP3AudioRef.current) {
-              podcastMP3AudioRef.current.removeEventListener('ended', handlePodcastEnd);
-              podcastMP3AudioRef.current.removeEventListener('error', handlePodcastEnd);
-              podcastMP3AudioRef.current = null;
-            }
-          };
-          
-          podcastPlayer.addEventListener('ended', handlePodcastEnd);
-          podcastPlayer.addEventListener('error', (e) => {
-            console.warn("Podcast MP3 error, returning to music:", e);
-            handlePodcastEnd();
-          });
-          
-          podcastPlayer.play().catch(e => {
-            if (e.name !== 'AbortError') {
-              console.warn("Podcast MP3 play rejected:", e);
-              handlePodcastEnd();
-            }
-          });
-        } catch (e) {
-          console.warn("Podcast preventive check failed, skipping this time.");
-          // No hacemos nada, la música seguirá sonando o se intentará en el próximo ciclo
-        }
-      }
-    };
-    if (!isPlaying) return;
-    const podcastInterval = setInterval(playRandomPodcast, 30 * 60 * 1000);
-    return () => clearInterval(podcastInterval);
-  }, [isPlaying, activeBroadcast, radioData]);
+  // Eliminamos el intervalo de podcasts aleatorios para que se manejen 
+  // exclusivamente a través de la cola balanceada (generateBalancedQueue)
+  // Esto evita que se interrumpa la música y que suenen podcasts continuamente.
 
   const getGreetingTimeOfDay = (): 'morning' | 'afternoon' | 'night' | null => {
     const now = new Date();
@@ -497,10 +379,9 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({
   };
 
   const selectRandomGreeting = (): string | null => {
-    if (!radioData) return null;
     const timeOfDay = getGreetingTimeOfDay();
     if (!timeOfDay) return null;
-    const greetings = radioData.GREETING_AUDIOS[timeOfDay];
+    const greetings = GREETING_AUDIOS[timeOfDay];
     if (!greetings || greetings.length === 0) return null;
     const randomIndex = Math.floor(Math.random() * greetings.length);
     return greetings[randomIndex];
@@ -514,11 +395,9 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({
     if (newsAudioRef.current) newsAudioRef.current.pause();
     if (commercialJingleAudioRef.current) commercialJingleAudioRef.current.pause();
     if (timeJingleAudioRef.current) timeJingleAudioRef.current.pause();
-    if (introAudioRef.current) introAudioRef.current.pause();
   };
   
   const togglePlayPause = () => {
-    if (isRadioLoading) return;
     const musicAudio = audioRef.current;
     if (!musicAudio) return;
     if (isPlaying) {
@@ -532,7 +411,10 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({
       setHasGreetingPlayed(true);
       if (greetingUrl) {
         setIsGreetingPlaying(true);
-        greetingAudioRef.current = new Audio(greetingUrl);
+        
+        const encodedUrl = cleanMediaUrl(greetingUrl);
+
+        greetingAudioRef.current = new Audio(encodedUrl);
         const onGreetingEnd = () => {
             setIsGreetingPlaying(false);
             if (greetingAudioRef.current) {
@@ -549,7 +431,6 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({
   };
 
   const handleChangeVibe = () => {
-    if (isRadioLoading) return;
     if (activeBroadcast) {
       newsAudioRef.current?.pause();
       setActiveBroadcast(null);
@@ -570,7 +451,7 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({
 
   const currentTrack = musicQueue[0] || null;
   const currentTitle = activeBroadcast?.description || activePodcastMP3?.title || currentTrack?.description || 'El Nexo Digital';
-  const currentArtist = activePodcastMP3?.artist || (isRadioLoading ? 'Cargando radio...' : 'El Nexo Digital Radio');
+  const currentArtist = isPlaying ? (activePodcastMP3?.artist || 'El Nexo Digital Radio') : 'El Nexo Digital Radio';
 
   return (
     <header className="z-50 w-full pt-4 sm:pt-10 px-4 flex flex-col items-center mb-0">
@@ -624,16 +505,14 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({
             <div className="bg-corrugated-steel p-2 md:p-3 flex items-center justify-center gap-6 border-t border-black/20 shadow-inner">
               <button 
                 onClick={togglePlayPause}
-                disabled={isRadioLoading}
-                className="w-10 h-10 md:w-12 md:h-12 flex items-center justify-center rounded-full bg-stone-800 text-white border border-white/20 shadow-lg hover:bg-stone-700 transition-all hover:scale-105 active:scale-95 disabled:opacity-50"
+                className="w-10 h-10 md:w-12 md:h-12 flex items-center justify-center rounded-full bg-stone-800 text-white border border-white/20 shadow-lg hover:bg-stone-700 transition-all hover:scale-105 active:scale-95"
               >
                 {isPlaying ? <Pause size={20} fill="currentColor" /> : <Play size={20} fill="currentColor" className="ml-1" />}
               </button>
 
               <button 
                 onClick={handleChangeVibe}
-                disabled={isRadioLoading}
-                className="w-8 h-8 md:w-9 md:h-9 flex items-center justify-center rounded-full bg-stone-800/50 text-white border border-white/10 shadow-md hover:bg-stone-700 transition-all hover:scale-105 active:scale-95 disabled:opacity-50"
+                className="w-8 h-8 md:w-9 md:h-9 flex items-center justify-center rounded-full bg-stone-800/50 text-white border border-white/10 shadow-md hover:bg-stone-700 transition-all hover:scale-105 active:scale-95"
                 title="Siguiente"
               >
                 <SkipForward size={16} />

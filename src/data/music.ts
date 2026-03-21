@@ -8,57 +8,30 @@ import { SEPARATOR_AUDIOS } from './separators.ts';
 
 export { LEO_MUSIC_INTRO_URLS };
 
-// Listas puras para el Director de Radio
-const ALL_LEO = LEO_CASTRILLO_TRACKS;
-const ALL_GENERAL_MUSIC = [...MUSIC_LIST_1, ...MUSIC_LIST_2];
-const ALL_PODCASTS = PODCASTS_MP3.map(p => ({
+export const ONLY_GENERAL = [...MUSIC_LIST_1, ...MUSIC_LIST_2];
+export const ONLY_LEO = LEO_CASTRILLO_TRACKS;
+export const ONLY_PODCASTS = PODCASTS_MP3.map(p => ({
   id: `podcast_mp3_${p.id}`,
   url: p.audioUrl,
   description: `PODCAST: ${p.title} (${p.artist})`
 }));
-const ALL_JINGLES = COMMERCIAL_JINGLES.map((url, i) => ({
+export const ONLY_JINGLES = COMMERCIAL_JINGLES.map((url, i) => ({
   id: `jingle_${i}`,
   url,
   description: 'ESPACIO PUBLICITARIO - El Nexo Digital'
 }));
-const ALL_SEPARATORS = SEPARATOR_AUDIOS.map((url, i) => ({
+export const ONLY_SEPARATORS = SEPARATOR_AUDIOS.map((url, i) => ({
   id: `sep_${i}`,
   url,
   description: 'Sintonía El Nexo Digital'
 }));
 
-/**
- * DIRECTOR DE RADIO: Equilibrio de Programación
- * Definimos un "Ciclo de Programación" (Tanda) de aprox. 40 minutos:
- * - 2 temas de Leo Castrillo (Prioridad de autor)
- * - 4 temas de Música General (Variedad)
- * - 2 Podcasts (Contenido de valor)
- * - 1 Jingle (Publicidad)
- * - 1 Separador (Identidad)
- */
-
-// Creamos un pool balanceado para que el shuffle respete estas proporciones
 export const MUSIC_TRACKS: MusicTrack[] = [
-  // Música de Leo (20% del aire)
-  ...ALL_LEO,
-  ...ALL_LEO,
-  
-  // Música General (40% del aire)
-  ...ALL_GENERAL_MUSIC.slice(0, 120), // Tomamos una buena muestra
-  
-  // Podcasts (20% del aire)
-  ...ALL_PODCASTS,
-  
-  // Identidad y Publicidad (20% del aire)
-  ...ALL_JINGLES,
-  ...ALL_JINGLES,
-  ...ALL_JINGLES,
-  ...ALL_SEPARATORS,
-  ...ALL_SEPARATORS
+  ...ONLY_LEO,
+  ...ONLY_GENERAL,
+  ...ONLY_PODCASTS,
+  ...ONLY_JINGLES,
+  ...ONLY_SEPARATORS,
 ];
 
-// Exportaciones para compatibilidad
-export const ONLY_MUSIC = [...ALL_GENERAL_MUSIC, ...ALL_LEO];
-export const ONLY_PODCASTS = ALL_PODCASTS;
-export const ONLY_JINGLES = ALL_JINGLES;
-export const ONLY_SEPARATORS = ALL_SEPARATORS;
+export const ONLY_MUSIC = [...ONLY_GENERAL, ...ONLY_LEO];

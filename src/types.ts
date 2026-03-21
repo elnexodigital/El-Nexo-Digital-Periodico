@@ -80,27 +80,4 @@ export interface WeeklyContent {
   pages: Page[];
 }
 
-// --- Added StickyNote and Patron interfaces to fix compilation errors ---
-
-export interface StickyNote {
-  id: string;
-  text: string;
-  name: string;
-  color: string;
-  position: { x: number; y: number };
-  rotation: number;
-}
-
-export interface PatronContentItem {
-  id: string;
-  title: string;
-  description: string;
-  url: string;
-  type: 'audio' | 'video' | 'image';
-}
-
-export interface Patron {
-  id: string;
-  name: string;
-  content: PatronContentItem[];
-}
+// --- Removed StickyNote and Patron interfaces as they are obsolete ---

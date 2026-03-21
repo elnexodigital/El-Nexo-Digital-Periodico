@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { getCloudinaryUrl, CLOUDINARY_CLOUD_NAMES } from '../utils/mediaUtils.ts';
 
 interface FloatingPodcastButtonProps {
   onClick: () => void;
@@ -28,7 +29,7 @@ const FloatingPodcastButton: React.FC<FloatingPodcastButtonProps> = ({ onClick }
         {/* Inner Image with Pulse Animation */}
         <div className="w-[70%] h-[70%] rounded-full animate-pulse-slow bg-white">
             <img
-                src="https://res.cloudinary.com/ddmj6zevz/image/upload/f_auto,q_auto:good/v1756851098/Generated_Image_September_02__2025_-_1_54PM-removebg-preview_fpoafd.png"
+                src={getCloudinaryUrl('v1756851098/Generated_Image_September_02__2025_-_1_54PM-removebg-preview_fpoafd.png', CLOUDINARY_CLOUD_NAMES.VIDEO, 'image', 'f_auto,q_auto:good')}
                 alt="Abrir podcast del día"
                 className="w-full h-full object-cover rounded-full"
             />

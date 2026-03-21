@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { Download, Gift } from 'lucide-react';
+import { cleanMediaUrl } from '../utils/mediaUtils.ts';
 import type { LibraryItem } from '../types.ts';
 
 interface LibraryItemCardProps {
@@ -48,7 +49,7 @@ const LibraryItemCard: React.FC<LibraryItemCardProps> = ({ item, onClick }) => {
 
       <div className="aspect-[3/4] overflow-hidden relative w-full">
         <img
-          src={item.imageUrl}
+          src={cleanMediaUrl(item.imageUrl)}
           alt={`Portada de ${item.title}`}
           className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
           referrerPolicy="no-referrer"

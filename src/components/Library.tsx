@@ -2,6 +2,7 @@
 import React, { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ArrowLeft, Book, Music, Video, FileText, Mic, Image as ImageIcon, Star } from 'lucide-react';
+import { cleanMediaUrl } from '../utils/mediaUtils.ts';
 import { LIBRARY_CONTENT } from '../data/libraryContent.ts';
 import { PODCASTS_MP3 } from '../data/podcastsMP3.ts';
 import type { LibraryItem, PodcastMP3 } from '../types.ts';
@@ -119,7 +120,7 @@ const Library: React.FC<LibraryProps> = ({ onBackToMagazine }) => {
           <div className="bg-white rounded-2xl shadow-2xl overflow-hidden md:grid md:grid-cols-5 gap-0 border border-zen-charcoal/5">
             <div className="md:col-span-2 relative min-h-[400px] group overflow-hidden">
               <img 
-                src={monthlyPick.imageUrl} 
+                src={cleanMediaUrl(monthlyPick.imageUrl)} 
                 alt={`Portada de ${monthlyPick.title}`}
                 className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000" 
                 referrerPolicy="no-referrer"
@@ -187,7 +188,7 @@ const Library: React.FC<LibraryProps> = ({ onBackToMagazine }) => {
                     >
                       <Mic size={48} className="text-[#800020] mb-6 opacity-20" />
                       <audio controls className="w-full max-w-md">
-                        <source src={monthlyPick.audioUrl} type="audio/mp4" />
+                        <source src={cleanMediaUrl(monthlyPick.audioUrl)} type="audio/mp4" />
                       </audio>
                     </motion.div>
                   )}
@@ -199,7 +200,7 @@ const Library: React.FC<LibraryProps> = ({ onBackToMagazine }) => {
                       className="aspect-video bg-black rounded-xl overflow-hidden shadow-2xl"
                     >
                       <video controls className="w-full h-full">
-                        <source src={monthlyPick.videoUrl} type="video/mp4" />
+                        <source src={cleanMediaUrl(monthlyPick.videoUrl)} type="video/mp4" />
                       </video>
                     </motion.div>
                   )}
@@ -275,7 +276,7 @@ const Library: React.FC<LibraryProps> = ({ onBackToMagazine }) => {
                       >
                         <div className="w-12 h-12 rounded-lg overflow-hidden flex-shrink-0 border border-zen-charcoal/10">
                           <img 
-                            src={podcast.coverUrl} 
+                            src={cleanMediaUrl(podcast.coverUrl)} 
                             alt={podcast.title} 
                             className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                             referrerPolicy="no-referrer"

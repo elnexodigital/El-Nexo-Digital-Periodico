@@ -4,6 +4,7 @@ import type { VideoPodcast, HeaderControls } from './types.ts';
 import Header from './components/Header.tsx';
 import LoadingSpinner from './components/LoadingSpinner.tsx';
 import Library from './components/Library.tsx';
+import { getCloudinaryUrl, CLOUDINARY_CLOUD_NAMES } from './utils/mediaUtils.ts';
 
 // --- COMPONENTES CON LAZY LOADING ---
 const PodcastModal = lazy(() => import('./components/PodcastModal.tsx'));
@@ -16,6 +17,8 @@ const App: React.FC = () => {
   const [dailyPodcast, setDailyPodcast] = useState<VideoPodcast | null>(null);
   const [isPodcastModalOpen, setIsPodcastModalOpen] = useState(false);
   const headerRef = useRef<HeaderControls>(null);
+
+  const fontUrl = getCloudinaryUrl('v1756916641/brittany_ifg3wl.ttf', CLOUDINARY_CLOUD_NAMES.VIDEO, 'raw');
 
   // Carga del podcast del día (cambia cada día basado en la fecha)
   useEffect(() => {
@@ -56,6 +59,13 @@ const App: React.FC = () => {
 
   return (
     <div className={`min-h-screen relative overflow-hidden flex flex-col weathered-panel transition-colors duration-200 ${getViewBackground()}`}>
+      <style dangerouslySetInnerHTML={{ __html: `
+        @font-face {
+          font-family: 'Brittany';
+          src: url('${fontUrl}') format('truetype');
+          font-display: swap;
+        }
+      ` }} />
       <Header
         ref={headerRef}
         currentView={currentView}
@@ -74,7 +84,9 @@ const App: React.FC = () => {
             </div>
           )}
           {currentView === 'library' && (
-            <Library onBackToMagazine={() => setCurrentView('magazine')} />
+            <div className="flex flex-col gap-2">
+              <Library onBackToMagazine={() => setCurrentView('magazine')} />
+            </div>
           )}
         </Suspense>
       </main>

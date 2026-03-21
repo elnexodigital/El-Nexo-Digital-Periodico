@@ -1,12 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&family=Playfair+Display:wght@700&family=Caveat:wght@400;700&display=swap');
 @import "tailwindcss";
 
-@font-face {
-  font-family: 'Brittany';
-  src: url('https://res.cloudinary.com/ddmj6zevz/raw/upload/v1756916641/brittany_ifg3wl.ttf') format('truetype');
-  font-display: swap;
-}
-
 @theme {
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
