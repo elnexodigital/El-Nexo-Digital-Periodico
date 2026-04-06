@@ -4,7 +4,6 @@ import type { VideoPodcast, HeaderControls } from './types.ts';
 import Header from './components/Header.tsx';
 import LoadingSpinner from './components/LoadingSpinner.tsx';
 import Library from './components/Library.tsx';
-import { getCloudinaryUrl, CLOUDINARY_CLOUD_NAMES } from './utils/mediaUtils.ts';
 
 // --- COMPONENTES CON LAZY LOADING ---
 const PodcastModal = lazy(() => import('./components/PodcastModal.tsx'));
@@ -18,7 +17,7 @@ const App: React.FC = () => {
   const [isPodcastModalOpen, setIsPodcastModalOpen] = useState(false);
   const headerRef = useRef<HeaderControls>(null);
 
-  const fontUrl = getCloudinaryUrl('v1756916641/brittany_ifg3wl.ttf', CLOUDINARY_CLOUD_NAMES.VIDEO, 'raw');
+  const fontUrl = 'https://res.cloudinary.com/dnauavz56/raw/upload/brittany_ifg3wl.ttf';
 
   // Carga del podcast del día (cambia cada día basado en la fecha)
   useEffect(() => {

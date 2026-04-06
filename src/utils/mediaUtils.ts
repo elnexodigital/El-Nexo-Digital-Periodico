@@ -1,11 +1,13 @@
 
 export const CLOUDINARY_CLOUD_NAMES = {
-  AUDIO: 'dgvkbrgre',
-  VIDEO: 'ddmj6zevz',
-  IMAGE: 'ddmj6zevz', // Using the same cloud name as video for images
+  AUDIO: 'dgvkbrgre', // música 542 archivos
+  VIDEO: 'dnauavz56', // postales, imágenes de publicidades, miniaturas de biblioteca y carátulas de los podcast en MP4
+  IMAGE: 'dnauavz56', // postales, imágenes de publicidades, miniaturas
   GENERAL: 'dnauavz56',
-  SECONDARY_VIDEO: 'dus9zcgen',
-  MISC: 'dsammmekc'
+  SECONDARY_VIDEO: 'dnauavz56',
+  MISC: 'dnauavz56',
+  PODCASTS: 'dgb6icyzx', // podcast MP3
+  JINGLES: 'dgb6icyzx' // música propia, presentación de jingles propios
 };
 
 export const getCloudinaryUrl = (
@@ -16,7 +18,12 @@ export const getCloudinaryUrl = (
 ): string => {
   // Cloudinary uses 'video' for audio files as well
   const prefix = params ? `${params}/` : '';
-  return `https://res.cloudinary.com/${cloudName}/${resourceType}/upload/${prefix}${path}`;
+  
+  // If path already contains a version (starts with v followed by digits), use it as is
+  // Otherwise, we don't force a version anymore to avoid 404s if the version is wrong
+  let finalPath = path;
+  
+  return `https://res.cloudinary.com/${cloudName}/${resourceType}/upload/${prefix}${finalPath}`;
 };
 
 /**
@@ -28,17 +35,26 @@ export const cleanMediaUrl = (url: string): string => {
   
   let clean = url;
   
-  // Remove q_auto:good which is causing 404s in this environment/Cloudinary account
-  if (clean.includes('cloudinary.com') && clean.includes('q_auto:good')) {
-    clean = clean.replace('q_auto:good/', '');
+  // Remove problematic parameters
+  if (clean.includes('cloudinary.com')) {
+    // Remove q_auto, q_auto:good, f_auto and handle surrounding commas
+    clean = clean.replace(/,?q_auto(:good)?,?/g, (match) => {
+      if (match.startsWith(',') && match.endsWith(',')) return ',';
+      return '';
+    });
+    
+    clean = clean.replace(/,?f_auto,?/g, (match) => {
+      if (match.startsWith(',') && match.endsWith(',')) return ',';
+      return '';
+    });
+    
+    // Clean up double slashes that might result from empty params
+    clean = clean.replace(/\/upload\/\//, '/upload/');
+    // Remove trailing comma in params if any
+    clean = clean.replace(/\/upload\/,/, '/upload/');
+    // Remove trailing comma before the version/path
+    clean = clean.replace(/,\/v/, '/v');
   }
   
-  // Ensure the URL is correctly encoded for the browser
-  try {
-    // decodeURIComponent first in case it's already partially encoded, 
-    // then encodeURI for a clean result
-    return encodeURI(decodeURIComponent(clean));
-  } catch (e) {
-    return encodeURI(clean);
-  }
+  return clean;
 };

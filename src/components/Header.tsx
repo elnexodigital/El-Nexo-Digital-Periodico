@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useCallback, forwardRef, useImperativeHandle } from 'react';
-import { cleanMediaUrl, getCloudinaryUrl, CLOUDINARY_CLOUD_NAMES } from '../utils/mediaUtils.ts';
+import { motion } from 'motion/react';
 import ListenerCounter from './ListenerCounter.tsx';
-import { Library as LibraryIcon, Home, Play, Pause, SkipForward } from 'lucide-react';
+import { Home, Play, Pause, SkipForward, BookOpen, Mic } from 'lucide-react';
 import type { MusicTrack, HeaderControls, NewsBroadcast, PodcastMP3 } from '../types.ts';
 
 // Static Imports for Radio Data
@@ -33,45 +33,52 @@ const shuffleArray = <T,>(array: T[]): T[] => {
 };
 
 const VIDEO_URLS: string[] = [
-  getCloudinaryUrl('v1759387536/spot_10_segundos_completo_wsoeh1.mp4', CLOUDINARY_CLOUD_NAMES.SECONDARY_VIDEO),
-  getCloudinaryUrl('v1755907719/animaci%C3%B3n_APP_pvxjop.mp4', CLOUDINARY_CLOUD_NAMES.VIDEO, 'video', 'w_1280,q_auto:good'),
-  getCloudinaryUrl('v1756345297/14_okcuk0.mp4', CLOUDINARY_CLOUD_NAMES.VIDEO, 'video', 'w_1280,q_auto:good'),
-  getCloudinaryUrl('v1756345296/13_debkpb.mp4', CLOUDINARY_CLOUD_NAMES.VIDEO, 'video', 'w_1280,q_auto:good'),
-  getCloudinaryUrl('v1756345293/11_gud5kv.mp4', CLOUDINARY_CLOUD_NAMES.VIDEO, 'video', 'w_1280,q_auto:good'),
-  getCloudinaryUrl('v1756345294/12_ringmi.mp4', CLOUDINARY_CLOUD_NAMES.VIDEO, 'video', 'w_1280,q_auto:good'),
-  getCloudinaryUrl('v1756345294/9_ulzdcy.mp4', CLOUDINARY_CLOUD_NAMES.VIDEO, 'video', 'w_1280,q_auto:good'),
-  getCloudinaryUrl('v1756345293/10_io3g8k.mp4', CLOUDINARY_CLOUD_NAMES.VIDEO, 'video', 'w_1280,q_auto:good'),
-  getCloudinaryUrl('v1756345059/8_vng8sz.mp4', CLOUDINARY_CLOUD_NAMES.VIDEO, 'video', 'w_1280,q_auto:good'),
-  getCloudinaryUrl('v1756345005/4_hczosi.mp4', CLOUDINARY_CLOUD_NAMES.VIDEO, 'video', 'w_1280,q_auto:good'),
-  getCloudinaryUrl('v1756345005/6_jdroij.mp4', CLOUDINARY_CLOUD_NAMES.VIDEO, 'video', 'w_1280,q_auto:good'),
-  getCloudinaryUrl('v1756345004/5_ivvibp.mp4', CLOUDINARY_CLOUD_NAMES.VIDEO, 'video', 'w_1280,q_auto:good'),
-  getCloudinaryUrl('v1756345004/7_aw3cxt.mp4', CLOUDINARY_CLOUD_NAMES.VIDEO, 'video', 'w_1280,q_auto:good'),
-  getCloudinaryUrl('v1756345003/3_thswfg.mp4', CLOUDINARY_CLOUD_NAMES.VIDEO, 'video', 'w_1280,q_auto:good'),
-  getCloudinaryUrl('v1756345002/2_gthspn.mp4', CLOUDINARY_CLOUD_NAMES.VIDEO, 'video', 'w_1280,q_auto:good'),
-  getCloudinaryUrl('v1756345001/1_ndgmbp.mp4', CLOUDINARY_CLOUD_NAMES.VIDEO, 'video', 'w_1280,q_auto:good'),
-  getCloudinaryUrl('v1757874034/tu_compa%C3%B1%C3%ADa_247_srq9ah.mp4', CLOUDINARY_CLOUD_NAMES.VIDEO, 'video', 'w_1280,q_auto:good'),
-  getCloudinaryUrl('v1757877430/tu_compa%C3%B1%C3%ADa3_aoreex.mp4', CLOUDINARY_CLOUD_NAMES.VIDEO, 'video', 'w_1280,q_auto:good'),
-  getCloudinaryUrl('v1757877463/tu_compa%C3%B1%C3%ADa_4_jk7aeq.mp4', CLOUDINARY_CLOUD_NAMES.VIDEO, 'video', 'w_1280,q_auto:good'),
-  getCloudinaryUrl('v1757877465/tu_compa%C3%B1%C3%ADa_5_x13zf0.mp4', CLOUDINARY_CLOUD_NAMES.VIDEO, 'video', 'w_1280,q_auto:good'),
-  getCloudinaryUrl('v1757877467/tu_compa%C3%B1%C3%ADa_7_okxvw2.mp4', CLOUDINARY_CLOUD_NAMES.VIDEO, 'video', 'w_1280,q_auto:good'),
-  getCloudinaryUrl('v1757877467/tu_compa%C3%B1%C3%ADa_6_kkiqlc.mp4', CLOUDINARY_CLOUD_NAMES.VIDEO, 'video', 'w_1280,q_auto:good'),
-  getCloudinaryUrl('v1757877700/tu_compa%C3%B1%C3%ADa2_nalqjp.mp4', CLOUDINARY_CLOUD_NAMES.VIDEO, 'video', 'w_1280,q_auto:good'),
-  getCloudinaryUrl('v1757877469/tu_compa%C3%B1%C3%ADa_8_bnqoa2.mp4', CLOUDINARY_CLOUD_NAMES.VIDEO, 'video', 'w_1280,q_auto:good'),
-  getCloudinaryUrl('v1757877470/tu_compa%C3%B1%C3%ADa_9_iomwyb.mp4', CLOUDINARY_CLOUD_NAMES.VIDEO, 'video', 'w_1280,q_auto:good'),
-  getCloudinaryUrl('v1757877473/tu_compa%C3%B1%C3%ADa_10_t5gpkm.mp4', CLOUDINARY_CLOUD_NAMES.VIDEO, 'video', 'w_1280,q_auto:good'),
-  getCloudinaryUrl('v1757877508/tu_compa%C3%B1%C3%ADa_11_el38c4.mp4', CLOUDINARY_CLOUD_NAMES.VIDEO, 'video', 'w_1280,q_auto:good'),
-  getCloudinaryUrl('v1774064355/marquesina_app1_aekb22.mp4', CLOUDINARY_CLOUD_NAMES.VIDEO),
-  getCloudinaryUrl('v1774064347/marquesina_app9_ldnyru.mp4', CLOUDINARY_CLOUD_NAMES.VIDEO),
-  getCloudinaryUrl('v1774064345/marquesina_app10_qgc8in.mp4', CLOUDINARY_CLOUD_NAMES.VIDEO),
-  getCloudinaryUrl('v1774064345/marquesina_app7_ohnqqj.mp4', CLOUDINARY_CLOUD_NAMES.VIDEO),
-  getCloudinaryUrl('v1774064344/marquesina_app6_hglg7r.mp4', CLOUDINARY_CLOUD_NAMES.VIDEO),
-  getCloudinaryUrl('v1774064341/marquesina_app11_vacrxs.mp4', CLOUDINARY_CLOUD_NAMES.VIDEO),
-  getCloudinaryUrl('v1774064341/marquesina_app5_rbxigs.mp4', CLOUDINARY_CLOUD_NAMES.VIDEO),
-  getCloudinaryUrl('v1774064337/marquesina_app8_ecjgfn.mp4', CLOUDINARY_CLOUD_NAMES.VIDEO),
-  getCloudinaryUrl('v1774064334/marquesina_app3_grkc5b.mp4', CLOUDINARY_CLOUD_NAMES.VIDEO),
-  getCloudinaryUrl('v1774064333/marquesina_app2_cjf782.mp4', CLOUDINARY_CLOUD_NAMES.VIDEO),
-  getCloudinaryUrl('v1774064329/marquesina_app4_a9cztq.mp4', CLOUDINARY_CLOUD_NAMES.VIDEO),
-  getCloudinaryUrl('v1774064329/marquesina_app_vfb7wa.mp4', CLOUDINARY_CLOUD_NAMES.VIDEO),
+  'https://res.cloudinary.com/ddmj6zevz/video/upload/v1774064355/marquesina_app1_aekb22.mp4',
+  'https://res.cloudinary.com/ddmj6zevz/video/upload/v1774064347/marquesina_app9_ldnyru.mp4',
+  'https://res.cloudinary.com/ddmj6zevz/video/upload/v1774064345/marquesina_app10_qgc8in.mp4',
+  'https://res.cloudinary.com/ddmj6zevz/video/upload/v1774064345/marquesina_app7_ohnqqj.mp4',
+  'https://res.cloudinary.com/ddmj6zevz/video/upload/v1774064344/marquesina_app6_hglg7r.mp4',
+  'https://res.cloudinary.com/ddmj6zevz/video/upload/v1774064341/marquesina_app11_vacrxs.mp4',
+  'https://res.cloudinary.com/ddmj6zevz/video/upload/v1774064341/marquesina_app5_rbxigs.mp4',
+  'https://res.cloudinary.com/ddmj6zevz/video/upload/v1774064337/marquesina_app8_ecjgfn.mp4',
+  'https://res.cloudinary.com/ddmj6zevz/video/upload/v1774064334/marquesina_app3_grkc5b.mp4',
+  'https://res.cloudinary.com/ddmj6zevz/video/upload/v1774064333/marquesina_app2_cjf782.mp4',
+  'https://res.cloudinary.com/ddmj6zevz/video/upload/v1774064329/marquesina_app4_a9cztq.mp4',
+  'https://res.cloudinary.com/ddmj6zevz/video/upload/v1774064329/marquesina_app_vfb7wa.mp4',
+  'https://res.cloudinary.com/ddmj6zevz/video/upload/v1757877700/tu_compa%C3%B1%C3%ADa2_nalqjp.mp4',
+  'https://res.cloudinary.com/ddmj6zevz/video/upload/v1757877508/tu_compa%C3%B1%C3%ADa_11_el38c4.mp4',
+  'https://res.cloudinary.com/ddmj6zevz/video/upload/v1757877473/tu_compa%C3%B1%C3%ADa_10_t5gpkm.mp4',
+  'https://res.cloudinary.com/ddmj6zevz/video/upload/v1757877470/tu_compa%C3%B1%C3%ADa_9_iomwyb.mp4',
+  'https://res.cloudinary.com/ddmj6zevz/video/upload/v1757877469/tu_compa%C3%B1%C3%ADa_8_bnqoa2.mp4',
+  'https://res.cloudinary.com/ddmj6zevz/video/upload/v1757877467/tu_compa%C3%B1%C3%ADa_7_okxvw2.mp4',
+  'https://res.cloudinary.com/ddmj6zevz/video/upload/v1757877467/tu_compa%C3%B1%C3%ADa_6_kkiqlc.mp4',
+  'https://res.cloudinary.com/ddmj6zevz/video/upload/v1757877465/tu_compa%C3%B1%C3%ADa_5_x13zf0.mp4',
+  'https://res.cloudinary.com/ddmj6zevz/video/upload/v1757877463/tu_compa%C3%B1%C3%ADa_4_jk7aeq.mp4',
+  'https://res.cloudinary.com/ddmj6zevz/video/upload/v1757877430/tu_compa%C3%B1%C3%ADa3_aoreex.mp4',
+  'https://res.cloudinary.com/ddmj6zevz/video/upload/v1757874034/tu_compa%C3%B1%C3%ADa_247_srq9ah.mp4',
+  'https://res.cloudinary.com/ddmj6zevz/video/upload/v1756345297/14_okcuk0.mp4',
+  'https://res.cloudinary.com/ddmj6zevz/video/upload/v1756345296/13_debkpb.mp4',
+  'https://res.cloudinary.com/ddmj6zevz/video/upload/v1756345294/12_ringmi.mp4',
+  'https://res.cloudinary.com/ddmj6zevz/video/upload/v1756345293/11_gud5kv.mp4',
+  'https://res.cloudinary.com/ddmj6zevz/video/upload/v1756345293/10_io3g8k.mp4',
+  'https://res.cloudinary.com/ddmj6zevz/video/upload/v1756345294/9_ulzdcy.mp4',
+  'https://res.cloudinary.com/ddmj6zevz/video/upload/v1756345059/8_vng8sz.mp4',
+  'https://res.cloudinary.com/ddmj6zevz/video/upload/v1756345004/7_aw3cxt.mp4',
+  'https://res.cloudinary.com/ddmj6zevz/video/upload/v1756345005/6_jdroij.mp4',
+  'https://res.cloudinary.com/ddmj6zevz/video/upload/v1756345004/5_ivvibp.mp4',
+  'https://res.cloudinary.com/ddmj6zevz/video/upload/v1756345005/4_hczosi.mp4',
+  'https://res.cloudinary.com/ddmj6zevz/video/upload/v1756345003/3_thswfg.mp4',
+  'https://res.cloudinary.com/ddmj6zevz/video/upload/v1756345002/2_gthspn.mp4',
+  'https://res.cloudinary.com/ddmj6zevz/video/upload/v1756345001/1_ndgmbp.mp4',
+  'https://res.cloudinary.com/ddmj6zevz/video/upload/v1756344401/spot_10_segundos_completo_gtdtqu.mp4',
+  'https://res.cloudinary.com/ddmj6zevz/video/upload/v1756344390/spot10_segundos_completo_zsk1g7.mp4',
+  'https://res.cloudinary.com/ddmj6zevz/video/upload/v1756344378/spot_10_segundos_completo_hhoeeb.mp4',
+  'https://res.cloudinary.com/ddmj6zevz/video/upload/v1756344292/spot_10_segundos_completo_bkagma.mp4',
+  'https://res.cloudinary.com/ddmj6zevz/video/upload/v1756344282/spot10segundos_completo_rku0iy.mp4',
+  'https://res.cloudinary.com/ddmj6zevz/video/upload/v1756344274/spot_10_segundos_completo_fzdqlg.mp4',
+  'https://res.cloudinary.com/ddmj6zevz/video/upload/v1756344264/spot_10_segundos_completo_kmryb2.mp4',
+  'https://res.cloudinary.com/ddmj6zevz/video/upload/v1756344252/spot_10_segundos_yirf7x.mp4',
+  'https://res.cloudinary.com/ddmj6zevz/video/upload/v1755907719/animaci%C3%B3n_APP_pvxjop.mp4',
 ];
 
 const Header = forwardRef<HeaderControls, HeaderProps>(({
@@ -81,26 +88,36 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({
   hasPodcast
 }, ref) => {
 
-  const NavItem = ({ view, label, icon: Icon, onClick, active }: { view?: any, label: string, icon: any, onClick?: () => void, active?: boolean }) => (
-    <div className="flex flex-col items-center gap-1 sm:gap-2 px-2 sm:px-6 group relative">
-      <button
-        onClick={onClick || (() => onNavigate(view))}
-        title={label}
-        className={`w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center rounded-full transition-all duration-700 shadow-[0_4px_12px_rgba(0,0,0,0.05)] border ${active || currentView === view
-          ? 'bg-[#800020] text-white border-[#600010] shadow-md'
-          : 'bg-white text-zen-charcoal/80 border-black/10 hover:text-[#800020] hover:border-[#800020]/20 hover:shadow-lg'
-          }`}
-      >
-        <Icon size={18} strokeWidth={1.5} />
-      </button>
-      <span className={`text-[8px] font-mono tracking-[0.2em] sm:tracking-[0.3em] uppercase transition-opacity duration-700 font-bold ${active || currentView === view ? 'opacity-100 text-[#800020]' : 'opacity-70 group-hover:opacity-100 text-zen-charcoal'}`}>{label}</span>
-    </div>
-  );
+  const NavItem = ({ view, label, icon: Icon, onClick, active }: { view?: any, label: string, icon: any, onClick?: () => void, active?: boolean }) => {
+    const isActive = active || currentView === view;
+    return (
+      <div className="flex flex-col items-center gap-2 group relative">
+        <button
+          onClick={onClick || (() => onNavigate(view))}
+          className={`w-12 h-12 sm:w-16 sm:h-16 flex items-center justify-center rounded-full transition-all duration-500 shadow-xl border-2 ${isActive
+            ? 'bg-white text-stone-900 border-white shadow-[0_0_25px_rgba(255,255,255,0.4)] scale-110'
+            : 'bg-stone-800/40 text-stone-400 border-white/10 hover:bg-stone-700 hover:text-white hover:border-white/40 hover:scale-105 hover:shadow-[0_0_15px_rgba(255,255,255,0.1)]'
+            }`}
+        >
+          <Icon size={isActive ? 28 : 24} strokeWidth={isActive ? 2.5 : 1.5} />
+        </button>
+        <span className={`text-[10px] font-bold tracking-[0.3em] uppercase transition-all duration-300 mt-1 ${isActive ? 'opacity-100 text-stone-900 translate-y-0' : 'opacity-50 group-hover:opacity-100 text-stone-500 group-hover:text-stone-800 translate-y-1 group-hover:translate-y-0'}`}>
+          {label}
+        </span>
+        {isActive && (
+          <motion.div 
+            layoutId="nav-indicator"
+            className="absolute -bottom-3 w-8 h-1 rounded-full bg-stone-800 shadow-[0_0_10px_rgba(0,0,0,0.2)]" 
+          />
+        )}
+      </div>
+    );
+  };
 
   const [currentDate, setCurrentDate] = useState('');
   const [isPlaying, setIsPlaying] = useState(false);
   const [isGreetingPlaying, setIsGreetingPlaying] = useState(false);
-  const [videoQueue, setVideoQueue] = useState(() => shuffleArray(VIDEO_URLS).map(url => cleanMediaUrl(url)));
+  const [videoQueue, setVideoQueue] = useState(() => shuffleArray(VIDEO_URLS));
   const [musicQueue, setMusicQueue] = useState<MusicTrack[]>([]);
   const [hasGreetingPlayed, setHasGreetingPlayed] = useState(false);
   const [playedBroadcasts, setPlayedBroadcasts] = useState<Record<number, boolean>>({});
@@ -212,7 +229,7 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({
       recentVideosRef.current = newHistory;
 
       if (rest.length === 0) {
-        return shuffleArray(VIDEO_URLS).map(url => cleanMediaUrl(url));
+        return shuffleArray(VIDEO_URLS);
       }
       return [...rest, first];
     });
@@ -266,7 +283,7 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({
     const shouldPlayMusic = isPlaying && !isGreetingPlaying && !activeBroadcast;
 
     if (shouldPlayMusic) {
-      const newSrc = cleanMediaUrl(currentTrack.url);
+      const newSrc = currentTrack.url;
 
       // Solo actualizamos el src si ha cambiado realmente
       if (lastPlayedSrcRef.current !== newSrc) {
@@ -327,7 +344,7 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({
           newsAudioRef.current = null;
       }
     };
-    newsAudioRef.current = new Audio(cleanMediaUrl(broadcast.url));
+    newsAudioRef.current = new Audio(broadcast.url);
     newsAudioRef.current.addEventListener('ended', resumeMusic);
     newsAudioRef.current.addEventListener('error', (e) => {
         console.error("Broadcast play failed", e);
@@ -412,7 +429,7 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({
       if (greetingUrl) {
         setIsGreetingPlaying(true);
         
-        const encodedUrl = cleanMediaUrl(greetingUrl);
+        const encodedUrl = greetingUrl;
 
         greetingAudioRef.current = new Audio(encodedUrl);
         const onGreetingEnd = () => {
@@ -462,9 +479,9 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({
           <ListenerCounter />
         </div>
 
-        <div className="text-center space-y-4 mb-8 mt-12 sm:mt-0">
+        <div className="text-center space-y-4 mb-8">
           <div className="flex flex-col items-center gap-2">
-            <h1 className="text-4xl sm:text-7xl font-signature text-zen-charcoal/95">
+            <h1 className="text-5xl sm:text-7xl font-signature text-[#800020] mb-2 drop-shadow-sm">
               El Nexo Digital
             </h1>
             <span className="text-[14px] sm:text-[16px] font-serif italic text-zen-charcoal tracking-tight">mucho más que un podcast</span>
@@ -488,35 +505,43 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({
             />
           </div>
 
-          {/* Radio Player Bar - Glued to video, industrial style */}
-          <div className="flex flex-col w-full">
-            {/* Full Width Marquee on Top - Delicate Digital Style - Minimal Height */}
-            <div className="bg-stone-900/95 border-t border-white/10 py-0.5 overflow-hidden">
+          {/* Radio Player Bar - Simple, clean style */}
+          <div className="flex flex-col w-full bg-stone-900">
+            {/* Full Width Marquee on Top */}
+            <div className="bg-black/40 border-t border-white/5 py-2 overflow-hidden">
               <div className="marquee-container">
                 <div className="marquee-content marquee-slow">
-                  <span className="text-emerald-400/90 font-normal text-xs md:text-sm uppercase tracking-[0.6em] font-mono whitespace-nowrap leading-none">
+                  <span className="text-emerald-400/80 font-normal text-xs md:text-sm uppercase tracking-[0.4em] font-mono whitespace-nowrap leading-none">
                     {currentArtist} — {currentTitle} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {currentArtist} — {currentTitle} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {currentArtist} — {currentTitle}
                   </span>
                 </div>
               </div>
             </div>
 
-            {/* Controls Area - Corrugated Steel Style - Compact Padding */}
-            <div className="bg-corrugated-steel p-2 md:p-3 flex items-center justify-center gap-6 border-t border-black/20 shadow-inner">
-              <button 
-                onClick={togglePlayPause}
-                className="w-10 h-10 md:w-12 md:h-12 flex items-center justify-center rounded-full bg-stone-800 text-white border border-white/20 shadow-lg hover:bg-stone-700 transition-all hover:scale-105 active:scale-95"
-              >
-                {isPlaying ? <Pause size={20} fill="currentColor" /> : <Play size={20} fill="currentColor" className="ml-1" />}
-              </button>
+            {/* Controls Area - Centered and Styled */}
+            <div className="p-6 flex items-center justify-center border-t border-white/5 relative">
+              <div className="flex items-center gap-12">
+                <button 
+                  onClick={togglePlayPause}
+                  className="w-16 h-16 md:w-20 md:h-20 flex items-center justify-center rounded-full bg-white text-stone-900 shadow-[0_0_30px_rgba(255,255,255,0.2)] hover:bg-stone-100 transition-all hover:scale-110 active:scale-95 border-4 border-white/30 group relative"
+                  title={isPlaying ? "Pausar" : "Reproducir"}
+                >
+                  <div className="absolute inset-0 rounded-full bg-white/20 animate-ping group-hover:hidden" />
+                  {isPlaying ? (
+                    <Pause size={32} fill="currentColor" />
+                  ) : (
+                    <Play size={32} fill="currentColor" className="ml-1" />
+                  )}
+                </button>
 
-              <button 
-                onClick={handleChangeVibe}
-                className="w-8 h-8 md:w-9 md:h-9 flex items-center justify-center rounded-full bg-stone-800/50 text-white border border-white/10 shadow-md hover:bg-stone-700 transition-all hover:scale-105 active:scale-95"
-                title="Siguiente"
-              >
-                <SkipForward size={16} />
-              </button>
+                <button 
+                  onClick={handleChangeVibe}
+                  className="w-12 h-12 md:w-14 md:h-14 flex items-center justify-center rounded-full bg-stone-800 text-white border-2 border-white/10 shadow-xl hover:bg-stone-700 transition-all hover:scale-110 active:scale-95 hover:border-white/30"
+                  title="Siguiente"
+                >
+                  <SkipForward size={24} />
+                </button>
+              </div>
             </div>
           </div>
           <audio ref={audioRef} onEnded={playNextMusicTrack} />
@@ -525,12 +550,12 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({
         {/* Moss Green Divider Line */}
         <div className="w-full h-[1px] bg-[#7A907E] opacity-50 mb-10" />
 
-        {/* Minimal Nav - Responsive Grid */}
-        <nav className="flex flex-wrap justify-center gap-4 sm:gap-8 p-4 w-full max-w-4xl mx-auto">
+        {/* Minimal Nav - Consistent Style */}
+        <nav className="flex flex-wrap justify-center gap-6 sm:gap-12 p-4 w-full max-w-4xl mx-auto">
           <NavItem view="magazine" label="Explorar" icon={Home} />
-          <NavItem view="library" label="Biblioteca" icon={LibraryIcon} />
+          <NavItem view="library" label="Biblioteca" icon={BookOpen} />
           {hasPodcast && onOpenPodcast && (
-            <NavItem label="Video Podcast" icon={() => <span className="text-lg">🎙️</span>} onClick={onOpenPodcast} />
+            <NavItem label="Video Podcast" icon={Mic} onClick={onOpenPodcast} />
           )}
         </nav>
       </div>

@@ -2,7 +2,6 @@
 import React, { useEffect, useRef } from 'react';
 import { X, Play } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
-import { cleanMediaUrl } from '../utils/mediaUtils.ts';
 import type { VideoPodcast } from '../types.ts';
 
 interface PodcastModalProps {
@@ -66,7 +65,7 @@ const PodcastModal: React.FC<PodcastModalProps> = ({ isOpen, onClose, podcast })
             <video
               ref={videoRef}
               key={podcast.id}
-              src={cleanMediaUrl(podcast.videoUrl)}
+              src={podcast.videoUrl}
               controls
               muted
               autoPlay

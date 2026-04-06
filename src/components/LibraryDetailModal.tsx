@@ -1,6 +1,5 @@
 
 import React, { useEffect } from 'react';
-import { cleanMediaUrl } from '../utils/mediaUtils.ts';
 import type { LibraryItem } from '../types.ts';
 
 interface LibraryDetailModalProps {
@@ -120,14 +119,14 @@ const LibraryDetailModal: React.FC<LibraryDetailModalProps> = ({ isOpen, onClose
                    <video 
                      controls 
                      className="w-full h-full object-contain"
-                     src={cleanMediaUrl(item.videoUrl)}
+                     src={item.videoUrl}
                      onPlay={handleMediaPlay}
                    >
                        Tu navegador no soporta video.
                    </video>
                ) : (
                    <img 
-                     src={cleanMediaUrl(item.imageUrl)} 
+                     src={item.imageUrl} 
                      alt={item.title} 
                      className="w-full h-full object-cover opacity-90"
                    />
@@ -175,7 +174,7 @@ const LibraryDetailModal: React.FC<LibraryDetailModalProps> = ({ isOpen, onClose
                     {item.audioUrl && (
                         <div className="w-full md:w-auto flex-grow">
                             <audio controls className="w-full h-10" onPlay={handleMediaPlay}>
-                                <source src={cleanMediaUrl(item.audioUrl)} type="audio/mpeg" />
+                                <source src={item.audioUrl} />
                                 Tu navegador no soporta audio.
                             </audio>
                         </div>

@@ -1,5 +1,4 @@
 import type { LibraryItem } from '../types.ts';
-import { getCloudinaryUrl, CLOUDINARY_CLOUD_NAMES } from '../utils/mediaUtils.ts';
 
 export const LIBRARY_CONTENT: LibraryItem[] = [
   // --- DOCUMENTOS DE INVESTIGACIÓN / REVISTAS ---
@@ -8,10 +7,10 @@ export const LIBRARY_CONTENT: LibraryItem[] = [
     category: 'Revistas',
     title: 'El Despertar del Águila',
     author: 'Archivo El Nexo Digital',
-    imageUrl: getCloudinaryUrl('v1770891228/el_despertar_del_aguila_sam56e.png', CLOUDINARY_CLOUD_NAMES.GENERAL, 'image'),
+    imageUrl: 'https://res.cloudinary.com/dnauavz56/image/upload/el_despertar_del_aguila_sam56e.png',
     review: 'Una crónica cruda y detallada sobre la hegemonía geopolítica. Este documento analiza las intervenciones militares de Estados Unidos, explorando la maquinaria del poder, el Destino Manifiesto y las cicatrices que la expansión imperial ha dejado en el mapa global.',
     publicationDate: 'Marzo, 2025',
-    pdfUrl: getCloudinaryUrl('v1770892038/Cr%C3%B3nica_de_las_Intervenciones_Militares_de_Estados_Unidos_2_pwqu2i.pdf', CLOUDINARY_CLOUD_NAMES.GENERAL, 'image'),
+    pdfUrl: 'https://res.cloudinary.com/dnauavz56/image/upload/Cr%C3%B3nica_de_las_Intervenciones_Militares_de_Estados_Unidos_2_pwqu2i.pdf',
     sources: 'Investigación Geopolítica de El Nexo Digital.'
   },
   {
@@ -22,7 +21,7 @@ export const LIBRARY_CONTENT: LibraryItem[] = [
     imageUrl: 'https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?auto=format&fit=crop&q=80&w=600',
     review: 'Un análisis exhaustivo sobre la reconfiguración del ego colectivo humano a través de la conquista espacial.',
     publicationDate: 'Febrero, 2025',
-    pdfUrl: getCloudinaryUrl('v1769353709/Exploraci%C3%B3n_Lunar_Apolo_a_Artemis_tc7zwm.docx', CLOUDINARY_CLOUD_NAMES.SECONDARY_VIDEO, 'raw'),
+    pdfUrl: 'https://res.cloudinary.com/dnauavz56/raw/upload/Exploraci%C3%B3n_Lunar_Apolo_a_Artemis_tc7zwm.docx',
     sources: 'Investigación General de El Nexo Digital.'
   },
   {
@@ -33,7 +32,7 @@ export const LIBRARY_CONTENT: LibraryItem[] = [
     imageUrl: 'https://images.unsplash.com/photo-1513828583688-c52646db42da?auto=format&fit=crop&q=80&w=600',
     review: 'Un análisis multidimensional sobre el desarrollo, la soberanía y el impacto socioambiental de las plantas de celulosa.',
     publicationDate: 'Febrero, 2025',
-    pdfUrl: getCloudinaryUrl('v1769353708/Evoluci%C3%B3n_y_Trascendencia_de_la_Industria_de_Celulosa_en_Uruguay_Un_An%C3%A1lisis_Multidimensional_sobre_el_Desarrollo_la_Soberan%C3%ADa_y_el_Impacto_Socioambiental_y8opdq.docx', CLOUDINARY_CLOUD_NAMES.SECONDARY_VIDEO, 'raw'),
+    pdfUrl: 'https://res.cloudinary.com/dnauavz56/raw/upload/Evoluci%C3%B3n_y_Trascendencia_de_la_Industria_de_Celulosa_en_Uruguay_Un_An%C3%A1lisis_Multidimensional_sobre_el_Desarrollo_la_Soberan%C3%ADa_y_el_Impacto_Socioambiental_y8opdq.docx',
     sources: 'Investigación sobre soberanía y recursos.'
   },
   {
@@ -41,11 +40,11 @@ export const LIBRARY_CONTENT: LibraryItem[] = [
     category: 'Revistas',
     title: 'Investigación: Georges Bataille',
     author: 'El Nexo Digital',
-    imageUrl: getCloudinaryUrl('v1764533188/bataille_chwzaq.png', CLOUDINARY_CLOUD_NAMES.GENERAL, 'image'),
+    imageUrl: 'https://res.cloudinary.com/dnauavz56/image/upload/bataille_chwzaq.png',
     review: 'Documento de investigación profundo sobre la obra y pensamiento de Georges Bataille.',
     publicationDate: 'Investigación Especial',
-    pdfUrl: getCloudinaryUrl('v1764532682/Investigaci%C3%B3n_sobre_Georges_Bataille_1_g1sjkw.pdf', CLOUDINARY_CLOUD_NAMES.GENERAL, 'image'),
-    audioUrl: getCloudinaryUrl('v1764532510/Bataille_Gasto_El_Sol_Erotismo_Fascismo_jhajdd.mp3', CLOUDINARY_CLOUD_NAMES.GENERAL),
+    pdfUrl: 'https://res.cloudinary.com/dnauavz56/image/upload/Investigaci%C3%B3n_sobre_Georges_Bataille_1_g1sjkw.pdf',
+    audioUrl: 'https://res.cloudinary.com/dgb6icyzx/video/upload/Bataille_Gasto_El_Sol_Erotismo_Fascismo_jhajdd.mp3',
     sources: 'Archivo de investigación de El Nexo Digital.'
   },
 
@@ -55,9 +54,9 @@ export const LIBRARY_CONTENT: LibraryItem[] = [
     category: 'Podcasts',
     title: 'Nuestra Relación con el Miedo',
     author: 'El Nexo Digital',
-    imageUrl: getCloudinaryUrl('v1764004910/Nuestra_Relaci%C3%B3n_con_el_Miedo_glyfqz.png', CLOUDINARY_CLOUD_NAMES.GENERAL, 'image'),
+    imageUrl: 'https://res.cloudinary.com/dnauavz56/image/upload/Nuestra_Relaci%C3%B3n_con_el_Miedo_glyfqz.png',
     review: 'El miedo, esa sombra que nos sigue, que nos define. ¿Es un ancla o una brújula?',
-    videoUrl: getCloudinaryUrl('v1764886279/la_busqueda_de_lo_sobrenatural_nn2mhb.mp4', CLOUDINARY_CLOUD_NAMES.VIDEO),
+    videoUrl: 'https://res.cloudinary.com/dnauavz56/video/upload/la_busqueda_de_lo_sobrenatural_nn2mhb.mp4',
     publicationDate: 'Video Podcast',
     sources: 'El Nexo Digital'
   },
@@ -66,9 +65,9 @@ export const LIBRARY_CONTENT: LibraryItem[] = [
     category: 'Podcasts',
     title: 'Don Quijote: Manifiesto Existencial',
     author: 'El Nexo Digital',
-    imageUrl: getCloudinaryUrl('v1764887019/Gemini_Generated_Image_a2c5dia2c5dia2c5_x0dvmh.png', CLOUDINARY_CLOUD_NAMES.VIDEO, 'image'),
+    imageUrl: 'https://res.cloudinary.com/dnauavz56/image/upload/Gemini_Generated_Image_a2c5dia2c5dia2c5_x0dvmh.png',
     review: 'El video reinterpreta la figura de Don Quijote como un individuo en plena crisis existencial.',
-    videoUrl: getCloudinaryUrl('v1758266308/Don_Quijote_Un_Manifiesto_Existencial_g1rxky.mp4', CLOUDINARY_CLOUD_NAMES.VIDEO),
+    videoUrl: 'https://res.cloudinary.com/dnauavz56/video/upload/Don_Quijote_Un_Manifiesto_Existencial_g1rxky.mp4',
     publicationDate: 'Video Podcast',
     sources: 'El Nexo Digital'
   },
@@ -77,9 +76,9 @@ export const LIBRARY_CONTENT: LibraryItem[] = [
     category: 'Podcasts',
     title: '¿Vale la pena la felicidad?',
     author: 'El Nexo Digital',
-    imageUrl: getCloudinaryUrl('v1764004910/Vale_la_pena_la_felicidad_m1gmb4.jpg', CLOUDINARY_CLOUD_NAMES.GENERAL, 'video', 'f_jpg,so_2'),
+    imageUrl: 'https://res.cloudinary.com/dnauavz56/video/upload/f_jpg,so_2/Vale_la_pena_la_felicidad_m1gmb4.jpg',
     review: 'Crítica a la concepción contemporánea de la felicidad como constructo de consumo.',
-    videoUrl: getCloudinaryUrl('v1756716939/vale_la_pena_la_felicidad_lryhcf.mp4', CLOUDINARY_CLOUD_NAMES.VIDEO, 'video', 'w_720,q_auto:good'),
+    videoUrl: 'https://res.cloudinary.com/dnauavz56/video/upload/w_720,q_auto:good/vale_la_pena_la_felicidad_lryhcf.mp4',
     publicationDate: 'Video Podcast',
     sources: 'El Nexo Digital'
   },
@@ -88,9 +87,9 @@ export const LIBRARY_CONTENT: LibraryItem[] = [
     category: 'Podcasts',
     title: 'El colectivo, virus de la mediocridad',
     author: 'El Nexo Digital',
-    imageUrl: getCloudinaryUrl('v1764004909/El_colectivo_virus_de_la_mediocridad_rqsmxz.jpg', CLOUDINARY_CLOUD_NAMES.GENERAL, 'video', 'f_jpg,so_2'),
+    imageUrl: 'https://res.cloudinary.com/dnauavz56/video/upload/f_jpg,so_2/El_colectivo_virus_de_la_mediocridad_rqsmxz.jpg',
     review: 'Crítica contundente al conformismo social y a la pérdida de la individualidad.',
-    videoUrl: getCloudinaryUrl('v1756714528/el_colectivo_h0vlp5.mp4', CLOUDINARY_CLOUD_NAMES.VIDEO, 'video', 'w_720,q_auto:good'),
+    videoUrl: 'https://res.cloudinary.com/dnauavz56/video/upload/w_720,q_auto:good/el_colectivo_h0vlp5.mp4',
     publicationDate: 'Video Podcast',
     sources: 'El Nexo Digital'
   },
@@ -99,9 +98,9 @@ export const LIBRARY_CONTENT: LibraryItem[] = [
     category: 'Podcasts',
     title: 'Efecto Halo: El Poder de la Impresión',
     author: 'El Nexo Digital',
-    imageUrl: getCloudinaryUrl('v1756714882/logo_el_nexo_digital_assa82.png', CLOUDINARY_CLOUD_NAMES.VIDEO, 'image'),
+    imageUrl: 'https://res.cloudinary.com/dnauavz56/image/upload/logo_el_nexo_digital_assa82.png',
     review: 'Exploración del sesgo cognitivo que distorsiona nuestra percepción de los demás.',
-    videoUrl: getCloudinaryUrl('v1757025613/Efecto_Halo_El_Poder_de_la_Primera_Impresi%C3%B3n_s883t0.mp4', CLOUDINARY_CLOUD_NAMES.VIDEO, 'video', 'w_720,q_auto:good'),
+    videoUrl: 'https://res.cloudinary.com/dnauavz56/video/upload/w_720,q_auto:good/Efecto_Halo_El_Poder_de_la_Primera_Impresi%C3%B3n_s883t0.mp4',
     publicationDate: 'Video Podcast',
     sources: 'El Nexo Digital'
   },
@@ -110,9 +109,9 @@ export const LIBRARY_CONTENT: LibraryItem[] = [
     category: 'Podcasts',
     title: 'Elemento FUEGO: Poder y Destrucción',
     author: 'El Nexo Digital',
-    imageUrl: getCloudinaryUrl('v1756714882/logo_el_nexo_digital_assa82.png', CLOUDINARY_CLOUD_NAMES.VIDEO, 'image'),
+    imageUrl: 'https://res.cloudinary.com/dnauavz56/image/upload/logo_el_nexo_digital_assa82.png',
     review: 'Poderosa alegoría sobre la relación de la humanidad con el fuego.',
-    videoUrl: getCloudinaryUrl('v1757025878/elemento_fuego_bzneem.mp4', CLOUDINARY_CLOUD_NAMES.VIDEO, 'video', 'w_720,q_auto:good'),
+    videoUrl: 'https://res.cloudinary.com/dnauavz56/video/upload/w_720,q_auto:good/elemento_fuego_bzneem.mp4',
     publicationDate: 'Video Podcast',
     sources: 'El Nexo Digital'
   },
@@ -121,9 +120,9 @@ export const LIBRARY_CONTENT: LibraryItem[] = [
     category: 'Podcasts',
     title: 'Epistemología: Creencia y Conocimiento',
     author: 'El Nexo Digital',
-    imageUrl: getCloudinaryUrl('v1756714882/logo_el_nexo_digital_assa82.png', CLOUDINARY_CLOUD_NAMES.VIDEO, 'image'),
+    imageUrl: 'https://res.cloudinary.com/dnauavz56/image/upload/logo_el_nexo_digital_assa82.png',
     review: 'Profunda reflexión que explora la compleja relación entre creencia y realidad.',
-    videoUrl: getCloudinaryUrl('v1757027951/epistemolog%C3%ADa_dxnca5.mp4', CLOUDINARY_CLOUD_NAMES.VIDEO, 'video', 'w_720,q_auto:good'),
+    videoUrl: 'https://res.cloudinary.com/dnauavz56/video/upload/w_720,q_auto:good/epistemolog%C3%ADa_dxnca5.mp4',
     publicationDate: 'Video Podcast',
     sources: 'El Nexo Digital'
   },
@@ -132,9 +131,9 @@ export const LIBRARY_CONTENT: LibraryItem[] = [
     category: 'Podcasts',
     title: 'La Paradoja del Libre Albedrío',
     author: 'El Nexo Digital',
-    imageUrl: getCloudinaryUrl('v1756714882/logo_el_nexo_digital_assa82.png', CLOUDINARY_CLOUD_NAMES.VIDEO, 'image'),
+    imageUrl: 'https://res.cloudinary.com/dnauavz56/image/upload/logo_el_nexo_digital_assa82.png',
     review: 'Cuestionamos hasta qué punto nuestras decisiones son verdaderamente nuestras.',
-    videoUrl: getCloudinaryUrl('v1757028671/Libre_albedr%C3%ADo_evpvhp.mp4', CLOUDINARY_CLOUD_NAMES.VIDEO, 'video', 'w_720,q_auto:good'),
+    videoUrl: 'https://res.cloudinary.com/dnauavz56/video/upload/w_720,q_auto:good/Libre_albedr%C3%ADo_evpvhp.mp4',
     publicationDate: 'Video Podcast',
     sources: 'El Nexo Digital'
   },
@@ -143,9 +142,9 @@ export const LIBRARY_CONTENT: LibraryItem[] = [
     category: 'Podcasts',
     title: 'Hesse y Jung: La Búsqueda de Unidad',
     author: 'El Nexo Digital',
-    imageUrl: getCloudinaryUrl('v1763348252/juego_de_abalorios_rmbqpw.webp', CLOUDINARY_CLOUD_NAMES.GENERAL, 'image'),
+    imageUrl: 'https://res.cloudinary.com/dnauavz56/image/upload/juego_de_abalorios_rmbqpw.webp',
     review: 'Un diálogo profundo sobre la relación entre la obra de Hermann Hesse y la psicología analítica de Carl Jung.',
-    videoUrl: getCloudinaryUrl('v1772890624/Hesse_Jung_La_B%C3%BAsqueda_De_Unidad_wkyh4j.mp4', CLOUDINARY_CLOUD_NAMES.GENERAL),
+    videoUrl: 'https://res.cloudinary.com/dnauavz56/video/upload/Hesse_Jung_La_B%C3%BAsqueda_De_Unidad_wkyh4j.mp4',
     publicationDate: 'Video Podcast',
     sources: 'El Nexo Digital'
   },
@@ -156,9 +155,9 @@ export const LIBRARY_CONTENT: LibraryItem[] = [
     category: 'Postales',
     title: 'Bastión del Carmen',
     author: 'El Nexo Digital',
-    imageUrl: getCloudinaryUrl('v1764950849/postales2_mdcweq.jpg', CLOUDINARY_CLOUD_NAMES.GENERAL, 'video', 'f_jpg,so_2'),
+    imageUrl: 'https://res.cloudinary.com/dnauavz56/video/upload/f_jpg,so_2/postales2_mdcweq.jpg',
     review: 'Entre las calles tranquilas de Colonia del Sacramento, el Bastión del Carmen se alza como un puente entre pasado y presente.',
-    videoUrl: getCloudinaryUrl('v1764950849/postales2_mdcweq.mp4', CLOUDINARY_CLOUD_NAMES.GENERAL),
+    videoUrl: 'https://res.cloudinary.com/dnauavz56/video/upload/postales2_mdcweq.mp4',
     publicationDate: 'Postal Coleccionable',
     sources: 'Producción Original El Nexo Digital.'
   },
@@ -167,9 +166,9 @@ export const LIBRARY_CONTENT: LibraryItem[] = [
     category: 'Postales',
     title: 'Atardecer en Puerto Sauce',
     author: 'El Nexo Digital',
-    imageUrl: getCloudinaryUrl('v1764980525/atardecer_en_puerto_ikddmm.jpg', CLOUDINARY_CLOUD_NAMES.GENERAL, 'video', 'f_jpg,so_2'),
+    imageUrl: 'https://res.cloudinary.com/dnauavz56/video/upload/f_jpg,so_2/atardecer_en_puerto_ikddmm.jpg',
     review: 'Los atardeceres en Sauce no bajan… Aterrizan. Caen en silencio.',
-    videoUrl: getCloudinaryUrl('v1764980525/atardecer_en_puerto_ikddmm.mp4', CLOUDINARY_CLOUD_NAMES.GENERAL),
+    videoUrl: 'https://res.cloudinary.com/dnauavz56/video/upload/atardecer_en_puerto_ikddmm.mp4',
     publicationDate: 'Postal Coleccionable',
     sources: 'Producción Original El Nexo Digital.'
   },
@@ -180,10 +179,10 @@ export const LIBRARY_CONTENT: LibraryItem[] = [
     category: 'Libros',
     title: 'El Juego de los Abalorios',
     author: 'Hermann Hesse',
-    imageUrl: getCloudinaryUrl('v1763348252/juego_de_abalorios_rmbqpw.webp', CLOUDINARY_CLOUD_NAMES.GENERAL, 'image'),
+    imageUrl: 'https://res.cloudinary.com/dnauavz56/image/upload/juego_de_abalorios_rmbqpw.webp',
     review: 'La obra cumbre de Hermann Hesse. Un análisis sobre la síntesis del conocimiento, la crisis del arte y la búsqueda de la unidad trascendental a través del espíritu y el intelecto.',
-    videoUrl: getCloudinaryUrl('v1772890627/Hermann_Hesse__El_Arte_de_la_Crisis_xfvlgw.mp4', CLOUDINARY_CLOUD_NAMES.GENERAL),
-    pdfUrl: getCloudinaryUrl('v1772890894/resumen_el_juego_de_abalorios_tz8ijd.pdf', CLOUDINARY_CLOUD_NAMES.GENERAL, 'image'),
+    videoUrl: 'https://res.cloudinary.com/dnauavz56/video/upload/Hermann_Hesse__El_Arte_de_la_Crisis_xfvlgw.mp4',
+    pdfUrl: 'https://res.cloudinary.com/dnauavz56/image/upload/resumen_el_juego_de_abalorios_tz8ijd.pdf',
     publicationDate: 'Marzo, 2025',
     sources: 'Análisis profundo de El Nexo Digital.'
   },
@@ -192,11 +191,11 @@ export const LIBRARY_CONTENT: LibraryItem[] = [
     category: 'Revistas',
     title: 'Cien Años de Soledad (Archivo)',
     author: 'Gabriel García Márquez',
-    imageUrl: getCloudinaryUrl('v1772891439/100_de_solewdad_mc91i5.webp', CLOUDINARY_CLOUD_NAMES.GENERAL, 'image'),
+    imageUrl: 'https://res.cloudinary.com/dnauavz56/image/upload/100_de_solewdad_mc91i5.webp',
     review: 'La urdimbre de Macondo: Realismo Mágico, Soledad y Violencia. Este análisis exhaustivo explora las capas de la obra maestra de García Márquez.',
-    audioUrl: getCloudinaryUrl('v1762292455/Cien_A%C3%B1os_de_Soledad__El_Realismo_M%C3%A1gico__la_Censura_y_el_Final_fuk0lv.mp4', CLOUDINARY_CLOUD_NAMES.MISC),
-    videoUrl: getCloudinaryUrl('v1762291490/Cien_a%C3%B1os_de_controversia_ubapnm.mp4', CLOUDINARY_CLOUD_NAMES.MISC),
-    pdfUrl: getCloudinaryUrl('v1772891035/La_urdimbre_de_Macondo__Realismo_M%C3%A1gico_Soledad_y_Violencia_en_la_obra_de_Gabriel_Garc%C3%ADa_M%C3%A1rquez_i2pfte.pdf', CLOUDINARY_CLOUD_NAMES.GENERAL, 'image'),
+    audioUrl: 'https://res.cloudinary.com/dnauavz56/video/upload/Cien_A%C3%B1os_de_Soledad__El_Realismo_M%C3%A1gico__la_Censura_y_el_Final_fuk0lv.mp4',
+    videoUrl: 'https://res.cloudinary.com/dnauavz56/video/upload/Cien_a%C3%B1os_de_controversia_ubapnm.mp4',
+    pdfUrl: 'https://res.cloudinary.com/dnauavz56/image/upload/La_urdimbre_de_Macondo__Realismo_M%C3%A1gico_Soledad_y_Violencia_en_la_obra_de_Gabriel_Garc%C3%ADa_M%C3%A1rquez_i2pfte.pdf',
     publicationDate: 'Octubre, 2024',
     sources: 'Análisis generado con NotebookLM.'
   }

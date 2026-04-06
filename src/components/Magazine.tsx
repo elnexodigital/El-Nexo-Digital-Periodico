@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Download, ExternalLink, ChevronDown, BookOpen } from 'lucide-react';
-import { cleanMediaUrl, getCloudinaryUrl, CLOUDINARY_CLOUD_NAMES } from '../utils/mediaUtils.ts';
 
 interface MagazineEdition {
   id: string;
@@ -17,13 +16,22 @@ interface MagazineEdition {
 const EDITIONS: MagazineEdition[] = [
   {
     id: 'current',
-    title: "Edición Especial",
+    title: "Edicación, Heducacion, Heducasion",
+    date: "Abril 2026",
+    url: "https://heyzine.com/flip-book/b7ebdb2e6e.html",
+    description: "Una mirada profunda a la educación en tiempos de cambio.",
+    pdfUrl: "https://drive.google.com/file/d/1nl50KuToFtOlPJoMatERzRvKTBZrm-Fd/view?usp=sharing",
+    coverUrl: "https://res.cloudinary.com/dus9zcgen/image/upload/v1775437167/tapa_abril_xmn532.png",
+    isNew: true
+  },
+  {
+    id: 'special-construction',
+    title: "Guía de Construcción",
     date: "Marzo 2026",
     url: "https://heyzine.com/flip-book/628a405afd.html",
     description: "Guía de construcción en seco, lo que tenes que saber si o si.",
     pdfUrl: "https://drive.google.com/file/d/1bz2l4P9hPztmLDE-2BDJNWYknAT4Mf6e/view?usp=sharing",
-    coverUrl: cleanMediaUrl(getCloudinaryUrl('v1773341305/yeso_para_digital_sfnem7.png', CLOUDINARY_CLOUD_NAMES.IMAGE, 'image', 'f_auto,q_auto')),
-    isNew: true
+    coverUrl: "https://res.cloudinary.com/dnauavz56/image/upload/yeso_para_digital_sfnem7.png"
   },
   {
     id: 'previous-1',
@@ -32,7 +40,7 @@ const EDITIONS: MagazineEdition[] = [
     url: "https://heyzine.com/flip-book/a5b1698e99.html",
     description: "SEQUÍA \"cuando el mito del Uruguay natural se cae a pedazos\"",
     pdfUrl: "#",
-    coverUrl: cleanMediaUrl(getCloudinaryUrl('v1773593761/sequ%C3%ADa_tapa_dfcc2k.png', CLOUDINARY_CLOUD_NAMES.IMAGE, 'image', 'f_auto,q_auto'))
+    coverUrl: "https://res.cloudinary.com/ddmj6zevz/image/upload/v1775188752/Sequ%C3%ADa_en_Uruguaytapa_ddkjxf.png"
   }
 ];
 
