@@ -70,6 +70,7 @@ const PodcastModal: React.FC<PodcastModalProps> = ({ isOpen, onClose, podcast })
               muted
               autoPlay
               playsInline
+              crossOrigin="anonymous"
               className="w-full h-full object-cover"
               onEnded={onClose}
             />

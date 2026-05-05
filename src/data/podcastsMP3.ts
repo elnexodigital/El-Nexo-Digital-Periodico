@@ -1,6 +1,6 @@
 import type { PodcastMP3 } from '../types.ts';
 
-const DEFAULT_COVER = 'https://res.cloudinary.com/dnauavz56/image/upload/logo_el_nexo_digital_assa82.png';
+const DEFAULT_COVER = 'https://res.cloudinary.com/ddmj6zevz/image/upload/v1777939872/Copilot_20260504_211025_nw8vlh.png';
 
 export const PODCASTS_MP3: PodcastMP3[] = [
   {
@@ -65,6 +65,14 @@ export const PODCASTS_MP3: PodcastMP3[] = [
     artist: 'El Nexo Digital',
     description: 'Reflexión sobre la condición humana a través de la música y la literatura, citando a Hermann Hesse.',
     audioUrl: 'https://res.cloudinary.com/dgb6icyzx/video/upload/v1765139839/La_B%C3%BAsqueda_del_Sentido_vfcmas.mp3',
+    coverUrl: DEFAULT_COVER,
+  },
+  {
+    id: 'mp3_hesse_jung',
+    title: 'Hesse y Jung: La Búsqueda de Unidad',
+    artist: 'El Nexo Digital',
+    description: 'Un diálogo profundo sobre la relación entre la obra de Hermann Hesse y la psicología analítica de Carl Jung.',
+    audioUrl: 'https://res.cloudinary.com/dnauavz56/video/upload/Hesse_Jung_La_B%C3%BAsqueda_De_Unidad_wkyh4j.mp4',
     coverUrl: DEFAULT_COVER,
   },
   {

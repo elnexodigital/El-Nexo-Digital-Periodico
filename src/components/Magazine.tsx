@@ -15,14 +15,30 @@ interface MagazineEdition {
 
 const EDITIONS: MagazineEdition[] = [
   {
+    id: 'casandra',
+    title: "La coartada de Casandra",
+    date: "Mayo 2026",
+    url: "https://heyzine.com/flip-book/bb23ebdb83.html",
+    description: "Desde la 'Coartada de Casandra' y el uso de la imagen femenina como escudo moral, hasta la cruda geopolítica que se esconde tras el oro y el litio en tierras lejanas. Siete capítulos.",
+    coverUrl: "https://res.cloudinary.com/ddmj6zevz/image/upload/v1777933004/tapa_casandra_kgd7lg.png",
+    isNew: true
+  },
+  {
+    id: 'aguila',
+    title: "El despertar del Águila",
+    date: "Junio 2026",
+    url: "https://heyzine.com/flip-book/6419983d24.html",
+    description: "El despertar del águila: Crónica de la tutela impuesta. ¿Es ayuda humanitaria o control estratégico? Esta edición desmantela la narrativa del 'salvador' para exponer el costo real del intervencionismo.",
+    coverUrl: "https://res.cloudinary.com/ddmj6zevz/image/upload/v1777933473/el_despertar_del_aguila_sam56e_wpkn9y.png"
+  },
+  {
     id: 'current',
-    title: "Edicación, Heducacion, Heducasion",
+    title: "Educación, Heducacion, Heducasion",
     date: "Abril 2026",
     url: "https://heyzine.com/flip-book/b7ebdb2e6e.html",
     description: "Una mirada profunda a la educación en tiempos de cambio.",
     pdfUrl: "https://drive.google.com/file/d/1nl50KuToFtOlPJoMatERzRvKTBZrm-Fd/view?usp=sharing",
-    coverUrl: "https://res.cloudinary.com/dus9zcgen/image/upload/v1775437167/tapa_abril_xmn532.png",
-    isNew: true
+    coverUrl: "https://res.cloudinary.com/dus9zcgen/image/upload/v1775437167/tapa_abril_xmn532.png"
   },
   {
     id: 'special-construction',

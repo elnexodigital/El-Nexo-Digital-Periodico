@@ -10,6 +10,7 @@ export interface VideoPodcast {
   title: string;
   videoUrl: string;
   transcript: string;
+  imageUrl?: string;
 }
 
 export interface HeaderControls {
@@ -43,6 +44,7 @@ export interface LibraryItem {
   audioUrl?: string;
   videoUrl?: string;
   pdfUrl?: string;
+  externalUrl?: string;
   publicationDate: string;
   sources?: string;
 }

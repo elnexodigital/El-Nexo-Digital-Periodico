@@ -3,14 +3,48 @@ import type { LibraryItem } from '../types.ts';
 export const LIBRARY_CONTENT: LibraryItem[] = [
   // --- DOCUMENTOS DE INVESTIGACIÓN / REVISTAS ---
   {
+    id: 'doc_sequia',
+    category: 'Revistas',
+    title: 'SEQUÍA',
+    author: 'El Nexo Digital',
+    imageUrl: 'https://res.cloudinary.com/ddmj6zevz/image/upload/v1775188752/Sequ%C3%ADa_en_Uruguaytapa_ddkjxf.png',
+    review: 'SEQUÍA "cuando el mito del Uruguay natural se cae a pedazos"',
+    publicationDate: 'Febrero, 2026',
+    externalUrl: 'https://heyzine.com/flip-book/a5b1698e99.html',
+    sources: 'Investigación de El Nexo Digital.'
+  },
+  {
+    id: 'doc_casandra',
+    category: 'Revistas',
+    title: 'La coartada de Casandra',
+    author: 'El Nexo Digital',
+    imageUrl: 'https://res.cloudinary.com/ddmj6zevz/image/upload/v1777933004/tapa_casandra_kgd7lg.png',
+    review: "Desde la 'Coartada de Casandra' y el uso de la imagen femenina como escudo moral, hasta la cruda geopolítica que se esconde tras el oro y el litio en tierras lejanas. No es solo información; es un mapa para navegar entre el imperialismo estético y la resistencia real de quienes desafían el manual del marketing occidental. Siete capítulos.",
+    publicationDate: 'Mayo, 2026',
+    externalUrl: 'https://heyzine.com/flip-book/bb23ebdb83.html',
+    sources: 'Investigación central de El Nexo Digital.'
+  },
+  {
+    id: 'doc_educacion',
+    category: 'Revistas',
+    title: 'Educación, Heducacion, Heducasion',
+    author: 'Archivo El Nexo Digital',
+    imageUrl: 'https://res.cloudinary.com/dus9zcgen/image/upload/v1775437167/tapa_abril_xmn532.png',
+    review: 'Una mirada profunda a la educación en tiempos de cambio. Esta edición explora los desafíos y oportunidades de aprender en la era digital.',
+    publicationDate: 'Abril, 2026',
+    pdfUrl: 'https://drive.google.com/file/d/1nl50KuToFtOlPJoMatERzRvKTBZrm-Fd/view?usp=sharing',
+    externalUrl: 'https://heyzine.com/flip-book/b7ebdb2e6e.html',
+    sources: 'Investigación de El Nexo Digital.'
+  },
+  {
     id: 'doc_aguila',
     category: 'Revistas',
-    title: 'El Despertar del Águila',
-    author: 'Archivo El Nexo Digital',
-    imageUrl: 'https://res.cloudinary.com/dnauavz56/image/upload/el_despertar_del_aguila_sam56e.png',
-    review: 'Una crónica cruda y detallada sobre la hegemonía geopolítica. Este documento analiza las intervenciones militares de Estados Unidos, explorando la maquinaria del poder, el Destino Manifiesto y las cicatrices que la expansión imperial ha dejado en el mapa global.',
-    publicationDate: 'Marzo, 2025',
-    pdfUrl: 'https://res.cloudinary.com/dnauavz56/image/upload/Cr%C3%B3nica_de_las_Intervenciones_Militares_de_Estados_Unidos_2_pwqu2i.pdf',
+    title: 'El despertar del Águila',
+    author: 'El Nexo Digital',
+    imageUrl: 'https://res.cloudinary.com/ddmj6zevz/image/upload/v1777933473/el_despertar_del_aguila_sam56e_wpkn9y.png',
+    review: 'El despertar del águila: Crónica de la tutela impuesta. ¿Es ayuda humanitaria o control estratégico? Esta edición desmantela la narrativa del "salvador" para exponer el costo real del intervencionismo. Desde el análisis histórico hasta la balanza de los recursos naturales, recorremos las huellas de una influencia que nunca fue gratis. Un repaso crudo por las cicatrices que dejó el águila en su vuelo sobre los países en desarrollo.',
+    publicationDate: 'Junio, 2026',
+    externalUrl: 'https://heyzine.com/flip-book/6419983d24.html',
     sources: 'Investigación Geopolítica de El Nexo Digital.'
   },
   {
@@ -49,106 +83,6 @@ export const LIBRARY_CONTENT: LibraryItem[] = [
   },
 
   // --- PODCASTS (VIDEO) ---
-  {
-    id: 'vp1_lib',
-    category: 'Podcasts',
-    title: 'Nuestra Relación con el Miedo',
-    author: 'El Nexo Digital',
-    imageUrl: 'https://res.cloudinary.com/dnauavz56/image/upload/Nuestra_Relaci%C3%B3n_con_el_Miedo_glyfqz.png',
-    review: 'El miedo, esa sombra que nos sigue, que nos define. ¿Es un ancla o una brújula?',
-    videoUrl: 'https://res.cloudinary.com/dnauavz56/video/upload/la_busqueda_de_lo_sobrenatural_nn2mhb.mp4',
-    publicationDate: 'Video Podcast',
-    sources: 'El Nexo Digital'
-  },
-  {
-    id: 'vp_quijote_lib',
-    category: 'Podcasts',
-    title: 'Don Quijote: Manifiesto Existencial',
-    author: 'El Nexo Digital',
-    imageUrl: 'https://res.cloudinary.com/dnauavz56/image/upload/Gemini_Generated_Image_a2c5dia2c5dia2c5_x0dvmh.png',
-    review: 'El video reinterpreta la figura de Don Quijote como un individuo en plena crisis existencial.',
-    videoUrl: 'https://res.cloudinary.com/dnauavz56/video/upload/Don_Quijote_Un_Manifiesto_Existencial_g1rxky.mp4',
-    publicationDate: 'Video Podcast',
-    sources: 'El Nexo Digital'
-  },
-  {
-    id: 'vp3_lib',
-    category: 'Podcasts',
-    title: '¿Vale la pena la felicidad?',
-    author: 'El Nexo Digital',
-    imageUrl: 'https://res.cloudinary.com/dnauavz56/video/upload/f_jpg,so_2/Vale_la_pena_la_felicidad_m1gmb4.jpg',
-    review: 'Crítica a la concepción contemporánea de la felicidad como constructo de consumo.',
-    videoUrl: 'https://res.cloudinary.com/dnauavz56/video/upload/w_720,q_auto:good/vale_la_pena_la_felicidad_lryhcf.mp4',
-    publicationDate: 'Video Podcast',
-    sources: 'El Nexo Digital'
-  },
-  {
-    id: 'vp5_lib',
-    category: 'Podcasts',
-    title: 'El colectivo, virus de la mediocridad',
-    author: 'El Nexo Digital',
-    imageUrl: 'https://res.cloudinary.com/dnauavz56/video/upload/f_jpg,so_2/El_colectivo_virus_de_la_mediocridad_rqsmxz.jpg',
-    review: 'Crítica contundente al conformismo social y a la pérdida de la individualidad.',
-    videoUrl: 'https://res.cloudinary.com/dnauavz56/video/upload/w_720,q_auto:good/el_colectivo_h0vlp5.mp4',
-    publicationDate: 'Video Podcast',
-    sources: 'El Nexo Digital'
-  },
-  {
-    id: 'vp11_lib',
-    category: 'Podcasts',
-    title: 'Efecto Halo: El Poder de la Impresión',
-    author: 'El Nexo Digital',
-    imageUrl: 'https://res.cloudinary.com/dnauavz56/image/upload/logo_el_nexo_digital_assa82.png',
-    review: 'Exploración del sesgo cognitivo que distorsiona nuestra percepción de los demás.',
-    videoUrl: 'https://res.cloudinary.com/dnauavz56/video/upload/w_720,q_auto:good/Efecto_Halo_El_Poder_de_la_Primera_Impresi%C3%B3n_s883t0.mp4',
-    publicationDate: 'Video Podcast',
-    sources: 'El Nexo Digital'
-  },
-  {
-    id: 'vp13_lib',
-    category: 'Podcasts',
-    title: 'Elemento FUEGO: Poder y Destrucción',
-    author: 'El Nexo Digital',
-    imageUrl: 'https://res.cloudinary.com/dnauavz56/image/upload/logo_el_nexo_digital_assa82.png',
-    review: 'Poderosa alegoría sobre la relación de la humanidad con el fuego.',
-    videoUrl: 'https://res.cloudinary.com/dnauavz56/video/upload/w_720,q_auto:good/elemento_fuego_bzneem.mp4',
-    publicationDate: 'Video Podcast',
-    sources: 'El Nexo Digital'
-  },
-  {
-    id: 'vp16_lib',
-    category: 'Podcasts',
-    title: 'Epistemología: Creencia y Conocimiento',
-    author: 'El Nexo Digital',
-    imageUrl: 'https://res.cloudinary.com/dnauavz56/image/upload/logo_el_nexo_digital_assa82.png',
-    review: 'Profunda reflexión que explora la compleja relación entre creencia y realidad.',
-    videoUrl: 'https://res.cloudinary.com/dnauavz56/video/upload/w_720,q_auto:good/epistemolog%C3%ADa_dxnca5.mp4',
-    publicationDate: 'Video Podcast',
-    sources: 'El Nexo Digital'
-  },
-  {
-    id: 'vp17_lib',
-    category: 'Podcasts',
-    title: 'La Paradoja del Libre Albedrío',
-    author: 'El Nexo Digital',
-    imageUrl: 'https://res.cloudinary.com/dnauavz56/image/upload/logo_el_nexo_digital_assa82.png',
-    review: 'Cuestionamos hasta qué punto nuestras decisiones son verdaderamente nuestras.',
-    videoUrl: 'https://res.cloudinary.com/dnauavz56/video/upload/w_720,q_auto:good/Libre_albedr%C3%ADo_evpvhp.mp4',
-    publicationDate: 'Video Podcast',
-    sources: 'El Nexo Digital'
-  },
-  {
-    id: 'vp_hesse_jung',
-    category: 'Podcasts',
-    title: 'Hesse y Jung: La Búsqueda de Unidad',
-    author: 'El Nexo Digital',
-    imageUrl: 'https://res.cloudinary.com/dnauavz56/image/upload/juego_de_abalorios_rmbqpw.webp',
-    review: 'Un diálogo profundo sobre la relación entre la obra de Hermann Hesse y la psicología analítica de Carl Jung.',
-    videoUrl: 'https://res.cloudinary.com/dnauavz56/video/upload/Hesse_Jung_La_B%C3%BAsqueda_De_Unidad_wkyh4j.mp4',
-    publicationDate: 'Video Podcast',
-    sources: 'El Nexo Digital'
-  },
-
   // --- POSTALES (Regalos) ---
   {
     id: 'postal_bastion',

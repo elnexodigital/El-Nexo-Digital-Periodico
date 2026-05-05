@@ -500,6 +500,7 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({
               muted
               loop={!!activeBroadcast}
               playsInline
+              crossOrigin="anonymous"
               onEnded={activeBroadcast ? undefined : selectNextVideo}
               className="w-full h-full object-cover"
             />

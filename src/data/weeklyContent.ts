@@ -3,9 +3,9 @@ import type { WeeklyContent } from '../types.ts';
 
 export const WEEKLY_EDITION_CONTENT: WeeklyContent = {
   cover: {
-    headline: "La Paradoja de la Privacidad",
-    subtitle: "Cómo cedimos nuestro silencio a cambio de algoritmos que nos conocen mejor que nosotros mismos.",
-    imageUrl: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=1200',
+    headline: "La Coartada de Casandra",
+    subtitle: "Desde la 'Coartada de Casandra' y el uso de la imagen femenina como escudo moral, hasta la cruda geopolítica detrás del oro y el litio. Un mapa para navegar la resistencia real.",
+    imageUrl: 'https://res.cloudinary.com/ddmj6zevz/image/upload/v1777933004/tapa_casandra_kgd7lg.png',
   },
 
   pages: [
