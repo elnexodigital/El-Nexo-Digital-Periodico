@@ -36,7 +36,7 @@ export interface PodcastMP3 {
 
 export interface LibraryItem {
   id: string;
-  category: 'Libros' | 'Discos' | 'Películas' | 'Revistas' | 'Podcasts' | 'Postales';
+  category: 'Libros' | 'Discos' | 'Películas' | 'Revistas' | 'Podcasts' | 'Postales' | 'Ediciones';
   title: string;
   author: string;
   imageUrl: string;

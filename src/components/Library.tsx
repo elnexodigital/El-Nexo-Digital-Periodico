@@ -13,7 +13,7 @@ interface LibraryProps {
   onBackToMagazine: () => void;
 }
 
-type CategoryFilter = 'Todos' | 'Revistas' | 'Podcasts' | 'Postales' | 'Libros' | 'Discos' | 'Películas';
+type CategoryFilter = 'Todos' | 'Ediciones' | 'Revistas' | 'Podcasts' | 'Postales' | 'Libros' | 'Discos' | 'Películas';
 
 const Library: React.FC<LibraryProps> = ({ onBackToMagazine }) => {
   const [activeTab, setActiveTab] = useState<'analysis' | 'audio' | 'video'>('analysis');
@@ -26,12 +26,18 @@ const Library: React.FC<LibraryProps> = ({ onBackToMagazine }) => {
   const videoPodcasts = useMemo(() => VIDEO_PODCASTS, []);
 
   const filteredItems = useMemo(() => {
-    let items = activeFilter === 'Todos' ? archiveItems : archiveItems.filter(item => item.category === activeFilter);
+    let items = activeFilter === 'Todos' ? archiveItems : archiveItems.filter(item => {
+      if (activeFilter === 'Ediciones' || activeFilter === 'Revistas') {
+        return item.category === 'Revistas' || item.category === 'Ediciones';
+      }
+      return item.category === activeFilter;
+    });
 
-    if (activeFilter === 'Todos') {
+    if (activeFilter === 'Todos' || activeFilter === 'Ediciones' || activeFilter === 'Revistas') {
       return [...items].sort((a, b) => {
         const priority: Record<string, number> = {
           'Revistas': 1,
+          'Ediciones': 1,
           'Postales': 2,
           'Podcasts': 3,
         };
@@ -109,7 +115,7 @@ const Library: React.FC<LibraryProps> = ({ onBackToMagazine }) => {
               Volver a la Revista
             </button>
             <h1 className="text-6xl md:text-8xl font-serif font-black tracking-tighter text-zen-charcoal">
-              Archivo
+              Archivo de la Biblioteca
             </h1>
             <p className="text-xl font-serif italic text-zen-charcoal/60 mt-4 max-w-xl">
               Un espacio de curación cultural y memoria digital para el navegante contemporáneo.
