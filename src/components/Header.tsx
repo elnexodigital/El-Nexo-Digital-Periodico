@@ -33,6 +33,15 @@ const shuffleArray = <T,>(array: T[]): T[] => {
 };
 
 const VIDEO_URLS: string[] = [
+  'https://res.cloudinary.com/dus9zcgen/video/upload/v1783795280/3_idau6v.mp4',
+  'https://res.cloudinary.com/dus9zcgen/video/upload/v1783795263/9_csxhey.mp4',
+  'https://res.cloudinary.com/dus9zcgen/video/upload/v1783795268/10_unxnjq.mp4',
+  'https://res.cloudinary.com/dus9zcgen/video/upload/v1783795264/8_rn9ldc.mp4',
+  'https://res.cloudinary.com/dus9zcgen/video/upload/v1783795257/1_dyovqt.mp4',
+  'https://res.cloudinary.com/dus9zcgen/video/upload/v1783795214/4_btsrz2.mp4',
+  'https://res.cloudinary.com/dus9zcgen/video/upload/v1783795213/2_afasek.mp4',
+  'https://res.cloudinary.com/dus9zcgen/video/upload/v1783795212/5_jwvrlu.mp4',
+  'https://res.cloudinary.com/dus9zcgen/video/upload/v1783795196/6_nscbvc.mp4',
   'https://res.cloudinary.com/ddmj6zevz/video/upload/v1774064355/marquesina_app1_aekb22.mp4',
   'https://res.cloudinary.com/ddmj6zevz/video/upload/v1774064347/marquesina_app9_ldnyru.mp4',
   'https://res.cloudinary.com/ddmj6zevz/video/upload/v1774064345/marquesina_app10_qgc8in.mp4',
@@ -101,13 +110,13 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({
         >
           <Icon size={isActive ? 28 : 24} strokeWidth={isActive ? 2.5 : 1.5} />
         </button>
-        <span className={`text-[10px] font-bold tracking-[0.3em] uppercase transition-all duration-300 mt-1 ${isActive ? 'opacity-100 text-stone-900 translate-y-0' : 'opacity-50 group-hover:opacity-100 text-stone-500 group-hover:text-stone-800 translate-y-1 group-hover:translate-y-0'}`}>
+        <span className={`text-[10px] font-bold tracking-[0.3em] uppercase transition-all duration-300 mt-1 ${isActive ? 'opacity-100 text-stone-200 translate-y-0' : 'opacity-50 group-hover:opacity-100 text-stone-400 group-hover:text-stone-200 translate-y-1 group-hover:translate-y-0'}`}>
           {label}
         </span>
         {isActive && (
           <motion.div 
             layoutId="nav-indicator"
-            className="absolute -bottom-3 w-8 h-1 rounded-full bg-stone-800 shadow-[0_0_10px_rgba(0,0,0,0.2)]" 
+            className="absolute -bottom-3 w-8 h-1 rounded-full bg-stone-200 shadow-[0_0_10px_rgba(255,255,255,0.4)]" 
           />
         )}
       </div>
@@ -472,25 +481,24 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({
 
   return (
     <header className="z-50 w-full pt-4 sm:pt-10 px-4 flex flex-col items-center mb-0">
-      <div className="bg-white/95 backdrop-blur-xl px-4 sm:px-16 py-6 sm:py-12 rounded-3xl relative flex flex-col items-center max-w-5xl w-full border border-black/10 shadow-md overflow-hidden">
+      <div className="bg-stone-900/90 backdrop-blur-xl px-4 sm:px-16 py-6 sm:py-12 rounded-3xl relative flex flex-col items-center max-w-5xl w-full border border-white/10 shadow-2xl overflow-hidden">
         
-        {/* Top-Right Counter - Positioned to avoid logo overlap */}
-        <div className="absolute top-3 right-3 sm:top-6 sm:right-6 flex items-center z-10">
-          <ListenerCounter />
-        </div>
-
         <div className="text-center space-y-4 mb-8">
           <div className="flex flex-col items-center gap-2">
-            <h1 className="text-5xl sm:text-7xl font-signature text-[#800020] mb-2 drop-shadow-sm">
+            <h1 className="text-5xl sm:text-7xl font-signature text-[#DFB57A] mb-2 drop-shadow-lg">
               El Nexo Digital
             </h1>
-            <span className="text-[14px] sm:text-[16px] font-serif italic text-zen-charcoal tracking-tight">mucho más que un podcast</span>
-            <span className="text-[10px] font-mono text-zen-charcoal/70 tracking-widest uppercase pt-1 font-bold">{currentDate}</span>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4 mt-1">
+              <span className="text-[14px] sm:text-[16px] font-serif italic text-stone-300 tracking-tight">mucho más que un podcast</span>
+              <span className="hidden sm:inline text-stone-600">•</span>
+              <ListenerCounter />
+            </div>
+            <span className="text-[10px] font-mono text-stone-400/80 tracking-widest uppercase pt-2 font-bold">{currentDate}</span>
           </div>
         </div>
 
         {/* Combined Player Container (Video + Radio) */}
-        <div className="w-full max-w-[1080px] mb-12 flex flex-col overflow-hidden rounded-2xl md:rounded-3xl border border-black/10 shadow-2xl bg-black mx-auto">
+        <div className="w-full max-w-[1080px] mb-12 flex flex-col overflow-hidden rounded-2xl md:rounded-3xl border border-white/10 shadow-2xl bg-black mx-auto">
           {/* Video Player - Exact 1080x336 Aspect Ratio */}
           <div className="w-full aspect-[1080/336] relative bg-black overflow-hidden">
             <video

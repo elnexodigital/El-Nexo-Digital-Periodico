@@ -15,11 +15,11 @@
   --font-serif: "Playfair Display", serif;
   --font-signature: "Brittany", cursive;
 
-  --color-zen-charcoal: #333333;
+  --color-zen-charcoal: #E5E7EB;
   --color-zen-bamboo: #A9BA9D;
   --color-zen-earth: #D2B48C;
   
-  --color-industrial-cream: #FAF9F6;
+  --color-industrial-cream: #2C3035;
   --color-industrial-orange: #F27D26;
   --color-industrial-slate: #1A1A1A;
   --color-industrial-gray: #8E9299;
@@ -27,13 +27,13 @@
 }
 
 :root {
-  --void-bg: #FAF9F6;
-  --void-accent: #F5F5DC;
+  --void-bg: #22252A;
+  --void-accent: #2E3339;
   --bamboo-green: #A9BA9D;
   --earth-brown: #D2B48C;
-  --charcoal: #333333;
-  --glass-bg: rgba(255, 255, 255, 0.7);
-  --glass-border: rgba(0, 0, 0, 0.05);
+  --charcoal: #E5E7EB;
+  --glass-bg: rgba(30, 34, 42, 0.75);
+  --glass-border: rgba(255, 255, 255, 0.08);
 }
 
 body {
@@ -114,15 +114,15 @@ body {
 
 /* BACKGROUNDS used in App.tsx */
 .bg-command-center {
-  background-color: #FAF9F6;
+  background-color: #2c3035;
 }
 
 .bg-archive {
-  background-color: #F5F5DC;
+  background-color: #1e2226;
 }
 
 .bg-ateneo {
-  background-color: #FAF9F6;
+  background-color: #2c3035;
 }
 
 .bg-industrial-base {
@@ -130,11 +130,11 @@ body {
 }
 
 .bg-zen-light {
-  background-color: #FAF9F6;
+  background-color: #2c3035;
 }
 
 .bg-zen-tan {
-  background-color: #F5F5DC;
+  background-color: #1e2226;
 }
 
 .bg-zen-bamboo {

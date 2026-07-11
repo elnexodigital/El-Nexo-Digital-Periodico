@@ -133,10 +133,10 @@ const Library: React.FC<LibraryProps> = ({ onBackToMagazine }) => {
               <Star size={14} fill="currentColor" />
               <span className="text-[10px] font-bold uppercase tracking-widest">Recomendación del Mes</span>
             </div>
-            <div className="h-px bg-zen-charcoal/10 flex-grow"></div>
+            <div className="h-px bg-white/10 flex-grow"></div>
           </div>
           
-          <div className="bg-white rounded-2xl shadow-2xl overflow-hidden md:grid md:grid-cols-5 gap-0 border border-zen-charcoal/5">
+          <div className="bg-stone-900 border border-white/10 rounded-2xl shadow-2xl overflow-hidden md:grid md:grid-cols-5 gap-0">
             <div className="md:col-span-2 relative min-h-[400px] group overflow-hidden">
               <img 
                 src={monthlyPick.imageUrl} 
@@ -148,19 +148,19 @@ const Library: React.FC<LibraryProps> = ({ onBackToMagazine }) => {
             </div>
             <div className="md:col-span-3 p-8 md:p-12 flex flex-col">
               <div className="mb-8">
-                <div className="flex items-center gap-2 text-[#800020] mb-4">
+                <div className="flex items-center gap-2 text-[#DFB57A] mb-4">
                   {getCategoryIcon(monthlyPick.category)}
                   <span className="text-xs font-bold uppercase tracking-widest">
                     {monthlyPick.category}
                   </span>
                 </div>
-                <h3 className="text-4xl md:text-5xl font-serif font-bold mb-2 text-zen-charcoal leading-tight">
+                <h3 className="text-4xl md:text-5xl font-serif font-bold mb-2 text-stone-100 leading-tight">
                   {monthlyPick.title}
                 </h3>
-                <p className="text-xl text-zen-charcoal/60 italic font-serif">{monthlyPick.author}</p>
+                <p className="text-xl text-stone-300 italic font-serif">{monthlyPick.author}</p>
               </div>
               
-              <div className="border-b border-zen-charcoal/10 mb-8">
+              <div className="border-b border-white/10 mb-8">
                 <nav className="-mb-px flex space-x-8">
                   {(['analysis', 'audio', 'video'] as const).map((tab) => {
                     if (tab === 'audio' && !monthlyPick.audioUrl) return null;
@@ -174,8 +174,8 @@ const Library: React.FC<LibraryProps> = ({ onBackToMagazine }) => {
                         onClick={() => setActiveTab(tab)}
                         className={`whitespace-nowrap py-4 border-b-2 font-bold text-xs uppercase tracking-widest transition-all ${
                           activeTab === tab 
-                            ? 'border-[#800020] text-[#800020]' 
-                            : 'border-transparent text-zen-charcoal/40 hover:text-zen-charcoal'
+                            ? 'border-[#DFB57A] text-[#DFB57A]' 
+                            : 'border-transparent text-stone-400 hover:text-stone-200'
                         }`}
                       >
                         {labels[tab]}
@@ -193,7 +193,7 @@ const Library: React.FC<LibraryProps> = ({ onBackToMagazine }) => {
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -10 }}
-                      className="h-64 overflow-y-auto pr-4 text-lg leading-relaxed text-zen-charcoal/80 font-serif"
+                      className="h-64 overflow-y-auto pr-4 text-lg leading-relaxed text-stone-300 font-serif"
                     >
                       <p className="whitespace-pre-wrap">{monthlyPick.review}</p>
                     </motion.div>
@@ -203,9 +203,9 @@ const Library: React.FC<LibraryProps> = ({ onBackToMagazine }) => {
                       key="audio"
                       initial={{ opacity: 0, scale: 0.95 }}
                       animate={{ opacity: 1, scale: 1 }}
-                      className="py-12 flex flex-col items-center justify-center bg-zen-charcoal/5 rounded-xl border border-zen-charcoal/10"
+                      className="py-12 flex flex-col items-center justify-center bg-black/40 rounded-xl border border-white/10"
                     >
-                      <Mic size={48} className="text-[#800020] mb-6 opacity-20" />
+                      <Mic size={48} className="text-[#DFB57A] mb-6 opacity-40" />
                       <audio controls className="w-full max-w-md">
                         <source src={monthlyPick.audioUrl} />
                       </audio>
@@ -232,7 +232,7 @@ const Library: React.FC<LibraryProps> = ({ onBackToMagazine }) => {
         {/* --- Archivo de la Biblioteca --- */}
         <section className="pt-12">
           <div className="flex flex-col md:flex-row md:items-center justify-between mb-12 gap-6">
-            <h2 className="text-3xl font-serif font-bold text-zen-charcoal">
+            <h2 className="text-3xl font-serif font-bold text-stone-100">
               Colección Completa
             </h2>
             
@@ -243,8 +243,8 @@ const Library: React.FC<LibraryProps> = ({ onBackToMagazine }) => {
                   onClick={() => setActiveFilter(filter)}
                   className={`whitespace-nowrap px-4 py-2 text-[10px] font-bold uppercase tracking-widest rounded-full transition-all ${
                     activeFilter === filter 
-                      ? 'bg-zen-charcoal text-white shadow-lg' 
-                      : 'bg-zen-charcoal/5 text-zen-charcoal/60 hover:bg-zen-charcoal/10'
+                      ? 'bg-white text-stone-950 shadow-lg' 
+                      : 'bg-white/5 text-stone-400 hover:bg-white/10 hover:text-stone-200'
                   }`}
                 >
                   {filter}
@@ -254,8 +254,8 @@ const Library: React.FC<LibraryProps> = ({ onBackToMagazine }) => {
           </div>
 
           {filteredItems.length === 0 && activeFilter !== 'Podcasts' ? (
-            <div className="text-center py-24 bg-zen-charcoal/5 rounded-2xl border border-dashed border-zen-charcoal/20">
-              <p className="text-zen-charcoal/40 font-serif italic">No hay elementos en esta categoría aún.</p>
+            <div className="text-center py-24 bg-white/5 rounded-2xl border border-dashed border-white/10">
+              <p className="text-stone-400 font-serif italic">No hay elementos en esta categoría aún.</p>
             </div>
           ) : (
             <div className="space-y-12">
@@ -279,8 +279,8 @@ const Library: React.FC<LibraryProps> = ({ onBackToMagazine }) => {
               {(activeFilter === 'Podcasts' || activeFilter === 'Todos') && (
                 <div className="mt-16">
                   <div className="flex items-center gap-4 mb-8">
-                    <h3 className="text-xl font-serif font-bold text-zen-charcoal/60">Podcasts de Audio ({mp3Podcasts.length})</h3>
-                    <div className="h-px bg-zen-charcoal/10 flex-grow"></div>
+                    <h3 className="text-xl font-serif font-bold text-stone-300">Podcasts de Audio ({mp3Podcasts.length})</h3>
+                    <div className="h-px bg-white/10 flex-grow"></div>
                   </div>
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -291,9 +291,9 @@ const Library: React.FC<LibraryProps> = ({ onBackToMagazine }) => {
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: index * 0.01 }}
                         onClick={() => handleOpenDetailModal(podcast)}
-                        className="group flex items-center gap-4 p-3 bg-white rounded-xl border border-zen-charcoal/5 hover:border-[#800020]/30 hover:shadow-md transition-all cursor-pointer"
+                        className="group flex items-center gap-4 p-3 bg-stone-900/60 border border-white/10 hover:border-[#800020]/50 hover:bg-stone-900 hover:shadow-lg transition-all cursor-pointer rounded-xl"
                       >
-                        <div className="w-12 h-12 rounded-lg overflow-hidden flex-shrink-0 border border-zen-charcoal/10">
+                        <div className="w-12 h-12 rounded-lg overflow-hidden flex-shrink-0 border border-white/10">
                           <img 
                             src={podcast.coverUrl} 
                             alt={podcast.title} 
@@ -302,17 +302,17 @@ const Library: React.FC<LibraryProps> = ({ onBackToMagazine }) => {
                           />
                         </div>
                         <div className="flex-grow min-w-0">
-                          <h4 className="text-sm font-bold text-zen-charcoal group-hover:text-[#800020] transition-colors truncate">
+                          <h4 className="text-sm font-bold text-stone-100 group-hover:text-red-400 transition-colors truncate">
                             {podcast.title}
                           </h4>
-                          <p className="text-[10px] text-zen-charcoal/40 uppercase tracking-widest font-bold truncate">
+                          <p className="text-[10px] text-stone-400 uppercase tracking-widest font-bold truncate">
                             {podcast.artist}
                           </p>
-                          <p className="text-xs text-zen-charcoal/60 line-clamp-1 mt-0.5 font-serif italic">
+                          <p className="text-xs text-stone-300 line-clamp-1 mt-0.5 font-serif italic">
                             {podcast.description}
                           </p>
                         </div>
-                        <div className="w-8 h-8 rounded-full bg-zen-charcoal/5 flex items-center justify-center group-hover:bg-[#800020] group-hover:text-white transition-all">
+                        <div className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-[#800020] group-hover:text-white transition-all">
                           <Mic size={14} />
                         </div>
                       </motion.div>
@@ -325,8 +325,8 @@ const Library: React.FC<LibraryProps> = ({ onBackToMagazine }) => {
               {(activeFilter === 'Podcasts' || activeFilter === 'Todos') && (
                 <div className="mt-16">
                   <div className="flex items-center gap-4 mb-8">
-                    <h3 className="text-xl font-serif font-bold text-zen-charcoal/60">Podcasts de Video ({videoPodcasts.length})</h3>
-                    <div className="h-px bg-zen-charcoal/10 flex-grow"></div>
+                    <h3 className="text-xl font-serif font-bold text-stone-300">Podcasts de Video ({videoPodcasts.length})</h3>
+                    <div className="h-px bg-white/10 flex-grow"></div>
                   </div>
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -337,9 +337,9 @@ const Library: React.FC<LibraryProps> = ({ onBackToMagazine }) => {
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: index * 0.01 }}
                         onClick={() => handleOpenDetailModal(podcast)}
-                        className="group flex items-center gap-4 p-3 bg-white rounded-xl border border-zen-charcoal/5 hover:border-[#800020]/30 hover:shadow-md transition-all cursor-pointer"
+                        className="group flex items-center gap-4 p-3 bg-stone-900/60 border border-white/10 hover:border-[#800020]/50 hover:bg-stone-900 hover:shadow-lg transition-all cursor-pointer rounded-xl"
                       >
-                        <div className="w-12 h-12 rounded-lg overflow-hidden flex-shrink-0 border border-zen-charcoal/10 bg-black">
+                        <div className="w-12 h-12 rounded-lg overflow-hidden flex-shrink-0 border border-white/10 bg-black">
                           <img 
                             src={podcast.imageUrl || "https://res.cloudinary.com/ddmj6zevz/image/upload/v1777940144/Copilot_20260504_211533_ooxews.png"} 
                             alt={podcast.title}
@@ -348,17 +348,17 @@ const Library: React.FC<LibraryProps> = ({ onBackToMagazine }) => {
                           />
                         </div>
                         <div className="flex-grow min-w-0">
-                          <h4 className="text-sm font-bold text-zen-charcoal group-hover:text-[#800020] transition-colors truncate">
+                          <h4 className="text-sm font-bold text-stone-100 group-hover:text-red-400 transition-colors truncate">
                             {podcast.title}
                           </h4>
-                          <p className="text-[10px] text-zen-charcoal/40 uppercase tracking-widest font-bold truncate">
+                          <p className="text-[10px] text-stone-400 uppercase tracking-widest font-bold truncate">
                             Podcast de Video
                           </p>
-                          <p className="text-xs text-zen-charcoal/60 line-clamp-1 mt-0.5 font-serif italic">
+                          <p className="text-xs text-stone-300 line-clamp-1 mt-0.5 font-serif italic">
                             {podcast.transcript}
                           </p>
                         </div>
-                        <div className="w-8 h-8 rounded-full bg-zen-charcoal/5 flex items-center justify-center group-hover:bg-[#800020] group-hover:text-white transition-all">
+                        <div className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-[#800020] group-hover:text-white transition-all">
                           <Video size={14} />
                         </div>
                       </motion.div>

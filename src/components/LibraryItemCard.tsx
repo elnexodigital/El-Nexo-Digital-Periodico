@@ -26,7 +26,7 @@ const LibraryItemCard: React.FC<LibraryItemCardProps> = ({ item, onClick }) => {
 
   return (
     <div
-      className="group text-left bg-white rounded-xl shadow-lg overflow-hidden w-full relative hover:shadow-2xl transition-all duration-500 cursor-pointer flex flex-col border border-zen-charcoal/5"
+      className="group text-left bg-stone-900 rounded-xl shadow-lg overflow-hidden w-full relative hover:shadow-2xl transition-all duration-500 cursor-pointer flex flex-col border border-white/10"
       onClick={onClick}
       role="button"
       tabIndex={0}
@@ -58,10 +58,10 @@ const LibraryItemCard: React.FC<LibraryItemCardProps> = ({ item, onClick }) => {
       
       <div className="p-4 flex-grow flex flex-col justify-between">
         <div className="mb-3">
-            <h3 className="font-serif font-bold text-base leading-tight text-zen-charcoal group-hover:text-[#800020] transition-colors line-clamp-2">
+            <h3 className="font-serif font-bold text-base leading-tight text-stone-100 group-hover:text-red-400 transition-colors line-clamp-2">
               {item.title}
             </h3>
-            <p className="text-xs text-zen-charcoal/40 italic font-serif mt-1 truncate">
+            <p className="text-xs text-stone-400 italic font-serif mt-1 truncate">
               {item.author}
             </p>
         </div>

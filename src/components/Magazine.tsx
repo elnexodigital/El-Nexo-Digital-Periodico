@@ -73,12 +73,12 @@ const Magazine: React.FC = () => {
   };
 
   return (
-    <div className="w-full max-w-6xl mx-auto px-4 py-8">
+    <div className="w-full max-w-6xl mx-auto px-4 py-8 text-stone-100">
       {/* Magazine Header */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 border-b border-zen-charcoal/10 pb-6 gap-6">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 border-b border-white/10 pb-6 gap-6">
         <div className="space-y-4 w-full md:w-auto">
           <div className="flex items-center gap-3">
-            <h2 className="text-4xl md:text-5xl font-serif font-black text-zen-charcoal tracking-tighter">
+            <h2 className="text-4xl md:text-5xl font-serif font-black text-stone-100 tracking-tighter">
               Quiosco Digital
             </h2>
             {activeEdition.isNew && (
@@ -92,15 +92,15 @@ const Magazine: React.FC = () => {
           <div className="relative">
             <button 
               onClick={() => setIsSelectorOpen(!isSelectorOpen)}
-              className="flex items-center gap-3 px-4 py-2 bg-white border border-zen-charcoal/10 rounded-lg shadow-sm hover:border-zen-charcoal/30 transition-all group"
+              className="flex items-center gap-3 px-4 py-2 bg-stone-900 border border-white/10 rounded-lg shadow-sm hover:border-white/20 transition-all group text-left"
             >
-              <BookOpen size={16} className="text-zen-charcoal/50" />
+              <BookOpen size={16} className="text-stone-400" />
               <div className="text-left">
-                <p className="text-[10px] uppercase tracking-widest text-zen-charcoal/40 font-bold leading-none mb-1">Viendo ahora</p>
-                <p className="text-sm font-bold text-zen-charcoal">{activeEdition.title} • {activeEdition.date}</p>
-                <p className="text-[10px] text-zen-charcoal/60 mt-1 italic">{activeEdition.description}</p>
+                <p className="text-[10px] uppercase tracking-widest text-stone-500 font-bold leading-none mb-1">Viendo ahora</p>
+                <p className="text-sm font-bold text-stone-200">{activeEdition.title} • {activeEdition.date}</p>
+                <p className="text-[10px] text-stone-400 mt-1 italic">{activeEdition.description}</p>
               </div>
-              <ChevronDown size={16} className={`text-zen-charcoal/30 transition-transform ${isSelectorOpen ? 'rotate-180' : ''}`} />
+              <ChevronDown size={16} className={`text-stone-400 transition-transform ${isSelectorOpen ? 'rotate-180' : ''}`} />
             </button>
 
             <AnimatePresence>
@@ -109,7 +109,7 @@ const Magazine: React.FC = () => {
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 10 }}
-                  className="absolute top-full left-0 mt-2 w-72 bg-white border border-zen-charcoal/10 rounded-xl shadow-xl z-50 overflow-hidden"
+                  className="absolute top-full left-0 mt-2 w-72 bg-stone-950 border border-white/10 rounded-xl shadow-xl z-50 overflow-hidden"
                 >
                   {EDITIONS.map((edition) => (
                     <button
@@ -118,10 +118,10 @@ const Magazine: React.FC = () => {
                         setActiveEdition(edition);
                         setIsSelectorOpen(false);
                       }}
-                      className={`w-full text-left px-4 py-3 hover:bg-zen-charcoal/5 transition-colors border-b border-zen-charcoal/5 last:border-0 flex gap-3 items-center ${activeEdition.id === edition.id ? 'bg-zen-charcoal/5' : ''}`}
+                      className={`w-full text-left px-4 py-3 hover:bg-white/5 transition-colors border-b border-white/5 last:border-0 flex gap-3 items-center ${activeEdition.id === edition.id ? 'bg-white/5' : ''}`}
                     >
                       {edition.coverUrl && (
-                        <div className="w-12 h-16 bg-zen-charcoal/5 rounded overflow-hidden flex-shrink-0 border border-zen-charcoal/10">
+                        <div className="w-12 h-16 bg-white/5 rounded overflow-hidden flex-shrink-0 border border-white/10">
                           <img 
                             src={edition.coverUrl} 
                             alt={edition.title} 
@@ -131,9 +131,9 @@ const Magazine: React.FC = () => {
                         </div>
                       )}
                       <div>
-                        <p className="text-xs font-bold text-zen-charcoal">{edition.title}</p>
-                        <p className="text-[10px] text-zen-charcoal/50 uppercase tracking-widest mb-1">{edition.date}</p>
-                        <p className="text-[9px] text-zen-charcoal/60 line-clamp-2 leading-tight">{edition.description}</p>
+                        <p className="text-xs font-bold text-stone-200">{edition.title}</p>
+                        <p className="text-[10px] text-stone-400 uppercase tracking-widest mb-1">{edition.date}</p>
+                        <p className="text-[9px] text-stone-400/80 line-clamp-2 leading-tight">{edition.description}</p>
                       </div>
                     </button>
                   ))}
@@ -146,7 +146,7 @@ const Magazine: React.FC = () => {
         <div className="flex items-center gap-3 w-full md:w-auto">
           <button 
             onClick={() => handleDownload(activeEdition.pdfUrl)}
-            className="flex-1 md:flex-none flex items-center justify-center gap-2 px-6 py-3 bg-white border border-zen-charcoal/10 rounded-full text-xs font-bold uppercase tracking-widest text-zen-charcoal hover:bg-zen-charcoal/5 transition-all"
+            className="flex-1 md:flex-none flex items-center justify-center gap-2 px-6 py-3 bg-stone-900 border border-white/10 rounded-full text-xs font-bold uppercase tracking-widest text-stone-200 hover:bg-stone-800 transition-all"
           >
             <Download size={14} />
             Descargar PDF
@@ -155,7 +155,7 @@ const Magazine: React.FC = () => {
             href={activeEdition.url} 
             target="_blank" 
             rel="noopener noreferrer"
-            className="flex-1 md:flex-none flex items-center justify-center gap-2 px-6 py-3 bg-zen-charcoal text-white rounded-full text-xs font-bold uppercase tracking-widest hover:bg-zen-charcoal/90 transition-all"
+            className="flex-1 md:flex-none flex items-center justify-center gap-2 px-6 py-3 bg-[#800020] hover:bg-[#990026] text-white rounded-full text-xs font-bold uppercase tracking-widest transition-all"
           >
             <ExternalLink size={14} />
             Pantalla Completa
@@ -168,7 +168,7 @@ const Magazine: React.FC = () => {
         key={activeEdition.id}
         initial={{ opacity: 0, scale: 0.98 }}
         animate={{ opacity: 1, scale: 1 }}
-        className="relative w-full bg-zen-charcoal/5 rounded-2xl shadow-2xl overflow-hidden border border-zen-charcoal/10"
+        className="relative w-full bg-stone-950/40 rounded-2xl shadow-2xl overflow-hidden border border-white/10"
         style={{ paddingTop: '70.71%' /* A4 Aspect Ratio */ }}
       >
         <iframe
@@ -179,10 +179,10 @@ const Magazine: React.FC = () => {
           allow="fullscreen; clipboard-write"
         >
           <div className="flex flex-col items-center justify-center h-full p-12 text-center">
-            <p className="text-zen-charcoal/60 mb-4">Tu navegador no soporta iframes.</p>
+            <p className="text-stone-400 mb-4">Tu navegador no soporta iframes.</p>
             <a 
               href={activeEdition.url} 
-              className="text-[#800020] font-bold underline"
+              className="text-red-400 font-bold underline hover:text-red-300"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -193,22 +193,22 @@ const Magazine: React.FC = () => {
       </motion.div>
 
       {/* Footer Info */}
-      <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8 pt-8 border-t border-zen-charcoal/10">
+      <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8 pt-8 border-t border-white/10">
         <div className="space-y-2">
-          <h4 className="text-[10px] font-bold uppercase tracking-widest text-zen-charcoal/40">Experiencia</h4>
-          <p className="text-sm text-zen-charcoal/70 leading-relaxed">
+          <h4 className="text-[10px] font-bold uppercase tracking-widest text-stone-500">Experiencia</h4>
+          <p className="text-sm text-stone-300 leading-relaxed">
             Navega por las páginas arrastrando las esquinas o usando las flechas laterales.
           </p>
         </div>
         <div className="space-y-2">
-          <h4 className="text-[10px] font-bold uppercase tracking-widest text-zen-charcoal/40">Descarga</h4>
-          <p className="text-sm text-zen-charcoal/70 leading-relaxed">
+          <h4 className="text-[10px] font-bold uppercase tracking-widest text-stone-500">Descarga</h4>
+          <p className="text-sm text-stone-300 leading-relaxed">
             Puedes bajar la versión en PDF para leerla sin conexión en cualquier dispositivo.
           </p>
         </div>
         <div className="space-y-2">
-          <h4 className="text-[10px] font-bold uppercase tracking-widest text-zen-charcoal/40">Archivo</h4>
-          <p className="text-sm text-zen-charcoal/70 leading-relaxed">
+          <h4 className="text-[10px] font-bold uppercase tracking-widest text-stone-500">Archivo</h4>
+          <p className="text-sm text-stone-300 leading-relaxed">
             Usa el selector de arriba para explorar ediciones anteriores de nuestra revista.
           </p>
         </div>
