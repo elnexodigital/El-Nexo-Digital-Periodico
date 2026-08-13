@@ -7,6 +7,12 @@ export const LEO_MUSIC_INTRO_URLS = [
 ];
 
 export const LEO_CASTRILLO_TRACKS: MusicTrack[] = [
+  { id: 'leo_new_1', url: 'https://res.cloudinary.com/ddmj6zevz/video/upload/v1786634791/El_negro_del_vino_el_rojo_de_tus_labios_fsghqm.mp3', description: 'Leo Castrillo – El negro del vino, el rojo de tus labios' },
+  { id: 'leo_new_2', url: 'https://res.cloudinary.com/ddmj6zevz/video/upload/v1786634789/Una_gota_de_sudor_uxl6ns.mp3', description: 'Leo Castrillo – Una gota de sudor' },
+  { id: 'leo_new_3', url: 'https://res.cloudinary.com/ddmj6zevz/video/upload/v1786634789/Moto_Rumba_erl7pw.mp3', description: 'Leo Castrillo – Moto Rumba' },
+  { id: 'leo_new_4', url: 'https://res.cloudinary.com/ddmj6zevz/video/upload/v1786634788/Midnight_Whisper_vy6rzn.mp3', description: 'Leo Castrillo – Midnight Whisper' },
+  { id: 'leo_new_5', url: 'https://res.cloudinary.com/ddmj6zevz/video/upload/v1786634787/dale_bichichi_mg5upt.mp3', description: 'Leo Castrillo – Dale Bichichi' },
+  { id: 'leo_new_6', url: 'https://res.cloudinary.com/ddmj6zevz/video/upload/v1786634785/coqueteando_en_las_sombras_mxbs2x.mp3', description: 'Leo Castrillo – Coqueteando en las sombras' },
   { id: 'leo_1', url: 'https://res.cloudinary.com/dgb6icyzx/video/upload/Walking_through_uncertain_paths_4_dfbyaj.mp3', description: 'Leo Castrillo – Senderos inciertos: una caminata sonora entre la duda y el hallazgo.' },
   { id: 'leo_2', url: 'https://res.cloudinary.com/dgb6icyzx/video/upload/na_l%C3%A9_a3fr0x.mp3', description: 'Leo Castrillo – Na Lé: frecuencias ancestrales que vibran en el presente digital.' },
   { id: 'leo_3', url: 'https://res.cloudinary.com/dgb6icyzx/video/upload/Na_Le_Phaxe_Remix_orouxa.mp3', description: 'Leo Castrillo – Na Le (Phaxe Remix): el eco del pasado reimaginado en una pulsación hipnótica.' },

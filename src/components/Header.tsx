@@ -11,6 +11,7 @@ import {
   ONLY_GENERAL, 
   ONLY_LEO, 
   ONLY_PODCASTS, 
+  ONLY_MICROPROGRAMS,
   ONLY_JINGLES, 
   ONLY_SEPARATORS
 } from '../data/music.ts';
@@ -172,6 +173,7 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({
     const generalMusic = shuffleArray([...ONLY_GENERAL]);
     const leoMusic = shuffleArray([...ONLY_LEO]);
     const podcasts = shuffleArray([...ONLY_PODCASTS]);
+    const microprograms = shuffleArray([...ONLY_MICROPROGRAMS]);
     const jingles = shuffleArray([...ONLY_JINGLES]);
     const separators = shuffleArray([...ONLY_SEPARATORS]);
     const allGreetingUrls = [
@@ -187,34 +189,42 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({
     }))]);
 
     // Índices para llevar cuenta de lo usado
-    let gIdx = 0, lIdx = 0, pIdx = 0, jIdx = 0, sIdx = 0, grIdx = 0;
+    let gIdx = 0, lIdx = 0, pIdx = 0, mIdx = 0, jIdx = 0, sIdx = 0, grIdx = 0;
 
     // Generamos 60 bloques para una cola extensa (~24 horas de programación)
     for (let i = 0; i < 60; i++) {
-      // 1. Identidad (Separador)
+      // 1. Identidad (Separador / Sintonía)
       if (separators.length > 0) queue.push(separators[sIdx++ % separators.length]);
       
-      // 2. Bloque de música (3 temas generales)
-      for (let k = 0; k < 3; k++) {
+      // 2. Bloque de música inicial (2 temas generales)
+      for (let k = 0; k < 2; k++) {
         if (generalMusic.length > 0) queue.push(generalMusic[gIdx++ % generalMusic.length]);
       }
 
-      // 3. Contenido Especial (Alternamos Podcast y Leo cada bloque)
+      // 3. MICROPROGRAMA DE RADIO (3 min) - Intercalado cada ~15-20 min
+      if (microprograms.length > 0) {
+        queue.push(microprograms[mIdx++ % microprograms.length]);
+      }
+
+      // 4. Bloque de música intermedio (2 temas generales)
+      for (let k = 0; k < 2; k++) {
+        if (generalMusic.length > 0) queue.push(generalMusic[gIdx++ % generalMusic.length]);
+      }
+
+      // 5. Contenido Especial (Alternamos Podcast completo y Leo Castrillo cada bloque)
       if (i % 2 === 0) {
         if (podcasts.length > 0) queue.push(podcasts[pIdx++ % podcasts.length]);
       } else {
         if (leoMusic.length > 0) queue.push(leoMusic[lIdx++ % leoMusic.length]);
       }
 
-      // 4. Más música (2 temas generales)
-      for (let k = 0; k < 2; k++) {
-        if (generalMusic.length > 0) queue.push(generalMusic[gIdx++ % generalMusic.length]);
-      }
+      // 6. Tema de cierre de bloque (1 tema general)
+      if (generalMusic.length > 0) queue.push(generalMusic[gIdx++ % generalMusic.length]);
 
-      // 5. Jingle / Publicidad
+      // 7. Jingle / Publicidad
       if (jingles.length > 0) queue.push(jingles[jIdx++ % jingles.length]);
 
-      // 6. Saludo (Cada 3 bloques para no saturar)
+      // 8. Saludo (Cada 3 bloques para mantener calidez)
       if (greetings.length > 0 && i % 3 === 0) {
         queue.push(greetings[grIdx++ % greetings.length]);
       }

@@ -9,6 +9,7 @@ import { LEO_CASTRILLO_TRACKS, LEO_MUSIC_INTRO_URLS } from './leoCastrillo.ts';
 import { PODCASTS_MP3 } from './podcastsMP3.ts';
 import { COMMERCIAL_JINGLES } from './jingles.ts';
 import { SEPARATOR_AUDIOS } from './separators.ts';
+import { MICRO_PROGRAMS } from './microPrograms.ts';
 
 export { LEO_MUSIC_INTRO_URLS };
 
@@ -26,6 +27,11 @@ export const ONLY_PODCASTS = PODCASTS_MP3.map(p => ({
   url: p.audioUrl,
   description: `PODCAST: ${p.title} (${p.artist})`
 }));
+export const ONLY_MICROPROGRAMS = MICRO_PROGRAMS.map(m => ({
+  id: `micro_${m.id}`,
+  url: m.audioUrl,
+  description: `MICROPROGRAMA DE RADIO (3 min): ${m.title}`
+}));
 export const ONLY_JINGLES = COMMERCIAL_JINGLES.map((url, i) => ({
   id: `jingle_${i}`,
   url,
@@ -41,8 +47,10 @@ export const MUSIC_TRACKS: MusicTrack[] = [
   ...ONLY_LEO,
   ...ONLY_GENERAL,
   ...ONLY_PODCASTS,
+  ...ONLY_MICROPROGRAMS,
   ...ONLY_JINGLES,
   ...ONLY_SEPARATORS,
 ];
 
 export const ONLY_MUSIC = [...ONLY_GENERAL, ...ONLY_LEO];
+

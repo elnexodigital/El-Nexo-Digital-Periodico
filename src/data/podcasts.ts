@@ -5,6 +5,125 @@ const DEFAULT_VIDEO_COVER = 'https://res.cloudinary.com/ddmj6zevz/image/upload/v
 
 export const VIDEO_PODCASTS: VideoPodcast[] = [
   {
+    id: 'vp_new_1',
+    title: 'Vox Dei Completo',
+    videoUrl: 'https://res.cloudinary.com/ddmj6zevz/video/upload/v1786632024/vox_dei_completo_zyeeli.mp4',
+    transcript: 'Un recorrido sonoro y conceptual completo a través de la obra, la poética y el mensaje inmortal de Vox Dei en la cultura popular.',
+    imageUrl: DEFAULT_VIDEO_COVER
+  },
+  {
+    id: 'vp_new_2',
+    title: 'Violencia y Aulas',
+    videoUrl: 'https://res.cloudinary.com/ddmj6zevz/video/upload/v1786631899/violencia_y_aulas_vwxx28.mp4',
+    transcript: 'Un abordaje crítico y necesario sobre las dinámicas de conflicto, convivencia y transformación en los ámbitos educativos contemporáneos.',
+    imageUrl: DEFAULT_VIDEO_COVER
+  },
+  {
+    id: 'vp_new_3',
+    title: 'Silencio Social',
+    videoUrl: 'https://res.cloudinary.com/ddmj6zevz/video/upload/v1786631940/silencio_social_lb7ymu.mp4',
+    transcript: 'Reflexión filosófica acerca de los no dichos, el aislamiento colectivo y el valor del silencio en medio del hiperconsumo comunicacional.',
+    imageUrl: DEFAULT_VIDEO_COVER
+  },
+  {
+    id: 'vp_new_4',
+    title: 'Sacá Turno con el Nexólogo',
+    videoUrl: 'https://res.cloudinary.com/ddmj6zevz/video/upload/v1786631935/saca_turno_nexologo_plocjp.mp4',
+    transcript: 'Una mirada irónica y aguda sobre los diagnósticos culturales y las recetas de la sociedad moderna.',
+    imageUrl: DEFAULT_VIDEO_COVER
+  },
+  {
+    id: 'vp_new_5',
+    title: 'Pensar También es Tango',
+    videoUrl: 'https://res.cloudinary.com/ddmj6zevz/video/upload/v1786631996/pensar_tambi%C3%A9n_es_tango_bzokvj.mp4',
+    transcript: 'La melancolía, el ritmo y la filosofía rioplatense entramados en una narrativa sobre el pensamiento crítico y el arrabal del alma.',
+    imageUrl: DEFAULT_VIDEO_COVER
+  },
+  {
+    id: 'vp_new_6',
+    title: 'Pascua y Sincretismo',
+    videoUrl: 'https://res.cloudinary.com/ddmj6zevz/video/upload/v1786632019/pascua_y_sincretismo_uuv0fq.mp4',
+    transcript: 'Análisis histórico sobre la convergencia de símbolos, tradiciones paganas y ritos religiosos en la celebración pascual.',
+    imageUrl: DEFAULT_VIDEO_COVER
+  },
+  {
+    id: 'vp_new_7',
+    title: 'No Me Rompan',
+    videoUrl: 'https://res.cloudinary.com/ddmj6zevz/video/upload/v1786632012/no_me_rompan_slnbbv.mp4',
+    transcript: 'Un llamado a la autonomía individual frente a las demandas constantes del entorno y la saturación social.',
+    imageUrl: DEFAULT_VIDEO_COVER
+  },
+  {
+    id: 'vp_new_8',
+    title: 'Madre Hay una Sola',
+    videoUrl: 'https://res.cloudinary.com/ddmj6zevz/video/upload/v1786631892/madre_hay_una_sola_nkfru6.mp4',
+    transcript: 'Exploración sobre la maternidad, sus mitos, sus arquetipos y su peso psíquico y cultural a lo largo de las generaciones.',
+    imageUrl: DEFAULT_VIDEO_COVER
+  },
+  {
+    id: 'vp_new_9',
+    title: 'Forniquemos por la Patria',
+    videoUrl: 'https://res.cloudinary.com/ddmj6zevz/video/upload/v1786631988/forniquemos_por_la_patria_jezcue.mp4',
+    transcript: 'Una provocación satírica sobre la demografía, la política del deseo y el uso del cuerpo en la retórica nacionalista.',
+    imageUrl: DEFAULT_VIDEO_COVER
+  },
+  {
+    id: 'vp_new_10',
+    title: '¿Es Ley o Justicia?',
+    videoUrl: 'https://res.cloudinary.com/ddmj6zevz/video/upload/v1786631866/es_ley_o_justicia_iqj0dn.mp4',
+    transcript: 'Debate jurídico y ético sobre la brecha que suele separar lo legalmente establecido de lo moralmente justo.',
+    imageUrl: DEFAULT_VIDEO_COVER
+  },
+  {
+    id: 'vp_new_11',
+    title: 'El Gran Dictador',
+    videoUrl: 'https://res.cloudinary.com/ddmj6zevz/video/upload/v1786631916/el_gran_dictador_kmshns.mp4',
+    transcript: 'Reflexión en torno al poder absoluto, la manipulación de las masas y la vigencia del mensaje humanista.',
+    imageUrl: DEFAULT_VIDEO_COVER
+  },
+  {
+    id: 'vp_new_12',
+    title: 'El Cerebro',
+    videoUrl: 'https://res.cloudinary.com/ddmj6zevz/video/upload/v1786631854/el_cerebro_pxeivx.mp4',
+    transcript: 'Un viaje neurocientífico y filosófico a través del órgano más complejo del universo conocido y sus misterios.',
+    imageUrl: DEFAULT_VIDEO_COVER
+  },
+  {
+    id: 'vp_new_13',
+    title: 'Democracia Pensante',
+    videoUrl: 'https://res.cloudinary.com/ddmj6zevz/video/upload/v1786632011/democracia_pensante_c2fn8s.mp4',
+    transcript: 'Repensando el ejercicio de la ciudadanía más allá de las urnas: el compromiso racional y la deliberación colectiva.',
+    imageUrl: DEFAULT_VIDEO_COVER
+  },
+  {
+    id: 'vp_new_14',
+    title: "Como Lengua 'e Loro",
+    videoUrl: 'https://res.cloudinary.com/ddmj6zevz/video/upload/v1786631967/como_lengua_e_loro_skw15e.mp4',
+    transcript: 'Análisis sobre la repetición irreflexiva de eslóganes, moda verbal y pensamiento automático en el habla cotidiana.',
+    imageUrl: DEFAULT_VIDEO_COVER
+  },
+  {
+    id: 'vp_new_15',
+    title: 'Bienal Deep Dive',
+    videoUrl: 'https://res.cloudinary.com/ddmj6zevz/video/upload/v1786631859/bienal_deep_dive_qhz7dl.mp4',
+    transcript: 'Inmersión en las expresiones artísticas contemporáneas y el pulso creativo de los eventos culturales de vanguardia.',
+    imageUrl: DEFAULT_VIDEO_COVER
+  },
+  {
+    id: 'vp_new_16',
+    title: 'Ciencia y Terapias Alternativas',
+    videoUrl: 'https://res.cloudinary.com/ddmj6zevz/video/upload/v1786631845/Ciencia_y_terapias_alternativas___202607101830_xipljy.mp4',
+    transcript: 'Criterio científico versus empirismo popular: un contraste respetuoso sobre la salud, la evidencia y las creencias.',
+    imageUrl: DEFAULT_VIDEO_COVER
+  },
+  {
+    id: 'vp_new_17',
+    title: 'Arte de Mierda',
+    videoUrl: 'https://res.cloudinary.com/ddmj6zevz/video/upload/v1786631901/Arte_de_mierda_ideslc.mp4',
+    transcript: 'Una deconstrucción polémica sobre la mercantilización del arte, el valor estético y la provocación contemporánea.',
+    imageUrl: DEFAULT_VIDEO_COVER
+  },
+  {
     id: 'vp1',
     title: 'La búsqueda de lo sobrenatural',
     videoUrl: 'https://res.cloudinary.com/ddmj6zevz/video/upload/v1764886279/la_busqueda_de_lo_sobrenatural_nn2mhb.mp4',
