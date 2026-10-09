@@ -188,45 +188,72 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({
       description: 'SALUDO - El Nexo Digital'
     }))]);
 
-    // Índices para llevar cuenta de lo usado
-    let gIdx = 0, lIdx = 0, pIdx = 0, mIdx = 0, jIdx = 0, sIdx = 0, grIdx = 0;
+    // Usamos pools de rotación que se recargan barajados cada vez que se agotan
+    // para garantizar que suenen TODAS las canciones y audios sin repetir patrones fijos
+    let gPool = [...generalMusic];
+    let lPool = [...leoMusic];
+    let pPool = [...podcasts];
+    let mPool = [...microprograms];
+    let jPool = [...jingles];
+    let sPool = [...separators];
+    let grPool = [...greetings];
 
-    // Generamos 60 bloques para una cola extensa (~24 horas de programación)
+    const getNext = (pool: MusicTrack[], source: MusicTrack[]) => {
+      if (source.length === 0) return null;
+      if (pool.length === 0) {
+        pool.push(...shuffleArray([...source]));
+      }
+      return pool.shift() || null;
+    };
+
+    // Generamos 60 bloques (~24 horas completas de rotación variada)
     for (let i = 0; i < 60; i++) {
       // 1. Identidad (Separador / Sintonía)
-      if (separators.length > 0) queue.push(separators[sIdx++ % separators.length]);
-      
-      // 2. Bloque de música inicial (2 temas generales)
+      const sep = getNext(sPool, separators);
+      if (sep) queue.push(sep);
+
+      // 2. Bloque de música inicial (2 temas generales variados)
       for (let k = 0; k < 2; k++) {
-        if (generalMusic.length > 0) queue.push(generalMusic[gIdx++ % generalMusic.length]);
+        const gm = getNext(gPool, generalMusic);
+        if (gm) queue.push(gm);
       }
 
-      // 3. MICROPROGRAMA DE RADIO (3 min) - Intercalado cada ~15-20 min
-      if (microprograms.length > 0) {
-        queue.push(microprograms[mIdx++ % microprograms.length]);
+      // 3. SEGMENTO MICROPROGRAMA + PUBLICIDAD OBLIGATORIA INMEDIATA
+      const micro = getNext(mPool, microprograms);
+      if (micro) {
+        queue.push(micro);
+        // REGLA ESTRICTA: Tras el microprograma va inmediatamente la tanda publicitaria
+        const jinglePostMicro = getNext(jPool, jingles);
+        if (jinglePostMicro) queue.push(jinglePostMicro);
       }
 
       // 4. Bloque de música intermedio (2 temas generales)
       for (let k = 0; k < 2; k++) {
-        if (generalMusic.length > 0) queue.push(generalMusic[gIdx++ % generalMusic.length]);
+        const gm = getNext(gPool, generalMusic);
+        if (gm) queue.push(gm);
       }
 
-      // 5. Contenido Especial (Alternamos Podcast completo y Leo Castrillo cada bloque)
+      // 5. Contenido Especial (Alternancia Podcast completo / Leo Castrillo)
       if (i % 2 === 0) {
-        if (podcasts.length > 0) queue.push(podcasts[pIdx++ % podcasts.length]);
+        const pod = getNext(pPool, podcasts);
+        if (pod) queue.push(pod);
       } else {
-        if (leoMusic.length > 0) queue.push(leoMusic[lIdx++ % leoMusic.length]);
+        const leo = getNext(lPool, leoMusic);
+        if (leo) queue.push(leo);
       }
 
       // 6. Tema de cierre de bloque (1 tema general)
-      if (generalMusic.length > 0) queue.push(generalMusic[gIdx++ % generalMusic.length]);
+      const gmEnd = getNext(gPool, generalMusic);
+      if (gmEnd) queue.push(gmEnd);
 
-      // 7. Jingle / Publicidad
-      if (jingles.length > 0) queue.push(jingles[jIdx++ % jingles.length]);
+      // 7. Jingle / Publicidad regular
+      const jingle = getNext(jPool, jingles);
+      if (jingle) queue.push(jingle);
 
-      // 8. Saludo (Cada 3 bloques para mantener calidez)
-      if (greetings.length > 0 && i % 3 === 0) {
-        queue.push(greetings[grIdx++ % greetings.length]);
+      // 8. Saludo (Cada 3 bloques)
+      if (i % 3 === 0) {
+        const gr = getNext(grPool, greetings);
+        if (gr) queue.push(gr);
       }
     }
 
@@ -256,15 +283,42 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({
 
   const playNextMusicTrack = useCallback(() => {
     setMusicQueue(prevQueue => {
-        if (prevQueue.length <= 1) {
-            return generateBalancedQueue();
+      const currentTrack = prevQueue[0];
+      const remaining = prevQueue.slice(1);
+
+      // Si el track que acaba de terminar era un microprograma de radio:
+      // Aseguramos que SIEMPRE el siguiente audio sea un aviso publicitario (Jingle)
+      const isMicroProgram = currentTrack && (
+        currentTrack.id.startsWith('micro_') ||
+        (currentTrack.description && currentTrack.description.toUpperCase().includes('MICROPROGRAMA'))
+      );
+
+      if (isMicroProgram) {
+        const nextIsJingle = remaining[0] && (
+          remaining[0].id.startsWith('jingle_') ||
+          (remaining[0].description && (
+            remaining[0].description.toUpperCase().includes('PUBLICITARIO') ||
+            remaining[0].description.toUpperCase().includes('COMERCIAL') ||
+            remaining[0].description.toUpperCase().includes('JINGLE')
+          ))
+        );
+
+        if (!nextIsJingle && ONLY_JINGLES.length > 0) {
+          const randomJingle = ONLY_JINGLES[Math.floor(Math.random() * ONLY_JINGLES.length)];
+          return [randomJingle, ...remaining];
         }
-        return prevQueue.slice(1);
+      }
+
+      if (remaining.length <= 1) {
+        return generateBalancedQueue();
+      }
+      return remaining;
     });
   }, []);
 
   // Ref para evitar ciclos infinitos en el useEffect de música
   const lastPlayedSrcRef = useRef<string>('');
+  const stalledTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     const audio = audioRef.current;
@@ -282,13 +336,27 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({
         playNextMusicTrack();
     };
 
+    // Stalled: no saltamos inmediatamente ante un breve buffer; damos 5 segundos antes de avanzar
     const handleStalled = () => {
-        console.warn(`Audio stalled for: ${audio.src}. Skipping...`);
-        playNextMusicTrack();
+        if (stalledTimeoutRef.current) clearTimeout(stalledTimeoutRef.current);
+        stalledTimeoutRef.current = setTimeout(() => {
+          if (audio.readyState < 2 && !audio.paused) {
+            console.warn(`Audio playback stalled persistently for: ${audio.src}. Skipping...`);
+            playNextMusicTrack();
+          }
+        }, 5000);
+    };
+
+    const handlePlaying = () => {
+      if (stalledTimeoutRef.current) {
+        clearTimeout(stalledTimeoutRef.current);
+        stalledTimeoutRef.current = null;
+      }
     };
 
     audio.addEventListener('error', handleMediaError);
     audio.addEventListener('stalled', handleStalled);
+    audio.addEventListener('playing', handlePlaying);
 
     const currentTrack = musicQueue[0];
     
@@ -343,6 +411,10 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({
     return () => {
       audio.removeEventListener('error', handleMediaError);
       audio.removeEventListener('stalled', handleStalled);
+      audio.removeEventListener('playing', handlePlaying);
+      if (stalledTimeoutRef.current) {
+        clearTimeout(stalledTimeoutRef.current);
+      }
     };
   }, [musicQueue[0]?.id, isPlaying, isGreetingPlaying, activeBroadcast, playNextMusicTrack]);
 

@@ -30,7 +30,7 @@ export const ONLY_PODCASTS = PODCASTS_MP3.map(p => ({
 export const ONLY_MICROPROGRAMS = MICRO_PROGRAMS.map(m => ({
   id: `micro_${m.id}`,
   url: m.audioUrl,
-  description: `MICROPROGRAMA DE RADIO (3 min): ${m.title}`
+  description: `MICROPROGRAMA DE RADIO: ${m.title}`
 }));
 export const ONLY_JINGLES = COMMERCIAL_JINGLES.map((url, i) => ({
   id: `jingle_${i}`,
