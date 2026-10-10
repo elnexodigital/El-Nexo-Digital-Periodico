@@ -13,6 +13,18 @@ export interface VideoPodcast {
   imageUrl?: string;
 }
 
+export type AppView = 
+  | 'hub' 
+  | 'revistas' 
+  | 'podcasts-mp4' 
+  | 'podcasts-mp3' 
+  | 'libros' 
+  | 'biografias' 
+  | 'reportajes' 
+  | 'musica' 
+  | 'peliculas'
+  | 'documentos';
+
 export interface HeaderControls {
   playRadio: () => void;
   pauseRadio: () => void;

@@ -1,7 +1,5 @@
 import { useState, useEffect, useRef, useCallback, forwardRef, useImperativeHandle } from 'react';
-import { motion } from 'motion/react';
-import ListenerCounter from './ListenerCounter.tsx';
-import { Home, Play, Pause, SkipForward, BookOpen, Mic } from 'lucide-react';
+import { Home, Play, Pause, SkipForward, BookOpen, Mic, Search } from 'lucide-react';
 import type { MusicTrack, HeaderControls, NewsBroadcast, PodcastMP3 } from '../types.ts';
 
 // Static Imports for Radio Data
@@ -18,10 +16,9 @@ import {
 import { PODCASTS_MP3 } from '../data/podcastsMP3.ts';
 
 interface HeaderProps {
-  currentView: 'magazine' | 'library';
-  onNavigate: (view: 'magazine' | 'library') => void;
-  onOpenPodcast?: () => void;
-  hasPodcast?: boolean;
+  currentView: string;
+  onNavigate: (view: string) => void;
+  onOpenSearch?: () => void;
 }
 
 const shuffleArray = <T,>(array: T[]): T[] => {
@@ -94,35 +91,8 @@ const VIDEO_URLS: string[] = [
 const Header = forwardRef<HeaderControls, HeaderProps>(({
   currentView,
   onNavigate,
-  onOpenPodcast,
-  hasPodcast
+  onOpenSearch
 }, ref) => {
-
-  const NavItem = ({ view, label, icon: Icon, onClick, active }: { view?: any, label: string, icon: any, onClick?: () => void, active?: boolean }) => {
-    const isActive = active || currentView === view;
-    return (
-      <div className="flex flex-col items-center gap-2 group relative">
-        <button
-          onClick={onClick || (() => onNavigate(view))}
-          className={`w-12 h-12 sm:w-16 sm:h-16 flex items-center justify-center rounded-full transition-all duration-500 shadow-xl border-2 ${isActive
-            ? 'bg-white text-stone-900 border-white shadow-[0_0_25px_rgba(255,255,255,0.4)] scale-110'
-            : 'bg-stone-800/40 text-stone-400 border-white/10 hover:bg-stone-700 hover:text-white hover:border-white/40 hover:scale-105 hover:shadow-[0_0_15px_rgba(255,255,255,0.1)]'
-            }`}
-        >
-          <Icon size={isActive ? 28 : 24} strokeWidth={isActive ? 2.5 : 1.5} />
-        </button>
-        <span className={`text-[10px] font-bold tracking-[0.3em] uppercase transition-all duration-300 mt-1 ${isActive ? 'opacity-100 text-stone-200 translate-y-0' : 'opacity-50 group-hover:opacity-100 text-stone-400 group-hover:text-stone-200 translate-y-1 group-hover:translate-y-0'}`}>
-          {label}
-        </span>
-        {isActive && (
-          <motion.div 
-            layoutId="nav-indicator"
-            className="absolute -bottom-3 w-8 h-1 rounded-full bg-stone-200 shadow-[0_0_10px_rgba(255,255,255,0.4)]" 
-          />
-        )}
-      </div>
-    );
-  };
 
   const [currentDate, setCurrentDate] = useState('');
   const [isPlaying, setIsPlaying] = useState(false);
@@ -561,94 +531,194 @@ const Header = forwardRef<HeaderControls, HeaderProps>(({
   const currentTitle = activeBroadcast?.description || activePodcastMP3?.title || currentTrack?.description || 'El Nexo Digital';
   const currentArtist = isPlaying ? (activePodcastMP3?.artist || 'El Nexo Digital Radio') : 'El Nexo Digital Radio';
 
+  const [listenerCount, setListenerCount] = useState(() => Math.floor(Math.random() * (142 - 85 + 1)) + 85);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setListenerCount(Math.floor(Math.random() * (142 - 85 + 1)) + 85);
+    }, 40000);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
-    <header className="z-50 w-full pt-4 sm:pt-10 px-4 flex flex-col items-center mb-0">
-      <div className="bg-stone-900/90 backdrop-blur-xl px-4 sm:px-16 py-6 sm:py-12 rounded-3xl relative flex flex-col items-center max-w-5xl w-full border border-white/10 shadow-2xl overflow-hidden">
-        
-        <div className="text-center space-y-4 mb-8">
-          <div className="flex flex-col items-center gap-2">
-            <h1 className="text-5xl sm:text-7xl font-signature text-[#DFB57A] mb-2 drop-shadow-lg">
-              El Nexo Digital
-            </h1>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4 mt-1">
-              <span className="text-[14px] sm:text-[16px] font-serif italic text-stone-300 tracking-tight">mucho más que un podcast</span>
-              <span className="hidden sm:inline text-stone-600">•</span>
-              <ListenerCounter />
-            </div>
-            <span className="text-[10px] font-mono text-stone-400/80 tracking-widest uppercase pt-2 font-bold">{currentDate}</span>
-          </div>
+    <header className="z-30 w-full pt-2 sm:pt-4 px-2 sm:px-4 flex flex-col items-center mb-2">
+      {/* Barra superior mínima con marca y estado de transmisión */}
+      <div className="w-full max-w-5xl flex items-center justify-between px-3 py-1.5 mb-1.5 text-xs text-stone-400">
+        <div 
+          onClick={() => onNavigate('hub')}
+          className="flex items-center gap-2 cursor-pointer group"
+        >
+          <span className="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.8)] animate-pulse" />
+          <span className="font-serif tracking-wider uppercase text-amber-200/90 font-bold group-hover:text-amber-100 transition-colors">
+            El Nexo Digital
+          </span>
+          <span className="hidden sm:inline text-stone-600 font-mono">|</span>
+          <span className="hidden sm:inline text-[10px] font-mono tracking-widest uppercase text-stone-400">
+            Ateneo & Radio Cultural
+          </span>
         </div>
 
-        {/* Combined Player Container (Video + Radio) */}
-        <div className="w-full max-w-[1080px] mb-12 flex flex-col overflow-hidden rounded-2xl md:rounded-3xl border border-white/10 shadow-2xl bg-black mx-auto">
-          {/* Video Player - Exact 1080x336 Aspect Ratio */}
-          <div className="w-full aspect-[1080/336] relative bg-black overflow-hidden">
-            <video
-              key={videoQueue[0]}
-              src={videoQueue[0]}
-              autoPlay
-              muted
-              loop={!!activeBroadcast}
-              playsInline
-              crossOrigin="anonymous"
-              onEnded={activeBroadcast ? undefined : selectNextVideo}
-              className="w-full h-full object-cover"
-            />
-          </div>
-
-          {/* Radio Player Bar - Simple, clean style */}
-          <div className="flex flex-col w-full bg-stone-900">
-            {/* Full Width Marquee on Top */}
-            <div className="bg-black/40 border-t border-white/5 py-2 overflow-hidden">
-              <div className="marquee-container">
-                <div className="marquee-content marquee-slow">
-                  <span className="text-emerald-400/80 font-normal text-xs md:text-sm uppercase tracking-[0.4em] font-mono whitespace-nowrap leading-none">
-                    {currentArtist} — {currentTitle} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {currentArtist} — {currentTitle} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {currentArtist} — {currentTitle}
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            {/* Controls Area - Centered and Styled */}
-            <div className="p-6 flex items-center justify-center border-t border-white/5 relative">
-              <div className="flex items-center gap-12">
-                <button 
-                  onClick={togglePlayPause}
-                  className="w-16 h-16 md:w-20 md:h-20 flex items-center justify-center rounded-full bg-white text-stone-900 shadow-[0_0_30px_rgba(255,255,255,0.2)] hover:bg-stone-100 transition-all hover:scale-110 active:scale-95 border-4 border-white/30 group relative"
-                  title={isPlaying ? "Pausar" : "Reproducir"}
-                >
-                  <div className="absolute inset-0 rounded-full bg-white/20 animate-ping group-hover:hidden" />
-                  {isPlaying ? (
-                    <Pause size={32} fill="currentColor" />
-                  ) : (
-                    <Play size={32} fill="currentColor" className="ml-1" />
-                  )}
-                </button>
-
-                <button 
-                  onClick={handleChangeVibe}
-                  className="w-12 h-12 md:w-14 md:h-14 flex items-center justify-center rounded-full bg-stone-800 text-white border-2 border-white/10 shadow-xl hover:bg-stone-700 transition-all hover:scale-110 active:scale-95 hover:border-white/30"
-                  title="Siguiente"
-                >
-                  <SkipForward size={24} />
-                </button>
-              </div>
-            </div>
-          </div>
-          <audio ref={audioRef} onEnded={playNextMusicTrack} />
-        </div>
-
-        {/* Moss Green Divider Line */}
-        <div className="w-full h-[1px] bg-[#7A907E] opacity-50 mb-10" />
-
-        {/* Minimal Nav - Consistent Style */}
-        <nav className="flex flex-wrap justify-center gap-6 sm:gap-12 p-4 w-full max-w-4xl mx-auto">
-          <NavItem view="magazine" label="Explorar" icon={Home} />
-          <NavItem view="library" label="Biblioteca" icon={BookOpen} />
-          {hasPodcast && onOpenPodcast && (
-            <NavItem label="Video Podcast" icon={Mic} onClick={onOpenPodcast} />
+        <div className="flex items-center gap-2 sm:gap-3">
+          {onOpenSearch && (
+            <button
+              onClick={onOpenSearch}
+              className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-stone-900 border border-white/10 hover:border-amber-400/40 text-stone-300 hover:text-amber-300 text-[10px] font-mono uppercase transition-colors"
+              title="Buscar por contexto o tema en todo El Nexo"
+            >
+              <Search size={12} />
+              <span className="hidden sm:inline">Buscar por tema</span>
+            </button>
           )}
-        </nav>
+
+          {isPlaying ? (
+            <span className="flex items-center gap-1.5 text-[10px] font-mono uppercase tracking-wider text-emerald-400 font-bold bg-emerald-950/60 px-2 py-0.5 rounded-full border border-emerald-500/30">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
+              Al Aire
+            </span>
+          ) : (
+            <span className="text-[10px] font-mono uppercase tracking-wider text-stone-500 bg-stone-900/60 px-2 py-0.5 rounded-full border border-white/5">
+              Pausa
+            </span>
+          )}
+        </div>
+      </div>
+
+      {/* Contenedor principal compacto del reproductor (Video + Marquesina + Controles Play/Avance + Navegación) */}
+      <div className="w-full max-w-5xl bg-stone-900/95 backdrop-blur-xl rounded-2xl sm:rounded-3xl border border-white/10 shadow-2xl overflow-hidden flex flex-col">
+        
+        {/* 1. Pantalla de Video - Totalmente limpia y despejada (sin botones ni textos flotantes encima) */}
+        <div className="w-full aspect-[1080/380] sm:aspect-[1080/340] relative bg-black overflow-hidden">
+          <video
+            key={videoQueue[0]}
+            src={videoQueue[0]}
+            autoPlay
+            muted
+            loop={!!activeBroadcast}
+            playsInline
+            crossOrigin="anonymous"
+            onEnded={activeBroadcast ? undefined : selectNextVideo}
+            className="w-full h-full object-cover"
+          />
+        </div>
+
+        {/* 2. Marquesina viva continua - Contador de audiencia y fecha incorporados directamente en el texto */}
+        <div className="bg-black/95 border-y border-amber-500/30 py-2.5 overflow-hidden shadow-inner">
+          <div className="marquee-container">
+            <div className="marquee-content marquee-slow">
+              <span className="text-amber-300 font-mono text-xs uppercase tracking-[0.25em] whitespace-nowrap leading-none font-semibold">
+                🟢 HAY {listenerCount} NEXÓLOGOS EN LÍNEA, BIENVENIDOS &nbsp;&nbsp;&nbsp;✦&nbsp;&nbsp;&nbsp; {currentDate} &nbsp;&nbsp;&nbsp;✦&nbsp;&nbsp;&nbsp; SONANDO: {currentArtist} — {currentTitle} &nbsp;&nbsp;&nbsp;✦&nbsp;&nbsp;&nbsp; EL NEXO DIGITAL RADIO &nbsp;&nbsp;&nbsp;✦&nbsp;&nbsp;&nbsp; 🟢 HAY {listenerCount} NEXÓLOGOS EN LÍNEA, BIENVENIDOS &nbsp;&nbsp;&nbsp;✦&nbsp;&nbsp;&nbsp; {currentDate} &nbsp;&nbsp;&nbsp;✦&nbsp;&nbsp;&nbsp; SONANDO: {currentArtist} — {currentTitle} &nbsp;&nbsp;&nbsp;✦&nbsp;&nbsp;&nbsp;
+              </span>
+            </div>
+          </div>
+        </div>
+
+        {/* 3. Botones de Play y Avance - Debajo de la marquesina con diseño táctil y paleta de color diferenciada */}
+        <div className="px-3 py-2.5 sm:px-6 sm:py-3.5 bg-stone-900/90 border-b border-white/5 flex items-center justify-between flex-wrap gap-2.5">
+          <div className="flex items-center gap-2">
+            <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.8)]" />
+            <span className="text-[11px] font-mono font-bold tracking-wider uppercase text-stone-200">
+              Radio En Vivo
+            </span>
+            <span className="hidden sm:inline text-stone-600 font-mono">•</span>
+            <span className="hidden sm:inline text-[10px] font-mono text-stone-400 uppercase tracking-widest">
+              Emisión 24/7
+            </span>
+          </div>
+
+          {/* Grupo de control Play y Avance */}
+          <div className="flex items-center gap-3">
+            {/* Botón PLAY / PAUSA: Destacado, táctil y con color de estado */}
+            <button 
+              onClick={togglePlayPause}
+              className={`px-5 py-2.5 sm:px-6 sm:py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider flex items-center gap-2 transition-all shadow-lg hover:scale-105 active:scale-95 ${
+                isPlaying
+                  ? 'bg-emerald-500 hover:bg-emerald-400 text-stone-950 border border-emerald-300 shadow-[0_0_20px_rgba(16,185,129,0.4)]'
+                  : 'bg-amber-400 hover:bg-amber-300 text-stone-950 border border-amber-300 shadow-[0_0_20px_rgba(251,191,36,0.4)]'
+              }`}
+              title={isPlaying ? "Pausar emisión" : "Escuchar emisión"}
+            >
+              {isPlaying ? (
+                <>
+                  <Pause size={16} fill="currentColor" />
+                  <span>Pausar</span>
+                </>
+              ) : (
+                <>
+                  <Play size={16} fill="currentColor" className="ml-0.5" />
+                  <span>Escuchar</span>
+                </>
+              )}
+            </button>
+
+            {/* Botón AVANCE / SIGUIENTE TEMA: Con color contrastante para no confundir */}
+            <button 
+              onClick={handleChangeVibe}
+              className="px-4 py-2.5 sm:px-5 sm:py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider flex items-center gap-2 bg-stone-800 hover:bg-stone-700 text-amber-300 hover:text-white border border-amber-500/40 transition-all hover:scale-105 active:scale-95 shadow-md"
+              title="Avanzar al siguiente tema"
+            >
+              <SkipForward size={16} />
+              <span>Avance</span>
+            </button>
+          </div>
+
+          <div className="text-[10px] font-mono text-stone-400 hidden sm:block">
+            <span className="text-amber-400/90 font-medium">Sintonía Continua</span>
+          </div>
+        </div>
+
+        {/* 4. Botones de Navegación de Contenidos - Colores temáticos diferenciados por formato */}
+        <div className="p-2 sm:p-2.5 bg-stone-950/95 flex items-center justify-center gap-1.5 sm:gap-2.5 flex-wrap">
+          <button
+            onClick={() => onNavigate('hub')}
+            className={`px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl text-xs font-semibold tracking-wider uppercase transition-all flex items-center gap-1.5 ${
+              currentView === 'hub'
+                ? 'bg-stone-200 text-stone-950 shadow-md font-bold'
+                : 'bg-stone-900/80 text-stone-400 border border-white/5 hover:bg-stone-800 hover:text-stone-200'
+            }`}
+          >
+            <Home size={13} />
+            <span>Inicio</span>
+          </button>
+
+          <button
+            onClick={() => onNavigate('revistas')}
+            className={`px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl text-xs font-semibold tracking-wider uppercase transition-all flex items-center gap-1.5 ${
+              currentView === 'revistas'
+                ? 'bg-rose-600 text-white shadow-[0_0_15px_rgba(225,29,72,0.4)] font-bold'
+                : 'bg-rose-950/40 text-rose-300 border border-rose-500/30 hover:bg-rose-900/50 hover:text-rose-100'
+            }`}
+          >
+            <BookOpen size={13} />
+            <span>Revista Digital</span>
+            <span className="w-1.5 h-1.5 rounded-full bg-rose-400 animate-pulse ml-0.5" />
+          </button>
+
+          <button
+            onClick={() => onNavigate('podcasts-mp4')}
+            className={`px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl text-xs font-semibold tracking-wider uppercase transition-all flex items-center gap-1.5 ${
+              currentView === 'podcasts-mp4'
+                ? 'bg-purple-600 text-white shadow-[0_0_15px_rgba(147,51,234,0.4)] font-bold'
+                : 'bg-purple-950/40 text-purple-300 border border-purple-500/30 hover:bg-purple-900/50 hover:text-purple-100'
+            }`}
+          >
+            <Mic size={13} />
+            <span>Podcast MP4</span>
+          </button>
+
+          <button
+            onClick={() => onNavigate('podcasts-mp3')}
+            className={`px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl text-xs font-semibold tracking-wider uppercase transition-all flex items-center gap-1.5 ${
+              currentView === 'podcasts-mp3'
+                ? 'bg-amber-500 text-stone-950 shadow-[0_0_15px_rgba(245,158,11,0.4)] font-bold'
+                : 'bg-amber-950/40 text-amber-300 border border-amber-500/30 hover:bg-amber-900/50 hover:text-amber-100'
+            }`}
+          >
+            <span className="text-xs">🎧</span>
+            <span>Podcast MP3</span>
+          </button>
+        </div>
+
+        <audio ref={audioRef} onEnded={playNextMusicTrack} />
       </div>
     </header>
   );
