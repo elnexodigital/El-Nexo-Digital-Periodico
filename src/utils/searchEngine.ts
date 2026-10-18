@@ -130,6 +130,26 @@ export const ALL_CONTENT_INDEX: SearchResultItem[] = [
 
   // --- DOCUMENTOS EXTENSOS DE INVESTIGACIÓN ---
   {
+    id: 'investigacion_3',
+    title: 'Análisis Exhaustivo de la Encíclica Magnifica Humanitas del Papa León XIV',
+    category: 'Documentos',
+    targetView: 'documentos',
+    description: 'Primer documento de supremo magisterio pontificio dedicado a abordar de forma sistemática las implicaciones éticas, antropocéntricas y sociales de la IA frente al paradigma tecnocrático.',
+    tags: ['enciclica', 'papa', 'leon xiv', 'magnifica humanitas', 'inteligencia artificial', 'ia', 'etica', 'religion', 'humanidades', 'doctrina social', 'tecnocracia', 'babel', 'algoritmos', 'dignidad', 'leo castrillo', 'gemini', 'investigacion', 'dossier', 'youtube'],
+    url: 'https://www.youtube.com/playlist?list=PLRkKe7b6h28Y',
+    coverUrl: 'https://images.unsplash.com/photo-1548625361-1960249f315a?auto=format&fit=crop&q=80&w=800'
+  },
+  {
+    id: 'investigacion_4',
+    title: 'Auge y Ocaso del Frigorífico Nacional de Uruguay',
+    category: 'Documentos',
+    targetView: 'documentos',
+    description: 'Evolución histórica de la industria ganadera en Uruguay: monopolio del abasto capitalino, vedas de la carne, experiencia de EFCSA, frigorífico Anglo y metas estratégicas hacia el 2050.',
+    tags: ['frigorifico nacional', 'uruguay', 'carne', 'ganaderia', 'abasto', 'inac', 'inia', 'historia', 'economia', 'vedas', 'anglo', 'frigorifico', 'campo', 'trazabilidad', 'exportacion', 'leo castrillo', 'notebooklm', 'investigacion'],
+    url: 'https://elnexodigital.com',
+    coverUrl: 'https://images.unsplash.com/photo-1500595046743-cd271d694d30?auto=format&fit=crop&q=80&w=800'
+  },
+  {
     id: 'doc_celulosa_research',
     title: 'Evolución y Trascendencia de la Industria de Celulosa en Uruguay (DOCX)',
     category: 'Documentos',
@@ -173,6 +193,24 @@ export const ALL_CONTENT_INDEX: SearchResultItem[] = [
     description: 'Guía y documento de análisis sobre la síntesis de las ciencias y las artes de Hermann Hesse.',
     tags: ['documentos', 'hesse', 'castalia', 'abalorios', 'resumen', 'pdf', 'guia de estudio', 'filosofia', 'humanidades'],
     pdfUrl: 'https://res.cloudinary.com/dnauavz56/image/upload/resumen_el_juego_de_abalorios_tz8ijd.pdf'
+  },
+  {
+    id: 'doc_linea_paralela_1492',
+    title: 'Dossier de Investigación: La Línea Paralela (1492)',
+    category: 'Documentos',
+    targetView: 'documentos',
+    description: '¿En qué época estaríamos hoy en Latinoamérica sin la llegada de Europa? Miniserie de investigación contrafáctica sobre quipus, lógica aymara, megafauna y el Ayni.',
+    tags: ['1492', 'linea paralela', 'historia', 'quipu', 'aymara', 'logica trivalente', 'ayni', 'pachamama', 'cahokia', 'iroqueses', 'inca', 'uruguay', 'dossier', 'investigacion', 'charles mann', 'gary urton'],
+    coverUrl: 'https://res.cloudinary.com/ddmj6zevz/image/upload/v1792340129/Person_and_guanaco_by_river_2K_20261012202058_wwetbz.jpg'
+  },
+  {
+    id: 'doc_el_dios_laico',
+    title: 'Dossier de Investigación: El Dios Laico',
+    category: 'Documentos',
+    targetView: 'documentos',
+    description: '¿Ateo? No me hagas reír: la democracia como cover religioso, la liturgia del voto, el diezmo fiscal y la Santa Inquisición moderna.',
+    tags: ['dios laico', 'democracia', 'religion', 'iglesia', 'voto', 'elecciones', 'constitucion', 'jueces', 'impuestos', 'herejia', 'muerte civil', 'filosofia', 'leo castrillo', 'el nexo digital'],
+    coverUrl: 'https://res.cloudinary.com/ddmj6zevz/image/upload/v1792340270/el_dios_laico_bfl5q4.png'
   },
 
   // --- PODCASTS EN MP4 (VIDEO) ---

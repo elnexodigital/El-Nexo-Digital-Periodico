@@ -3,6 +3,151 @@ import type { PodcastMP3 } from '../types.ts';
 const DEFAULT_COVER = 'https://res.cloudinary.com/ddmj6zevz/image/upload/v1777939872/Copilot_20260504_211025_nw8vlh.png';
 
 export const PODCASTS_MP3: PodcastMP3[] = [
+  // --- COLECCIÓN EXCLUSIVA: ENCÍCLICA MAGNIFICA HUMANITAS (PAPA LEÓN XIV) ---
+  {
+    id: 'enciclica_intro',
+    title: '[Colección Exclusiva] Encíclica Magnifica Humanitas — Introducción',
+    artist: 'Papa León XIV / Leo Castrillo • Serie Exclusiva',
+    description: 'Introducción al análisis teológico y ético de la primera encíclica papal sobre IA y paradigma tecnocrático.',
+    audioUrl: 'https://res.cloudinary.com/ddmj6zevz/video/upload/v1792334523/Leonintro_k2zpqi.mp3',
+    coverUrl: 'https://res.cloudinary.com/ddmj6zevz/image/upload/v1792337920/Man_reading_book_in_living_2K_20261007232437_bacsnv.jpg',
+  },
+  {
+    id: 'enciclica_cap1',
+    title: '[Colección Exclusiva] Encíclica Magnifica Humanitas — Cap. 1',
+    artist: 'Papa León XIV / Leo Castrillo • Serie Exclusiva',
+    description: 'Génesis, continuidad histórica con Rerum Novarum (1891) y el marco de la Doctrina Social de la Iglesia.',
+    audioUrl: 'https://res.cloudinary.com/ddmj6zevz/video/upload/v1792334511/cap1leon_ttasdq.mp3',
+    coverUrl: 'https://res.cloudinary.com/ddmj6zevz/image/upload/v1792337920/Man_reading_book_in_living_2K_20261007232437_bacsnv.jpg',
+  },
+  {
+    id: 'enciclica_cap2',
+    title: '[Colección Exclusiva] Encíclica Magnifica Humanitas — Cap. 2',
+    artist: 'Papa León XIV / Leo Castrillo • Serie Exclusiva',
+    description: 'La Torre de Babel moderna y el paradigma tecnocrático: el peligro de la uniformidad cognitiva algorítmica.',
+    audioUrl: 'https://res.cloudinary.com/ddmj6zevz/video/upload/v1792334511/leoncap2_hvdwcv.mp3',
+    coverUrl: 'https://res.cloudinary.com/ddmj6zevz/image/upload/v1792337920/Man_reading_book_in_living_2K_20261007232437_bacsnv.jpg',
+  },
+  {
+    id: 'enciclica_cap3',
+    title: '[Colección Exclusiva] Encíclica Magnifica Humanitas — Cap. 3',
+    artist: 'Papa León XIV / Leo Castrillo • Serie Exclusiva',
+    description: 'Trabajo humano, dignidad inalienable y subsidiariedad frente a la automatización desregulada.',
+    audioUrl: 'https://res.cloudinary.com/ddmj6zevz/video/upload/v1792334514/cap3leon_tk7t5m.mp3',
+    coverUrl: 'https://res.cloudinary.com/ddmj6zevz/image/upload/v1792337920/Man_reading_book_in_living_2K_20261007232437_bacsnv.jpg',
+  },
+  {
+    id: 'enciclica_cap4',
+    title: '[Colección Exclusiva] Encíclica Magnifica Humanitas — Cap. 4',
+    artist: 'Papa León XIV / Leo Castrillo • Serie Exclusiva',
+    description: 'Verdad pública, censura corporativa, sesgos cognitivos y desarme de armas letales autónomas.',
+    audioUrl: 'https://res.cloudinary.com/ddmj6zevz/video/upload/v1792334518/leoncap4_ksl3wg.mp3',
+    coverUrl: 'https://res.cloudinary.com/ddmj6zevz/image/upload/v1792337920/Man_reading_book_in_living_2K_20261007232437_bacsnv.jpg',
+  },
+  {
+    id: 'enciclica_cap5',
+    title: '[Colección Exclusiva] Encíclica Magnifica Humanitas — Cap. 5',
+    artist: 'Papa León XIV / Leo Castrillo • Serie Exclusiva',
+    description: 'Los Muros de Jerusalén: la reconstrucción del humanismo trascendente, el arte vivo y la persona encarnada.',
+    audioUrl: 'https://res.cloudinary.com/ddmj6zevz/video/upload/v1792334517/cap5leon_f90stj.mp3',
+    coverUrl: 'https://res.cloudinary.com/ddmj6zevz/image/upload/v1792337920/Man_reading_book_in_living_2K_20261007232437_bacsnv.jpg',
+  },
+
+  // --- COLECCIÓN EXCLUSIVA: 1492 LA LÍNEA PARALELA ---
+  {
+    id: '1492_intro',
+    title: '[Colección Exclusiva] 1492: La Línea Paralela — Intro: El mundo que nos quitaron',
+    artist: 'Investigación Contrafáctica • El Nexo Digital',
+    description: '¿En qué época estaríamos hoy en Latinoamérica sin la llegada de Europa? Hipótesis de una América aislada hasta 2026.',
+    audioUrl: 'https://res.cloudinary.com/ddmj6zevz/video/upload/v1792334227/intro1841_bzsjdi.mp3',
+    coverUrl: 'https://res.cloudinary.com/ddmj6zevz/image/upload/v1792340129/Person_and_guanaco_by_river_2K_20261012202058_wwetbz.jpg',
+  },
+  {
+    id: '1492_cap1',
+    title: '[Colección Exclusiva] 1492: La Línea Paralela — Cap. 1: El mito del atraso y la geopolítica',
+    artist: 'Investigación Contrafáctica • El Nexo Digital',
+    description: 'Cahokia, democracia iroquesa, Tawantinsuyu y la geopolítica continental entre el Quechua y el Guaraní.',
+    audioUrl: 'https://res.cloudinary.com/ddmj6zevz/video/upload/v1792334223/cap1_1841_fu4kwd.mp3',
+    coverUrl: 'https://res.cloudinary.com/ddmj6zevz/image/upload/v1792340129/Person_and_guanaco_by_river_2K_20261012202058_wwetbz.jpg',
+  },
+  {
+    id: '1492_cap2',
+    title: '[Colección Exclusiva] 1492: La Línea Paralela — Cap. 2: Sin caballo ni buey: Revolución hidráulica',
+    artist: 'Investigación Contrafáctica • El Nexo Digital',
+    description: 'El cuello de botella animal (Jared Diamond), cría de guanacos de tiro y la superautopista fluvial al vapor.',
+    audioUrl: 'https://res.cloudinary.com/ddmj6zevz/video/upload/v1792334231/cap2_1841_wter4y.mp3',
+    coverUrl: 'https://res.cloudinary.com/ddmj6zevz/image/upload/v1792340129/Person_and_guanaco_by_river_2K_20261012202058_wwetbz.jpg',
+  },
+  {
+    id: '1492_cap3',
+    title: '[Colección Exclusiva] 1492: La Línea Paralela — Cap. 3: Del Quipu al Silicio: Informática trivalente',
+    artist: 'Investigación Contrafáctica • El Nexo Digital',
+    description: 'Quipus tridimensionales (Gary Urton) y lógica trivalente aymara (Iván Guzmán de Rojas) para computación comunitaria.',
+    audioUrl: 'https://res.cloudinary.com/ddmj6zevz/video/upload/v1792334231/cap3_1841_pgp89d.mp3',
+    coverUrl: 'https://res.cloudinary.com/ddmj6zevz/image/upload/v1792340129/Person_and_guanaco_by_river_2K_20261012202058_wwetbz.jpg',
+  },
+  {
+    id: '1492_cap4',
+    title: '[Colección Exclusiva] 1492: La Línea Paralela — Cap. 4: El Ayni Global: Ley de la Pachamama',
+    artist: 'Investigación Contrafáctica • El Nexo Digital',
+    description: 'Espiritualidad sin pecado original: panenteísmo ecológico, reciprocidad del Ayni (John Murra) y la Tierra Sin Mal.',
+    audioUrl: 'https://res.cloudinary.com/ddmj6zevz/video/upload/v1792334228/cap4_1841_xkymij.mp3',
+    coverUrl: 'https://res.cloudinary.com/ddmj6zevz/image/upload/v1792340129/Person_and_guanaco_by_river_2K_20261012202058_wwetbz.jpg',
+  },
+
+  // --- COLECCIÓN EXCLUSIVA: RECICLAJE & CRÍTICA INDUSTRIAL ---
+  {
+    id: 'rec_fashion',
+    title: '[Colección Exclusiva] Reciclaje Fashion',
+    artist: 'Ensayos Críticos • El Nexo Digital',
+    description: 'Desmitificando el falso ecologismo del fast-fashion, el consumismo descartable y la polución industrial.',
+    audioUrl: 'https://res.cloudinary.com/ddmj6zevz/video/upload/v1792333856/resiclaje_fashion_z3goes.mp3',
+    coverUrl: 'https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?auto=format&fit=crop&q=80&w=800',
+  },
+  {
+    id: 'rec_ouroboros',
+    title: '[Colección Exclusiva] Ouroboros y la Adicción',
+    artist: 'Ensayos Críticos • El Nexo Digital',
+    description: 'El bucle infinito de la dopamina comercial y el consumo compulsivo de la sociedad del cansancio.',
+    audioUrl: 'https://res.cloudinary.com/ddmj6zevz/video/upload/v1792333854/Ouroboros_y_la_adicci%C3%B3n_rlw19f.mp3',
+    coverUrl: 'https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?auto=format&fit=crop&q=80&w=800',
+  },
+  {
+    id: 'rec_fanapel',
+    title: '[Colección Exclusiva] Fuck You Fanapel',
+    artist: 'Ensayos Críticos • El Nexo Digital',
+    description: 'La herida de la desindustrialización en Juan Lacaze y el impacto social del cierre obrero.',
+    audioUrl: 'https://res.cloudinary.com/ddmj6zevz/video/upload/v1792334620/fuckyoufanapel_ecz7sh.mp3',
+    coverUrl: 'https://images.unsplash.com/photo-1513828583688-c52646db42da?auto=format&fit=crop&q=80&w=800',
+  },
+
+  // --- COLECCIÓN EXCLUSIVA: EL DIOS LAICO ---
+  {
+    id: 'laico_1',
+    title: '[Colección Exclusiva] El Dios Laico — Episodio Central: ¿Ateo? No me hagas reír',
+    artist: 'Filosofía Crítica • El Nexo Digital',
+    description: 'La democracia no abolió la religión, le hizo un cover: la Biblia en Constitución, curas en jueces y la misa en la urna.',
+    audioUrl: 'https://res.cloudinary.com/ddmj6zevz/video/upload/v1792334938/el_dios_laico_bvbat7.mp3',
+    coverUrl: 'https://res.cloudinary.com/ddmj6zevz/image/upload/v1792340270/el_dios_laico_bfl5q4.png',
+  },
+  {
+    id: 'laico_3',
+    title: '[Colección Exclusiva] El Dios Laico — Cap. 3: ¿Votar es libertad? No, es ir a misa',
+    artist: 'Filosofía Crítica • El Nexo Digital',
+    description: 'La liturgia republicana: Constitución como Biblia, jueces como Clero, veda como Cuaresma y el cuarto oscuro como Confesionario.',
+    audioUrl: 'https://res.cloudinary.com/ddmj6zevz/video/upload/v1792334940/laico3_waxjnn.mp3',
+    coverUrl: 'https://res.cloudinary.com/ddmj6zevz/image/upload/v1792340270/el_dios_laico_bfl5q4.png',
+  },
+  {
+    id: 'laico_4',
+    title: '[Colección Exclusiva] El Dios Laico — Cap. 4: Si no pagás el tributo, te construyen el infierno',
+    artist: 'Filosofía Crítica • El Nexo Digital',
+    description: 'El diezmo impositivo obligatorio, la persecución al abstencionista y la muerte civil, fiscal y administrativa para el disidente.',
+    audioUrl: 'https://res.cloudinary.com/ddmj6zevz/video/upload/v1792334945/laico_4_ldguut.mp3',
+    coverUrl: 'https://res.cloudinary.com/ddmj6zevz/image/upload/v1792340270/el_dios_laico_bfl5q4.png',
+  },
+
+  // --- MICROPROGRAMAS DE RADIO ---
   {
     id: 'micro_mp3_1',
     title: '[Microprograma] Vejez Orgullosa',

@@ -11,10 +11,14 @@ import {
   Download, 
   ExternalLink, 
   Search,
-  Volume2
+  Volume2,
+  BookOpen,
+  Sparkles
 } from 'lucide-react';
-import type { AppView, MusicTrack } from '../types.ts';
+import type { AppView, MusicTrack, LibraryItem } from '../types.ts';
 import { LEO_CASTRILLO_TRACKS } from '../data/leoCastrillo.ts';
+import { LIBRARY_CONTENT } from '../data/libraryContent.ts';
+import LibraryDetailModal from './LibraryDetailModal.tsx';
 
 interface AteneoCategoryViewProps {
   category: 'libros' | 'biografias' | 'reportajes' | 'musica' | 'peliculas' | 'documentos';
@@ -69,6 +73,14 @@ const AteneoCategoryView: React.FC<AteneoCategoryViewProps> = ({
   const meta = CATEGORY_META[category];
   const Icon = meta.icon;
   const [searchTerm, setSearchTerm] = useState('');
+  const [selectedDocItem, setSelectedDocItem] = useState<LibraryItem | null>(null);
+
+  const handleOpenDocDetail = (docId: string) => {
+    const found = LIBRARY_CONTENT.find(item => item.id === docId);
+    if (found) {
+      setSelectedDocItem(found);
+    }
+  };
   
   // Reproductor dedicado para pistas de música
   const [activeMusicTrack, setActiveMusicTrack] = useState<MusicTrack | null>(null);
@@ -213,6 +225,30 @@ const AteneoCategoryView: React.FC<AteneoCategoryViewProps> = ({
 
   // Documentos extensos de investigación de El Nexo Digital
   const DOCUMENTOS_ITEMS = [
+    {
+      id: 'investigacion_3',
+      title: 'Análisis Exhaustivo de la Encíclica Magnifica Humanitas del Papa León XIV',
+      author: 'Leo Castrillo / Gemini',
+      category: 'Religión / Humanidades',
+      description: 'Primer documento de supremo magisterio pontificio dedicado a abordar de forma sistemática las implicaciones éticas, antropocéntricas y sociales de la IA. Analiza el marco de la Doctrina Social de la Iglesia (DSI) frente al paradigma tecnocrático.',
+      format: 'PDF & Playlist en Video',
+      coverUrl: 'https://res.cloudinary.com/ddmj6zevz/image/upload/v1792337920/Man_reading_book_in_living_2K_20261007232437_bacsnv.jpg',
+      externalUrl: 'https://www.youtube.com/playlist?list=PLRkKe7b6h28Y',
+      hasDetail: true,
+      isNew: true
+    },
+    {
+      id: 'investigacion_4',
+      title: 'Auge y Ocaso del Frigorífico Nacional de Uruguay',
+      author: 'Leo Castrillo / NotebookLM',
+      category: 'Economía / Mercado',
+      description: 'Visión integral de la industria ganadera en Uruguay: trayectoria de la faena desde los años 30, monopolio del abasto capitalino, vedas de la carne, experiencia obrera de EFCSA y metas al 2050.',
+      format: 'PDF & Documento Web',
+      coverUrl: 'https://images.unsplash.com/photo-1500595046743-cd271d694d30?auto=format&fit=crop&q=80&w=800',
+      externalUrl: 'https://elnexodigital.com',
+      hasDetail: true,
+      isNew: true
+    },
     {
       id: 'doc_celulosa',
       title: 'Evolución y Trascendencia de la Industria de Celulosa en Uruguay',
@@ -471,70 +507,119 @@ const AteneoCategoryView: React.FC<AteneoCategoryViewProps> = ({
               item.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
               item.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
               item.category.toLowerCase().includes(searchTerm.toLowerCase())
-            ).map(doc => (
-              <div key={doc.id} className="p-5 rounded-2xl bg-stone-900/90 border border-white/10 hover:border-amber-400/40 transition-all flex flex-col justify-between gap-4 shadow-xl group">
-                <div className="space-y-2.5">
-                  <div className="flex items-center justify-between gap-2">
-                    <span className="px-2.5 py-0.5 rounded bg-amber-500/20 text-amber-300 text-[10px] font-mono uppercase font-bold border border-amber-500/30">
-                      {doc.category}
-                    </span>
-                    <span className="text-[10px] font-mono text-stone-500 uppercase">
-                      {doc.format}
-                    </span>
+            ).map(doc => {
+              const isYouTube = 'externalUrl' in doc && doc.externalUrl?.includes('youtube.com');
+              const hasFullDetail = 'hasDetail' in doc && doc.hasDetail;
+
+              return (
+                <div key={doc.id} className="rounded-2xl bg-stone-900/90 border border-white/10 hover:border-amber-400/40 transition-all flex flex-col justify-between overflow-hidden shadow-xl group">
+                  {'coverUrl' in doc && doc.coverUrl && (
+                    <div className="w-full h-44 overflow-hidden relative bg-stone-950">
+                      <img 
+                        src={doc.coverUrl} 
+                        alt={doc.title} 
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-90 group-hover:opacity-100"
+                        referrerPolicy="no-referrer"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-stone-900 via-stone-900/40 to-transparent" />
+                      <div className="absolute top-3 left-3 flex gap-2">
+                        <span className="px-2.5 py-0.5 rounded-lg bg-amber-500 text-stone-950 text-[10px] font-mono uppercase font-black shadow">
+                          {doc.category}
+                        </span>
+                        {'isNew' in doc && doc.isNew && (
+                          <span className="px-2 py-0.5 rounded-lg bg-rose-600 text-white text-[10px] font-mono uppercase font-bold shadow flex items-center gap-1">
+                            <Sparkles size={10} />
+                            Nuevo
+                          </span>
+                        )}
+                      </div>
+                      <span className="absolute bottom-2 right-3 text-[10px] font-mono text-stone-300 bg-black/75 px-2 py-0.5 rounded backdrop-blur-sm border border-white/10">
+                        {doc.format}
+                      </span>
+                    </div>
+                  )}
+
+                  <div className="p-5 flex flex-col flex-1 justify-between gap-4">
+                    <div className="space-y-2.5">
+                      {!('coverUrl' in doc && doc.coverUrl) && (
+                        <div className="flex items-center justify-between gap-2">
+                          <span className="px-2.5 py-0.5 rounded bg-amber-500/20 text-amber-300 text-[10px] font-mono uppercase font-bold border border-amber-500/30">
+                            {doc.category}
+                          </span>
+                          <span className="text-[10px] font-mono text-stone-500 uppercase">
+                            {doc.format}
+                          </span>
+                        </div>
+                      )}
+
+                      <h3 className="font-serif text-base sm:text-lg font-bold text-stone-100 group-hover:text-amber-200 transition-colors leading-snug">
+                        {doc.title}
+                      </h3>
+
+                      <p className="text-xs text-stone-400 leading-relaxed line-clamp-3">
+                        {doc.description}
+                      </p>
+
+                      <span className="text-[10px] font-mono text-amber-400/80 block pt-1 font-semibold">
+                        {doc.author}
+                      </span>
+                    </div>
+
+                    <div className="pt-3 border-t border-white/5 flex flex-wrap gap-2">
+                      {hasFullDetail && (
+                        <button
+                          onClick={() => handleOpenDocDetail(doc.id)}
+                          className="flex-1 py-2 px-3 bg-amber-500/20 hover:bg-amber-400 hover:text-stone-950 text-amber-300 font-bold text-xs rounded-xl transition-all border border-amber-500/30 shadow flex items-center justify-center gap-1.5"
+                        >
+                          <BookOpen size={14} />
+                          <span>Leer Dossier Completo</span>
+                        </button>
+                      )}
+
+                      {'pdfUrl' in doc && doc.pdfUrl && (
+                        <a
+                          href={doc.pdfUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex-1 py-2 px-3 bg-amber-500 hover:bg-amber-400 text-stone-950 font-bold text-xs rounded-xl transition-all shadow flex items-center justify-center gap-1.5"
+                        >
+                          <Download size={14} />
+                          <span>Descargar ({doc.format.split('/')[0]?.trim() || 'Archivo'})</span>
+                        </a>
+                      )}
+
+                      {'externalUrl' in doc && doc.externalUrl && (
+                        <a
+                          href={doc.externalUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className={`flex-1 py-2 px-3 font-bold text-xs rounded-xl transition-colors border border-white/10 flex items-center justify-center gap-1.5 shadow ${
+                            isYouTube 
+                              ? 'bg-rose-950/60 hover:bg-rose-600 text-rose-200 hover:text-white border-rose-500/40' 
+                              : 'bg-stone-800 hover:bg-stone-700 text-stone-200'
+                          }`}
+                        >
+                          <ExternalLink size={14} />
+                          <span>{isYouTube ? 'Ver Playlist en YouTube' : 'Consultar fuentes'}</span>
+                        </a>
+                      )}
+
+                      {'audioUrl' in doc && doc.audioUrl && (
+                        <a
+                          href={doc.audioUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="py-2 px-3 bg-stone-800 hover:bg-stone-700 text-amber-300 rounded-xl transition-colors border border-white/10 flex items-center gap-1.5 text-xs font-semibold"
+                          title="Escuchar audio de investigación"
+                        >
+                          <span>Audio</span>
+                        </a>
+                      )}
+                    </div>
                   </div>
-
-                  <h3 className="font-serif text-base sm:text-lg font-bold text-stone-100 group-hover:text-amber-200 transition-colors">
-                    {doc.title}
-                  </h3>
-
-                  <p className="text-xs text-stone-400 leading-relaxed">
-                    {doc.description}
-                  </p>
-
-                  <span className="text-[10px] font-mono text-stone-500 block pt-1">
-                    {doc.author}
-                  </span>
                 </div>
-
-                <div className="pt-3 border-t border-white/5 flex flex-wrap gap-2">
-                  {'pdfUrl' in doc && doc.pdfUrl && (
-                    <a
-                      href={doc.pdfUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex-1 py-2 px-3 bg-amber-500 hover:bg-amber-400 text-stone-950 font-bold text-xs rounded-xl transition-all shadow flex items-center justify-center gap-1.5"
-                    >
-                      <Download size={14} />
-                      <span>Descargar ({doc.format.split('/')[0]?.trim() || 'Archivo'})</span>
-                    </a>
-                  )}
-
-                  {'externalUrl' in doc && doc.externalUrl && (
-                    <a
-                      href={doc.externalUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex-1 py-2 px-3 bg-stone-800 hover:bg-stone-700 text-stone-200 font-bold text-xs rounded-xl transition-colors border border-white/10 flex items-center justify-center gap-1.5"
-                    >
-                      <ExternalLink size={14} />
-                      <span>Consultar fuentes</span>
-                    </a>
-                  )}
-
-                  {'audioUrl' in doc && doc.audioUrl && (
-                    <a
-                      href={doc.audioUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="py-2 px-3 bg-stone-800 hover:bg-stone-700 text-amber-300 rounded-xl transition-colors border border-white/10 flex items-center gap-1.5 text-xs font-semibold"
-                      title="Escuchar audio de investigación"
-                    >
-                      <span>Audio</span>
-                    </a>
-                  )}
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       )}
@@ -616,6 +701,15 @@ const AteneoCategoryView: React.FC<AteneoCategoryViewProps> = ({
             </div>
           ))}
         </div>
+      )}
+
+      {/* Modal de Lectura Editorial Completa de Documentos */}
+      {selectedDocItem && (
+        <LibraryDetailModal
+          isOpen={!!selectedDocItem}
+          onClose={() => setSelectedDocItem(null)}
+          item={selectedDocItem}
+        />
       )}
 
     </div>

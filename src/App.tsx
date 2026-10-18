@@ -8,9 +8,8 @@ import PodcastsMP4View from './components/PodcastsMP4View.tsx';
 import PodcastsMP3View from './components/PodcastsMP3View.tsx';
 import AteneoCategoryView from './components/AteneoCategoryView.tsx';
 import BottomNav from './components/BottomNav.tsx';
-import DesignMockupModal from './components/DesignMockupModal.tsx';
 import GlobalSearchModal from './components/GlobalSearchModal.tsx';
-import { SOCIAL_NETWORKS, SocialIcon } from './components/SocialLinks.tsx';
+import MasterInventoryModal from './components/MasterInventoryModal.tsx';
 
 // --- COMPONENTES CON LAZY LOADING ---
 const PodcastModal = lazy(() => import('./components/PodcastModal.tsx'));
@@ -19,8 +18,8 @@ const App: React.FC = () => {
   const [currentView, setCurrentView] = useState<AppView>('hub');
   const [dailyPodcast, setDailyPodcast] = useState<VideoPodcast | null>(null);
   const [isPodcastModalOpen, setIsPodcastModalOpen] = useState(false);
-  const [isDesignModalOpen, setIsDesignModalOpen] = useState(false);
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
+  const [isMasterInventoryOpen, setIsMasterInventoryOpen] = useState(false);
   const headerRef = useRef<HeaderControls>(null);
 
   const fontUrl = 'https://res.cloudinary.com/dnauavz56/raw/upload/brittany_ifg3wl.ttf';
@@ -41,6 +40,19 @@ const App: React.FC = () => {
       }
     };
     loadLocalData();
+  }, []);
+
+  // Detección de acceso editorial por URL (#inventario, #gestion, #admin, #planilla)
+  useEffect(() => {
+    const handleHash = () => {
+      const hash = window.location.hash.toLowerCase();
+      if (hash === '#inventario' || hash === '#admin' || hash === '#gestion' || hash === '#planilla') {
+        setIsMasterInventoryOpen(true);
+      }
+    };
+    handleHash();
+    window.addEventListener('hashchange', handleHash);
+    return () => window.removeEventListener('hashchange', handleHash);
   }, []);
 
   const openPodcastModal = () => {
@@ -134,20 +146,16 @@ const App: React.FC = () => {
         onNavigate={navigateTo}
       />
 
-      {/* Visor de los Bocetos Originales A y B para consulta */}
-      <DesignMockupModal 
-        isOpen={isDesignModalOpen} 
-        onClose={() => setIsDesignModalOpen(false)} 
+      {/* Modal Reservado: Planilla Maestra de Contenidos (Acceso Privado para Leo) */}
+      <MasterInventoryModal
+        isOpen={isMasterInventoryOpen}
+        onClose={() => {
+          setIsMasterInventoryOpen(false);
+          if (window.location.hash) {
+            window.history.replaceState(null, '', window.location.pathname);
+          }
+        }}
       />
-
-      {/* Botón discreto para consultar los bocetos originales si se desea */}
-      <button
-        onClick={() => setIsDesignModalOpen(true)}
-        className="fixed bottom-16 right-4 z-30 flex items-center gap-1.5 px-3 py-1.5 bg-stone-900/90 hover:bg-stone-800 text-amber-300 text-[10px] font-mono uppercase tracking-wider rounded-full shadow-lg border border-amber-500/30 transition-all hover:scale-105"
-        title="Consultar bocetos de referencia A y B"
-      >
-        <span>📱 Bocetos A / B</span>
-      </button>
 
       {/* Barra de navegación inferior táctil para celular */}
       <BottomNav
@@ -156,47 +164,28 @@ const App: React.FC = () => {
         onOpenSearch={() => setIsSearchModalOpen(true)}
       />
 
-      {/* Pie de página con accesos a redes y contacto */}
+      {/* Pie de página limpio y sobrio */}
       <footer className="mt-auto py-8 pb-24 text-center border-t border-white/5 bg-stone-950/60 backdrop-blur-sm">
-        <div className="max-w-xl mx-auto px-4 flex flex-col items-center gap-4">
-          {/* Barra rápida de redes sociales */}
-          <div className="flex items-center justify-center flex-wrap gap-2">
-            {SOCIAL_NETWORKS.map((social) => (
-              <a
-                key={social.name}
-                href={social.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                title={`${social.name} (${social.handle || ''})`}
-                className={`w-8 h-8 rounded-full bg-stone-900 border border-white/10 flex items-center justify-center text-stone-400 hover:scale-110 active:scale-95 transition-all shadow-sm ${social.color}`}
-              >
-                <div className="w-4 h-4 flex items-center justify-center">
-                  <SocialIcon name={social.iconName} />
-                </div>
-              </a>
-            ))}
-          </div>
+        <div className="max-w-xl mx-auto px-4 flex flex-col items-center gap-2">
+          <p className="text-xs font-serif italic text-stone-400">
+            El Nexo Digital — Mucho más que un podcast
+          </p>
+          <a 
+            href="mailto:castrilloleo@gmail.com"
+            className="text-[10px] font-mono uppercase tracking-[0.2em] text-stone-500 hover:text-amber-400 transition-colors"
+          >
+            castrilloleo@gmail.com
+          </a>
 
-          <div className="flex flex-col items-center gap-1">
-            <p className="text-xs font-serif italic text-stone-400">
-              El Nexo Digital — Mucho más que un podcast
-            </p>
-            <div className="flex items-center gap-3 text-[10px] font-mono uppercase tracking-[0.15em] text-stone-500">
-              <a 
-                href="mailto:leocastrillo@elnexodigital.com"
-                className="hover:text-amber-400 transition-colors"
-              >
-                leocastrillo@elnexodigital.com
-              </a>
-              <span>•</span>
-              <a 
-                href="mailto:castrilloleo@gmail.com"
-                className="hover:text-amber-400 transition-colors"
-              >
-                castrilloleo@gmail.com
-              </a>
-            </div>
-          </div>
+          {/* Botón discreto y reservado para Leo: Planilla Maestra */}
+          <button
+            onClick={() => setIsMasterInventoryOpen(true)}
+            className="text-[10px] font-mono text-stone-600 hover:text-amber-400/90 transition-colors mt-2 flex items-center gap-1.5 cursor-pointer select-none"
+            title="Planilla Maestra de Contenidos (Control Editorial Privado)"
+          >
+            <span className="opacity-60 text-xs">🔒</span>
+            <span>Planilla Maestra & Control Editorial</span>
+          </button>
         </div>
       </footer>
     </div>
