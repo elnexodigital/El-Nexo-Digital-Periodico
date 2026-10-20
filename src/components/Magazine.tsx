@@ -15,13 +15,23 @@ interface MagazineEdition {
 
 const EDITIONS: MagazineEdition[] = [
   {
+    id: 'doc_voynich',
+    title: "El Manuscrito Voynich",
+    date: "Octubre 2026",
+    url: "https://heyzine.com/flip-book/73e446a995.html",
+    description: "Investigación sobre el códice Beinecke MS 408: botánica, paleografía, pastiche generativo por IA y cronología de estudios.",
+    coverUrl: "https://res.cloudinary.com/ddmj6zevz/image/upload/v1792462056/Manuscrito_ot6nug.png",
+    pdfUrl: "/assets/aistudio/Estudios_y_Teoria_sobre_el_Manuscrito_Voynich.csv",
+    isNew: true
+  },
+  {
     id: 'casandra',
     title: "La coartada de Casandra",
     date: "Mayo 2026",
     url: "https://heyzine.com/flip-book/bb23ebdb83.html",
     description: "Desde la 'Coartada de Casandra' y el uso de la imagen femenina como escudo moral, hasta la cruda geopolítica que se esconde tras el oro y el litio en tierras lejanas. Siete capítulos.",
     coverUrl: "https://res.cloudinary.com/ddmj6zevz/image/upload/v1777933004/tapa_casandra_kgd7lg.png",
-    isNew: true
+    isNew: false
   },
   {
     id: 'aguila',

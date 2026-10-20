@@ -170,6 +170,15 @@ const AteneoCategoryView: React.FC<AteneoCategoryViewProps> = ({
   // Ítems de Reportajes
   const REPORTAJES_ITEMS = [
     {
+      id: 'rep_voynich',
+      title: 'El Manuscrito Voynich: El Enigma sin Resolver',
+      author: 'Investigación Especial',
+      coverUrl: 'https://res.cloudinary.com/ddmj6zevz/image/upload/v1792462056/Manuscrito_ot6nug.png',
+      description: 'Investigación exhaustiva sobre el códice Beinecke MS 408: botánica, paleografía de 5 escribas, pastiche generativo por IA (Turenne 2026) y cronología de fuentes.',
+      externalUrl: 'https://heyzine.com/flip-book/73e446a995.html',
+      pdfUrl: '/assets/aistudio/Estudios_y_Teoria_sobre_el_Manuscrito_Voynich.csv'
+    },
+    {
       id: 'rep_celulosa',
       title: 'La Industria de Celulosa en Uruguay',
       author: 'Investigación Central',

@@ -167,7 +167,7 @@ export const EXCLUSIVE_COLLECTIONS: ExclusiveCollection[] = [
     id: 'col_dios_laico',
     title: 'El Dios Laico',
     subtitle: 'La Democracia como Nueva Religión y la Liturgia del Estado Moderno',
-    tagline: 'Serie Crítica en 3 Episodios • Liturgia Republicana, Herejía y Muerte Civil',
+    tagline: 'Serie Crítica Completa en 5 Entregas • Liturgia Republicana, Herejía y Muerte Civil',
     badge: 'Colección Exclusiva • Filosofía Crítica',
     coverUrl: 'https://res.cloudinary.com/ddmj6zevz/image/upload/v1792340270/el_dios_laico_bfl5q4.png',
     description: '¿Ateo? No me hagas reír. No vas a la iglesia, no creés en santos, pero cada cuatro años hacés fila en un templo escolar para arrodillarte ante el mismo altar. Desarmamos el mayor engaño de la modernidad: la democracia no abolió la religión, le hizo un cover. Tradujeron la Biblia en Constitución, a los curas en jueces y al sacramento de la misa en esa urna donde entregás tu soberanía.',
@@ -177,21 +177,35 @@ export const EXCLUSIVE_COLLECTIONS: ExclusiveCollection[] = [
     category: 'Filosofía & Política',
     tracks: [
       {
-        id: 'laico_1',
+        id: 'laico_intro',
         title: 'Episodio Central: ¿Ateo? No me hagas reír — El Cover de la Democracia',
         chapter: 'Episodio Central',
         audioUrl: 'https://res.cloudinary.com/ddmj6zevz/video/upload/v1792334938/el_dios_laico_bvbat7.mp3',
         description: 'Desarmamos el mayor engaño de la modernidad: cómo tradujeron la Biblia en Constitución, curas en jueces y la misa en la urna electoral donde entregás tu soberanía.'
       },
       {
-        id: 'laico_3',
+        id: 'laico_cap1',
+        title: 'Capítulo 1: El Mito de la Emancipación Secular',
+        chapter: 'Capítulo 1',
+        audioUrl: 'https://res.cloudinary.com/ddmj6zevz/video/upload/v1792373252/el_dios_laico_capitulo_1_ltvikr.mp3',
+        description: 'Primer capítulo: la transmutación de la fe religiosa hacia la fe estatista y las estructuras dogmáticas del poder secular.'
+      },
+      {
+        id: 'laico_cap2',
+        title: 'Capítulo 2: Los Nuevos Templos y el Ritual Ciudadano',
+        chapter: 'Capítulo 2',
+        audioUrl: 'https://res.cloudinary.com/ddmj6zevz/video/upload/v1792373252/el_dios_laico_capitulo_2_xvacin.mp3',
+        description: 'Segundo capítulo: la liturgia cívica, los sacramentos republicanos y la sacralización del aparato estatal.'
+      },
+      {
+        id: 'laico_cap3',
         title: 'Capítulo 3: ¿Pensás que votar es libertad? No, es solo ir a misa',
         chapter: 'Capítulo 3',
         audioUrl: 'https://res.cloudinary.com/ddmj6zevz/video/upload/v1792334940/laico3_waxjnn.mp3',
         description: 'La liturgia del sistema: Constitución como Biblia, Jueces en toga como Clero, veda electoral como Cuaresma y el cuarto oscuro como Confesionario.'
       },
       {
-        id: 'laico_4',
+        id: 'laico_cap4',
         title: 'Capítulo 4: Si no pagás el tributo, te construyen el infierno en vida',
         chapter: 'Capítulo 4',
         audioUrl: 'https://res.cloudinary.com/ddmj6zevz/video/upload/v1792334945/laico_4_ldguut.mp3',

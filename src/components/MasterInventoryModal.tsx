@@ -20,6 +20,7 @@ import {
 } from 'lucide-react';
 import { 
   getResumenRows,
+  getColeccionesExclusivasRows,
   getRevistasRows,
   getDocumentosRows,
   getPodcastsVideoRows,
@@ -42,10 +43,11 @@ interface MasterInventoryModalProps {
 
 type TabKey = 
   | 'resumen' 
+  | 'colecciones'
+  | 'documentos'
   | 'revistas' 
-  | 'documentos' 
+  | 'podcasts-mp3'
   | 'podcasts-mp4' 
-  | 'podcasts-mp3' 
   | 'microprogramas' 
   | 'musica-leo' 
   | 'articulos' 
@@ -61,10 +63,11 @@ export const MasterInventoryModal: React.FC<MasterInventoryModalProps> = ({ isOp
 
   // Cargar colecciones
   const summaryData = useMemo(() => getResumenRows(), []);
-  const revistas = useMemo(() => getRevistasRows(), []);
+  const colecciones = useMemo(() => getColeccionesExclusivasRows(), []);
   const documentos = useMemo(() => getDocumentosRows(), []);
-  const podcastsVideo = useMemo(() => getPodcastsVideoRows(), []);
+  const revistas = useMemo(() => getRevistasRows(), []);
   const podcastsAudio = useMemo(() => getPodcastsAudioRows(), []);
+  const podcastsVideo = useMemo(() => getPodcastsVideoRows(), []);
   const microprogramas = useMemo(() => getMicroprogramasRows(), []);
   const musicaLeo = useMemo(() => getMusicaLeoRows(), []);
   const articulos = useMemo(() => getArticulosRows(), []);
@@ -76,10 +79,11 @@ export const MasterInventoryModal: React.FC<MasterInventoryModalProps> = ({ isOp
   const currentItems = useMemo((): InventoryRow[] => {
     let list: InventoryRow[] = [];
     switch (activeTab) {
-      case 'revistas': list = revistas; break;
+      case 'colecciones': list = colecciones; break;
       case 'documentos': list = documentos; break;
-      case 'podcasts-mp4': list = podcastsVideo; break;
+      case 'revistas': list = revistas; break;
       case 'podcasts-mp3': list = podcastsAudio; break;
+      case 'podcasts-mp4': list = podcastsVideo; break;
       case 'microprogramas': list = microprogramas; break;
       case 'musica-leo': list = musicaLeo; break;
       case 'articulos': list = articulos; break;
@@ -98,7 +102,7 @@ export const MasterInventoryModal: React.FC<MasterInventoryModalProps> = ({ isOp
       item.Autor_O_Artista.toLowerCase().includes(q) ||
       item.Formato.toLowerCase().includes(q)
     );
-  }, [activeTab, searchQuery, revistas, documentos, podcastsVideo, podcastsAudio, microprogramas, musicaLeo, articulos, postales, libros, redes]);
+  }, [activeTab, searchQuery, colecciones, documentos, revistas, podcastsAudio, podcastsVideo, microprogramas, musicaLeo, articulos, postales, libros, redes]);
 
   const handleCopyLink = (text: string, id: string) => {
     navigator.clipboard.writeText(text);
@@ -197,15 +201,15 @@ export const MasterInventoryModal: React.FC<MasterInventoryModalProps> = ({ isOp
           </button>
 
           <button
-            onClick={() => { setActiveTab('revistas'); setSearchQuery(''); }}
+            onClick={() => { setActiveTab('colecciones'); setSearchQuery(''); }}
             className={`px-3 py-1.5 rounded-lg text-xs font-medium font-mono whitespace-nowrap transition-all flex items-center gap-1.5 cursor-pointer ${
-              activeTab === 'revistas'
-                ? 'bg-amber-500/20 text-amber-300 border border-amber-500/30'
+              activeTab === 'colecciones'
+                ? 'bg-amber-500/20 text-amber-300 border border-amber-500/30 shadow-sm'
                 : 'text-stone-400 hover:text-stone-200 hover:bg-stone-800/50'
             }`}
           >
-            <BookOpen className="w-3.5 h-3.5" />
-            <span>01. Revistas ({revistas.length})</span>
+            <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+            <span>01. Colecciones Exclusivas ({colecciones.length})</span>
           </button>
 
           <button
@@ -221,15 +225,15 @@ export const MasterInventoryModal: React.FC<MasterInventoryModalProps> = ({ isOp
           </button>
 
           <button
-            onClick={() => { setActiveTab('podcasts-mp4'); setSearchQuery(''); }}
+            onClick={() => { setActiveTab('revistas'); setSearchQuery(''); }}
             className={`px-3 py-1.5 rounded-lg text-xs font-medium font-mono whitespace-nowrap transition-all flex items-center gap-1.5 cursor-pointer ${
-              activeTab === 'podcasts-mp4'
+              activeTab === 'revistas'
                 ? 'bg-amber-500/20 text-amber-300 border border-amber-500/30'
                 : 'text-stone-400 hover:text-stone-200 hover:bg-stone-800/50'
             }`}
           >
-            <Video className="w-3.5 h-3.5" />
-            <span>03. Podcasts Video ({podcastsVideo.length})</span>
+            <BookOpen className="w-3.5 h-3.5" />
+            <span>03. Revistas & Flipbooks ({revistas.length})</span>
           </button>
 
           <button
@@ -245,6 +249,18 @@ export const MasterInventoryModal: React.FC<MasterInventoryModalProps> = ({ isOp
           </button>
 
           <button
+            onClick={() => { setActiveTab('podcasts-mp4'); setSearchQuery(''); }}
+            className={`px-3 py-1.5 rounded-lg text-xs font-medium font-mono whitespace-nowrap transition-all flex items-center gap-1.5 cursor-pointer ${
+              activeTab === 'podcasts-mp4'
+                ? 'bg-amber-500/20 text-amber-300 border border-amber-500/30'
+                : 'text-stone-400 hover:text-stone-200 hover:bg-stone-800/50'
+            }`}
+          >
+            <Video className="w-3.5 h-3.5" />
+            <span>05. Podcasts Video ({podcastsVideo.length})</span>
+          </button>
+
+          <button
             onClick={() => { setActiveTab('microprogramas'); setSearchQuery(''); }}
             className={`px-3 py-1.5 rounded-lg text-xs font-medium font-mono whitespace-nowrap transition-all flex items-center gap-1.5 cursor-pointer ${
               activeTab === 'microprogramas'
@@ -253,7 +269,7 @@ export const MasterInventoryModal: React.FC<MasterInventoryModalProps> = ({ isOp
             }`}
           >
             <Radio className="w-3.5 h-3.5" />
-            <span>05. Micros Radio ({microprogramas.length})</span>
+            <span>06. Micros & Spots ({microprogramas.length})</span>
           </button>
 
           <button
@@ -265,7 +281,7 @@ export const MasterInventoryModal: React.FC<MasterInventoryModalProps> = ({ isOp
             }`}
           >
             <Music className="w-3.5 h-3.5" />
-            <span>06. Música Leo ({musicaLeo.length})</span>
+            <span>07. Música Leo ({musicaLeo.length})</span>
           </button>
 
           <button
@@ -276,8 +292,32 @@ export const MasterInventoryModal: React.FC<MasterInventoryModalProps> = ({ isOp
                 : 'text-stone-400 hover:text-stone-200 hover:bg-stone-800/50'
             }`}
           >
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>07. Artículos ({articulos.length})</span>
+            <FileText className="w-3.5 h-3.5" />
+            <span>08. Artículos ({articulos.length})</span>
+          </button>
+
+          <button
+            onClick={() => { setActiveTab('postales'); setSearchQuery(''); }}
+            className={`px-3 py-1.5 rounded-lg text-xs font-medium font-mono whitespace-nowrap transition-all flex items-center gap-1.5 cursor-pointer ${
+              activeTab === 'postales'
+                ? 'bg-amber-500/20 text-amber-300 border border-amber-500/30'
+                : 'text-stone-400 hover:text-stone-200 hover:bg-stone-800/50'
+            }`}
+          >
+            <Video className="w-3.5 h-3.5" />
+            <span>09. Postales ({postales.length})</span>
+          </button>
+
+          <button
+            onClick={() => { setActiveTab('libros'); setSearchQuery(''); }}
+            className={`px-3 py-1.5 rounded-lg text-xs font-medium font-mono whitespace-nowrap transition-all flex items-center gap-1.5 cursor-pointer ${
+              activeTab === 'libros'
+                ? 'bg-amber-500/20 text-amber-300 border border-amber-500/30'
+                : 'text-stone-400 hover:text-stone-200 hover:bg-stone-800/50'
+            }`}
+          >
+            <BookOpen className="w-3.5 h-3.5" />
+            <span>10. Libros ({libros.length})</span>
           </button>
 
           <button
@@ -289,7 +329,7 @@ export const MasterInventoryModal: React.FC<MasterInventoryModalProps> = ({ isOp
             }`}
           >
             <Globe className="w-3.5 h-3.5" />
-            <span>08. Redes ({redes.length})</span>
+            <span>11. Redes ({redes.length})</span>
           </button>
         </div>
 
@@ -325,16 +365,16 @@ export const MasterInventoryModal: React.FC<MasterInventoryModalProps> = ({ isOp
           {activeTab === 'resumen' ? (
             <div className="space-y-6">
               {/* Tarjetas de métricas clave */}
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+              <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
                 <div className="bg-stone-950/60 border border-stone-800 rounded-xl p-3.5 flex flex-col">
-                  <span className="text-stone-500 text-[10px] uppercase font-mono tracking-wider">Total de Obras</span>
-                  <span className="text-2xl font-bold font-mono text-amber-400 mt-1">240+</span>
-                  <span className="text-[11px] text-stone-400 mt-0.5">En toda la plataforma</span>
+                  <span className="text-stone-500 text-[10px] uppercase font-mono tracking-wider">Colecciones Exclusivas</span>
+                  <span className="text-2xl font-bold font-mono text-amber-400 mt-1">{colecciones.length}</span>
+                  <span className="text-[11px] text-stone-400 mt-0.5">Series y episodios MP3</span>
                 </div>
                 <div className="bg-stone-950/60 border border-stone-800 rounded-xl p-3.5 flex flex-col">
-                  <span className="text-stone-500 text-[10px] uppercase font-mono tracking-wider">Video Podcasts (MP4)</span>
-                  <span className="text-2xl font-bold font-mono text-emerald-400 mt-1">{podcastsVideo.length}</span>
-                  <span className="text-[11px] text-stone-400 mt-0.5">Capítulos temáticos</span>
+                  <span className="text-stone-500 text-[10px] uppercase font-mono tracking-wider">Documentos & Dossiers</span>
+                  <span className="text-2xl font-bold font-mono text-emerald-400 mt-1">{documentos.length}</span>
+                  <span className="text-[11px] text-stone-400 mt-0.5">Ensayos, Word y PDF</span>
                 </div>
                 <div className="bg-stone-950/60 border border-stone-800 rounded-xl p-3.5 flex flex-col">
                   <span className="text-stone-500 text-[10px] uppercase font-mono tracking-wider">Audios & Podcasts (MP3)</span>
@@ -342,9 +382,14 @@ export const MasterInventoryModal: React.FC<MasterInventoryModalProps> = ({ isOp
                   <span className="text-[11px] text-stone-400 mt-0.5">Episodios y reflexiones</span>
                 </div>
                 <div className="bg-stone-950/60 border border-stone-800 rounded-xl p-3.5 flex flex-col">
+                  <span className="text-stone-500 text-[10px] uppercase font-mono tracking-wider">Video Podcasts (MP4)</span>
+                  <span className="text-2xl font-bold font-mono text-rose-400 mt-1">{podcastsVideo.length}</span>
+                  <span className="text-[11px] text-stone-400 mt-0.5">Capítulos temáticos</span>
+                </div>
+                <div className="bg-stone-950/60 border border-stone-800 rounded-xl p-3.5 flex flex-col col-span-2 sm:col-span-1">
                   <span className="text-stone-500 text-[10px] uppercase font-mono tracking-wider">Música Original Leo</span>
                   <span className="text-2xl font-bold font-mono text-purple-400 mt-1">{musicaLeo.length}</span>
-                  <span className="text-[11px] text-stone-400 mt-0.5">Composiciones y temas</span>
+                  <span className="text-[11px] text-stone-400 mt-0.5">Catálogo de autor</span>
                 </div>
               </div>
 
@@ -355,7 +400,7 @@ export const MasterInventoryModal: React.FC<MasterInventoryModalProps> = ({ isOp
                   Estructura del archivo Excel descargable
                 </h3>
                 <p className="text-xs text-stone-300 leading-relaxed mb-4">
-                  El archivo <strong>El_Nexo_Digital_Planilla_Maestra.xlsx</strong> contiene un libro completo con <strong>12 pestañas organizadas</strong>. Cada fila representa un elemento con su identificador, enlaces directos a los videos/audios/documentos, sinopsis y carátulas.
+                  El archivo <strong>El_Nexo_Digital_Planilla_Maestra.xlsx</strong> contiene un libro completo con <strong>13 pestañas organizadas</strong>. Cada fila representa un elemento con su identificador, enlaces directos a los videos/audios/documentos, sinopsis y carátulas.
                 </p>
                 <div className="overflow-x-auto">
                   <table className="w-full text-left text-xs border-collapse">
@@ -367,7 +412,7 @@ export const MasterInventoryModal: React.FC<MasterInventoryModalProps> = ({ isOp
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-stone-800/60 font-sans">
-                      {summaryData.slice(1, 11).map((row, idx) => (
+                      {summaryData.slice(1, summaryData.length - 1).map((row, idx) => (
                         <tr key={idx} className="hover:bg-stone-800/30">
                           <td className="py-2 px-3 font-mono font-medium text-stone-200">{row['MÉTRICA / CATEGORÍA']}</td>
                           <td className="py-2 px-3 font-mono text-amber-400 font-bold">{row['CANTIDAD DE ÍTEMS']}</td>

@@ -137,6 +137,24 @@ const RevistasView: React.FC<RevistasViewProps> = ({ onBack }) => {
                 <p className="text-xs text-stone-400 mt-1 leading-relaxed">
                   {mag.description}
                 </p>
+
+                {'extraLinks' in mag && Array.isArray((mag as any).extraLinks) && (
+                  <div className="flex flex-wrap items-center gap-1.5 mt-2.5 pt-2 border-t border-white/5">
+                    <span className="text-[10px] text-stone-500 font-mono uppercase tracking-wider">NotebookLM:</span>
+                    {(mag as any).extraLinks.map((lnk: any, lIdx: number) => (
+                      <a
+                        key={lIdx}
+                        href={lnk.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-[10px] font-mono font-medium px-2 py-0.5 rounded bg-amber-500/10 text-amber-300 border border-amber-500/20 hover:bg-amber-500/20 transition-colors inline-flex items-center gap-1"
+                      >
+                        <span>{lnk.label}</span>
+                        <ExternalLink size={10} className="opacity-60" />
+                      </a>
+                    ))}
+                  </div>
+                )}
               </div>
 
               {/* Botones de acción */}

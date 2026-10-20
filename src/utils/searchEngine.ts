@@ -30,6 +30,17 @@ export const normalizeText = (text: string): string => {
 export const ALL_CONTENT_INDEX: SearchResultItem[] = [
   // --- REVISTAS ---
   {
+    id: 'doc_voynich',
+    title: 'El Manuscrito Voynich: El Enigma sin Resolver',
+    category: 'Revista Digital',
+    targetView: 'revistas',
+    description: 'Investigación profunda sobre el códice Beinecke MS 408: botánica, paleografía, pastiche generativo por IA, datación carbono-14 y tabla de fuentes.',
+    tags: ['voynich', 'manuscrito', 'manuscrito voynich', 'beinecke', 'codice', 'criptografia', 'cifrado', 'paleografia', 'escribas', 'botanica', 'turenne', 'lisa fagin davis', 'pseudo-apuleyo', 'carbono 14', 'enigmas', 'historia'],
+    url: 'https://heyzine.com/flip-book/73e446a995.html',
+    coverUrl: 'https://res.cloudinary.com/ddmj6zevz/image/upload/v1792462056/Manuscrito_ot6nug.png',
+    pdfUrl: '/assets/aistudio/Estudios_y_Teoria_sobre_el_Manuscrito_Voynich.csv'
+  },
+  {
     id: 'casandra',
     title: 'La coartada de Casandra',
     category: 'Revista Digital',

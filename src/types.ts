@@ -46,6 +46,12 @@ export interface PodcastMP3 {
   description: string;
 }
 
+export interface ExtraLink {
+  label: string;
+  url: string;
+  type?: string;
+}
+
 export interface LibraryItem {
   id: string;
   category: 'Libros' | 'Discos' | 'Películas' | 'Revistas' | 'Podcasts' | 'Postales' | 'Ediciones';
@@ -57,6 +63,7 @@ export interface LibraryItem {
   videoUrl?: string;
   pdfUrl?: string;
   externalUrl?: string;
+  extraLinks?: ExtraLink[];
   publicationDate: string;
   sources?: string;
 }

@@ -3,6 +3,41 @@ import type { LibraryItem } from '../types.ts';
 export const LIBRARY_CONTENT: LibraryItem[] = [
   // --- DOCUMENTOS DE INVESTIGACIÓN / REVISTAS ---
   {
+    id: 'doc_voynich',
+    category: 'Revistas',
+    title: 'El Manuscrito Voynich: El Enigma sin Resolver',
+    author: 'Investigación Especial • El Nexo Digital',
+    imageUrl: 'https://res.cloudinary.com/ddmj6zevz/image/upload/v1792462056/Manuscrito_ot6nug.png',
+    review: `Una investigación exhaustiva y rigurosa sobre el códice más misterioso de la historia: el Manuscrito Voynich (Beinecke MS 408).
+
+A lo largo de los siglos, criptógrafos, botánicos, matemáticos y filólogos han intentado descifrar sus 116 folios (232 páginas) colmados de ilustraciones botánicas de especies no identificadas, diagramas astronómicos, figuras en baños rituales y una caligrafía fluida sin correcciones ni tachaduras.
+
+Esta edición especial reúne los avances más recientes de 2026 junto a la cronología de estudios científicos:
+
+— Principales Enfoques e Investigaciones Científicas:
+• Hipótesis del Pastiche Generativo y Modelado LLM (Nicolas Turenne, 2026): Mediante modelado probabilístico de cadenas, decodificación visual y análisis fonético con IA, interpreta el manuscrito como una construcción imitativa que combina regularidades lingüísticas con la tradición de herbarios de Pseudo-Apuleyo.
+• Datación por Carbono-14 (Greg Hodgins, 2011): Espectrometría de masas sobre el pergamino que determinó su origen indiscutible a principios del siglo XV (1404-1438), descartando a Roger Bacon.
+• Paleografía y Mapeo de Escribas (Lisa Fagin Davis, 2022): Demostración de cinco escribas distintos colaborando por bifolios a lo largo de las secciones botánica, astrológica, balneológica y recetas.
+• Transliteración Estandarizada Zandbergen-Landini (2022-2023): Definición del corpus digital con 423 glifos en 23 familias estructurales a lo largo de 5.615 líneas.
+• Morfometría y Unidades Lingüísticas (Liudmila Rozanova & Alexander Temerev, 2026): Evidencia cuantitativa de que los glifos no operan como letras estándar ni los espacios como pausas léxicas simples.
+• Redes Semánticas y Teoría de la Información (Montemurro & Zanette, 2013; Amancio et al., 2013): Cohesión léxica y patrones de coocurrencia compatibles con lenguajes naturales.
+• Procedencia en la Corte Imperial de Rodolfo II (Stefan Guzy, 2022): Análisis archivístico en 6.900 registros que documenta la adquisición en 1599 por 600 florines al médico Carl Widemann.
+
+— Recursos Exclusivos de NotebookLM & Fuentes Consultadas:
+• 📑 Informe Completo de Investigación: https://notebooklm.link.google/1AzuHYjGn4nK
+• 📊 Tabla de Datos y Metodologías: https://notebooklm.link.google/ExqixJRNmDd5
+• 🎨 Infografía y Análisis Visual: https://notebooklm.link.google/mQ4CrOhtyXFp`,
+    publicationDate: 'Octubre, 2026',
+    externalUrl: 'https://heyzine.com/flip-book/73e446a995.html',
+    pdfUrl: '/assets/aistudio/Estudios_y_Teoria_sobre_el_Manuscrito_Voynich.csv',
+    extraLinks: [
+      { label: 'Informe NotebookLM', url: 'https://notebooklm.link.google/1AzuHYjGn4nK', type: 'report' },
+      { label: 'Tabla de Datos', url: 'https://notebooklm.link.google/ExqixJRNmDd5', type: 'table' },
+      { label: 'Infografía Visual', url: 'https://notebooklm.link.google/mQ4CrOhtyXFp', type: 'infographic' }
+    ],
+    sources: 'Códice Beinecke MS 408 • NotebookLM • Estudios de Turenne (2026), Davis (2022), Rozanova & Temerev (2026) y Guzy (2022)'
+  },
+  {
     id: 'doc_sequia',
     category: 'Revistas',
     title: 'SEQUÍA',
@@ -136,32 +171,57 @@ export const LIBRARY_CONTENT: LibraryItem[] = [
   {
     id: 'investigacion_3',
     category: 'Revistas',
-    title: 'Análisis Exhaustivo de la Encíclica Magnifica Humanitas del Papa León XIV',
+    title: 'Análisis Exhaustivo de la Encíclica Magnifica Humanitas del Papa León XIV: Custodia de la Persona Humana en la Era de la IA',
     author: 'Leo Castrillo / Gemini',
     imageUrl: 'https://res.cloudinary.com/ddmj6zevz/image/upload/v1792337920/Man_reading_book_in_living_2K_20261007232437_bacsnv.jpg',
     review: `La carta encíclica Magnifica Humanitas («Magnífica humanidad»), promulgada por el papa León XIV, se constituye como el primer documento de supremo magisterio pontificio dedicado de forma sistemática a abordar las implicaciones éticas, antropocéntricas y sociales de la inteligencia artificial. Firmada el 15 de mayo de 2026 y dada a conocer oficialmente al mundo el 25 de mayo de 2026, la encíclica articula una respuesta teológica y jurídica frente al paradigma tecnocrático. El texto toma como marco la Doctrina Social de la Iglesia (DSI) para evaluar las transformaciones digitales que reconfiguran el trabajo, la verdad pública, la paz mundial y la concepción misma de la condición humana.
 
 — Contexto Histórico y Continuidad Doctrinal:
-Suscrita el 15 de mayo de 2026, coincidiendo exactamente con el 135.º aniversario de Rerum novarum de León XIII (1891). Mientras León XIII intervino ante la Revolución Industrial, León XIV fija la postura de la sede romana frente a las res novae de la Revolución Digital y la inteligencia artificial generativa.
+El momento histórico elegido para la firma del documento posee un valor simbólico y doctrinal de primer orden: suscrita el 15 de mayo de 2026, coincidiendo exactamente con el 135.º aniversario de Rerum novarum de León XIII (1891), que dio origen a la DSI. Mientras León XIII denunció la explotación fabril de la Revolución Industrial, León XIV fija la postura romana frente a las res novae de la Revolución Digital y el despliegue de modelos generativos que imitan el pensamiento, la escritura y el arte humano.
 
-— Comparativa Doctrinal:
-• Rerum Novarum (1891): Sujeto prioritario: proletariado urbano fabril. Amenaza: capitalismo salvaje y explotación asalariada. Eje ético: salario justo, derecho de asociación y regulación estatal protectora.
-• Magnifica Humanitas (2026): Sujeto prioritario: la persona encarnada y el trabajador automatizado. Amenaza: paradigma tecnocrático, monopolios de datos y militarización autónoma. Eje ético: dignidad inalienable, subsidiariedad digital, desarme de la IA y bien común participativo.
+— Parámetro de Comparación Doctrinal:
+• Rerum Novarum (León XIII, 1891):
+  - Contexto: Primera y Segunda Revolución Industrial, mecanización masiva y auge del capitalismo fabril.
+  - Sujeto vulnerable: El proletariado urbano y la clase trabajadora fabril.
+  - Amenaza sistémica: Explotación asalariada, capitalismo salvaje y colectivismo materialista.
+  - Eje ético: Salario justo, derecho de asociación y regulación estatal protectora.
+• Magnifica Humanitas (León XIV, 2026):
+  - Contexto: Revolución Digital, IA generativa, automatización total y economía de datos.
+  - Sujeto vulnerable: La persona encarnada, el trabajador automatizado y la sociedad sujeta al control algorítmico.
+  - Amenaza sistémica: Paradigma tecnocrático, monopolios transnacionales de datos y militarización autónoma.
+  - Eje ético: Dignidad inalienable (n. 50), subsidiariedad digital, desarme de la IA y bien común participativo.
 
-— Estructura y Parábolas Teológicas:
-Compuesta por 245 párrafos y 5 capítulos temáticos, contrapone dos metáforas bíblicas:
-1. La Torre de Babel: simboliza el paradigma tecnocrático y la búsqueda de eficiencia total donde la uniformidad algorítmica aplasta la diversidad cultural.
-2. La Reconstrucción de los Muros de Jerusalén: evoca el renacimiento comunitario donde la tecnología se subordina al bien común.
+— Arquitectura Textual y Parábolas Teológicas (245 párrafos):
+La encíclica contrapone dos célebres imágenes bíblicas como caminos alternativos para la civilización:
+1. La Torre de Babel: Simboliza la autosuficiencia técnica, la eficiencia total y la centralización corporativa opaca, donde la uniformidad algorítmica aplasta la diversidad cultural humana.
+2. Los Muros de Jerusalén: Evoca el renacimiento comunitario, la responsabilidad compartida y la justicia, donde la tecnología se subordina al servicio de los lazos fraternos y la vida personal.
 
-— Desarme Integral de la Inteligencia Artificial:
-1. Dimensión Militar: prohibición estricta de sistemas de armas letales autónomas.
-2. Dimensión Socioeconómica: freno a la vigilancia laboral y desarticulación de monopolios de datos.
-3. Dimensión Cognitiva y Cultural: erradicación de adicciones digitales y prevención de manipulación de la verdad pública.
+— Exégesis de los Capítulos:
+• Capítulo 1: Un pensamiento dinámico fiel al Evangelio (nn. 16-45): La verdad como bien común para compartir en diálogo y no como herramienta de imposición o control.
+• Capítulo 2: Fundamentos y principios de la DSI (nn. 46-90): La dignidad inalienable previa a toda métrica económica. Subsidiariedad digital frente al monopolio de plataformas que dictan el acceso al conocimiento.
+• Capítulo 3: Técnica y dominio ante las promesas de la IA (nn. 91-130): Distinciones ontológicas: cálculo vs. juicio moral; procesamiento de datos vs. sabiduría humana; rendimiento técnico vs. responsabilidad ética. Criterio del cuidado hacia los más frágiles (n. 114).
+• Capítulo 4: Custodiar lo humano en la transformación: Verdad, Trabajo, Libertad (nn. 131-180): Condena a la desinformación sintética ("deepfakes"). Prohibición de la vigilancia algorítmica en el empleo (n. 149, 155). Protección contra la persuasión adictiva en pantallas hacia niños y adultos.
+• Capítulo 5: La cultura del poder y la civilización del amor (nn. 181-240): Denuncia del complejo militar-digital; prohibición de armas letales autónomas; superación de la doctrina de "guerra justa" ante la guerra algorítmica y llamado al desarme de la IA.
+• Conclusión: La obra de nuestro tiempo (nn. 241-245): Llamado a ser artesanos de esperanza bajo el cántico del Magníficat.
 
-Defensa de la existencia encarnada: la persona humana no es un conjunto de datos reductible a código. El arte auténtico es una manifestación del alma y de la chispa interior humana irreproducible por el cálculo estadístico de una máquina.`,
+— Dimensiones del Desarme Integral de la Inteligencia Artificial (n. 107):
+1. Dimensión Militar: Prohibición irrestricta de delegar decisiones de vida o muerte en armamentos autónomos.
+2. Dimensión Socioeconómica: Desarticulación de monopolios de datos y freno a la vigilancia laboral extractiva.
+3. Dimensión Cognitiva y Cultural: Neutralización de plataformas diseñadas para la polarización y manipulación de la verdad cívica.
+
+— Defensa de la Existencia Encarnada y del Arte Auténtico:
+La persona no es reducible a un flujo de datos ni a código informático. La encarnación en Jesucristo consagra la corporalidad, la fragilidad, el envejecimiento y el dolor compartido. Existe una brecha ontológica insalvable entre el cálculo estadístico generativo y el arte genuino nacido del alma humana, el sufrimiento real y la chispa interior irreproducible por máquinas.
+
+— Fuentes y Obras Citadas:
+1. Encíclica Magnifica Humanitas — Dicasterio para el Servicio del Desarrollo Humano Integral (Vaticano).
+2. Documento Pontificio sobre la custodia de la persona humana en la era de la IA.
+3. Rerum Novarum (1891) — León XIII.
+4. Estudios de ética algorítmica y bioética de la Pontificia Academia para la Vida.
+5. Archivo Documental de El Nexo Digital y análisis de teología contemporánea.`,
     publicationDate: 'Mayo, 2026',
     externalUrl: 'https://www.youtube.com/playlist?list=PLRkKe7b6h28Y',
-    sources: 'Doctrina Social de la Iglesia • Análisis Gemini & El Nexo Digital'
+    pdfUrl: 'https://res.cloudinary.com/ddmj6zevz/image/upload/Enc%C3%ADclica_Magnifica_Humanitas_Le%C3%B3n_XIV_jkuprb.pdf',
+    sources: 'Santa Sede • Dicasterio para el Desarrollo Humano Integral • Análisis Gemini & El Nexo Digital'
   },
   {
     id: 'investigacion_4',

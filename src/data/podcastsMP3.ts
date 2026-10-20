@@ -123,11 +123,27 @@ export const PODCASTS_MP3: PodcastMP3[] = [
 
   // --- COLECCIÓN EXCLUSIVA: EL DIOS LAICO ---
   {
-    id: 'laico_1',
+    id: 'laico_intro',
     title: '[Colección Exclusiva] El Dios Laico — Episodio Central: ¿Ateo? No me hagas reír',
     artist: 'Filosofía Crítica • El Nexo Digital',
     description: 'La democracia no abolió la religión, le hizo un cover: la Biblia en Constitución, curas en jueces y la misa en la urna.',
     audioUrl: 'https://res.cloudinary.com/ddmj6zevz/video/upload/v1792334938/el_dios_laico_bvbat7.mp3',
+    coverUrl: 'https://res.cloudinary.com/ddmj6zevz/image/upload/v1792340270/el_dios_laico_bfl5q4.png',
+  },
+  {
+    id: 'laico_cap1',
+    title: '[Colección Exclusiva] El Dios Laico — Cap. 1: El Mito de la Emancipación Secular',
+    artist: 'Filosofía Crítica • El Nexo Digital',
+    description: 'La transmutación de la fe religiosa hacia la fe estatista y las estructuras dogmáticas del poder secular.',
+    audioUrl: 'https://res.cloudinary.com/ddmj6zevz/video/upload/v1792373252/el_dios_laico_capitulo_1_ltvikr.mp3',
+    coverUrl: 'https://res.cloudinary.com/ddmj6zevz/image/upload/v1792340270/el_dios_laico_bfl5q4.png',
+  },
+  {
+    id: 'laico_cap2',
+    title: '[Colección Exclusiva] El Dios Laico — Cap. 2: Los Nuevos Templos y el Ritual Ciudadano',
+    artist: 'Filosofía Crítica • El Nexo Digital',
+    description: 'La liturgia cívica, los sacramentos republicanos y la sacralización del aparato estatal moderno.',
+    audioUrl: 'https://res.cloudinary.com/ddmj6zevz/video/upload/v1792373252/el_dios_laico_capitulo_2_xvacin.mp3',
     coverUrl: 'https://res.cloudinary.com/ddmj6zevz/image/upload/v1792340270/el_dios_laico_bfl5q4.png',
   },
   {

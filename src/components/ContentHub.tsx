@@ -28,13 +28,28 @@ interface ContentHubProps {
 
 export const MAGAZINE_EDITIONS = [
   {
+    id: 'doc_voynich',
+    title: "El Manuscrito Voynich: El Enigma sin Resolver",
+    date: "Octubre 2026",
+    url: "https://heyzine.com/flip-book/73e446a995.html",
+    description: "Investigación sobre el códice Beinecke MS 408: botánica, paleografía, pastiche generativo por IA y cronología de estudios.",
+    coverUrl: "https://res.cloudinary.com/ddmj6zevz/image/upload/v1792462056/Manuscrito_ot6nug.png",
+    pdfUrl: "/assets/aistudio/Estudios_y_Teoria_sobre_el_Manuscrito_Voynich.csv",
+    extraLinks: [
+      { label: 'Informe', url: 'https://notebooklm.link.google/1AzuHYjGn4nK' },
+      { label: 'Tabla de Datos', url: 'https://notebooklm.link.google/ExqixJRNmDd5' },
+      { label: 'Infografía', url: 'https://notebooklm.link.google/mQ4CrOhtyXFp' }
+    ],
+    isNew: true
+  },
+  {
     id: 'investigacion_3',
     title: "Encíclica Magnifica Humanitas",
     date: "Mayo 2026",
     url: "https://www.youtube.com/playlist?list=PLRkKe7b6h28Y",
     description: "Análisis exhaustivo del magisterio pontificio de León XIV sobre IA, ética y antropocentrismo.",
     coverUrl: "https://res.cloudinary.com/ddmj6zevz/image/upload/v1792337920/Man_reading_book_in_living_2K_20261007232437_bacsnv.jpg",
-    isNew: true
+    isNew: false
   },
   {
     id: 'investigacion_4',
